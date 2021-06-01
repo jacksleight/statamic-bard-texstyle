@@ -1,0 +1,22 @@
+{
+    "name": "jacksleight/bard-paragraph-style",
+    "autoload": {
+        "psr-4": {
+            "JackSleight\\BardParagraphStyle\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Bard Paragraph Style",
+            "description": "A Statamic addon that allows you to create different paragraph styles in Bard fieldtypes."
+        },
+        "laravel": {
+            "providers": [
+                "JackSleight\\BardParagraphStyle\\ServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "statamic/cms": "~3.1.14"
+    }
+}
