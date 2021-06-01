@@ -1,4 +1,4 @@
-![Statamic](https://flat.badgen.net/badge/Statamic/3.0+/FF269E) ![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-paragraph-style/latest) ![Packagist Total Downloads](https://flat.badgen.net/packagist/dt/jacksleight/bard-paragraph-style) ![License](https://flat.badgen.net/github/license/jacksleight/bard-paragraph-style)
+![Statamic](https://flat.badgen.net/badge/Statamic/3.1.14+/FF269E) ![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-paragraph-style/latest) ![Packagist Total Downloads](https://flat.badgen.net/packagist/dt/jacksleight/bard-paragraph-style) ![License](https://flat.badgen.net/github/license/jacksleight/bard-paragraph-style)
 
 # Bard Paragraph Style 
 
@@ -12,7 +12,7 @@ Install the addon using Composer:
 composer require jacksleight/bard-paragraph-style
 ```
 
-Publish the config of the package:
+Publish the config:
 
 ```bash
 php please vendor:publish --tag=bard-paragraph-style-config
