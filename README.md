@@ -38,7 +38,7 @@ return [
 
 Each style should consist of:
 
-* class: The class name that will be applied to the paragraph when rendered on the site.
-* css: The CSS that will be added in the control panel, so that each style can be easily distinguished within a Bard fieldtype.
-* buttonText: The text used in the button tooltip
-* buttonIdent: The character(s) used in the button icon
+* **class**: The class name that will be applied to the paragraph when rendered on the site.
+* **css**: The CSS that will be added in the control panel, so that each style can be easily distinguished within a Bard fieldtype.
+* **buttonText**: The text used in the button tooltip
+* **buttonIdent**: The character(s) used in the button icon
