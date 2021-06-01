@@ -3,4 +3,3 @@ composer.lock
 vendor
 node_modules
 mix-manifest.json
-dist
