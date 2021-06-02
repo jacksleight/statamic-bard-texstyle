@@ -9,14 +9,14 @@ Statamic.booting(() => {
     Statamic.$bard.buttons(buttons => {
         const index = _.findLastIndex(buttons, { command: 'heading' });
         buttons.splice(index + 1, 0, ...styles.map(style => ({
-            text: style.buttonText,
+            text: style.name,
             command: 'paragraph',
             args: { class: style.class },
-            html: `<span><span style="font-size: 21px; font-family: Times, serif;">P</span><sup>${style.buttonIdent}</sup></span>`,
+            html: `<span><span style="font-size: 21px; font-family: Times, serif;">P</span><sup>${style.ident}</sup></span>`,
         })));
     });
 
-    const css = styles.map(style => `.bard-fieldtype .ProseMirror p.${style.class} { ${style.css} }`).join(' ');
+    const css = styles.map(style => `.bard-fieldtype .ProseMirror p.${style.class} { ${style.cp_css} }`).join(' ');
     const style = document.createElement('style');
     style.appendChild(document.createTextNode(css));
     document.head.appendChild(style);
