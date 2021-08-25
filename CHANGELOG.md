@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0 (2021-08-25)
+
+- [new] Add Statamic 3.2 compatibility
+
 ## 0.2.0 (2021-06-02)
 
 - [break] Config parameters have been renamed to be more clear and follow typical Laravel naming conventions (snake_case)
