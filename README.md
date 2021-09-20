@@ -1,6 +1,10 @@
+<!-- statamic:hide -->
+
 ![Statamic](https://flat.badgen.net/badge/Statamic/3.1.14+/FF269E)
 ![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-paragraph-style)
 ![License](https://flat.badgen.net/github/license/jacksleight/bard-paragraph-style)
+
+<!-- /statamic:hide -->
 
 # Bard Paragraph Style 
 
