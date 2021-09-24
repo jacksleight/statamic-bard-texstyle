@@ -4,8 +4,6 @@
 ![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-paragraph-style)
 ![License](https://flat.badgen.net/github/license/jacksleight/bard-paragraph-style)
 
-<!-- /statamic:hide -->
-
 # Bard Paragraph Style 
 
 This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtypes.
