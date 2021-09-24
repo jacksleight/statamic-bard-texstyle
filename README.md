@@ -8,7 +8,7 @@
 
 # Bard Paragraph Style 
 
-This Statamic addon allows you to create different paragraph styles in Bard fieldtypes.
+This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtypes.
 
 ## Installation
 
