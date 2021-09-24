@@ -6,6 +6,8 @@
 
 # Bard Paragraph Style 
 
+<!-- /statamic:hide -->
+
 This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtype.
 
 ## Installation
@@ -15,6 +17,8 @@ Install the addon using Composer:
 ```bash
 composer require jacksleight/bard-paragraph-style
 ```
+
+## Configuration
 
 Publish the config:
 
