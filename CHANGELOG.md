@@ -2,7 +2,7 @@
 
 ## 1.1.0 (2021-09-24)
 
-- [new] Add compatiblity with Bard Mutator
+- [new] Add compatibility with [Bard Mutator](https://github.com/jacksleight/bard-mutator)
 
 ## 1.0.0 (2021-08-25)
 
