@@ -8,7 +8,7 @@
     "extra": {
         "statamic": {
             "name": "Bard Paragraph Style",
-            "description": "This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtypes."
+            "description": "This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtype."
         },
         "laravel": {
             "providers": [
