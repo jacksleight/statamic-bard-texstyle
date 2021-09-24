@@ -42,7 +42,7 @@ return [
 
 Each style should consist of:
 
-* **name**: The name of the style. This will appear in the button tooltip.
-* **ident**: A short identification string (one or two characters). This will appear in the button icon.
-* **class**: The class name that will be applied to the paragraph element when rendered on the site.
-* **cp_css**: The CSS properties that will be added to the control panel for this style.
+* **name (string):** The name of the style. This will appear in the button tooltip.
+* **ident (string):** A short identification string (one or two characters). This will appear in the button icon.
+* **class (string):** The class name that will be applied to the paragraph element when rendered on the site.
+* **cp_css (string):** The CSS properties that will be added to the control panel for this style.
