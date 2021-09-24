@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 (2021-09-24)
+
+- [new] Add compatiblity with Bard Mutator
+
 ## 1.0.0 (2021-08-25)
 
 - [new] Add Statamic 3.2 compatibility
