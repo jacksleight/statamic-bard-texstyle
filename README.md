@@ -64,4 +64,4 @@ Finally open your blueprint or fieldset YAML file and add the button(s) to your 
       - introduction
 ```
 
-If you would like the button to appear in all Bard fields without having to add it manually set the button value to `null`.
+If you would like the button to appear globally, in all Bard fields without having to add it manually, set the button value to `null`.
