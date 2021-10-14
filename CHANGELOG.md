@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 (2021-10-14)
+
+- [new] Add ability to control which Bard fields the paragraph style buttons appear in
+
 ## 1.1.0 (2021-09-24)
 
 - [new] Add compatibility with [Bard Mutator](https://github.com/jacksleight/bard-mutator)
