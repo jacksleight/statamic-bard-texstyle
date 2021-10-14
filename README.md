@@ -37,6 +37,7 @@ return [
             'name'   => 'Introduction Paragraph',
             'ident'  => 'I',
             'class'  => 'introduction',
+            'button' => 'introduction',
             'cp_css' => 'font-size: 1.25em',
         ],
     ],
@@ -49,4 +50,18 @@ Each style should consist of:
 * **name (string):** The name of the style. This will appear in the button tooltip.
 * **ident (string):** A short identification string (one or two characters). This will appear in the button icon.
 * **class (string):** The class name that will be applied to the paragraph element when rendered on the site.
+* **button (string|null):** The name of the button that'll be added to the Bard field's buttons list.
 * **cp_css (string):** The CSS properties that will be added to the control panel for this style.
+
+Finally open your blueprint or fieldset YAML file and add the button(s) to your Bard field's buttons list: 
+
+```yaml
+-
+  handle: my_field
+  field:
+    type: bard
+    buttons:
+      - introduction
+```
+
+If you would like the button to appear in all Bard fields without having to add it manually set the button value to `null`.
