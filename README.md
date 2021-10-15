@@ -36,7 +36,7 @@ return [
         [
             'name'   => 'Introduction Paragraph',
             'ident'  => 'I',
-            'class'  => 'introduction',
+            'class'  => 'intro',
             'button' => 'introduction',
             'cp_css' => 'font-size: 1.25em',
         ],
