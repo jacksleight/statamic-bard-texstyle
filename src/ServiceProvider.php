@@ -35,7 +35,9 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootBardMutator()
     {
         Mutator::node('paragraph', function ($tag, $node) {
-            $tag[0]['attrs']['class'] = $node->attrs->class ?? null;
+            if (isset($node->attrs->class)) {
+                $tag[0]['attrs']['class'] = $node->attrs->class;
+            }
             return $tag;
         });     
     }

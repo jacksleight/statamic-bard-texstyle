@@ -5,13 +5,15 @@ class Paragraph extends \ProseMirrorToHtml\Nodes\Paragraph
 {
     public function tag()
     {
-        return [
+        $tag = [
             [
                 'tag'   => parent::tag(),
-                'attrs' => [
-                    'class' => $this->node->attrs->class ?? null,
-                ],
+                'attrs' => [],
             ],
         ];
+        if (isset($this->node->attrs->class)) {
+            $tag[0]['attrs']['class'] = $this->node->attrs->class;
+        }
+        return $tag;
     }
 }
