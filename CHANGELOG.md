@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 (2021-10-18)
+
+- [fix] Don't add blank class attributes to regular paragraphs
+
 ## 1.2.0 (2021-10-14)
 
 - [new] Add ability to control which Bard fields the paragraph style buttons appear in
