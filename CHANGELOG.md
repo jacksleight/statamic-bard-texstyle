@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 (2021-10-18)
+
+- [fix] Fix compatibility with the newly renamed Bard Mutator
+
 ## 1.2.1 (2021-10-18)
 
 - [fix] Don't add blank class attributes to regular paragraphs

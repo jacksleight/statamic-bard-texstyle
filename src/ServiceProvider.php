@@ -5,7 +5,6 @@ use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Composer\InstalledVersions;
-use JackSleight\BardMutator\Facades\Mutator;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -25,16 +24,28 @@ class ServiceProvider extends AddonServiceProvider
             'bard-paragraph-style' => config('bard-paragraph-style'),
         ]);
 
-        if (InstalledVersions::isInstalled('jacksleight/bard-mutator')) {
+        if (InstalledVersions::isInstalled('jacksleight/statamic-bard-mutator')) {
+            $this->bootStatamicBardMutator();         
+        } else if (InstalledVersions::isInstalled('jacksleight/bard-mutator')) {
             $this->bootBardMutator();         
         } else {
             $this->bootStandalone();
         }
     }
 
+    protected function bootStatamicBardMutator()
+    {
+        \JackSleight\StatamicBardMutator\Facades\Mutator::node('paragraph', function ($tag, $node) {
+            if (isset($node->attrs->class)) {
+                $tag[0]['attrs']['class'] = $node->attrs->class;
+            }
+            return $tag;
+        });     
+    }
+
     protected function bootBardMutator()
     {
-        Mutator::node('paragraph', function ($tag, $node) {
+        \JackSleight\BardMutator\Facades\Mutator::node('paragraph', function ($tag, $node) {
             if (isset($node->attrs->class)) {
                 $tag[0]['attrs']['class'] = $node->attrs->class;
             }
