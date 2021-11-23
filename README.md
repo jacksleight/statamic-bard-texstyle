@@ -1,21 +1,21 @@
 <!-- statamic:hide -->
 
 ![Statamic](https://flat.badgen.net/badge/Statamic/3.1.14+/FF269E)
-![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-paragraph-style)
-![License](https://flat.badgen.net/github/license/jacksleight/bard-paragraph-style)
+![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/statamic-bard-textstyle)
+![License](https://flat.badgen.net/github/license/jacksleight/statamic-bard-textstyle)
 
-# Bard Paragraph Style 
+# Statamic Bard Textstyle 
 
 <!-- /statamic:hide -->
 
-This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtype.
+You can search for this addon in the `Tools > Addons` section of the Statamic control panel and click **install**, or run the following command from your project root:
 
 ## Installation
 
 Install the addon using Composer:
 
 ```bash
-composer require jacksleight/bard-paragraph-style
+composer require jacksleight/statamic-bard-textstyle
 ```
 
 ## Configuration
@@ -23,10 +23,10 @@ composer require jacksleight/bard-paragraph-style
 Publish the config:
 
 ```bash
-php please vendor:publish --tag=bard-paragraph-style-config
+php please vendor:publish --tag=statamic-bard-textstyle-config
 ```
 
-Open `config/bard-paragraph-style.php` and add your paragraph styles:
+Open `config/statamic-bard-textstyle.php` and add your paragraph styles:
 
 
 ```php

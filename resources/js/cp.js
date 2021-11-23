@@ -2,7 +2,7 @@ import Paragraph from './paragraph'
 
 Statamic.booting(() => {
 
-    const styles = Statamic.$config.get('bard-paragraph-style.styles') || [];
+    const styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
 
     Statamic.$bard.extend(({ node }) => node(new Paragraph));
 

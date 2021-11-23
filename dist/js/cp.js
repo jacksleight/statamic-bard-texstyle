@@ -161,7 +161,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 Statamic.booting(function () {
-  var styles = Statamic.$config.get('bard-paragraph-style.styles') || [];
+  var styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
   Statamic.$bard.extend(function (_ref) {
     var node = _ref.node;
     return node(new _paragraph__WEBPACK_IMPORTED_MODULE_0__.default());

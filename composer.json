@@ -1,18 +1,18 @@
 {
-    "name": "jacksleight/bard-paragraph-style",
+    "name": "jacksleight/statamic-bard-textstyle",
     "autoload": {
         "psr-4": {
-            "JackSleight\\BardParagraphStyle\\": "src"
+            "JackSleight\\StatamicBardTextstyle\\": "src"
         }
     },
     "extra": {
         "statamic": {
-            "name": "Bard Paragraph Style",
-            "description": "This Statamic addon gives you the ability to add custom paragraph styles to the Bard fieldtype."
+            "name": "Statamic Bard Textstyle",
+            "description": "This Statamic addon gives you the ability to add custom heading, paragraph and inline style buttons to the Bard fieldtype."
         },
         "laravel": {
             "providers": [
-                "JackSleight\\BardParagraphStyle\\ServiceProvider"
+                "JackSleight\\StatamicBardTextstyle\\ServiceProvider"
             ]
         }
     },

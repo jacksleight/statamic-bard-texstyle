@@ -1,5 +1,5 @@
 <?php
-namespace JackSleight\BardParagraphStyle\Nodes;
+namespace JackSleight\StatamicBardTextstyle\Nodes;
 
 class Paragraph extends \ProseMirrorToHtml\Nodes\Paragraph
 {
