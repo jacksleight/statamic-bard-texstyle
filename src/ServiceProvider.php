@@ -1,15 +1,20 @@
 <?php
+
 namespace JackSleight\StatamicBardTextstyle;
 
+use Composer\InstalledVersions;
+use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
-use Statamic\Fieldtypes\Bard\Augmentor;
-use Composer\InstalledVersions;
 
 class ServiceProvider extends AddonServiceProvider
 {
     protected $scripts = [
-        __DIR__ . '/../dist/js/cp.js',
+        __DIR__.'/../dist/js/addon.js',
+    ];
+
+    protected $stylesheets = [
+        __DIR__.'/../dist/css/addon.css',
     ];
 
     public function boot()
@@ -17,11 +22,11 @@ class ServiceProvider extends AddonServiceProvider
         parent::boot();
 
         $this->publishes([
-            __DIR__ . '/../config/statamic/bard_textstyle.php' => config_path('statamic/bard_textstyle.php'),
+            __DIR__.'/../config/statamic/bard_textstyle.php' => config_path('statamic/bard_textstyle.php'),
         ], 'statamic-bard-textstyle-config');
 
         Statamic::provideToScript([
-            'statamic-bard-textstyle' => config('statamic-bard-textstyle'),
+            'statamic-bard-textstyle' => config('statamic.bard_textstyle'),
         ]);
 
         // if (InstalledVersions::isInstalled('jacksleight/statamic-bard-mutator')) {
@@ -52,9 +57,11 @@ class ServiceProvider extends AddonServiceProvider
     //         return $tag;
     //     });
     // }
-    
+
     protected function bootStandalone()
     {
-        Augmentor::replaceNode(\ProseMirrorToHtml\Nodes\Paragraph::class, \JackSleight\StatamicBardTextstyle\Nodes\Paragraph::class);
+        Augmentor::addNode(\JackSleight\StatamicBardTextstyle\Nodes\Heading::class);
+        Augmentor::addNode(\JackSleight\StatamicBardTextstyle\Nodes\Paragraph::class);
+        Augmentor::addMark(\JackSleight\StatamicBardTextstyle\Marks\Span::class);
     }
 }

@@ -2,17 +2,17 @@
 
 namespace JackSleight\StatamicBardTextstyle\Nodes;
 
-class Paragraph extends \ProseMirrorToHtml\Nodes\Node
+class Span extends \ProseMirrorToHtml\Marks\Mark
 {
-    protected $nodeType = 'bts_paragraph';
-    protected $tagName = 'p';
+    protected $nodeType = 'bts_span';
+    protected $tagName = 'span';
 
     public function tag()
     {
         $attrs = [];
 
-        if (isset($this->node->attrs->class)) {
-            $attrs['class'] = $this->node->attrs->class;
+        if (isset($this->mark->attrs->class)) {
+            $attrs['class'] = $this->mark->attrs->class;
         }
 
         return [

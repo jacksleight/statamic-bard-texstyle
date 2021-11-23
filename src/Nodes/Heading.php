@@ -2,10 +2,10 @@
 
 namespace JackSleight\StatamicBardTextstyle\Nodes;
 
-class Paragraph extends \ProseMirrorToHtml\Nodes\Node
+class Heading extends \ProseMirrorToHtml\Nodes\Node
 {
-    protected $nodeType = 'bts_paragraph';
-    protected $tagName = 'p';
+    protected $nodeType = 'bts_heading';
+    protected $tagName = 'h';
 
     public function tag()
     {
@@ -17,7 +17,7 @@ class Paragraph extends \ProseMirrorToHtml\Nodes\Node
 
         return [
             [
-                'tag'   => $this->tagName,
+                'tag'   => "{$this->tagnName}{$this->node->attrs->level}",
                 'attrs' => $attrs,
             ],
         ];
