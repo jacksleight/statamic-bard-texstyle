@@ -1,34 +1,26 @@
-const { toggleMark } = Statamic.$bard.tiptap.commands;
 const { Mark } = Statamic.$bard.tiptap.core;
+const { toggleMark } = Statamic.$bard.tiptap.commands;
 
 export default class Span extends Mark {
 
     get name() {
-        return 'bts_span';
+        return 'span';
     }
 
     get schema() {
-        return {
-            attrs: {
-                class: {
-                    default: null,
-                },
-            },
+        const schema = {
             parseDOM: [{
-                tag: 'bts-span',
-                getAttrs: dom => ({
-                    class: dom.getAttribute('data-class'),
-                }),
+                tag: 'span',
             }],
-            toDOM: node => ['bts-span', {
-                ['data-class']: node.attrs.class,
-                style: this.options.css[node.attrs.class],
-            }, 0],
-        }
+            toDOM: () => ['span', 0],
+        };
+        return BardMutator.mutator.mutateSchema(this.name, schema);
     }
 
-    commands({ type }) {
-        return attrs => toggleMark(type, attrs);
+    commands(data) {
+        const { type } = data;
+        const commands = () => toggleMark(type);
+        return BardMutator.mutator.mutateCommands(this.name, data, commands);
     }
-    
+
 }
