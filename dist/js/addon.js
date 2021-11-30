@@ -191,8 +191,8 @@ Statamic.booting(function () {
   });
   var styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
 
-  var activeTypes = _.uniq(styles.map(function (v) {
-    return v.type;
+  var activeTypes = _.uniq(styles.map(function (style) {
+    return style.type || 'paragraph';
   }));
 
   var css = {
@@ -201,11 +201,13 @@ Statamic.booting(function () {
     span: {}
   };
   styles.forEach(function (style) {
-    if (!types.includes(style.type)) {
+    var type = style.type || 'paragraph';
+
+    if (!types.includes(type)) {
       return;
     }
 
-    css[style.type][style["class"]] = style.cp_css;
+    css[type][style["class"]] = style.cp_css;
   });
 
   var schemaMutator = function schemaMutator(schema, _ref) {
@@ -254,24 +256,30 @@ Statamic.booting(function () {
     });
 
     buttons.splice.apply(buttons, [index + 1, 0].concat(_toConsumableArray(styles.map(function (style) {
-      if (!types.includes(style.type)) {
+      var type = style.type || 'paragraph';
+
+      if (!types.includes(type)) {
         return;
       }
 
-      var name = style.button || "bts_".concat(style.type, "_").concat(style["class"].replace(/[^a-z0-9]/ig, '_'));
-      var character = style.type !== 'span' ? style.type.substr(0, 1).toUpperCase() : 'T';
+      var _char = type.substr(0, 1).toLowerCase();
+
+      var ident = style.ident.toLowerCase();
+      var name = style.button || "bts_".concat(_char).concat(ident);
       return button({
         name: name,
         text: style.name,
-        command: style.type,
-        args: style.type === 'heading' ? {
+        command: type,
+        args: type === 'heading' ? {
           level: style.level,
           "class": style["class"]
         } : {
           "class": style["class"]
         },
-        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(character, "</span><sup>").concat(style.ident, "</sup></span>")
+        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(_char.toUpperCase(), "</span><sup>").concat(ident.toUpperCase(), "</sup></span>")
       });
+    }).filter(function (button) {
+      return button;
     }))));
   });
 });

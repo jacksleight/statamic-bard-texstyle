@@ -41,7 +41,7 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addMark(Span::class);
 
         $styles = config('statamic.bard_textstyle.styles');
-        $activeTypes = collect($styles)->pluck('type')->unique();
+        $activeTypes = collect($styles)->map(fn ($style) => $style ?? 'paragraph')->unique();
 
         $tagMutator = function ($tag, $node) {
             if (isset($node->attrs->class)) {

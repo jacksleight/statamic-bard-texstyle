@@ -10,7 +10,7 @@ Statamic.booting(() => {
     Statamic.$bard.addExtension(() => new Span());
 
     const styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
-    const activeTypes = _.uniq(styles.map(v => v.type));
+    const activeTypes = _.uniq(styles.map(style => style.type || 'paragraph'));
 
     const css = {
         heading: {},
@@ -18,10 +18,11 @@ Statamic.booting(() => {
         span: {},
     };
     styles.forEach(style => {
-        if (!types.includes(style.type)) {
+        const type = style.type || 'paragraph';
+        if (!types.includes(type)) {
             return;
         }
-        css[style.type][style.class] = style.cp_css;
+        css[type][style.class] = style.cp_css;
     });
 
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
@@ -58,23 +59,23 @@ Statamic.booting(() => {
         const index = _.findLastIndex(buttons, { command: 'heading' });
 
         buttons.splice(index + 1, 0, ...styles.map(style => {
-            if (!types.includes(style.type)) {
+            const type = style.type || 'paragraph';
+            if (!types.includes(type)) {
                 return;
-            }            
-            const name = style.button || `bts_${style.type}_${style.class.replace(/[^a-z0-9]/ig, '_')}`;
-            const character = style.type !== 'span'
-                ? style.type.substr(0, 1).toUpperCase()
-                : 'T';
+            }
+            const char  = type.substr(0, 1).toLowerCase();
+            const ident = style.ident.toLowerCase();
+            const name  = style.button || `bts_${char}${ident}`;
             return button({
                 name: name,
                 text: style.name,
-                command: style.type,
-                args: style.type === 'heading'
+                command: type,
+                args: type === 'heading'
                     ? { level: style.level, class: style.class }
                     : { class: style.class },
-                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${character}</span><sup>${style.ident}</sup></span>`,
+                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${char.toUpperCase()}</span><sup>${ident.toUpperCase()}</sup></span>`,
             });
-        }));
+        }).filter(button => button));
 
     });
 

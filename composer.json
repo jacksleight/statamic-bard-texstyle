@@ -8,7 +8,7 @@
     "extra": {
         "statamic": {
             "name": "Statamic Bard Textstyle",
-            "description": "This Statamic addon gives you the ability to add custom heading, paragraph and inline style buttons to the Bard fieldtype."
+            "description": "This Statamic addon gives you the ability to add custom heading, paragraph and inline text style buttons to the Bard fieldtype."
         },
         "laravel": {
             "providers": [

@@ -10,7 +10,7 @@
 
 > *Migrating from Bard Paragraph Style?* Check the migration notes below.
 
-This Statamic addon gives you the ability to add custom heading, paragraph and inline text styles to the Bard fieldtype.
+This Statamic addon gives you the ability to add custom heading, paragraph and inline text style buttons to the Bard fieldtype.
 
 ## Installation
 
@@ -35,27 +35,27 @@ Open `config/statamic/bard_textstyle.php` and add your styles:
 return [
 
     'styles' => [
-        [
+
+        'intro' => [
             'type'   => 'paragraph',
             'name'   => 'Introduction Paragraph',
-            'ident'  => 'I',
-            'class'  => 'intro',
             'cp_css' => 'font-size: 1.25em',
         ],
+
     ],
 
 ];
 ```
 
-Each style should consist of:
+Each style can contain the following options:
 
-* **type (string):** The style type (heading, paragraph or span).
-* **level (string):** The heading level (only applicable to heading styles).
-* **name (string):** The name of the style.
-* **ident (string):** A short identification string (one or two characters, must be unique to the type).
-* **class (string):** The class name that will be applied to the element when rendered on the site.
-* **button (string):** The name of the button that'll be added to the buttons list (optional).
-* **cp_css (string):** The CSS properties that will be added to the control panel for this style.
+* **type:** The style type (heading, paragraph or span).
+* **level:** The heading level (only applicable to heading styles).
+* **name:** The name of the style.
+* **cp_css:** The CSS properties that will be added to the control panel for this style.
+* **class (optional):** The class name that will be applied to the element when rendered on the site. The style key will be used if not set.
+* **ident (optional):** A short identification string (one or two characters). The first character of the style key will be used if not set.
+* **button (optional):** The name of the button will be be added to the buttons list. The style key prefixed with `bts_` will be used if not set.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
@@ -71,7 +71,5 @@ This addon supersedes my previous Bard Paragraph Style addon. Migration is very 
 2. Uninstall `jacksleight/bard-paragraph-style`, either through the control panel or composer
 3. Install `jacksleight/statamic-bard-textstyle`, either through the control panel or composer
 4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_textstyle.php`
-5. Check that your buttons are enabled, either through the control panel or the yaml file(s)
+5. Check that your buttons are enabled, either through the control panel or the yaml files
 6. That's it!
-
-Any existing styles with no type set will default to paragraph styles. Buttons can now be toggled through the control panel and there's no need to give each style a button name (unless you want to).
