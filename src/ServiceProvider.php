@@ -3,6 +3,8 @@
 namespace JackSleight\StatamicBardTextstyle;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardTextstyle\Marks\Span;
+use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
 
@@ -36,6 +38,8 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function bootMutators()
     {
+        Augmentor::addMark(Span::class);
+
         $styles = config('statamic.bard_textstyle.styles');
         $mutatingTypes = collect($styles)->pluck('type')->unique();
 
@@ -48,6 +52,7 @@ class ServiceProvider extends AddonServiceProvider
                 return $tag;
             });
         }
+
         if ($mutatingTypes->contains('paragraph')) {
             Mutator::node('paragraph', function ($tag, $node) {
                 if (isset($node->attrs->class)) {
@@ -57,6 +62,7 @@ class ServiceProvider extends AddonServiceProvider
                 return $tag;
             });
         }
+
         if ($mutatingTypes->contains('span')) {
             Mutator::node('span', function ($tag, $node) {
                 if (isset($node->attrs->class)) {

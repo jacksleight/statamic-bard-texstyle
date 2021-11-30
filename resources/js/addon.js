@@ -33,27 +33,22 @@ Statamic.booting(() => {
             style: css[node.type.name][node.attrs.class],
         }),
     });
-    const nodeCommandsMutator = ({ type, schema }, commands, { extendCommands }) => extendCommands(commands, {
-        [type.name]: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
-    });
-    const markCommandsMutator = ({ type }, commands, { extendCommands }) => extendCommands(commands, {
-        [type.name]: attrs => toggleMark(type, attrs),
-    });
 
     if (mutatingTypes.includes('heading')) {
         mutator
-            .schema('heading', schemaMutator)
-            .commands('heading', nodeCommandsMutator);
+            .schema('heading', schemaMutator);
     }
     if (mutatingTypes.includes('paragraph')) {
         mutator
             .schema('paragraph', schemaMutator)
-            .commands('paragraph', nodeCommandsMutator);
+            .commands('paragraph', (commands, { type, schema }) => ({
+                ...commands,
+                [type.name]: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
+            }));
     }
     if (mutatingTypes.includes('span')) {
         mutator
-            .schema('span', schemaMutator)
-            .commands('span', markCommandsMutator);
+            .schema('span', schemaMutator);
     }
 
     const types = {

@@ -37,18 +37,18 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var Mark = Statamic.$bard.tiptap.core.Mark;
 var toggleMark = Statamic.$bard.tiptap.commands.toggleMark;
 
-var Span = /*#__PURE__*/function (_Mark) {
-  _inherits(Span, _Mark);
+var BaseSpan = /*#__PURE__*/function (_Mark) {
+  _inherits(BaseSpan, _Mark);
 
-  var _super = _createSuper(Span);
+  var _super = _createSuper(BaseSpan);
 
-  function Span() {
-    _classCallCheck(this, Span);
+  function BaseSpan() {
+    _classCallCheck(this, BaseSpan);
 
     return _super.apply(this, arguments);
   }
 
-  _createClass(Span, [{
+  _createClass(BaseSpan, [{
     key: "name",
     get: function get() {
       return 'span';
@@ -56,7 +56,7 @@ var Span = /*#__PURE__*/function (_Mark) {
   }, {
     key: "schema",
     get: function get() {
-      var schema = {
+      return {
         parseDOM: [{
           tag: 'span'
         }],
@@ -64,23 +64,33 @@ var Span = /*#__PURE__*/function (_Mark) {
           return ['span', 0];
         }
       };
-      return BardMutator.mutator.mutateSchema(this.name, schema);
     }
   }, {
     key: "commands",
-    value: function commands(data) {
-      var type = data.type;
-
-      var commands = function commands() {
-        return toggleMark(type);
+    value: function commands(_ref) {
+      var type = _ref.type;
+      return function (attrs) {
+        return toggleMark(type, attrs);
       };
-
-      return BardMutator.mutator.mutateCommands(this.name, data, commands);
     }
   }]);
 
-  return Span;
+  return BaseSpan;
 }(Mark);
+
+var Span = /*#__PURE__*/function (_BardMutator$mutatesN) {
+  _inherits(Span, _BardMutator$mutatesN);
+
+  var _super2 = _createSuper(Span);
+
+  function Span() {
+    _classCallCheck(this, Span);
+
+    return _super2.apply(this, arguments);
+  }
+
+  return Span;
+}(BardMutator.mutatesNode(BaseSpan));
 
 
 
@@ -162,6 +172,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -210,33 +224,22 @@ Statamic.booting(function () {
     });
   };
 
-  var nodeCommandsMutator = function nodeCommandsMutator(_ref3, commands, _ref4) {
-    var type = _ref3.type,
-        schema = _ref3.schema;
-    var extendCommands = _ref4.extendCommands;
-    return extendCommands(commands, _defineProperty({}, type.name, function (attrs) {
-      return toggleBlockType(type, schema.nodes.paragraph, attrs);
-    }));
-  };
-
-  var markCommandsMutator = function markCommandsMutator(_ref5, commands, _ref6) {
-    var type = _ref5.type;
-    var extendCommands = _ref6.extendCommands;
-    return extendCommands(commands, _defineProperty({}, type.name, function (attrs) {
-      return toggleMark(type, attrs);
-    }));
-  };
-
   if (mutatingTypes.includes('heading')) {
-    mutator.schema('heading', schemaMutator).commands('heading', nodeCommandsMutator);
+    mutator.schema('heading', schemaMutator);
   }
 
   if (mutatingTypes.includes('paragraph')) {
-    mutator.schema('paragraph', schemaMutator).commands('paragraph', nodeCommandsMutator);
+    mutator.schema('paragraph', schemaMutator).commands('paragraph', function (commands, _ref3) {
+      var type = _ref3.type,
+          schema = _ref3.schema;
+      return _objectSpread(_objectSpread({}, commands), {}, _defineProperty({}, type.name, function (attrs) {
+        return toggleBlockType(type, schema.nodes.paragraph, attrs);
+      }));
+    });
   }
 
   if (mutatingTypes.includes('span')) {
-    mutator.schema('span', schemaMutator).commands('span', markCommandsMutator);
+    mutator.schema('span', schemaMutator);
   }
 
   var types = {
