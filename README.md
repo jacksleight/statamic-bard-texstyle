@@ -49,13 +49,13 @@ return [
 
 Each style can contain the following options:
 
-* **type:** The style type (heading, paragraph or span).
-* **level:** The heading level (only applicable to heading styles).
+* **type:** The style type (`heading`, `paragraph` or `span`).
+* **level:** The heading level (only applicable to `heading` styles).
 * **name:** The name of the style.
 * **cp_css:** The CSS properties that will be added to the control panel for this style.
 * **class (optional):** The class name that will be applied to the element when rendered on the site. The style key will be used if not set.
 * **ident (optional):** A short identification string (one or two characters). The first character of the style key will be used if not set.
-* **button (optional):** The name of the button will be be added to the buttons list. The style key prefixed with `bts_` will be used if not set.
+* **button (optional):** The name of the button that will be be added to the buttons list. The style key prefixed with `bts_` will be used if not set.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
@@ -65,11 +65,13 @@ This addon uses Bard Mutator under the hood to extend the built-in Heading and P
 
 ## Migration from Bard Paragraph Style
 
-This addon supersedes my previous Bard Paragraph Style addon. Migration is very easy, just follow the steps below:
+This addon supersedes my previous Bard Paragraph Style addon. I've tried to make migration as simple as possible, here's what you'll need to do:
 
-1. First make sure you're running at least Statamic 3.2.24
+1. Make sure you're running at least Statamic 3.2.24
 2. Uninstall `jacksleight/bard-paragraph-style`, either through the control panel or composer
 3. Install `jacksleight/statamic-bard-textstyle`, either through the control panel or composer
 4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_textstyle.php`
 5. Check that your buttons are enabled, either through the control panel or the yaml files
-6. That's it!
+6. That's all you *have* to do, but these additional steps are recommended:
+    * Give each style a key. Styles without keys are deprecated and support may be removed in a future version.
+    * Give each style a type of `paragraph`. Styles without a type are deprecated and support may be removed in a future version.

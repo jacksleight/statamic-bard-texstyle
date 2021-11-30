@@ -79,4 +79,10 @@ Statamic.booting(() => {
 
     });
 
+    /**
+     * @deprecated
+     * Support for styles without keys
+     * Support for styles without a type
+     */
+
 });
