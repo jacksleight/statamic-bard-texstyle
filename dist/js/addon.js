@@ -183,6 +183,7 @@ var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
     toggleBlockType = _Statamic$$bard$tipta.toggleBlockType,
     toggleMark = _Statamic$$bard$tipta.toggleMark;
 Statamic.booting(function () {
+  var types = ['heading', 'paragraph', 'span'];
   var _BardMutator = BardMutator,
       mutator = _BardMutator.mutator;
   Statamic.$bard.addExtension(function () {
@@ -190,7 +191,7 @@ Statamic.booting(function () {
   });
   var styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
 
-  var mutatingTypes = _.uniq(styles.map(function (v) {
+  var activeTypes = _.uniq(styles.map(function (v) {
     return v.type;
   }));
 
@@ -200,6 +201,10 @@ Statamic.booting(function () {
     span: {}
   };
   styles.forEach(function (style) {
+    if (!types.includes(style.type)) {
+      return;
+    }
+
     css[style.type][style["class"]] = style.cp_css;
   });
 
@@ -224,12 +229,13 @@ Statamic.booting(function () {
     });
   };
 
-  if (mutatingTypes.includes('heading')) {
+  if (activeTypes.includes('heading')) {
     mutator.schema('heading', schemaMutator);
   }
 
-  if (mutatingTypes.includes('paragraph')) {
-    mutator.schema('paragraph', schemaMutator).commands('paragraph', function (commands, _ref3) {
+  if (activeTypes.includes('paragraph')) {
+    mutator.schema('paragraph', schemaMutator);
+    mutator.commands('paragraph', function (commands, _ref3) {
       var type = _ref3.type,
           schema = _ref3.schema;
       return _objectSpread(_objectSpread({}, commands), {}, _defineProperty({}, type.name, function (attrs) {
@@ -238,52 +244,34 @@ Statamic.booting(function () {
     });
   }
 
-  if (mutatingTypes.includes('span')) {
+  if (activeTypes.includes('span')) {
     mutator.schema('span', schemaMutator);
   }
 
-  var types = {
-    heading: {
-      command: 'heading',
-      character: 'H'
-    },
-    paragraph: {
-      command: 'paragraph',
-      character: 'P'
-    },
-    span: {
-      command: 'span',
-      character: 'T'
-    }
-  };
-  Statamic.$bard.buttons(function (buttons) {
+  Statamic.$bard.buttons(function (buttons, button) {
     var index = _.findLastIndex(buttons, {
       command: 'heading'
     });
 
     buttons.splice.apply(buttons, [index + 1, 0].concat(_toConsumableArray(styles.map(function (style) {
-      var type = types[style.type || 'paragraph'];
-
-      if (!type) {
+      if (!types.includes(style.type)) {
         return;
       }
 
-      var button = "bts_".concat(type, "_").concat(style["class"]);
-      return {
-        name: style.button,
+      var name = style.button || "bts_".concat(style.type, "_").concat(style["class"].replace(/[^a-z0-9]/ig, '_'));
+      var character = style.type !== 'span' ? style.type.substr(0, 1).toUpperCase() : 'T';
+      return button({
+        name: name,
         text: style.name,
-        command: type.command,
-        args: type === 'heading' ? {
+        command: style.type,
+        args: style.type === 'heading' ? {
           level: style.level,
           "class": style["class"]
         } : {
           "class": style["class"]
         },
-        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(type.character, "</span><sup>").concat(style.ident, "</sup></span>"),
-        condition: function condition(config) {
-          return config.buttons.includes(style.button || button);
-        }
-      };
+        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(character, "</span><sup>").concat(style.ident, "</sup></span>")
+      });
     }))));
   });
 });

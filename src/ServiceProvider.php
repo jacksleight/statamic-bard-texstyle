@@ -41,36 +41,24 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addMark(Span::class);
 
         $styles = config('statamic.bard_textstyle.styles');
-        $mutatingTypes = collect($styles)->pluck('type')->unique();
+        $activeTypes = collect($styles)->pluck('type')->unique();
 
-        if ($mutatingTypes->contains('heading')) {
-            Mutator::node('heading', function ($tag, $node) {
-                if (isset($node->attrs->class)) {
-                    $tag[0]['attrs']['class'] = $node->attrs->class;
-                }
+        $tagMutator = function ($tag, $node) {
+            if (isset($node->attrs->class)) {
+                $tag[0]['attrs']['class'] = $node->attrs->class;
+            }
 
-                return $tag;
-            });
+            return $tag;
+        };
+
+        if ($activeTypes->contains('heading')) {
+            Mutator::node('heading', $tagMutator);
         }
-
-        if ($mutatingTypes->contains('paragraph')) {
-            Mutator::node('paragraph', function ($tag, $node) {
-                if (isset($node->attrs->class)) {
-                    $tag[0]['attrs']['class'] = $node->attrs->class;
-                }
-
-                return $tag;
-            });
+        if ($activeTypes->contains('paragraph')) {
+            Mutator::node('paragraph', $tagMutator);
         }
-
-        if ($mutatingTypes->contains('span')) {
-            Mutator::node('span', function ($tag, $node) {
-                if (isset($node->attrs->class)) {
-                    $tag[0]['attrs']['class'] = $node->attrs->class;
-                }
-
-                return $tag;
-            });
+        if ($activeTypes->contains('span')) {
+            Mutator::node('span', $tagMutator);
         }
 
         return $this;

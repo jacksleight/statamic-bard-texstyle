@@ -3,12 +3,14 @@ const { toggleBlockType, toggleMark } = Statamic.$bard.tiptap.commands;
 
 Statamic.booting(() => {
 
+    const types = ['heading', 'paragraph', 'span'];
+
     const { mutator } = BardMutator;
 
     Statamic.$bard.addExtension(() => new Span());
 
     const styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
-    const mutatingTypes = _.uniq(styles.map(v => v.type));
+    const activeTypes = _.uniq(styles.map(v => v.type));
 
     const css = {
         heading: {},
@@ -16,6 +18,9 @@ Statamic.booting(() => {
         span: {},
     };
     styles.forEach(style => {
+        if (!types.includes(style.type)) {
+            return;
+        }
         css[style.type][style.class] = style.cp_css;
     });
 
@@ -34,58 +39,41 @@ Statamic.booting(() => {
         }),
     });
 
-    if (mutatingTypes.includes('heading')) {
-        mutator
-            .schema('heading', schemaMutator);
+    if (activeTypes.includes('heading')) {
+        mutator.schema('heading', schemaMutator);
     }
-    if (mutatingTypes.includes('paragraph')) {
-        mutator
-            .schema('paragraph', schemaMutator)
-            .commands('paragraph', (commands, { type, schema }) => ({
-                ...commands,
-                [type.name]: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
-            }));
+    if (activeTypes.includes('paragraph')) {
+        mutator.schema('paragraph', schemaMutator);
+        mutator.commands('paragraph', (commands, { type, schema }) => ({
+            ...commands,
+            [type.name]: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
+        }));
     }
-    if (mutatingTypes.includes('span')) {
-        mutator
-            .schema('span', schemaMutator);
+    if (activeTypes.includes('span')) {
+        mutator.schema('span', schemaMutator);
     }
 
-    const types = {
-        heading: {
-            command: 'heading',
-            character: 'H',
-        },
-        paragraph: {
-            command: 'paragraph',
-            character: 'P',
-        },
-        span: {
-            command: 'span',
-            character: 'T',
-        },
-    };
-
-    Statamic.$bard.buttons(buttons => {
+    Statamic.$bard.buttons((buttons, button) => {
 
         const index = _.findLastIndex(buttons, { command: 'heading' });
 
         buttons.splice(index + 1, 0, ...styles.map(style => {
-            const type = types[style.type || 'paragraph'];
-            if (!type) {
+            if (!types.includes(style.type)) {
                 return;
-            }
-            const button = `bts_${type}_${style.class}`;
-            return {
-                name: style.button,
+            }            
+            const name = style.button || `bts_${style.type}_${style.class.replace(/[^a-z0-9]/ig, '_')}`;
+            const character = style.type !== 'span'
+                ? style.type.substr(0, 1).toUpperCase()
+                : 'T';
+            return button({
+                name: name,
                 text: style.name,
-                command: type.command,
-                args: type === 'heading'
+                command: style.type,
+                args: style.type === 'heading'
                     ? { level: style.level, class: style.class }
                     : { class: style.class },
-                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${type.character}</span><sup>${style.ident}</sup></span>`,
-                condition: config => config.buttons.includes(style.button || button),
-            };
+                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${character}</span><sup>${style.ident}</sup></span>`,
+            });
         }));
 
     });
