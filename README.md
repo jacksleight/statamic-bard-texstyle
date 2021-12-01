@@ -28,7 +28,6 @@ php please vendor:publish --tag=statamic-bard-textstyle-config
 
 Open `config/statamic/bard_textstyle.php` and add your styles:
 
-
 ```php
 return [
 
@@ -36,7 +35,7 @@ return [
 
         'intro' => [
             'type'   => 'paragraph',
-            'name'   => 'Introduction Paragraph',
+            'name'   => 'Introduction',
             'ident'  => 'I',
             'cp_css' => 'font-size: 1.25em',
         ],
@@ -63,7 +62,7 @@ Each style can have the following options:
 * **button (string, optional)**  
   The name of the button that will be be added to the buttons list. The key prefixed with `bts_` will be used if not set.
 * **global (boolean, optional)**  
-  Make the button appear everywhere without having to enable it in each Bard field.
+  Make the button appear everywhere without having to enable it in each Bard field. False by default.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 

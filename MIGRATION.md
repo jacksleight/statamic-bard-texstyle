@@ -14,4 +14,4 @@ The standard configuration format has changed slightly, however the Bard Paragra
 
 1. Each style should have a key.
 2. Each style should have a type.
-3. If you weren't using the button option you'll need to add the global option so that your buttons continue to appear everywhere.
+3. If you weren't using the button option you should add the global option so that your buttons continue to appear everywhere.
