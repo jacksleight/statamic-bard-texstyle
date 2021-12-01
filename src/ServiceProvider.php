@@ -1,10 +1,10 @@
 <?php
 
-namespace JackSleight\StatamicBardTextstyle;
+namespace JackSleight\StatamicBardTexstyle;
 
 use Illuminate\Support\Arr;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
-use JackSleight\StatamicBardTextstyle\Marks\Span;
+use JackSleight\StatamicBardTexstyle\Marks\Span;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -18,14 +18,14 @@ class ServiceProvider extends AddonServiceProvider
     public function bootAddon()
     {
         $this->publishes([
-            __DIR__.'/../config/statamic/bard_textstyle.php' => config_path('statamic/bard_textstyle.php'),
-        ], 'statamic-bard-textstyle-config');
+            __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
+        ], 'statamic-bard-texstyle-config');
 
-        $config = config('statamic.bard_textstyle');
+        $config = config('statamic.bard_texstyle');
         $config = $this->normalizeConfig($config);
 
         Statamic::provideToScript([
-            'statamic-bard-textstyle' => $config,
+            'statamic-bard-texstyle' => $config,
         ]);
 
         Augmentor::addMark(Span::class);
@@ -55,7 +55,7 @@ class ServiceProvider extends AddonServiceProvider
     }
 
     /**
-     * Converts Bard Paragraph Style config to Bard Textstyle config.
+     * Converts Bard Paragraph Style config to Bard Texstyle config.
      */
     protected function normalizeConfig($config)
     {

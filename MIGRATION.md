@@ -7,8 +7,8 @@ I've tried to make migration as simple as possible. Here's what you'll need to d
 1. Make sure you're running Statamic 3.2.24 or higher
     1. If you're also using my Bard Mutator addon make sure you're running 1.0.0 or higher
 2. Uninstall `jacksleight/bard-paragraph-style`
-3. Install `jacksleight/statamic-bard-textstyle`
-4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_textstyle.php`
+3. Install `jacksleight/statamic-bard-texstyle`
+4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_texstyle.php`
 5. That's (kind of) it!
 
 The standard configuration format has changed very slightly, however the Bard Paragraph Style format is still supported. I recommend updating your configuration to the new format when you can as support may be removed in the future. The most important changes you'll need to make are:

@@ -1,6 +1,6 @@
 <?php
 
-namespace JackSleight\StatamicBardTextstyle\Marks;
+namespace JackSleight\StatamicBardTexstyle\Marks;
 
 use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
 use ProseMirrorToHtml\Marks\Mark;

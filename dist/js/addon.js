@@ -197,7 +197,7 @@ Statamic.booting(function () {
   Statamic.$bard.addExtension(function () {
     return new _marks_Span__WEBPACK_IMPORTED_MODULE_0__.default();
   });
-  var styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
+  var styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
 
   var activeTypes = _.uniq(Object.entries(styles).map(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),

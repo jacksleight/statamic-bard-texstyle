@@ -1,10 +1,10 @@
 <!-- statamic:hide -->
 
 ![Statamic](https://flat.badgen.net/badge/Statamic/3.1.14+/FF269E)
-![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/statamic-bard-textstyle)
-![License](https://flat.badgen.net/github/license/jacksleight/statamic-bard-textstyle)
+![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/statamic-bard-texstyle)
+![License](https://flat.badgen.net/github/license/jacksleight/statamic-bard-texstyle)
 
-# Statamic Bard Textstyle
+# Statamic Bard Texstyle
 
 <!-- /statamic:hide -->
 
@@ -15,7 +15,7 @@ This Statamic addon gives you the ability to add custom heading, paragraph and i
 You can search for this addon in the `Tools > Addons` section of the Statamic control panel and click **install**, or run the following command from your project root:
 
 ```bash
-composer require jacksleight/statamic-bard-textstyle
+composer require jacksleight/statamic-bard-texstyle
 ```
 
 ## Configuration
@@ -23,10 +23,10 @@ composer require jacksleight/statamic-bard-textstyle
 Publish the config:
 
 ```bash
-php please vendor:publish --tag=statamic-bard-textstyle-config
+php please vendor:publish --tag=statamic-bard-texstyle-config
 ```
 
-Open `config/statamic/bard_textstyle.php` and add your styles:
+Open `config/statamic/bard_texstyle.php` and add your styles:
 
 ```php
 return [

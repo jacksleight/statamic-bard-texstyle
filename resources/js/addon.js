@@ -9,7 +9,7 @@ Statamic.booting(() => {
 
     Statamic.$bard.addExtension(() => new Span());
 
-    const styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
+    const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
     const activeTypes = _.uniq(Object.entries(styles).map(([key, style]) => style.type));
 
     const css = {
