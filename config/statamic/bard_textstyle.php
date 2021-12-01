@@ -26,7 +26,7 @@ return [
         //     'name'   => 'Brand Text',
         //     'ident'  => 'B',
         //     'class'  => 'brand-text',
-        //     'cp_css' => 'color: #c471ed; font-weight: 700',
+        //     'cp_css' => 'color: dodgerblue; font-weight: 700',
         // ],
 
     ],
