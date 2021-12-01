@@ -20,6 +20,8 @@ I've made migration as simple as I could. Here's what you'll need to do:
 
 The configuration format has changed slightly, however the Bard Paragraph Style format is still supported. I recommend updating your configuration to the new format when you can as support may be removed in the future. The changes you'll need to make are:
 
-1. Each style should have a key.
-2. Each style should have a type.
-3. If you weren't using the button option you should add the global option.
+1. Give each style an array key.
+2. Set the `type` option to `paragraph` in each style.
+3. Set the `global` option to `true` in any styles where you weren't using the `button` option.
+
+Check the [configuration documentation](https://github.com/jacksleight/statamic-bard-texstyle#configuration) for further details.
