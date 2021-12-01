@@ -18,7 +18,7 @@ I've made migration as simple as I could. Here's what you'll need to do:
 4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_texstyle.php`
 5. That's (kind of) it!
 
-The configuration format has changed slightly, however the Bard Paragraph Style format is still supported. I recommend updating your configuration to the new format when you can as support may be removed in the future. The most important changes you'll need to make are:
+The configuration format has changed slightly, however the Bard Paragraph Style format is still supported. I recommend updating your configuration to the new format when you can as support may be removed in the future. The changes you'll need to make are:
 
 1. Each style should have a key.
 2. Each style should have a type.
