@@ -225,7 +225,7 @@ Statamic.booting(function () {
       return;
     }
 
-    css["".concat(exts[style.type], "__").concat(style["class"] || key)] = style.cp_css;
+    css["".concat(exts[style.type], "__").concat(style["class"])] = style.cp_css;
   });
 
   var schemaMutator = function schemaMutator(schema, _ref5) {
@@ -287,12 +287,12 @@ Statamic.booting(function () {
         text: style.name,
         command: exts[style.type],
         args: style.type === 'heading' ? {
-          "class": style["class"] || key,
-          level: style.level || 1
+          "class": style["class"],
+          level: style.level
         } : {
-          "class": style["class"] || key
+          "class": style["class"]
         },
-        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></span>")
+        html: "<div style=\"margin-bottom: -1px\"><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></div>")
       };
       return style.global ? data : button(data);
     }).filter(function (button) {

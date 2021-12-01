@@ -37,6 +37,7 @@ return [
             'type'   => 'paragraph',
             'name'   => 'Introduction',
             'ident'  => 'I',
+            'class'  => 'introduction',
             'cp_css' => 'font-size: 1.25em',
         ],
 
@@ -55,10 +56,10 @@ Each style can have the following options:
   The name of the style. This will appear in the tooltip.
 * **ident (string)**  
   A short identification string (one or two characters). This will appear in the button.
+* **class (string)**  
+  The class name that will be applied to the element when rendered on the site.
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
-* **class (string, optional)**  
-  The class name that will be applied to the element when rendered on the site. The key will be used if not set.
 * **button (string, optional)**  
   The name of the button that will be be added to the buttons list. The key prefixed with `bts_` will be used if not set.
 * **global (boolean, optional)**  

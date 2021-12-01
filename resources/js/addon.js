@@ -29,7 +29,7 @@ Statamic.booting(() => {
         if (!types.includes(style.type)) {
             return;
         }
-        css[`${exts[style.type]}__${style.class || key}`] = style.cp_css;
+        css[`${exts[style.type]}__${style.class}`] = style.cp_css;
     });
 
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
@@ -74,9 +74,9 @@ Statamic.booting(() => {
                 text: style.name,
                 command: exts[style.type],
                 args: style.type === 'heading'
-                    ? { class: style.class || key, level: style.level || 1 }
-                    : { class: style.class || key },
-                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></span>`,
+                    ? { class: style.class, level: style.level }
+                    : { class: style.class },
+                html: `<div style="margin-bottom: -1px"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
             };
             return style.global ? data : button(data);
         }).filter(button => button));
