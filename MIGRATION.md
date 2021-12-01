@@ -5,7 +5,7 @@ This addon supersedes my previous Bard Paragraph Style addon. It offers everythi
 * It can add heading and inline text (span) styles as well as paragraph styles.
 * It has different dependencies, specifically Statamic 3.2.24+ and my Bard Mutator package.
 * It uses the new Bard custom button management features in Statamic.
-* The name has changed and internally everything is namespaced properly now.
+* The name has changed, and internally everything is better organised and namespaced.
 
 # How to Migrate
 
