@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTextstyle;
 
+use Illuminate\Support\Arr;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardTextstyle\Marks\Span;
 use Statamic\Fieldtypes\Bard\Augmentor;
@@ -14,34 +15,23 @@ class ServiceProvider extends AddonServiceProvider
         __DIR__.'/../dist/js/addon.js',
     ];
 
-    public function boot()
-    {
-        parent::boot();
-
-        $this
-            ->bootConfig()
-            ->bootMutators();
-    }
-
-    protected function bootConfig()
+    public function bootAddon()
     {
         $this->publishes([
             __DIR__.'/../config/statamic/bard_textstyle.php' => config_path('statamic/bard_textstyle.php'),
         ], 'statamic-bard-textstyle-config');
 
+        $config = config('statamic.bard_textstyle');
+        $config = $this->normalizeConfig($config);
+
         Statamic::provideToScript([
-            'statamic-bard-textstyle' => config('statamic.bard_textstyle'),
+            'statamic-bard-textstyle' => $config,
         ]);
 
-        return $this;
-    }
-
-    protected function bootMutators()
-    {
         Augmentor::addMark(Span::class);
 
-        $styles = config('statamic.bard_textstyle.styles');
-        $activeTypes = collect($styles)->map(fn ($style) => $style ?? 'paragraph')->unique();
+        $styles = $config['styles'];
+        $activeTypes = collect($styles)->pluck('type')->unique();
 
         $tagMutator = function ($tag, $node) {
             if (isset($node->attrs->class)) {
@@ -62,5 +52,34 @@ class ServiceProvider extends AddonServiceProvider
         }
 
         return $this;
+    }
+
+    /**
+     * Converts Bard Paragraph Style config to Bard Textstyle config.
+     */
+    protected function normalizeConfig($config)
+    {
+        if (Arr::isAssoc($config['styles'])) {
+            return $config;
+        }
+
+        $styles = [];
+
+        foreach ($config['styles'] as $style) {
+            if (! isset($style['type'])) {
+                $style['type'] = 'paragraph';
+            }
+            if (! isset($style['button'])) {
+                $style['global'] = true;
+            }
+
+            $key = preg_replace('/[^\w-]/i', '_', $style['class']);
+
+            $styles[$key] = $style;
+        }
+
+        $config['styles'] = $styles;
+
+        return $config;
     }
 }
