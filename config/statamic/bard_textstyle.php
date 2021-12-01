@@ -4,32 +4,29 @@ return [
 
     'styles' => [
 
-        // [
-        //     'type'      => 'heading',
-        //     'level'     => '1',
-        //     'name'      => 'Main Heading',
-        //     'ident'     => 'M',
-        //     'class'     => 'heading-main',
-        //     'button'    => 'heading_main',
-        //     'cp_css'    => 'font-size: 1.5em',
+        // 'hero' => [
+        //     'type'   => 'heading',
+        //     'level'  => 1,
+        //     'name'   => 'Hero Heading',
+        //     'ident'  => 'H',
+        //     'class'  => 'hero-heading',
+        //     'cp_css' => 'font-family: Caslon',
         // ],
 
-        // [
-        //     'type'      => 'paragraph',
-        //     'name'      => 'Introduction Paragraph',
-        //     'ident'     => 'I',
-        //     'class'     => 'paragraph-intro',
-        //     'button'    => 'paragraph_intro',
-        //     'cp_css'    => 'font-size: 1.25em',
+        // 'intro' => [
+        //     'type'   => 'paragraph',
+        //     'name'   => 'Introduction',
+        //     'ident'  => 'I',
+        //     'class'  => 'introduction',
+        //     'cp_css' => 'font-size: 1.25em; margin-top: -0.5em',
         // ],
 
-        // [
-        //     'type'      => 'span',
-        //     'name'      => 'Brand Text',
-        //     'ident'     => 'B',
-        //     'class'     => 'brand',
-        //     'button'    => 'brand',
-        //     'cp_css'    => 'color: hotpink; text-transform: uppercase',
+        // 'brand' => [
+        //     'type'   => 'span',
+        //     'name'   => 'Brand Text',
+        //     'ident'  => 'B',
+        //     'class'  => 'brand-text',
+        //     'cp_css' => 'color: #c471ed; font-weight: 700',
         // ],
 
     ],
