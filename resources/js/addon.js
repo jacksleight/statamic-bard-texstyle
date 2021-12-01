@@ -1,5 +1,17 @@
 import Span from './marks/Span'
-const { toggleBlockType, toggleMark } = Statamic.$bard.tiptap.commands;
+const { toggleBlockType } = Statamic.$bard.tiptap.commands;
+
+const chars = {
+    heading: 'H',
+    paragraph: 'P',
+    span: 'T',
+};
+
+const exts = {
+    heading: 'heading',
+    paragraph: 'paragraph',
+    span: 'bts_span',
+};
 
 Statamic.booting(() => {
 
@@ -12,16 +24,12 @@ Statamic.booting(() => {
     const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
     const activeTypes = _.uniq(Object.entries(styles).map(([key, style]) => style.type));
 
-    const css = {
-        heading: {},
-        paragraph: {},
-        span: {},
-    };
+    const css = {};
     Object.entries(styles).forEach(([key, style]) => {
         if (!types.includes(style.type)) {
             return;
         }
-        css[style.type][style.class || key] = style.cp_css;
+        css[`${exts[style.type]}__${style.class || key}`] = style.cp_css;
     });
 
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
@@ -35,7 +43,7 @@ Statamic.booting(() => {
         }),
         toDOMAttrs: node => ({
             ['data-bts-class']: node.attrs.class,
-            style: css[node.type.name][node.attrs.class],
+            style: css[`${node.type.name}__${node.attrs.class}`],
         }),
     });
 
@@ -50,7 +58,7 @@ Statamic.booting(() => {
         }));
     }
     if (activeTypes.includes('span')) {
-        mutator.schema('span', schemaMutator);
+        mutator.schema('bts_span', schemaMutator);
     }
 
     Statamic.$bard.buttons((buttons, button) => {
@@ -61,15 +69,14 @@ Statamic.booting(() => {
             if (!types.includes(style.type)) {
                 return;
             }
-            const char = style.type.substr(0, 1).toLowerCase();
             const data = {
                 name: style.button || `bts_${key}`,
                 text: style.name,
-                command: style.type,
+                command: exts[style.type],
                 args: style.type === 'heading'
                     ? { class: style.class || key, level: style.level || 1 }
                     : { class: style.class || key },
-                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${char.toUpperCase()}</span><sup>${style.ident || ''}</sup></span>`,
+                html: `<span><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></span>`,
             };
             return style.global ? data : button(data);
         }).filter(button => button));

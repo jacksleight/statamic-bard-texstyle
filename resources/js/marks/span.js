@@ -4,7 +4,7 @@ const { toggleMark } = Statamic.$bard.tiptap.commands;
 class BaseSpan extends Mark {
 
     get name() {
-        return 'span';
+        return 'bts_span';
     }
 
     get schema() {

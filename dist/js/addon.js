@@ -51,7 +51,7 @@ var BaseSpan = /*#__PURE__*/function (_Mark) {
   _createClass(BaseSpan, [{
     key: "name",
     get: function get() {
-      return 'span';
+      return 'bts_span';
     }
   }, {
     key: "schema",
@@ -187,9 +187,17 @@ function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "und
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
-    toggleBlockType = _Statamic$$bard$tipta.toggleBlockType,
-    toggleMark = _Statamic$$bard$tipta.toggleMark;
+var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
+var chars = {
+  heading: 'H',
+  paragraph: 'P',
+  span: 'T'
+};
+var exts = {
+  heading: 'heading',
+  paragraph: 'paragraph',
+  span: 'bts_span'
+};
 Statamic.booting(function () {
   var types = ['heading', 'paragraph', 'span'];
   var _BardMutator = BardMutator,
@@ -207,11 +215,7 @@ Statamic.booting(function () {
     return style.type;
   }));
 
-  var css = {
-    heading: {},
-    paragraph: {},
-    span: {}
-  };
+  var css = {};
   Object.entries(styles).forEach(function (_ref3) {
     var _ref4 = _slicedToArray(_ref3, 2),
         key = _ref4[0],
@@ -221,7 +225,7 @@ Statamic.booting(function () {
       return;
     }
 
-    css[style.type][style["class"] || key] = style.cp_css;
+    css["".concat(exts[style.type], "__").concat(style["class"] || key)] = style.cp_css;
   });
 
   var schemaMutator = function schemaMutator(schema, _ref5) {
@@ -240,7 +244,7 @@ Statamic.booting(function () {
       toDOMAttrs: function toDOMAttrs(node) {
         var _ref6;
 
-        return _ref6 = {}, _defineProperty(_ref6, 'data-bts-class', node.attrs["class"]), _defineProperty(_ref6, "style", css[node.type.name][node.attrs["class"]]), _ref6;
+        return _ref6 = {}, _defineProperty(_ref6, 'data-bts-class', node.attrs["class"]), _defineProperty(_ref6, "style", css["".concat(node.type.name, "__").concat(node.attrs["class"])]), _ref6;
       }
     });
   };
@@ -261,7 +265,7 @@ Statamic.booting(function () {
   }
 
   if (activeTypes.includes('span')) {
-    mutator.schema('span', schemaMutator);
+    mutator.schema('bts_span', schemaMutator);
   }
 
   Statamic.$bard.buttons(function (buttons, button) {
@@ -278,19 +282,17 @@ Statamic.booting(function () {
         return;
       }
 
-      var _char = style.type.substr(0, 1).toLowerCase();
-
       var data = {
         name: style.button || "bts_".concat(key),
         text: style.name,
-        command: style.type,
+        command: exts[style.type],
         args: style.type === 'heading' ? {
           "class": style["class"] || key,
           level: style.level || 1
         } : {
           "class": style["class"] || key
         },
-        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(_char.toUpperCase(), "</span><sup>").concat(style.ident || '', "</sup></span>")
+        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></span>")
       };
       return style.global ? data : button(data);
     }).filter(function (button) {

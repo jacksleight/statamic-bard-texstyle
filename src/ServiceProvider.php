@@ -49,7 +49,7 @@ class ServiceProvider extends AddonServiceProvider
             Mutator::node('paragraph', $tagMutator);
         }
         if ($activeTypes->contains('span')) {
-            Mutator::node('span', $tagMutator);
+            Mutator::node('bts_span', $tagMutator);
         }
 
         return $this;

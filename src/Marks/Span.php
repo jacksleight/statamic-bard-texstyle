@@ -9,6 +9,6 @@ class Span extends Mark
 {
     use MutatesMark;
 
-    protected $markType = 'span';
+    protected $markType = 'bts_span';
     protected $tagName = 'span';
 }
