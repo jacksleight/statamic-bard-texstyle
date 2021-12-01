@@ -7,7 +7,7 @@ This addon supersedes my previous Bard Paragraph Style addon. It offers everythi
 * It uses the new Bard custom button management features in Statamic.
 * The name has changed, and internally everything is better organised and namespaced.
 
-# How to Migrate
+## How to Migrate
 
 I've tried to make migration as simple as possible. Here's what you'll need to do:
 
