@@ -24,12 +24,17 @@ Statamic.booting(() => {
     const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
     const activeTypes = _.uniq(Object.entries(styles).map(([key, style]) => style.type));
 
-    const css = {};
+    const map = {};
     Object.entries(styles).forEach(([key, style]) => {
         if (!types.includes(style.type)) {
             return;
         }
-        css[`${exts[style.type]}__${style.class}`] = style.cp_css;
+        const name = `${exts[style.type]}__${style.class}`;
+        map[name] = {
+            key: key,
+            class: style.class,
+            css: style.cp_css,
+        };
     });
 
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
@@ -38,13 +43,29 @@ Statamic.booting(() => {
                 default: null,
             },
         },
-        parseDOMAttrs: dom => ({
-            class: dom.getAttribute('data-bts-class'),
-        }),
-        toDOMAttrs: node => ({
-            ['data-bts-class']: node.attrs.class,
-            style: css[`${node.type.name}__${node.attrs.class}`],
-        }),
+        parseDOMAttrs: dom => {
+            const key = dom.getAttribute('data-bts');
+            if (!key) {
+                return {};
+            }
+            const data = Object.values(map).find(d => d.key === key);
+            if (!data) {
+                return {};
+            }
+            return {
+                class: data.class,
+            };
+        },
+        toDOMAttrs: node => {
+            const name = `${node.type.name}__${node.attrs.class}`;
+            if (!map[name]) {
+                return {};
+            }
+            return {
+                ['data-bts']: map[name].key,
+                style: map[name].css,
+            };
+        },
     });
 
     if (activeTypes.includes('heading')) {
@@ -69,7 +90,7 @@ Statamic.booting(() => {
             if (!types.includes(style.type)) {
                 return;
             }
-            const data = {
+            const btn = {
                 name: style.button || `bts_${key}`,
                 text: style.name,
                 command: exts[style.type],
@@ -78,7 +99,7 @@ Statamic.booting(() => {
                     : { class: style.class },
                 html: `<div style="margin-bottom: -1px"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
             };
-            return style.global ? data : button(data);
+            return style.global ? btn : button(btn);
         }).filter(button => button));
 
     });

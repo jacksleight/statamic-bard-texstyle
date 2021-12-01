@@ -215,7 +215,7 @@ Statamic.booting(function () {
     return style.type;
   }));
 
-  var css = {};
+  var map = {};
   Object.entries(styles).forEach(function (_ref3) {
     var _ref4 = _slicedToArray(_ref3, 2),
         key = _ref4[0],
@@ -225,7 +225,12 @@ Statamic.booting(function () {
       return;
     }
 
-    css["".concat(exts[style.type], "__").concat(style["class"])] = style.cp_css;
+    var name = "".concat(exts[style.type], "__").concat(style["class"]);
+    map[name] = {
+      key: key,
+      "class": style["class"],
+      css: style.cp_css
+    };
   });
 
   var schemaMutator = function schemaMutator(schema, _ref5) {
@@ -237,14 +242,34 @@ Statamic.booting(function () {
         }
       },
       parseDOMAttrs: function parseDOMAttrs(dom) {
+        var key = dom.getAttribute('data-bts');
+
+        if (!key) {
+          return {};
+        }
+
+        var data = Object.values(map).find(function (d) {
+          return d.key === key;
+        });
+
+        if (!data) {
+          return {};
+        }
+
         return {
-          "class": dom.getAttribute('data-bts-class')
+          "class": data["class"]
         };
       },
       toDOMAttrs: function toDOMAttrs(node) {
         var _ref6;
 
-        return _ref6 = {}, _defineProperty(_ref6, 'data-bts-class', node.attrs["class"]), _defineProperty(_ref6, "style", css["".concat(node.type.name, "__").concat(node.attrs["class"])]), _ref6;
+        var name = "".concat(node.type.name, "__").concat(node.attrs["class"]);
+
+        if (!map[name]) {
+          return {};
+        }
+
+        return _ref6 = {}, _defineProperty(_ref6, 'data-bts', map[name].key), _defineProperty(_ref6, "style", map[name].css), _ref6;
       }
     });
   };
@@ -282,7 +307,7 @@ Statamic.booting(function () {
         return;
       }
 
-      var data = {
+      var btn = {
         name: style.button || "bts_".concat(key),
         text: style.name,
         command: exts[style.type],
@@ -294,7 +319,7 @@ Statamic.booting(function () {
         },
         html: "<div style=\"margin-bottom: -1px\"><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></div>")
       };
-      return style.global ? data : button(data);
+      return style.global ? btn : button(btn);
     }).filter(function (button) {
       return button;
     }))));
