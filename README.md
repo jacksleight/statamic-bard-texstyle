@@ -37,6 +37,7 @@ return [
         'intro' => [
             'type'   => 'paragraph',
             'name'   => 'Introduction Paragraph',
+            'ident'  => 'I',
             'cp_css' => 'font-size: 1.25em',
         ],
 
@@ -48,21 +49,21 @@ return [
 Each style can have the following options:
 
 * **type (string)**  
-  The style type (`heading`, `paragraph` or `span`).
+  The type (`heading`, `paragraph` or `span`).
 * **level (string)**  
   The heading level (only applicable to `heading` styles).
 * **name (string)**  
-  The name of the style.
+  The name of the style. This will appear in the tooltip.
 * **ident (string)**  
-  A short identification string (one or two characters).
+  A short identification string (one or two characters). This will appear in the button.
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
 * **class (string, optional)**  
-  The class name that will be applied to the element when rendered on the site. The style key will be used if not set.
+  The class name that will be applied to the element when rendered on the site. The key will be used if not set.
 * **button (string, optional)**  
-  The name of the button that will be be added to the buttons list. The style key prefixed with `bts_` will be used if not set.
+  The name of the button that will be be added to the buttons list. The key prefixed with `bts_` will be used if not set.
 * **global (boolean, optional)**  
-  Make the button appear everywhere without having to add it to each Bard field.
+  Make the button appear everywhere without having to enable it in each Bard field.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
