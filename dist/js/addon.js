@@ -164,19 +164,27 @@ function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableTo
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
@@ -191,8 +199,12 @@ Statamic.booting(function () {
   });
   var styles = Statamic.$config.get('statamic-bard-textstyle.styles') || [];
 
-  var activeTypes = _.uniq(styles.map(function (style) {
-    return style.type || 'paragraph';
+  var activeTypes = _.uniq(Object.entries(styles).map(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+        key = _ref2[0],
+        style = _ref2[1];
+
+    return style.type;
   }));
 
   var css = {
@@ -200,18 +212,20 @@ Statamic.booting(function () {
     paragraph: {},
     span: {}
   };
-  styles.forEach(function (style) {
-    var type = style.type || 'paragraph';
+  Object.entries(styles).forEach(function (_ref3) {
+    var _ref4 = _slicedToArray(_ref3, 2),
+        key = _ref4[0],
+        style = _ref4[1];
 
-    if (!types.includes(type)) {
+    if (!types.includes(style.type)) {
       return;
     }
 
-    css[type][style["class"]] = style.cp_css;
+    css[style.type][style["class"] || key] = style.cp_css;
   });
 
-  var schemaMutator = function schemaMutator(schema, _ref) {
-    var extendSchema = _ref.extendSchema;
+  var schemaMutator = function schemaMutator(schema, _ref5) {
+    var extendSchema = _ref5.extendSchema;
     return extendSchema(schema, {
       attrs: {
         "class": {
@@ -224,9 +238,9 @@ Statamic.booting(function () {
         };
       },
       toDOMAttrs: function toDOMAttrs(node) {
-        var _ref2;
+        var _ref6;
 
-        return _ref2 = {}, _defineProperty(_ref2, 'data-bts-class', node.attrs["class"]), _defineProperty(_ref2, "style", css[node.type.name][node.attrs["class"]]), _ref2;
+        return _ref6 = {}, _defineProperty(_ref6, 'data-bts-class', node.attrs["class"]), _defineProperty(_ref6, "style", css[node.type.name][node.attrs["class"]]), _ref6;
       }
     });
   };
@@ -237,9 +251,9 @@ Statamic.booting(function () {
 
   if (activeTypes.includes('paragraph')) {
     mutator.schema('paragraph', schemaMutator);
-    mutator.commands('paragraph', function (commands, _ref3) {
-      var type = _ref3.type,
-          schema = _ref3.schema;
+    mutator.commands('paragraph', function (commands, _ref7) {
+      var type = _ref7.type,
+          schema = _ref7.schema;
       return _objectSpread(_objectSpread({}, commands), {}, _defineProperty({}, type.name, function (attrs) {
         return toggleBlockType(type, schema.nodes.paragraph, attrs);
       }));
@@ -255,29 +269,30 @@ Statamic.booting(function () {
       command: 'heading'
     });
 
-    buttons.splice.apply(buttons, [index + 1, 0].concat(_toConsumableArray(styles.map(function (style) {
-      var type = style.type || 'paragraph';
+    buttons.splice.apply(buttons, [index + 1, 0].concat(_toConsumableArray(Object.entries(styles).map(function (_ref8) {
+      var _ref9 = _slicedToArray(_ref8, 2),
+          key = _ref9[0],
+          style = _ref9[1];
 
-      if (!types.includes(type)) {
+      if (!types.includes(style.type)) {
         return;
       }
 
-      var _char = type.substr(0, 1).toLowerCase();
+      var _char = style.type.substr(0, 1).toLowerCase();
 
-      var ident = style.ident.toLowerCase();
-      var name = style.button || "bts_".concat(_char).concat(ident);
-      return button({
-        name: name,
+      var data = {
+        name: style.button || "bts_".concat(key),
         text: style.name,
-        command: type,
-        args: type === 'heading' ? {
-          level: style.level,
-          "class": style["class"]
+        command: style.type,
+        args: style.type === 'heading' ? {
+          "class": style["class"] || key,
+          level: style.level || 1
         } : {
-          "class": style["class"]
+          "class": style["class"] || key
         },
-        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(_char.toUpperCase(), "</span><sup>").concat(ident.toUpperCase(), "</sup></span>")
-      });
+        html: "<span><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(_char.toUpperCase(), "</span><sup>").concat(style.ident || '', "</sup></span>")
+      };
+      return style.global ? data : button(data);
     }).filter(function (button) {
       return button;
     }))));
