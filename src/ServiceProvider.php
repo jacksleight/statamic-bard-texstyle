@@ -21,16 +21,17 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
 
-        $config = config('statamic.bard_texstyle');
-        $config = $this->normalizeConfig($config);
+        $styles = config('statamic.bard_texstyle.styles', []);
+        $styles = $this->normalizeStyles($styles);
 
         Statamic::provideToScript([
-            'statamic-bard-texstyle' => $config,
+            'statamic-bard-texstyle' => [
+                'styles' => $styles,
+            ],
         ]);
 
         Augmentor::addMark(Span::class);
 
-        $styles = $config['styles'];
         $activeTypes = collect($styles)->pluck('type')->unique();
 
         $tagMutator = function ($tag, $node) {
@@ -57,15 +58,15 @@ class ServiceProvider extends AddonServiceProvider
     /**
      * Converts Bard Paragraph Style config to Bard Texstyle config.
      */
-    protected function normalizeConfig($config)
+    protected function normalizeStyles($styles)
     {
-        if (Arr::isAssoc($config['styles'])) {
-            return $config;
+        if (Arr::isAssoc($styles)) {
+            return $styles;
         }
 
-        $styles = [];
+        $normal = [];
 
-        foreach ($config['styles'] as $style) {
+        foreach ($styles as $style) {
             if (! isset($style['type'])) {
                 $style['type'] = 'paragraph';
             }
@@ -75,11 +76,9 @@ class ServiceProvider extends AddonServiceProvider
 
             $key = preg_replace('/[^\w-]/i', '_', $style['class']);
 
-            $styles[$key] = $style;
+            $normal[$key] = $style;
         }
 
-        $config['styles'] = $styles;
-
-        return $config;
+        return $normal;
     }
 }
