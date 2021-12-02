@@ -160,13 +160,7 @@ var __webpack_exports__ = {};
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_Span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/Span */ "./resources/js/marks/Span.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -188,6 +182,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
+var types = ['heading', 'paragraph', 'span'];
 var chars = {
   heading: 'H',
   paragraph: 'P',
@@ -199,7 +194,6 @@ var exts = {
   span: 'bts_span'
 };
 Statamic.booting(function () {
-  var types = ['heading', 'paragraph', 'span'];
   var _BardMutator = BardMutator,
       mutator = _BardMutator.mutator;
   Statamic.$bard.addExtension(function () {
@@ -294,11 +288,7 @@ Statamic.booting(function () {
   }
 
   Statamic.$bard.buttons(function (buttons, button) {
-    var index = _.findLastIndex(buttons, {
-      command: 'heading'
-    });
-
-    buttons.splice.apply(buttons, [index + 1, 0].concat(_toConsumableArray(Object.entries(styles).map(function (_ref8) {
+    Object.entries(styles).forEach(function (_ref8) {
       var _ref9 = _slicedToArray(_ref8, 2),
           key = _ref9[0],
           style = _ref9[1];
@@ -307,8 +297,10 @@ Statamic.booting(function () {
         return;
       }
 
-      var btn = {
-        name: style.button || "bts_".concat(key),
+      var always = style.always;
+      var name = style.button || "bts_".concat(key);
+      var data = {
+        name: name,
         text: style.name,
         command: exts[style.type],
         args: style.type === 'heading' ? {
@@ -319,10 +311,29 @@ Statamic.booting(function () {
         },
         html: "<div style=\"margin-bottom: -1px\"><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></div>")
       };
-      return style.global ? btn : button(btn);
-    }).filter(function (button) {
-      return button;
-    }))));
+      var value = always ? data : button(data);
+      var names = buttons.map(function (b) {
+        return _typeof(b) === 'object' ? b.name : b;
+      });
+
+      if (!always) {
+        buttons.splice(names.indexOf(name), 0, value);
+      } else if (always === true) {
+        buttons.push(value);
+      } else {
+        var index = (!Array.isArray(always) ? [always] : always).map(function (s) {
+          return names.indexOf(s);
+        }).find(function (s) {
+          return s !== -1;
+        });
+
+        if (typeof index !== 'undefined') {
+          buttons.splice(index + 1, 0, value);
+        } else {
+          buttons.push(value);
+        }
+      }
+    });
   });
 });
 })();

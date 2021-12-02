@@ -1,6 +1,8 @@
 import Span from './marks/Span'
 const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
+const types = ['heading', 'paragraph', 'span'];
+
 const chars = {
     heading: 'H',
     paragraph: 'P',
@@ -14,8 +16,6 @@ const exts = {
 };
 
 Statamic.booting(() => {
-
-    const types = ['heading', 'paragraph', 'span'];
 
     const { mutator } = BardMutator;
 
@@ -83,15 +83,14 @@ Statamic.booting(() => {
     }
 
     Statamic.$bard.buttons((buttons, button) => {
-
-        const index = _.findLastIndex(buttons, { command: 'heading' });
-
-        buttons.splice(index + 1, 0, ...Object.entries(styles).map(([key, style]) => {
+        Object.entries(styles).forEach(([key, style]) => {
             if (!types.includes(style.type)) {
                 return;
             }
-            const btn = {
-                name: style.button || `bts_${key}`,
+            const always = style.always;
+            const name = style.button || `bts_${key}`;
+            const data = {
+                name: name,
                 text: style.name,
                 command: exts[style.type],
                 args: style.type === 'heading'
@@ -99,9 +98,23 @@ Statamic.booting(() => {
                     : { class: style.class },
                 html: `<div style="margin-bottom: -1px"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
             };
-            return style.global ? btn : button(btn);
-        }).filter(button => button));
-
+            const value = always ? data : button(data);
+            const names = buttons.map(b => typeof b === 'object' ? b.name : b);
+            if (!always) {
+                buttons.splice(names.indexOf(name), 0, value);
+            } else if (always === true) {
+                buttons.push(value);
+            } else {
+                const index = (!Array.isArray(always) ? [always] : always)
+                    .map(s => names.indexOf(s))
+                    .find(s => s !== -1);
+                if (typeof index !== 'undefined') {
+                    buttons.splice(index + 1, 0, value);
+                } else {
+                    buttons.push(value);
+                }
+            }
+        });
     });
 
 });
