@@ -22,7 +22,7 @@ The configuration format has changed slightly, however the Bard Paragraph Style 
 
 * If you were using the `button` option:
     1. Add a `type` of `paragraph` to each style.
-    2. Add a key to each style that matches the `button` option, then remove the `button` option.
+    2. Add a key to each style that matches the `button` option and remove the `button` option.
 * If you weren't using the `button` option:
     1. Add a `type` of `paragraph` to each style.
     2. Add a key to each style, this will be the button name.
