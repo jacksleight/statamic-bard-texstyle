@@ -28,7 +28,7 @@ Statamic.booting(() => {
     Statamic.$bard.addExtension(() => new Span());
 
     const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
-    const activeTypes = _.uniq(Object.entries(styles).map(([key, style]) => style.type));
+    const activeTypes = _.uniq(Object.entries(styles).map(([, style]) => style.type));
 
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
         attrs: {
@@ -66,9 +66,8 @@ Statamic.booting(() => {
                 return;
             }
             const always = style.always;
-            const name = style.button || `bts_${key}`;
             const data = {
-                name: name,
+                name: key,
                 text: style.name,
                 command: exts[style.type],
                 args: style.type === 'heading'
@@ -77,9 +76,9 @@ Statamic.booting(() => {
                 html: `<div style="margin-bottom: -1px"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
             };
             const value = always ? data : button(data);
-            const names = buttons.map(b => typeof b === 'object' ? b.name : b);
+            const names = buttons.map(b => typeof b === 'object' && b !== null ? b.name : b);
             if (!always) {
-                buttons.splice(names.indexOf(name), 0, value);
+                buttons.splice(names.indexOf(key), 0, value);
             } else if (always === true) {
                 buttons.push(value);
             } else {
@@ -98,7 +97,7 @@ Statamic.booting(() => {
     // CSS
 
     const css = [];
-    Object.entries(styles).forEach(([key, style]) => {
+    Object.entries(styles).forEach(([, style]) => {
         if (!types.includes(style.type)) {
             return;
         }

@@ -208,7 +208,6 @@ Statamic.booting(function () {
 
   var activeTypes = _.uniq(Object.entries(styles).map(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
-        key = _ref2[0],
         style = _ref2[1];
 
     return style.type;
@@ -264,9 +263,8 @@ Statamic.booting(function () {
       }
 
       var always = style.always;
-      var name = style.button || "bts_".concat(key);
       var data = {
-        name: name,
+        name: key,
         text: style.name,
         command: exts[style.type],
         args: style.type === 'heading' ? {
@@ -279,11 +277,11 @@ Statamic.booting(function () {
       };
       var value = always ? data : button(data);
       var names = buttons.map(function (b) {
-        return _typeof(b) === 'object' ? b.name : b;
+        return _typeof(b) === 'object' && b !== null ? b.name : b;
       });
 
       if (!always) {
-        buttons.splice(names.indexOf(name), 0, value);
+        buttons.splice(names.indexOf(key), 0, value);
       } else if (always === true) {
         buttons.push(value);
       } else {
@@ -305,7 +303,6 @@ Statamic.booting(function () {
   var css = [];
   Object.entries(styles).forEach(function (_ref8) {
     var _ref9 = _slicedToArray(_ref8, 2),
-        key = _ref9[0],
         style = _ref9[1];
 
     if (!types.includes(style.type)) {
