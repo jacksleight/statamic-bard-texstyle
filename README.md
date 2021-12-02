@@ -48,7 +48,9 @@ return [
 ];
 ```
 
-Each style can have the following options:
+Each style must have a unique key, which is used to name the buttons (when you're not using the `button` option) and is also used internally.
+
+Styles can have the following options:
 
 * **type (string)**  
   The type (`heading`, `paragraph` or `span`).
@@ -65,7 +67,7 @@ Each style can have the following options:
 * **button (string, optional)**  
   The name of the button that will be be added to the buttons list. The key prefixed with `bts_` will be used if not set.
 * **global (boolean, optional)**  
-  Make the button appear everywhere without having to enable it in each Bard field. False by default.
+  Make the button appear everywhere without having to enable it in each Bard field. `false` by default.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
