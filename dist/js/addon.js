@@ -273,7 +273,7 @@ Statamic.booting(function () {
         } : {
           "class": style["class"]
         },
-        html: "<div style=\"margin-bottom: -1px\"><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></div>")
+        html: "<div style=\"margin-bottom: -0.1em\"><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></div>")
       };
       var value = always ? data : button(data);
       var names = buttons.map(function (b) {

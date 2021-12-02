@@ -73,7 +73,7 @@ Statamic.booting(() => {
                 args: style.type === 'heading'
                     ? { class: style.class, level: style.level }
                     : { class: style.class },
-                html: `<div style="margin-bottom: -1px"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
+                html: `<div style="margin-bottom: -0.1em"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
             };
             const value = always ? data : button(data);
             const names = buttons.map(b => typeof b === 'object' && b !== null ? b.name : b);
