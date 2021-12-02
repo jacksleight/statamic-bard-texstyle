@@ -66,8 +66,8 @@ Styles can have the following options:
   The CSS properties that will be added to the control panel for this style.
 * **button (string, optional)**  
   The name of the button that will be be added to the buttons list. The key prefixed with `bts_` will be used if not set.
-* **global (boolean, optional)**  
-  Make the button appear everywhere without having to enable it in each Bard field. `false` by default.
+* **always (boolean|string|array, optional)**  
+  Make the button always appear without having to enable it in each Bard field. Enabling this will override the button position. Set to `true` to add the button to the end of the toolbar. Set to the name of another button to add it after that one.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 

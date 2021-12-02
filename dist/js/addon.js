@@ -183,6 +183,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
 var types = ['heading', 'paragraph', 'span'];
+var tags = {
+  heading: 'h',
+  paragraph: 'p',
+  span: 'span'
+};
 var chars = {
   heading: 'H',
   paragraph: 'P',
@@ -209,26 +214,8 @@ Statamic.booting(function () {
     return style.type;
   }));
 
-  var map = {};
-  Object.entries(styles).forEach(function (_ref3) {
-    var _ref4 = _slicedToArray(_ref3, 2),
-        key = _ref4[0],
-        style = _ref4[1];
-
-    if (!types.includes(style.type)) {
-      return;
-    }
-
-    var name = "".concat(exts[style.type], "__").concat(style["class"]);
-    map[name] = {
-      key: key,
-      "class": style["class"],
-      css: style.cp_css
-    };
-  });
-
-  var schemaMutator = function schemaMutator(schema, _ref5) {
-    var extendSchema = _ref5.extendSchema;
+  var schemaMutator = function schemaMutator(schema, _ref3) {
+    var extendSchema = _ref3.extendSchema;
     return extendSchema(schema, {
       attrs: {
         "class": {
@@ -236,34 +223,12 @@ Statamic.booting(function () {
         }
       },
       parseDOMAttrs: function parseDOMAttrs(dom) {
-        var key = dom.getAttribute('data-bts');
-
-        if (!key) {
-          return {};
-        }
-
-        var data = Object.values(map).find(function (d) {
-          return d.key === key;
-        });
-
-        if (!data) {
-          return {};
-        }
-
         return {
-          "class": data["class"]
+          "class": dom.getAttribute('data-bard-class')
         };
       },
       toDOMAttrs: function toDOMAttrs(node) {
-        var _ref6;
-
-        var name = "".concat(node.type.name, "__").concat(node.attrs["class"]);
-
-        if (!map[name]) {
-          return {};
-        }
-
-        return _ref6 = {}, _defineProperty(_ref6, 'data-bts', map[name].key), _defineProperty(_ref6, "style", map[name].css), _ref6;
+        return _defineProperty({}, 'data-bard-class', node.attrs["class"]);
       }
     });
   };
@@ -274,9 +239,9 @@ Statamic.booting(function () {
 
   if (activeTypes.includes('paragraph')) {
     mutator.schema('paragraph', schemaMutator);
-    mutator.commands('paragraph', function (commands, _ref7) {
-      var type = _ref7.type,
-          schema = _ref7.schema;
+    mutator.commands('paragraph', function (commands, _ref5) {
+      var type = _ref5.type,
+          schema = _ref5.schema;
       return _objectSpread(_objectSpread({}, commands), {}, _defineProperty({}, type.name, function (attrs) {
         return toggleBlockType(type, schema.nodes.paragraph, attrs);
       }));
@@ -285,13 +250,14 @@ Statamic.booting(function () {
 
   if (activeTypes.includes('span')) {
     mutator.schema('bts_span', schemaMutator);
-  }
+  } // Buttons
+
 
   Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref8) {
-      var _ref9 = _slicedToArray(_ref8, 2),
-          key = _ref9[0],
-          style = _ref9[1];
+    Object.entries(styles).forEach(function (_ref6) {
+      var _ref7 = _slicedToArray(_ref6, 2),
+          key = _ref7[0],
+          style = _ref7[1];
 
       if (!types.includes(style.type)) {
         return;
@@ -334,7 +300,24 @@ Statamic.booting(function () {
         }
       }
     });
+  }); // CSS
+
+  var css = [];
+  Object.entries(styles).forEach(function (_ref8) {
+    var _ref9 = _slicedToArray(_ref8, 2),
+        key = _ref9[0],
+        style = _ref9[1];
+
+    if (!types.includes(style.type)) {
+      return;
+    }
+
+    var tag = style.type === 'heading' ? "".concat(tags[style.type]).concat(style.level) : "".concat(tags[style.type]);
+    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bard-class=\"").concat(style["class"], "\"] { ").concat(style.cp_css, " }"));
   });
+  var el = document.createElement('style');
+  el.appendChild(document.createTextNode(css.join(' ')));
+  document.head.appendChild(el);
 });
 })();
 

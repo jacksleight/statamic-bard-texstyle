@@ -3,6 +3,12 @@ const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = ['heading', 'paragraph', 'span'];
 
+const tags = {
+    heading: 'h',
+    paragraph: 'p',
+    span: 'span',
+};
+
 const chars = {
     heading: 'H',
     paragraph: 'P',
@@ -24,48 +30,18 @@ Statamic.booting(() => {
     const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
     const activeTypes = _.uniq(Object.entries(styles).map(([key, style]) => style.type));
 
-    const map = {};
-    Object.entries(styles).forEach(([key, style]) => {
-        if (!types.includes(style.type)) {
-            return;
-        }
-        const name = `${exts[style.type]}__${style.class}`;
-        map[name] = {
-            key: key,
-            class: style.class,
-            css: style.cp_css,
-        };
-    });
-
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
         attrs: {
             class: {
                 default: null,
             },
         },
-        parseDOMAttrs: dom => {
-            const key = dom.getAttribute('data-bts');
-            if (!key) {
-                return {};
-            }
-            const data = Object.values(map).find(d => d.key === key);
-            if (!data) {
-                return {};
-            }
-            return {
-                class: data.class,
-            };
-        },
-        toDOMAttrs: node => {
-            const name = `${node.type.name}__${node.attrs.class}`;
-            if (!map[name]) {
-                return {};
-            }
-            return {
-                ['data-bts']: map[name].key,
-                style: map[name].css,
-            };
-        },
+        parseDOMAttrs: dom => ({
+            class: dom.getAttribute('data-bard-class'),
+        }),
+        toDOMAttrs: node => ({
+            ['data-bard-class']: node.attrs.class,
+        }),
     });
 
     if (activeTypes.includes('heading')) {
@@ -82,6 +58,8 @@ Statamic.booting(() => {
         mutator.schema('bts_span', schemaMutator);
     }
 
+    // Buttons
+    
     Statamic.$bard.buttons((buttons, button) => {
         Object.entries(styles).forEach(([key, style]) => {
             if (!types.includes(style.type)) {
@@ -116,5 +94,21 @@ Statamic.booting(() => {
             }
         });
     });
+
+    // CSS
+
+    const css = [];
+    Object.entries(styles).forEach(([key, style]) => {
+        if (!types.includes(style.type)) {
+            return;
+        }
+        const tag = style.type === 'heading'
+            ? `${tags[style.type]}${style.level}`
+            : `${tags[style.type]}`;
+        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bard-class="${style.class}"] { ${style.cp_css} }`);
+    });
+    const el = document.createElement('style');
+    el.appendChild(document.createTextNode(css.join(' ')));
+    document.head.appendChild(el);
 
 });

@@ -71,7 +71,7 @@ class ServiceProvider extends AddonServiceProvider
                 $style['type'] = 'paragraph';
             }
             if (! isset($style['button'])) {
-                $style['global'] = true;
+                $style['always'] = ['h6', 'h5', 'h4', 'h3', 'h2', 'h1'];
             }
 
             $key = preg_replace('/[^\w-]/i', '_', $style['class']);
