@@ -16,7 +16,8 @@ I've made migration as simple as I could. Here's what you'll need to do:
 2. Uninstall `jacksleight/bard-paragraph-style`
 3. Install `jacksleight/statamic-bard-texstyle`
 4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_texstyle.php`
-5. That's (kind of) it!
+5. If you weren't using the `button` option enable the buttons in each of your Bard fields.
+6. That's (kind of) it!
 
 ## Updating the Configuration (optional)
 
