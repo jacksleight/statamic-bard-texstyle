@@ -12,7 +12,7 @@ This addon supersedes my previous Bard Paragraph Style addon, it offers everythi
 I've made migration as simple as I could. Here's what you'll need to do:
 
 1. Make sure you're running Statamic 3.2.24 or higher
-    1. If you're also using my Bard Mutator addon make sure you're running 1.0.1 or higher
+    1. If you're also using my Bard Mutator addon make sure you're running 1.0.2 or higher
 2. Uninstall `jacksleight/bard-paragraph-style`
 3. Install `jacksleight/statamic-bard-texstyle`
 4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_texstyle.php`
