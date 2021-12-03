@@ -7,20 +7,12 @@
         v-tooltip="button.text"
         @click="editor.commands[button.command](button.args)"
     >
-        <div class="bts-button">
-            <span class="bts-button-char" v-text="char"></span><sup class="bts-button-ident" v-text="ident"></sup>
-        </div>
+        <div class="bts-button"><span class="bts-button-char" v-text="icon[0]"></span><sup class="bts-button-ident" v-text="icon[1]"></sup></div>
     </button>
 
 </template>
 
 <script>
-
-const chars = {
-    heading: 'H',
-    paragraph: 'P',
-    span: 'T',
-};
 
 export default {
     mixins: [BardToolbarButton],
@@ -28,8 +20,7 @@ export default {
         const style = this.button.bts_style;
         return {
             style: style,
-            char: chars[style.type],
-            ident: style.ident || '',
+            icon: style.icon,
         };
     },
     methods: {

@@ -26,21 +26,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-var chars = {
-  heading: 'H',
-  paragraph: 'P',
-  span: 'T'
-};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [BardToolbarButton],
   data: function data() {
     var style = this.button.bts_style;
     return {
       style: style,
-      "char": chars[style.type],
-      ident: style.ident || ''
+      icon: style.icon
     };
   },
   methods: {
@@ -382,11 +374,11 @@ var render = function () {
       _c("div", { staticClass: "bts-button" }, [
         _c("span", {
           staticClass: "bts-button-char",
-          domProps: { textContent: _vm._s(_vm.char) },
+          domProps: { textContent: _vm._s(_vm.icon[0]) },
         }),
         _c("sup", {
           staticClass: "bts-button-ident",
-          domProps: { textContent: _vm._s(_vm.ident) },
+          domProps: { textContent: _vm._s(_vm.icon[1]) },
         }),
       ]),
     ]
@@ -913,6 +905,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
 var types = ['heading', 'paragraph', 'span'];
+var chars = {
+  heading: 'H',
+  paragraph: 'P',
+  span: 'T'
+};
 var tags = {
   heading: 'h',
   paragraph: 'p',
@@ -987,6 +984,7 @@ Statamic.booting(function () {
         return;
       }
 
+      var icon = [chars[style.type], style.ident || ''];
       var data = {
         name: key,
         text: style.name,
@@ -998,7 +996,10 @@ Statamic.booting(function () {
           "class": style["class"]
         },
         component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_1__.default,
-        bts_style: style
+        html: "<div class=\"bts-button\"><span class=\"bts-button-char\">".concat(icon[0], "</span><sup class=\"bts-button-ident\">").concat(icon[1], "</sup></div>"),
+        bts_style: _objectSpread(_objectSpread({}, style), {}, {
+          icon: icon
+        })
       };
       buttons.splice(buttons.indexOf(key), 0, button(data));
     });

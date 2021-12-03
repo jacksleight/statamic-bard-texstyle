@@ -4,6 +4,12 @@ const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = ['heading', 'paragraph', 'span'];
 
+const chars = {
+    heading: 'H',
+    paragraph: 'P',
+    span: 'T',
+};
+
 const tags = {
     heading: 'h',
     paragraph: 'p',
@@ -60,6 +66,7 @@ Statamic.booting(() => {
             if (!types.includes(style.type)) {
                 return;
             }
+            const icon = [chars[style.type], style.ident || ''];
             const data = {
                 name: key,
                 text: style.name,
@@ -68,7 +75,8 @@ Statamic.booting(() => {
                     ? { class: style.class, level: style.level }
                     : { class: style.class },
                 component: ToolbarButton,
-                bts_style: style,
+                html: `<div class="bts-button"><span class="bts-button-char">${icon[0]}</span><sup class="bts-button-ident">${icon[1]}</sup></div>`,
+                bts_style: { ...style, icon },
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
         });
