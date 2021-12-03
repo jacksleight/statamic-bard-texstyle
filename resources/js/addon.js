@@ -37,10 +37,10 @@ Statamic.booting(() => {
             },
         },
         parseDOMAttrs: dom => ({
-            class: dom.getAttribute('data-bard-class'),
+            class: dom.getAttribute('data-ba-class'),
         }),
         toDOMAttrs: node => ({
-            ['data-bard-class']: node.attrs.class,
+            ['data-ba-class']: node.attrs.class,
         }),
     });
 
@@ -88,7 +88,7 @@ Statamic.booting(() => {
         const tag = style.type === 'heading'
             ? `${tags[style.type]}${style.level}`
             : `${tags[style.type]}`;
-        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bard-class="${style.class}"] { ${style.cp_css} }`);
+        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-ba-class="${style.class}"] { ${style.cp_css} }`);
     });
     const el = document.createElement('style');
     el.appendChild(document.createTextNode(css.join(' ')));
