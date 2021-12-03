@@ -948,11 +948,11 @@ Statamic.booting(function () {
       },
       parseDOMAttrs: function parseDOMAttrs(dom) {
         return {
-          "class": dom.getAttribute('data-ba-class')
+          "class": dom.getAttribute('data-bard-class')
         };
       },
       toDOMAttrs: function toDOMAttrs(node) {
-        return _defineProperty({}, 'data-ba-class', node.attrs["class"]);
+        return _defineProperty({}, 'data-bard-class', node.attrs["class"]);
       }
     });
   };
@@ -1014,7 +1014,7 @@ Statamic.booting(function () {
     }
 
     var tag = style.type === 'heading' ? "".concat(tags[style.type]).concat(style.level) : "".concat(tags[style.type]);
-    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-ba-class=\"").concat(style["class"], "\"] { ").concat(style.cp_css, " }"));
+    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bard-class=\"").concat(style["class"], "\"] { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
   el.appendChild(document.createTextNode(css.join(' ')));
