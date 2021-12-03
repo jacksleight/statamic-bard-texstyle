@@ -48,9 +48,7 @@ return [
 ];
 ```
 
-Each style must have a unique key, which is used to name the buttons (when you're not using the `button` option) and is also used internally.
-
-Styles can have the following options:
+Each style must have a key which is used as the button name. Styles can have the following options:
 
 * **type (string)**  
   The type (`heading`, `paragraph` or `span`).
