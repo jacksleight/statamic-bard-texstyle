@@ -1,4 +1,5 @@
 import Span from './marks/Span'
+import ToolbarButton from "./components/ToolbarButton.vue";
 const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = ['heading', 'paragraph', 'span'];
@@ -9,11 +10,7 @@ const tags = {
     span: 'span',
 };
 
-const chars = {
-    heading: 'H',
-    paragraph: 'P',
-    span: 'T',
-};
+
 
 const exts = {
     heading: 'heading',
@@ -72,7 +69,8 @@ Statamic.booting(() => {
                 args: style.type === 'heading'
                     ? { class: style.class, level: style.level }
                     : { class: style.class },
-                html: `<div style="margin-bottom: -0.1em"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
+                component: ToolbarButton,
+                bts_style: style,
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
         });
