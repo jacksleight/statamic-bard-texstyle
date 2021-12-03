@@ -18,9 +18,9 @@ I've made migration as simple as I could. Here's what you'll need to do:
 4. Move and rename `config/bard-paragraph-style.php` to `config/statamic/bard_texstyle.php`
 5. That's (kind of) it!
 
-## Updating the Configuration
+## Updating the Configuration (optional)
 
-The configuration format has changed slightly, however the Bard Paragraph Style format is still supported. I recommend updating your configuration to the new format so you can use the new features and as support may be removed in the future.
+The configuration format has changed slightly, however the Bard Paragraph Style format is still supported. I recommend updating your configuration so you can use the new features. Support may also be removed in the future.
 
 The most important change is that the `styles` array is now associative, so you'll need to add keys to each item. These keys are the button names and will be used instead of the `button` option.
 
@@ -35,7 +35,7 @@ The changes you'll need to make are:
     2. Add a `type` option with a value of `paragraph` to each style.
     3. Enable the buttons in each of your Bard fields.
 
-For example, this Bard Paragraph Style config:
+For example, this Bard Paragraph Style configuration:
 
 ```php
 'styles' => [
@@ -49,7 +49,7 @@ For example, this Bard Paragraph Style config:
 ],
 ```
 
-Should be changed to:
+Should be changed to this Bard Texstyle configuration:
 
 ```php
 'styles' => [
