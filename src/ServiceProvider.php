@@ -69,7 +69,7 @@ class ServiceProvider extends AddonServiceProvider
         foreach ($styles as $style) {
             $key = isset($style['button'])
                 ? $style['button']
-                : preg_replace('/[^\w-]/i', '_', $style['class']);
+                : ('bts_'.preg_replace('/[^\w-]/i', '_', $style['class']));
             $style['type'] = 'paragraph';
             $normal[$key] = $style;
         }
