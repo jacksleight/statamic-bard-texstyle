@@ -67,17 +67,10 @@ class ServiceProvider extends AddonServiceProvider
         $normal = [];
 
         foreach ($styles as $style) {
-            if (! isset($style['type'])) {
-                $style['type'] = 'paragraph';
-            }
-            if (! isset($style['button'])) {
-                $key = preg_replace('/[^\w-]/i', '_', $style['class']);
-                $style['always'] = ['h6', 'h5', 'h4', 'h3', 'h2', 'h1'];
-            } else {
-                $key = $style['button'];
-                unset($style['button']);
-            }
-
+            $key = isset($style['button'])
+                ? $style['button']
+                : preg_replace('/[^\w-]/i', '_', $style['class']);
+            $style['type'] = 'paragraph';
             $normal[$key] = $style;
         }
 

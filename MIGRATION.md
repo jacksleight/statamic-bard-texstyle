@@ -26,6 +26,5 @@ The configuration format has changed slightly, however the Bard Paragraph Style 
 * If you weren't using the `button` option:
     1. Add a `type` of `paragraph` to each style.
     2. Add a key to each style, this will be the button name.
-    3. Add the `always` option to each style.
 
 Check the [configuration documentation](https://github.com/jacksleight/statamic-bard-texstyle#configuration) for further details.

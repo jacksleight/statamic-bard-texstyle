@@ -65,7 +65,6 @@ Statamic.booting(() => {
             if (!types.includes(style.type)) {
                 return;
             }
-            const always = style.always;
             const data = {
                 name: key,
                 text: style.name,
@@ -75,22 +74,7 @@ Statamic.booting(() => {
                     : { class: style.class },
                 html: `<div style="margin-bottom: -0.1em"><span style="font-size: 21px; font-family: Times, serif;">${chars[style.type]}</span><sup>${style.ident || ''}</sup></div>`,
             };
-            const value = always ? data : button(data);
-            const names = buttons.map(b => typeof b === 'object' && b !== null ? b.name : b);
-            if (!always) {
-                buttons.splice(names.indexOf(key), 0, value);
-            } else if (always === true) {
-                buttons.push(value);
-            } else {
-                const index = (!Array.isArray(always) ? [always] : always)
-                    .map(s => names.indexOf(s))
-                    .find(s => s !== -1);
-                if (typeof index !== 'undefined') {
-                    buttons.splice(index + 1, 0, value);
-                } else {
-                    buttons.push(value);
-                }
-            }
+            buttons.splice(buttons.indexOf(key), 0, button(data));
         });
     });
 

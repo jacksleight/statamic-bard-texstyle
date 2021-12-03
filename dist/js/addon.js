@@ -160,8 +160,6 @@ var __webpack_exports__ = {};
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_Span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/Span */ "./resources/js/marks/Span.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -262,7 +260,6 @@ Statamic.booting(function () {
         return;
       }
 
-      var always = style.always;
       var data = {
         name: key,
         text: style.name,
@@ -275,28 +272,7 @@ Statamic.booting(function () {
         },
         html: "<div style=\"margin-bottom: -0.1em\"><span style=\"font-size: 21px; font-family: Times, serif;\">".concat(chars[style.type], "</span><sup>").concat(style.ident || '', "</sup></div>")
       };
-      var value = always ? data : button(data);
-      var names = buttons.map(function (b) {
-        return _typeof(b) === 'object' && b !== null ? b.name : b;
-      });
-
-      if (!always) {
-        buttons.splice(names.indexOf(key), 0, value);
-      } else if (always === true) {
-        buttons.push(value);
-      } else {
-        var index = (!Array.isArray(always) ? [always] : always).map(function (s) {
-          return names.indexOf(s);
-        }).find(function (s) {
-          return s !== -1;
-        });
-
-        if (typeof index !== 'undefined') {
-          buttons.splice(index + 1, 0, value);
-        } else {
-          buttons.push(value);
-        }
-      }
+      buttons.splice(buttons.indexOf(key), 0, button(data));
     });
   }); // CSS
 

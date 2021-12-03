@@ -64,8 +64,6 @@ Styles can have the following options:
   The class name that will be applied to the element when rendered on the site.
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
-* **always (boolean|string|array, optional)**  
-  Make the button always appear without having to enable it in each Bard field. Enabling this will override the button position. Set to `true` to add the button to the end of the toolbar. Set to the name of another button to add it after that one.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
