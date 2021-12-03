@@ -39,6 +39,7 @@ For example, this Bard Paragraph Style configuration:
 
 ```php
 'styles' => [
+
     [
         'name'      => 'Introduction',
         'ident'     => 'I',
@@ -46,6 +47,7 @@ For example, this Bard Paragraph Style configuration:
         'button'    => 'introduction',
         'cp_css'    => 'font-size: 1.25em',
     ],
+
 ],
 ```
 
@@ -53,6 +55,7 @@ Should be changed to this Bard Texstyle configuration:
 
 ```php
 'styles' => [
+
     'introduction' => [
         'type'      => 'paragraph',
         'name'      => 'Introduction',
@@ -60,5 +63,6 @@ Should be changed to this Bard Texstyle configuration:
         'class'     => 'intro',
         'cp_css'    => 'font-size: 1.25em',
     ],
+
 ],
 ```
