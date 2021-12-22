@@ -37,8 +37,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     isActive: function isActive() {
+      var _this$button$bts_conf = this.button.bts_config,
+          store = _this$button$bts_conf.store,
+          attr = _this$button$bts_conf.attr;
+
       if (this.style.type === 'span') {
-        return this.editor.getMarkAttrs(this.button.command)["class"] === this.style["class"];
+        return this.editor.getMarkAttrs(this.button.command)[attr] === this.style[store];
       } else {
         return this.active;
       }
@@ -926,6 +930,8 @@ Statamic.booting(function () {
   Statamic.$bard.addExtension(function () {
     return new _marks_Span__WEBPACK_IMPORTED_MODULE_0__.default();
   });
+  var store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
+  var attr = store === 'class' ? 'class' : 'bts_key';
   var styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
 
   var activeTypes = _.uniq(Object.entries(styles).map(function (_ref) {
@@ -938,18 +944,14 @@ Statamic.booting(function () {
   var schemaMutator = function schemaMutator(schema, _ref3) {
     var extendSchema = _ref3.extendSchema;
     return extendSchema(schema, {
-      attrs: {
-        "class": {
-          "default": null
-        }
-      },
+      attrs: _defineProperty({}, attr, {
+        "default": null
+      }),
       parseDOMAttrs: function parseDOMAttrs(dom) {
-        return {
-          "class": dom.getAttribute('data-bard-class')
-        };
+        return _defineProperty({}, attr, dom.getAttribute("data-bard-".concat(attr)));
       },
       toDOMAttrs: function toDOMAttrs(node) {
-        return _defineProperty({}, 'data-bard-class', node.attrs["class"]);
+        return _defineProperty({}, "data-bard-".concat(attr), node.attrs[attr]);
       }
     });
   };
@@ -960,9 +962,9 @@ Statamic.booting(function () {
 
   if (activeTypes.includes('paragraph')) {
     mutator.schema('paragraph', schemaMutator);
-    mutator.commands('paragraph', function (commands, _ref5) {
-      var type = _ref5.type,
-          schema = _ref5.schema;
+    mutator.commands('paragraph', function (commands, _ref6) {
+      var type = _ref6.type,
+          schema = _ref6.schema;
       return _objectSpread(_objectSpread({}, commands), {}, _defineProperty({}, type.name, function (attrs) {
         return toggleBlockType(type, schema.nodes.paragraph, attrs);
       }));
@@ -975,10 +977,12 @@ Statamic.booting(function () {
 
 
   Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref6) {
-      var _ref7 = _slicedToArray(_ref6, 2),
-          key = _ref7[0],
-          style = _ref7[1];
+    Object.entries(styles).forEach(function (_ref7) {
+      var _ref9;
+
+      var _ref8 = _slicedToArray(_ref7, 2),
+          key = _ref8[0],
+          style = _ref8[1];
 
       if (!types.includes(style.type)) {
         return;
@@ -989,14 +993,13 @@ Statamic.booting(function () {
         name: key,
         text: style.name,
         command: exts[style.type],
-        args: style.type === 'heading' ? {
-          "class": style["class"],
-          level: style.level
-        } : {
-          "class": style["class"]
-        },
+        args: style.type === 'heading' ? (_ref9 = {}, _defineProperty(_ref9, attr, style[store]), _defineProperty(_ref9, "level", style.level), _ref9) : _defineProperty({}, attr, style[store]),
         component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_1__.default,
         html: "<div class=\"bts-button\"><span class=\"bts-button-char\">".concat(icon[0], "</span><sup class=\"bts-button-ident\">").concat(icon[1], "</sup></div>"),
+        bts_config: {
+          store: store,
+          attr: attr
+        },
         bts_style: _objectSpread(_objectSpread({}, style), {}, {
           icon: icon
         })
@@ -1006,16 +1009,16 @@ Statamic.booting(function () {
   }); // CSS
 
   var css = [];
-  Object.entries(styles).forEach(function (_ref8) {
-    var _ref9 = _slicedToArray(_ref8, 2),
-        style = _ref9[1];
+  Object.entries(styles).forEach(function (_ref11) {
+    var _ref12 = _slicedToArray(_ref11, 2),
+        style = _ref12[1];
 
     if (!types.includes(style.type)) {
       return;
     }
 
     var tag = style.type === 'heading' ? "".concat(tags[style.type]).concat(style.level) : "".concat(tags[style.type]);
-    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bard-class=\"").concat(style["class"], "\"] { ").concat(style.cp_css, " }"));
+    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bard-").concat(attr, "=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
   el.appendChild(document.createTextNode(css.join(' ')));

@@ -2,6 +2,15 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Styles
+    |--------------------------------------------------------------------------
+    |
+    | List of toggle-able styles.
+    |
+    */
+
     'styles' => [
 
         // 'hero' => [
@@ -30,5 +39,17 @@ return [
         // ],
 
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store
+    |--------------------------------------------------------------------------
+    |
+    | By default the class values are saved to your content. If you would prefer
+    | to save the style keys instead you can change this option to "key".
+    |
+    */
+
+    'store' => 'class',
 
 ];
