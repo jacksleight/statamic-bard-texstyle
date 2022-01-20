@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1 (2022-01-20)
+## 0.2.0 (2022-01-20)
 
 - [new] Ability to choose whether classes or keys are stored in the content
 
