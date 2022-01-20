@@ -63,7 +63,7 @@ When using heading styles the matching `h*` button must also be enabled in the B
 
 ### Configuring the Stored Values
 
-By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes without having to update all your content, but it does make you content dependant on the Bard Texstyle configuration.
+By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
 
 ```php
 'store' => 'key',
