@@ -47,7 +47,7 @@ class ServiceProvider extends AddonServiceProvider
                 }
             } else {
                 if (isset($node->attrs->bts_key)) {
-                    $tag[0]['attrs']['class'] = $styles[$node->attrs->bts_key]['class'];
+                    $tag[0]['attrs']['class'] = $styles[$node->attrs->bts_key]['class'] ?? null;
                 }
             }
 

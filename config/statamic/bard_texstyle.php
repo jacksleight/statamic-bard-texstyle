@@ -7,7 +7,7 @@ return [
     | Styles
     |--------------------------------------------------------------------------
     |
-    | List of toggle-able styles.
+    | List of toggleable styles.
     |
     */
 
@@ -45,7 +45,7 @@ return [
     | Store
     |--------------------------------------------------------------------------
     |
-    | By default the class values are saved to your content. If you would prefer
+    | By default the class names are saved to your content. If you would prefer
     | to save the style keys instead you can change this option to "key".
     |
     */
