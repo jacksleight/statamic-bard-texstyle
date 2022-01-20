@@ -25,8 +25,9 @@ export default {
     },
     methods: {
         isActive() {
+            const { store, attr } = this.button.bts_config;
             if (this.style.type === 'span') {
-                return this.editor.getMarkAttrs(this.button.command).class === this.style.class;
+                return this.editor.getMarkAttrs(this.button.command)[attr] === this.style[store];
             } else {
                 return this.active;
             }

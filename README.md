@@ -31,21 +31,17 @@ php please vendor:publish --tag=statamic-bard-texstyle-config
 Open `config/statamic/bard_texstyle.php` and add your styles:
 
 ```php
-return [
+'styles' => [
 
-    'styles' => [
-
-        'intro' => [
-            'type'   => 'paragraph',
-            'name'   => 'Introduction',
-            'ident'  => 'I',
-            'class'  => 'introduction',
-            'cp_css' => 'font-size: 1.25em',
-        ],
-
+    'intro' => [
+        'type'   => 'paragraph',
+        'name'   => 'Introduction',
+        'ident'  => 'I',
+        'class'  => 'introduction',
+        'cp_css' => 'font-size: 1.25em',
     ],
 
-];
+],
 ```
 
 Each style must have a key which is used as the button name. Styles can have the following options:
@@ -64,6 +60,14 @@ Each style must have a key which is used as the button name. Styles can have the
   The CSS properties that will be added to the control panel for this style.
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
+
+### Configuring the Stored Values
+
+By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
+
+```php
+'store' => 'key',
+```
 
 ## Compatibility
 

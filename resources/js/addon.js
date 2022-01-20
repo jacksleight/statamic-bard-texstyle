@@ -28,20 +28,23 @@ Statamic.booting(() => {
 
     Statamic.$bard.addExtension(() => new Span());
 
+    const store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
+    const attr  = store === 'class' ? 'class' : 'bts_key';
+
     const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
     const activeTypes = _.uniq(Object.entries(styles).map(([, style]) => style.type));
 
     const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
         attrs: {
-            class: {
+            [attr]: {
                 default: null,
             },
         },
         parseDOMAttrs: dom => ({
-            class: dom.getAttribute('data-bard-class'),
+            [attr]: dom.getAttribute(`data-bard-${attr}`),
         }),
         toDOMAttrs: node => ({
-            ['data-bard-class']: node.attrs.class,
+            [`data-bard-${attr}`]: node.attrs[attr],
         }),
     });
 
@@ -72,10 +75,11 @@ Statamic.booting(() => {
                 text: style.name,
                 command: exts[style.type],
                 args: style.type === 'heading'
-                    ? { class: style.class, level: style.level }
-                    : { class: style.class },
+                    ? { [attr]: style[store], level: style.level }
+                    : { [attr]: style[store] },
                 component: ToolbarButton,
                 html: `<div class="bts-button"><span class="bts-button-char">${icon[0]}</span><sup class="bts-button-ident">${icon[1]}</sup></div>`,
+                bts_config: { store, attr },
                 bts_style: { ...style, icon },
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
@@ -92,7 +96,7 @@ Statamic.booting(() => {
         const tag = style.type === 'heading'
             ? `${tags[style.type]}${style.level}`
             : `${tags[style.type]}`;
-        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bard-class="${style.class}"] { ${style.cp_css} }`);
+        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bard-${attr}="${style[store]}"] { ${style.cp_css} }`);
     });
     const el = document.createElement('style');
     el.appendChild(document.createTextNode(css.join(' ')));

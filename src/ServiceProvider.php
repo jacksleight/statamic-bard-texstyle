@@ -21,12 +21,18 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
 
+        $store = config('statamic.bard_texstyle.store', 'class');
+
         $styles = config('statamic.bard_texstyle.styles', []);
         $styles = $this->normalizeStyles($styles);
+        array_walk($styles, function (&$style, $key) {
+            $style['key'] = $key;
+        });
 
         Statamic::provideToScript([
             'statamic-bard-texstyle' => [
                 'styles' => $styles,
+                'store'  => $store,
             ],
         ]);
 
@@ -34,9 +40,15 @@ class ServiceProvider extends AddonServiceProvider
 
         $activeTypes = collect($styles)->pluck('type')->unique();
 
-        $tagMutator = function ($tag, $node) {
-            if (isset($node->attrs->class)) {
-                $tag[0]['attrs']['class'] = $node->attrs->class;
+        $tagMutator = function ($tag, $node) use ($store, $styles) {
+            if ($store === 'class') {
+                if (isset($node->attrs->class)) {
+                    $tag[0]['attrs']['class'] = $node->attrs->class;
+                }
+            } else {
+                if (isset($node->attrs->bts_key)) {
+                    $tag[0]['attrs']['class'] = $styles[$node->attrs->bts_key]['class'] ?? null;
+                }
             }
 
             return $tag;
