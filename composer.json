@@ -19,5 +19,10 @@
     "require": {
         "statamic/cms": "^3.2.24",
         "jacksleight/statamic-bard-mutator": "^1.0.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
     }
 }
