@@ -59,6 +59,10 @@ Each style must have a key which is used as the button name. Styles can have the
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
 
+### Enabling the Buttons
+
+You can enable the buttons in any Bard field, either through the blueprint/fieldset editor or by adding them to the buttons list in the YAML file directly.
+
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
 ### Configuring the Stored Values
