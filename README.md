@@ -65,6 +65,21 @@ You can enable the buttons in any Bard field, either through the blueprint/field
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
+### Configuring Default Classes
+
+If you'd like to apply default classes to elements with no style set you can them in the `default_classes` option:
+
+```php
+'default_classes' => [
+    'heading' => [
+        1 => 'head-1',
+        2 => 'head-2',
+        // ...
+    ],
+    'paragraph' => 'para',
+],
+```
+
 ### Configuring the Stored Values
 
 By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
