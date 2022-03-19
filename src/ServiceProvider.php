@@ -38,6 +38,8 @@ class ServiceProvider extends AddonServiceProvider
             ],
         ]);
 
+        Augmentor::addMark(Span::class);
+
         $coreTypes = collect($styles)
             ->pluck('type')
             ->map(fn ($v) => $v === 'span' ? 'bts_span' : $v)
@@ -45,8 +47,6 @@ class ServiceProvider extends AddonServiceProvider
         $allTypes = $coreTypes
             ->merge(collect($defaults)->keys())
             ->unique();
-
-        Augmentor::addMark(Span::class);
 
         $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
             $default = $node->type === 'heading'
