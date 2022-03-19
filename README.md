@@ -67,7 +67,7 @@ When using heading styles the matching `h*` button must also be enabled in the B
 
 ### Configuring Default Classes
 
-If you'd like to apply default classes to elements with no style set you can them in the `default_classes` option:
+If you'd like to apply default classes to elements with no style set you can use the `default_classes` option:
 
 ```php
 'default_classes' => [
