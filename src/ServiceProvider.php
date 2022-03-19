@@ -38,20 +38,32 @@ class ServiceProvider extends AddonServiceProvider
             ],
         ]);
 
+        $coreTypes = collect($styles)
+            ->pluck('type')
+            ->map(fn ($v) => $v === 'span' ? 'bts_span' : $v)
+            ->unique();
+        $allTypes = $coreTypes
+            ->merge(collect($defaults)->keys())
+            ->unique();
+
         Augmentor::addMark(Span::class);
 
-        $tagMutator = function ($tag, $node) use ($store, $styles, $defaults) {
+        $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
             $default = $node->type === 'heading'
                 ? ($defaults[$node->type][$node->attrs->level] ?? null)
                 : ($defaults[$node->type] ?? null);
-            if ($store === 'class') {
-                $class = isset($node->attrs->class)
-                    ? $node->attrs->class
-                    : $default;
+            if ($coreTypes->contains($node->type)) {
+                if ($store === 'class') {
+                    $class = isset($node->attrs->class)
+                        ? $node->attrs->class
+                        : $default;
+                } else {
+                    $class = isset($node->attrs->bts_key)
+                        ? ($styles[$node->attrs->bts_key]['class'] ?? null)
+                        : $default;
+                }
             } else {
-                $class = isset($node->attrs->bts_key)
-                    ? ($styles[$node->attrs->bts_key]['class'] ?? null)
-                    : $default;
+                $class = $default;
             }
             if (isset($class)) {
                 $tag[0]['attrs']['class'] = $class;
@@ -60,13 +72,8 @@ class ServiceProvider extends AddonServiceProvider
             return $tag;
         };
 
-        $activeNodes = collect($styles)
-            ->pluck('type')
-            ->merge(collect($defaults)->keys())
-            ->unique()
-            ->map(fn ($v) => $v === 'span' ? 'bts_span' : $v);
-        foreach ($activeNodes as $activeNode) {
-            Mutator::tag($activeNode, $tagMutator);
+        foreach ($allTypes as $type) {
+            Mutator::tag($type, $tagMutator);
         }
 
         return $this;

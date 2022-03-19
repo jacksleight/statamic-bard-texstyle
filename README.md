@@ -80,6 +80,8 @@ If you'd like to apply default classes to elements with no style set you can the
 ],
 ```
 
+You may add default classes for any of the [nodes and marks supported by Bard Mutator](https://github.com/jacksleight/statamic-bard-mutator#avaliable-nodes--marks).
+
 ### Configuring the Stored Values
 
 By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
