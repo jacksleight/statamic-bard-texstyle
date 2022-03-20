@@ -67,7 +67,7 @@ When using heading styles the matching `h*` button must also be enabled in the B
 
 ### Configuring Default Classes
 
-If you'd like to apply default classes to elements with no style set you can use the `default_classes` option:
+You can use the `default_classes` option to apply classes to elements that have no style set:
 
 ```php
 'default_classes' => [
@@ -80,7 +80,7 @@ If you'd like to apply default classes to elements with no style set you can use
 ],
 ```
 
-You may add default classes for any of the [nodes and marks supported by Bard Mutator](https://github.com/jacksleight/statamic-bard-mutator#avaliable-nodes--marks).
+You can add default classes for any of the [nodes and marks supported by Bard Mutator](https://github.com/jacksleight/statamic-bard-mutator#avaliable-nodes--marks).
 
 ### Configuring the Stored Values
 
