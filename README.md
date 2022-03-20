@@ -65,7 +65,7 @@ You can enable the buttons in any Bard field, either through the blueprint/field
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
-### Configuring Default Classes
+### Default Classes
 
 You can use the `default_classes` option to apply classes to elements that have no style set:
 
@@ -82,7 +82,7 @@ You can use the `default_classes` option to apply classes to elements that have 
 
 You can add default classes for any of the [nodes and marks supported by Bard Mutator](https://github.com/jacksleight/statamic-bard-mutator#avaliable-nodes--marks).
 
-### Configuring the Stored Values
+### Stored Values
 
 By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
 
