@@ -23,6 +23,8 @@ class ServiceProvider extends AddonServiceProvider
 
         $store = config('statamic.bard_texstyle.store', 'class');
 
+        $defaults = config('statamic.bard_texstyle.default_classes', []);
+
         $styles = config('statamic.bard_texstyle.styles', []);
         $styles = $this->normalizeStyles($styles);
         array_walk($styles, function (&$style, $key) {
@@ -38,30 +40,40 @@ class ServiceProvider extends AddonServiceProvider
 
         Augmentor::addMark(Span::class);
 
-        $activeTypes = collect($styles)->pluck('type')->unique();
+        $coreTypes = collect($styles)
+            ->pluck('type')
+            ->map(fn ($v) => $v === 'span' ? 'bts_span' : $v)
+            ->unique();
+        $allTypes = $coreTypes
+            ->merge(collect($defaults)->keys())
+            ->unique();
 
-        $tagMutator = function ($tag, $node) use ($store, $styles) {
-            if ($store === 'class') {
-                if (isset($node->attrs->class)) {
-                    $tag[0]['attrs']['class'] = $node->attrs->class;
+        $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
+            $default = $node->type === 'heading'
+                ? ($defaults[$node->type][$node->attrs->level] ?? null)
+                : ($defaults[$node->type] ?? null);
+            if ($coreTypes->contains($node->type)) {
+                if ($store === 'class') {
+                    $class = isset($node->attrs->class)
+                        ? $node->attrs->class
+                        : $default;
+                } else {
+                    $class = isset($node->attrs->bts_key)
+                        ? ($styles[$node->attrs->bts_key]['class'] ?? null)
+                        : $default;
                 }
             } else {
-                if (isset($node->attrs->bts_key)) {
-                    $tag[0]['attrs']['class'] = $styles[$node->attrs->bts_key]['class'] ?? null;
-                }
+                $class = $default;
+            }
+            if (isset($class)) {
+                $tag[0]['attrs']['class'] = $class;
             }
 
             return $tag;
         };
 
-        if ($activeTypes->contains('heading')) {
-            Mutator::node('heading', $tagMutator);
-        }
-        if ($activeTypes->contains('paragraph')) {
-            Mutator::node('paragraph', $tagMutator);
-        }
-        if ($activeTypes->contains('span')) {
-            Mutator::node('bts_span', $tagMutator);
+        foreach ($allTypes as $type) {
+            Mutator::tag($type, $tagMutator);
         }
 
         return $this;
