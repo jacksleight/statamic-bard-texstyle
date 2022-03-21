@@ -45,7 +45,7 @@ return [
     | Default Classes
     |--------------------------------------------------------------------------
     |
-    | Default classes that will be applied to elements that have no style set.
+    | Default classes that will be applied to elements with no style set.
     |
     */
 
