@@ -8,7 +8,7 @@
 
 <!-- /statamic:hide -->
 
-> **FYI:** This addon supersedes [Bard Paragraph Style](https://statamic.com/addons/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md), I’ve made it as simple as I could.
+> **FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md), I’ve made it as simple as I could.
 
 This Statamic addon gives you the ability to add custom heading, paragraph and inline (span) text styles to the Bard fieldtype.
 
@@ -65,7 +65,24 @@ You can enable the buttons in any Bard field, either through the blueprint/field
 
 When using heading styles the matching `h*` button must also be enabled in the Bard field.
 
-### Configuring the Stored Values
+### Default Classes
+
+You can use the `default_classes` option to apply classes to elements that have no style set:
+
+```php
+'default_classes' => [
+    'heading' => [
+        1 => 'head-1',
+        2 => 'head-2',
+        // ...
+    ],
+    'paragraph' => 'para',
+],
+```
+
+You can add default classes for any of the [nodes and marks supported by Bard Mutator](https://github.com/jacksleight/statamic-bard-mutator#avaliable-nodes--marks).
+
+### Stored Values
 
 By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0 (2022-03-21)
+
+- [new] Ability to add default classes to elements with no style set
+
 ## 0.2.0 (2022-01-20)
 
 - [new] Ability to choose whether classes or keys are stored in the content
