@@ -52,6 +52,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/commands.js":
+/*!**********************************!*\
+  !*** ./resources/js/commands.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "toggleWrap": () => (/* binding */ toggleWrap)
+/* harmony export */ });
+var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
+    wrapIn = _Statamic$$bard$tipta.wrapIn,
+    lift = _Statamic$$bard$tipta.lift;
+var nodeIsActive = Statamic.$bard.tiptap.utils.nodeIsActive;
+function toggleWrap(type) {
+  var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return function (state, dispatch, view) {
+    var isActive = nodeIsActive(state, type, attrs);
+
+    if (isActive) {
+      return lift(state, dispatch);
+    }
+
+    return wrapIn(type, attrs)(state, dispatch, view);
+  };
+}
+
+/***/ }),
+
 /***/ "./resources/js/marks/Span.js":
 /*!************************************!*\
   !*** ./resources/js/marks/Span.js ***!
@@ -128,8 +157,8 @@ var BaseSpan = /*#__PURE__*/function (_Mark) {
   return BaseSpan;
 }(Mark);
 
-var Span = /*#__PURE__*/function (_BardMutator$mutatesN) {
-  _inherits(Span, _BardMutator$mutatesN);
+var Span = /*#__PURE__*/function (_BardMutator$mutatesM) {
+  _inherits(Span, _BardMutator$mutatesM);
 
   var _super2 = _createSuper(Span);
 
@@ -140,7 +169,113 @@ var Span = /*#__PURE__*/function (_BardMutator$mutatesN) {
   }
 
   return _createClass(Span);
-}(BardMutator.mutatesNode(BaseSpan));
+}(BardMutator.mutatesMark(BaseSpan));
+
+
+
+/***/ }),
+
+/***/ "./resources/js/nodes/Div.js":
+/*!***********************************!*\
+  !*** ./resources/js/nodes/Div.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Div)
+/* harmony export */ });
+/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../commands */ "./resources/js/commands.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+var Node = Statamic.$bard.tiptap.core.Node;
+var wrappingInputRule = Statamic.$bard.tiptap.commands.wrappingInputRule;
+
+var BaseDiv = /*#__PURE__*/function (_Node) {
+  _inherits(BaseDiv, _Node);
+
+  var _super = _createSuper(BaseDiv);
+
+  function BaseDiv() {
+    _classCallCheck(this, BaseDiv);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(BaseDiv, [{
+    key: "name",
+    get: function get() {
+      return 'bts_div';
+    }
+  }, {
+    key: "schema",
+    get: function get() {
+      return {
+        content: 'block*',
+        group: 'block',
+        defining: true,
+        draggable: false,
+        parseDOM: [{
+          tag: 'div'
+        }],
+        toDOM: function toDOM() {
+          return ['div', 0];
+        }
+      };
+    }
+  }, {
+    key: "commands",
+    value: function commands(_ref) {
+      var type = _ref.type;
+      return function (attrs) {
+        return (0,_commands__WEBPACK_IMPORTED_MODULE_0__.toggleWrap)(type, attrs);
+      };
+    }
+  }, {
+    key: "inputRules",
+    value: function inputRules(_ref2) {
+      var type = _ref2.type;
+      return [wrappingInputRule(/^\s*>\s$/, type)];
+    }
+  }]);
+
+  return BaseDiv;
+}(Node);
+
+var Div = /*#__PURE__*/function (_BardMutator$mutatesN) {
+  _inherits(Div, _BardMutator$mutatesN);
+
+  var _super2 = _createSuper(Div);
+
+  function Div() {
+    _classCallCheck(this, Div);
+
+    return _super2.apply(this, arguments);
+  }
+
+  return _createClass(Div);
+}(BardMutator.mutatesNode(BaseDiv));
 
 
 
@@ -878,7 +1013,8 @@ var __webpack_exports__ = {};
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_Span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/Span */ "./resources/js/marks/Span.js");
-/* harmony import */ var _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/ToolbarButton.vue */ "./resources/js/components/ToolbarButton.vue");
+/* harmony import */ var _nodes_Div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/Div */ "./resources/js/nodes/Div.js");
+/* harmony import */ var _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ToolbarButton.vue */ "./resources/js/components/ToolbarButton.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -899,28 +1035,35 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
-var types = ['heading', 'paragraph', 'span'];
+var types = ['heading', 'paragraph', 'span', 'div'];
 var chars = {
   heading: 'H',
   paragraph: 'P',
-  span: 'T'
+  span: 'T',
+  div: 'C'
 };
 var tags = {
   heading: 'h',
   paragraph: 'p',
-  span: 'span'
+  span: 'span',
+  div: 'div'
 };
 var exts = {
   heading: 'heading',
   paragraph: 'paragraph',
-  span: 'bts_span'
+  span: 'bts_span',
+  div: 'bts_div'
 };
 Statamic.booting(function () {
   var _BardMutator = BardMutator,
       mutator = _BardMutator.mutator;
   Statamic.$bard.addExtension(function () {
     return new _marks_Span__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  });
+  Statamic.$bard.addExtension(function () {
+    return new _nodes_Div__WEBPACK_IMPORTED_MODULE_1__["default"]();
   });
   var store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
   var attr = store === 'class' ? 'class' : 'bts_key';
@@ -940,10 +1083,10 @@ Statamic.booting(function () {
         "default": null
       }),
       parseDOMAttrs: function parseDOMAttrs(dom) {
-        return _defineProperty({}, attr, dom.getAttribute("data-bard-".concat(attr)));
+        return _defineProperty({}, attr, dom.getAttribute("data-bts-".concat(attr)));
       },
       toDOMAttrs: function toDOMAttrs(node) {
-        return _defineProperty({}, "data-bard-".concat(attr), node.attrs[attr]);
+        return _defineProperty({}, "data-bts-".concat(attr), node.attrs[attr]);
       }
     });
   };
@@ -965,6 +1108,10 @@ Statamic.booting(function () {
 
   if (activeTypes.includes('span')) {
     mutator.schema('bts_span', schemaMutator);
+  }
+
+  if (activeTypes.includes('div')) {
+    mutator.schema('bts_div', schemaMutator);
   } // Buttons
 
 
@@ -986,7 +1133,7 @@ Statamic.booting(function () {
         text: style.name,
         command: exts[style.type],
         args: style.type === 'heading' ? (_ref9 = {}, _defineProperty(_ref9, attr, style[store]), _defineProperty(_ref9, "level", style.level), _ref9) : _defineProperty({}, attr, style[store]),
-        component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+        component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
         html: "<div class=\"bts-button\"><span class=\"bts-button-char\">".concat(icon[0], "</span><sup class=\"bts-button-ident\">").concat(icon[1], "</sup></div>"),
         bts_config: {
           store: store,
@@ -1000,7 +1147,16 @@ Statamic.booting(function () {
     });
   }); // CSS
 
-  var css = [];
+  var css = ['.bard-fieldtype .ProseMirror > :where(div[data-bts-class], div[data-bts-key]) { margin-top: 0px; margin-bottom: 0.85em; }'];
+  var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror > :where(div[data-bts-class], div[data-bts-key]) >'];
+  var cpCss = Array.from(document.styleSheets).find(function (sheet) {
+    return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
+  });
+  Array.from(cpCss.cssRules).filter(function (rule) {
+    return rule.selectorText && rule.selectorText.startsWith(selector[0]);
+  }).forEach(function (rule) {
+    return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
+  });
   Object.entries(styles).forEach(function (_ref11) {
     var _ref12 = _slicedToArray(_ref11, 2),
         style = _ref12[1];
@@ -1010,7 +1166,7 @@ Statamic.booting(function () {
     }
 
     var tag = style.type === 'heading' ? "".concat(tags[style.type]).concat(style.level) : "".concat(tags[style.type]);
-    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bard-").concat(attr, "=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
+    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts-").concat(attr, "=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
   el.appendChild(document.createTextNode(css.join(' ')));

@@ -1,25 +1,29 @@
 import Span from './marks/Span'
+import Div from './nodes/Div'
 import ToolbarButton from "./components/ToolbarButton.vue";
 const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
-const types = ['heading', 'paragraph', 'span'];
+const types = ['heading', 'paragraph', 'span', 'div'];
 
 const chars = {
     heading: 'H',
     paragraph: 'P',
     span: 'T',
+    div: 'C',
 };
 
 const tags = {
     heading: 'h',
     paragraph: 'p',
     span: 'span',
+    div: 'div',
 };
 
 const exts = {
     heading: 'heading',
     paragraph: 'paragraph',
     span: 'bts_span',
+    div: 'bts_div',
 };
 
 Statamic.booting(() => {
@@ -27,6 +31,7 @@ Statamic.booting(() => {
     const { mutator } = BardMutator;
 
     Statamic.$bard.addExtension(() => new Span());
+    Statamic.$bard.addExtension(() => new Div());
 
     const store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
     const attr  = store === 'class' ? 'class' : 'bts_key';
@@ -41,10 +46,10 @@ Statamic.booting(() => {
             },
         },
         parseDOMAttrs: dom => ({
-            [attr]: dom.getAttribute(`data-bard-${attr}`),
+            [attr]: dom.getAttribute(`data-bts-${attr}`),
         }),
         toDOMAttrs: node => ({
-            [`data-bard-${attr}`]: node.attrs[attr],
+            [`data-bts-${attr}`]: node.attrs[attr],
         }),
     });
 
@@ -60,6 +65,9 @@ Statamic.booting(() => {
     }
     if (activeTypes.includes('span')) {
         mutator.schema('bts_span', schemaMutator);
+    }
+    if (activeTypes.includes('div')) {
+        mutator.schema('bts_div', schemaMutator);
     }
 
     // Buttons
@@ -88,7 +96,20 @@ Statamic.booting(() => {
 
     // CSS
 
-    const css = [];
+    const css = [
+        '.bard-fieldtype .ProseMirror > :where(div[data-bts-class], div[data-bts-key]) { margin-top: 0px; margin-bottom: 0.85em; }',
+    ];
+
+    const selector = [
+        '.bard-fieldtype .ProseMirror >',
+        '.bard-fieldtype .ProseMirror > :where(div[data-bts-class], div[data-bts-key]) >',
+    ];
+    const cpCss = Array.from(document.styleSheets)
+        .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
+    Array.from(cpCss.cssRules)
+        .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
+        .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
+
     Object.entries(styles).forEach(([, style]) => {
         if (!types.includes(style.type)) {
             return;
@@ -96,7 +117,7 @@ Statamic.booting(() => {
         const tag = style.type === 'heading'
             ? `${tags[style.type]}${style.level}`
             : `${tags[style.type]}`;
-        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bard-${attr}="${style[store]}"] { ${style.cp_css} }`);
+        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts-${attr}="${style[store]}"] { ${style.cp_css} }`);
     });
     const el = document.createElement('style');
     el.appendChild(document.createTextNode(css.join(' ')));

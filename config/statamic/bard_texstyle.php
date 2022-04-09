@@ -38,6 +38,14 @@ return [
         //     'cp_css' => 'color: dodgerblue; font-weight: 700',
         // ],
 
+        // 'columns' => [
+        //     'type'   => 'div',
+        //     'name'   => 'Two Columns',
+        //     'ident'  => '2',
+        //     'class'  => 'two-columns',
+        //     'cp_css' => 'column-count: 2; column-gap: 16px',
+        // ],
+
     ],
 
     /*
