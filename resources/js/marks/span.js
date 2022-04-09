@@ -22,4 +22,4 @@ class BaseSpan extends Mark {
 
 }
 
-export default class Span extends BardMutator.mutatesNode(BaseSpan) {}
+export default class Span extends BardMutator.mutatesMark(BaseSpan) {}
