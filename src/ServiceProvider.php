@@ -42,14 +42,14 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addMark(Span::class);
         Augmentor::addNode(Div::class);
 
-        $typeMap = [
-            'span' => 'bts_span',
-            'div'  => 'bts_div',
-        ];
         $coreTypes = collect($styles)
             ->pluck('type')
-            ->map(fn ($v) => $typeMap[$v] ?? $v)
+            ->map(fn ($v) => [
+                'span' => 'bts_span',
+                'div'  => 'bts_div',
+            ][$v] ?? $v)
             ->unique();
+
         $allTypes = $coreTypes
             ->merge(collect($defaults)->keys())
             ->unique();

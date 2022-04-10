@@ -12,7 +12,7 @@ class BaseDiv extends Node {
         return {
             content: 'block*',
             group: 'block',
-            defining: true,
+            defining: false,
             draggable: false,
             parseDOM: [{
                 tag: 'div',

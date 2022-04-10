@@ -234,7 +234,7 @@ var BaseDiv = /*#__PURE__*/function (_Node) {
       return {
         content: 'block*',
         group: 'block',
-        defining: true,
+        defining: false,
         draggable: false,
         parseDOM: [{
           tag: 'div'
@@ -1037,24 +1037,27 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
-var types = ['heading', 'paragraph', 'span', 'div'];
-var chars = {
-  heading: 'H',
-  paragraph: 'P',
-  span: 'T',
-  div: 'C'
-};
-var tags = {
-  heading: 'h',
-  paragraph: 'p',
-  span: 'span',
-  div: 'div'
-};
-var exts = {
-  heading: 'heading',
-  paragraph: 'paragraph',
-  span: 'bts_span',
-  div: 'bts_div'
+var types = {
+  heading: {
+    tag: 'h',
+    "char": 'H',
+    cmd: 'heading'
+  },
+  paragraph: {
+    tag: 'p',
+    "char": 'P',
+    cmd: 'paragraph'
+  },
+  span: {
+    tag: 'span',
+    "char": 'T',
+    cmd: 'bts_span'
+  },
+  div: {
+    tag: 'div',
+    "char": 'C',
+    cmd: 'bts_div'
+  }
 };
 Statamic.booting(function () {
   var _BardMutator = BardMutator,
@@ -1068,13 +1071,14 @@ Statamic.booting(function () {
   var store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
   var attr = store === 'class' ? 'class' : 'bts_key';
   var styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
-
-  var activeTypes = _.uniq(Object.entries(styles).map(function (_ref) {
+  var activeTypes = Object.entries(styles).map(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
         style = _ref2[1];
 
     return style.type;
-  }));
+  }).filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
 
   var schemaMutator = function schemaMutator(schema, _ref3) {
     var extendSchema = _ref3.extendSchema;
@@ -1100,9 +1104,11 @@ Statamic.booting(function () {
     mutator.commands('paragraph', function (commands, _ref6) {
       var type = _ref6.type,
           schema = _ref6.schema;
-      return _objectSpread(_objectSpread({}, commands), {}, _defineProperty({}, type.name, function (attrs) {
-        return toggleBlockType(type, schema.nodes.paragraph, attrs);
-      }));
+      return _objectSpread(_objectSpread({}, commands), {}, {
+        paragraph: function paragraph(attrs) {
+          return toggleBlockType(type, schema.nodes.paragraph, attrs);
+        }
+      });
     });
   }
 
@@ -1123,15 +1129,15 @@ Statamic.booting(function () {
           key = _ref8[0],
           style = _ref8[1];
 
-      if (!types.includes(style.type)) {
+      if (!types[style.type]) {
         return;
       }
 
-      var icon = [chars[style.type], style.ident || ''];
+      var icon = [types[style.type]["char"], style.ident || ''];
       var data = {
         name: key,
         text: style.name,
-        command: exts[style.type],
+        command: types[style.type].cmd,
         args: style.type === 'heading' ? (_ref9 = {}, _defineProperty(_ref9, attr, style[store]), _defineProperty(_ref9, "level", style.level), _ref9) : _defineProperty({}, attr, style[store]),
         component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
         html: "<div class=\"bts-button\"><span class=\"bts-button-char\">".concat(icon[0], "</span><sup class=\"bts-button-ident\">").concat(icon[1], "</sup></div>"),
@@ -1147,8 +1153,8 @@ Statamic.booting(function () {
     });
   }); // CSS
 
-  var css = ['.bard-fieldtype .ProseMirror > :where(div[data-bts-class], div[data-bts-key]) { margin-top: 0px; margin-bottom: 0.85em; }'];
-  var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror > :where(div[data-bts-class], div[data-bts-key]) >'];
+  var css = ['.bard-fieldtype .ProseMirror :where(div[data-bts-class], div[data-bts-key]) { margin-top: 0px; margin-bottom: 0.85em; }'];
+  var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror :where(div[data-bts-class], div[data-bts-key]) >'];
   var cpCss = Array.from(document.styleSheets).find(function (sheet) {
     return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
   });
@@ -1161,11 +1167,11 @@ Statamic.booting(function () {
     var _ref12 = _slicedToArray(_ref11, 2),
         style = _ref12[1];
 
-    if (!types.includes(style.type)) {
+    if (!types[style.type]) {
       return;
     }
 
-    var tag = style.type === 'heading' ? "".concat(tags[style.type]).concat(style.level) : "".concat(tags[style.type]);
+    var tag = style.type === 'heading' ? "".concat(types[style.type].tag).concat(style.level) : "".concat(types[style.type].tag);
     css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts-").concat(attr, "=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
