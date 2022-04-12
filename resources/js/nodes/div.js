@@ -1,4 +1,4 @@
-import { toggleWrap } from '../commands';
+import { toggleWrapFlat } from '../commands';
 const { Node } = Statamic.$bard.tiptap.core;
 const { wrappingInputRule } = Statamic.$bard.tiptap.commands;
 
@@ -22,7 +22,7 @@ class BaseDiv extends Node {
     }
 
     commands({ type }) {
-        return attrs => toggleWrap(type, attrs);
+        return attrs => toggleWrapFlat(type, attrs);
     }
 
     inputRules({ type }) {

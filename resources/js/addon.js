@@ -1,6 +1,7 @@
 import Span from './marks/Span'
 import Div from './nodes/Div'
 import ToolbarButton from "./components/ToolbarButton.vue";
+import { styleToIcon } from './utilities';
 const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = {
@@ -79,16 +80,17 @@ Statamic.booting(() => {
             if (!types[style.type]) {
                 return;
             }
-            const icon = [types[style.type].char, style.ident || ''];
+            const type = types[style.type];
+            const icon = styleToIcon(style, type);
             const data = {
                 name: key,
                 text: style.name,
-                command: types[style.type].cmd,
+                command: type.cmd,
                 args: style.type === 'heading'
                     ? { [attr]: style[store], level: style.level }
                     : { [attr]: style[store] },
                 component: ToolbarButton,
-                html: `<div class="bts-button"><span class="bts-button-char">${icon[0]}</span><sup class="bts-button-ident">${icon[1]}</sup></div>`,
+                html: icon,
                 bts_config: { store, attr },
                 bts_style: { ...style, icon },
             };
@@ -99,12 +101,12 @@ Statamic.booting(() => {
     // CSS
 
     const css = [
-        '.bard-fieldtype .ProseMirror :where(div[data-bts-class], div[data-bts-key]) { margin-top: 0px; margin-bottom: 0.85em; }',
+        `.bard-fieldtype .ProseMirror [data-bts-${attr}] { margin-top: 0px; margin-bottom: 0.85em; }`,
     ];
 
     const selector = [
-        '.bard-fieldtype .ProseMirror >',
-        '.bard-fieldtype .ProseMirror :where(div[data-bts-class], div[data-bts-key]) >',
+        `.bard-fieldtype .ProseMirror >`,
+        `.bard-fieldtype .ProseMirror [data-bts-${attr}] >`,
     ];
     const cpCss = Array.from(document.styleSheets)
         .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
@@ -116,9 +118,10 @@ Statamic.booting(() => {
         if (!types[style.type]) {
             return;
         }
+        const type = types[style.type];
         const tag = style.type === 'heading'
-            ? `${types[style.type].tag}${style.level}`
-            : `${types[style.type].tag}`;
+            ? `${type.tag}${style.level}`
+            : `${type.tag}`;
         css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts-${attr}="${style[store]}"] { ${style.cp_css} }`);
     });
     const el = document.createElement('style');

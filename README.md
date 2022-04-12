@@ -8,9 +8,11 @@
 
 <!-- /statamic:hide -->
 
-> **FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md), I’ve made it as simple as I could.
+::FYI
+This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md), I’ve made it as simple as I could.
+::
 
-This Statamic addon gives you the ability to add custom heading, paragraph and inline (span) text styles to the Bard fieldtype.
+This Statamic addon gives you the ability to add custom heading, paragraph, span (inline text) and div (container) styles to the Bard fieldtype.
 
 ## Installation
 
@@ -47,17 +49,21 @@ Open `config/statamic/bard_texstyle.php` and add your styles:
 Each style must have a key which is used as the button name. Styles can have the following options:
 
 * **type (string)**  
-  The type (`heading`, `paragraph` or `span`).
+  The type (`heading`, `paragraph`, `span` or `div`).
 * **level (string)**  
   The heading level (only applicable to `heading` styles).
+* **class (string)**  
+  The class name that will be applied for this style. Must be unique within the type.
 * **name (string)**  
   The name of the style. This will appear in the tooltip.
 * **ident (string)**  
-  A short identification string (one or two characters). This will appear in the button.
-* **class (string)**  
-  The class name that will be applied for this style. Must be unique within the type.
+  A short identification string (one or two characters). This will appear in the button icon.
+* **icon (string, optional)**  
+  Custom icon HTML. This will appear in the button and override the icon and ident option.
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
+
+The `div` styles are intended for simple blocks of text, they cannot contain sets, be nested, or have extra attributes. If you need something more complex using a set is the way to go.
 
 ### Enabling the Buttons
 

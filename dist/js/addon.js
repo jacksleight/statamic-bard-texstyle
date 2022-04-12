@@ -60,19 +60,46 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "toggleWrap": () => (/* binding */ toggleWrap)
+/* harmony export */   "toggleWrapFlat": () => (/* binding */ toggleWrapFlat),
+/* harmony export */   "updateNode": () => (/* binding */ updateNode)
 /* harmony export */ });
 var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
     wrapIn = _Statamic$$bard$tipta.wrapIn,
     lift = _Statamic$$bard$tipta.lift;
 var nodeIsActive = Statamic.$bard.tiptap.utils.nodeIsActive;
-function toggleWrap(type) {
+function updateNode(type) {
+  var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return function (state, dispatch) {
+    var _state$selection = state.selection,
+        from = _state$selection.from,
+        to = _state$selection.to;
+    var node, pos;
+    state.doc.nodesBetween(from, to, function (n, p) {
+      if (n.type.name !== type.name) {
+        return;
+      }
+
+      node = n;
+      pos = p;
+      return false;
+    });
+    dispatch(state.tr.setNodeMarkup(pos, null, Object.assign({}, node.attrs, attrs)));
+    return true;
+  };
+}
+function toggleWrapFlat(type) {
   var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return function (state, dispatch, view) {
     var isActive = nodeIsActive(state, type, attrs);
 
     if (isActive) {
-      return lift(state, dispatch);
+      return lift(state, dispatch, view);
+    }
+
+    var isAnyActive = nodeIsActive(state, type);
+
+    if (isAnyActive) {
+      return updateNode(type, attrs)(state, dispatch, view);
     }
 
     return wrapIn(type, attrs)(state, dispatch, view);
@@ -249,7 +276,7 @@ var BaseDiv = /*#__PURE__*/function (_Node) {
     value: function commands(_ref) {
       var type = _ref.type;
       return function (attrs) {
-        return (0,_commands__WEBPACK_IMPORTED_MODULE_0__.toggleWrap)(type, attrs);
+        return (0,_commands__WEBPACK_IMPORTED_MODULE_0__.toggleWrapFlat)(type, attrs);
       };
     }
   }, {
@@ -281,6 +308,30 @@ var Div = /*#__PURE__*/function (_BardMutator$mutatesN) {
 
 /***/ }),
 
+/***/ "./resources/js/utilities.js":
+/*!***********************************!*\
+  !*** ./resources/js/utilities.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "styleToIcon": () => (/* binding */ styleToIcon)
+/* harmony export */ });
+var styleToIcon = function styleToIcon(style, type) {
+  if (style.icon) {
+    return style.icon;
+  }
+
+  if (style.type === 'div') {
+    return "\n            <div class=\"bts-icon bts-icon-square\">\n                <span class=\"bts-icon-ident\">".concat(style.ident, "</span>\n            </div>\n        ");
+  }
+
+  return "\n        <div class=\"bts-icon bts-icon-alpha\">\n            <span class=\"bts-icon-char\">".concat(type["char"], "</span>\n            <span class=\"bts-icon-ident\">").concat(style.ident, "</span>\n        </div>\n    ");
+};
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ToolbarButton.vue?vue&type=style&index=0&lang=css&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ToolbarButton.vue?vue&type=style&index=0&lang=css& ***!
@@ -297,7 +348,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bts-button {\n    margin-bottom: -0.1em;\n}\n.bts-button-char {\n    font-size: 21px;\n    font-family: Times, serif;\n}\n.bts-button-ident {}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bts-icon {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.bts-icon-alpha {\n    margin-bottom: -0.1em;\n}\n.bts-icon-char {\n    font-size: 21px;\n    font-family: Times, serif;\n}\n.bts-icon-ident {\n    font-size: 11px;\n}\n.bts-icon-square {\n    width: 16px;\n    height: 16px;\n    border: 1px solid currentColor;\n    border-radius: 3px;\n    padding-top: 1px;\n}\n.bts-icon-circle {\n    width: 16px;\n    height: 16px;\n    border: 1px solid currentColor;\n    border-radius: 50%;\n    padding-top: 0.1em;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -804,18 +855,7 @@ var render = function () {
         },
       },
     },
-    [
-      _c("div", { staticClass: "bts-button" }, [
-        _c("span", {
-          staticClass: "bts-button-char",
-          domProps: { textContent: _vm._s(_vm.icon[0]) },
-        }),
-        _c("sup", {
-          staticClass: "bts-button-ident",
-          domProps: { textContent: _vm._s(_vm.icon[1]) },
-        }),
-      ]),
-    ]
+    [_c("div", { domProps: { innerHTML: _vm._s(_vm.icon) } })]
   )
 }
 var staticRenderFns = []
@@ -1015,6 +1055,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_Span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/Span */ "./resources/js/marks/Span.js");
 /* harmony import */ var _nodes_Div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/Div */ "./resources/js/nodes/Div.js");
 /* harmony import */ var _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ToolbarButton.vue */ "./resources/js/components/ToolbarButton.vue");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utilities */ "./resources/js/utilities.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -1032,6 +1073,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -1133,14 +1175,15 @@ Statamic.booting(function () {
         return;
       }
 
-      var icon = [types[style.type]["char"], style.ident || ''];
+      var type = types[style.type];
+      var icon = (0,_utilities__WEBPACK_IMPORTED_MODULE_3__.styleToIcon)(style, type);
       var data = {
         name: key,
         text: style.name,
-        command: types[style.type].cmd,
+        command: type.cmd,
         args: style.type === 'heading' ? (_ref9 = {}, _defineProperty(_ref9, attr, style[store]), _defineProperty(_ref9, "level", style.level), _ref9) : _defineProperty({}, attr, style[store]),
         component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-        html: "<div class=\"bts-button\"><span class=\"bts-button-char\">".concat(icon[0], "</span><sup class=\"bts-button-ident\">").concat(icon[1], "</sup></div>"),
+        html: icon,
         bts_config: {
           store: store,
           attr: attr
@@ -1153,8 +1196,8 @@ Statamic.booting(function () {
     });
   }); // CSS
 
-  var css = ['.bard-fieldtype .ProseMirror :where(div[data-bts-class], div[data-bts-key]) { margin-top: 0px; margin-bottom: 0.85em; }'];
-  var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror :where(div[data-bts-class], div[data-bts-key]) >'];
+  var css = [".bard-fieldtype .ProseMirror [data-bts-".concat(attr, "] { margin-top: 0px; margin-bottom: 0.85em; }")];
+  var selector = [".bard-fieldtype .ProseMirror >", ".bard-fieldtype .ProseMirror [data-bts-".concat(attr, "] >")];
   var cpCss = Array.from(document.styleSheets).find(function (sheet) {
     return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
   });
@@ -1171,7 +1214,8 @@ Statamic.booting(function () {
       return;
     }
 
-    var tag = style.type === 'heading' ? "".concat(types[style.type].tag).concat(style.level) : "".concat(types[style.type].tag);
+    var type = types[style.type];
+    var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
     css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts-").concat(attr, "=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
