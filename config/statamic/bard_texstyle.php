@@ -41,7 +41,7 @@ return [
         // 'columns' => [
         //     'type'   => 'div',
         //     'name'   => 'Two Columns',
-        //     'ident'  => '2',
+        //     'ident'  => '❙ ❙',
         //     'class'  => 'two-columns',
         //     'cp_css' => 'column-count: 2; column-gap: 1em',
         // ],
@@ -49,7 +49,7 @@ return [
         // 'hint' => [
         //     'type'   => 'div',
         //     'name'   => 'Hint',
-        //     'ident'  => 'H',
+        //     'ident'  => '✽',
         //     'class'  => 'hint',
         //     'cp_css' => 'background: #eff2fb; border-radius: 3px; padding: 1em',
         // ],
