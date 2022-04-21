@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 (2022-04-21)
+
+- [fix] Error when the target tag has been removed
+
 ## 1.0.0 (2022-03-21)
 
 - [new] Ability to add default classes to elements with no style set
