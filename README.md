@@ -93,3 +93,5 @@ By default the class names are saved to your content. If you would prefer to sav
 ## Compatibility
 
 This addon uses Bard Mutator under the hood to extend the built-in Heading and Paragraph node functionality. Please check the [compatibility](https://github.com/jacksleight/statamic-bard-mutator#compatibility) notes for more information.
+
+Texstyle does not support Bard's `save_html` option.
