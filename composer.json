@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "statamic/cms": "~3.2.24 || 3.2.* || 3.3.*",
+        "statamic/cms": "~3.2.24 || 3.3.*",
         "jacksleight/statamic-bard-mutator": "^1.0.3"
     },
     "config": {
