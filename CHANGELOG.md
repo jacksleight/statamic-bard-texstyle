@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 ()
+
+- [new] Ability to create custom container (div) styles
+- [new] Additional built-in and custom icon options
+
 ## 1.0.0 (2022-03-21)
 
 - [new] Ability to add default classes to elements with no style set

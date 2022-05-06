@@ -1,28 +1,24 @@
 import Span from './marks/Span'
 import Div from './nodes/Div'
 import ToolbarButton from "./components/ToolbarButton.vue";
-import { styleToIcon } from './utilities';
+import { styleToIcon } from './icons';
 const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = {
     heading: {
         tag: 'h',
-        char: 'H',
         cmd: 'heading'
     },
     paragraph: {
         tag: 'p',
-        char: 'P',
         cmd: 'paragraph'
     },
     span: {
         tag: 'span',
-        char: 'T',
         cmd: 'bts_span'
     },
     div: {
         tag: 'div',
-        char: 'C',
         cmd: 'bts_div'
     },
 };

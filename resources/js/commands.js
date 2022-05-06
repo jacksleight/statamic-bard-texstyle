@@ -1,7 +1,7 @@
 const { wrapIn, lift } = Statamic.$bard.tiptap.commands;
 const { nodeIsActive } = Statamic.$bard.tiptap.utils;
 
-export function updateNode(type, attrs = {}) {
+export function updateNodeMerge(type, attrs = {}) {
     return (state, dispatch) => {
         const { from, to } = state.selection;
         let node, pos;
@@ -26,7 +26,7 @@ export function toggleWrapFlat(type, attrs = {}) {
         }
         const isAnyActive = nodeIsActive(state, type);
         if (isAnyActive) {
-            return updateNode(type, attrs)(state, dispatch, view);
+            return updateNodeMerge(type, attrs)(state, dispatch, view);
         }
         return wrapIn(type, attrs)(state, dispatch, view);
     }

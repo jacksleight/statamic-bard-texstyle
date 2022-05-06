@@ -10,7 +10,7 @@
 
 **FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md), I’ve made it as simple as possible.
 
-This Statamic addon gives you the ability to add custom heading, paragraph, span (inline) and div (block) styles to the Bard fieldtype.
+This Statamic addon gives you the ability to add custom heading, paragraph, inline text (span) and container (div) styles to the Bard fieldtype.
 
 ## Installation
 
@@ -57,11 +57,11 @@ Each style must have a key which is used as the button name. Styles can have the
 * **ident (string)**  
   A short identification string (one or two characters). This will appear in the button icon.
 * **icon (string, optional)**  
-  Custom icon HTML. This will appear in the button and override the icon and ident option.
+  Icon name or custom icon HTML. Name options are: `letter`, `square`, `square_filled`, `circle`, `circle_filled`.
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
 
-The `div` styles are intended for simple blocks of text, they cannot contain sets, be nested, or have extra attributes. If you need something more complex using a set is the way to go.
+Container (div) styles are intended for simple blocks of wrapped text. They cannot contain sets or be nested. If you need something more complex then using a set is the right way to go.
 
 ### Enabling the Buttons
 
