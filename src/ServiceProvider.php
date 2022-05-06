@@ -55,6 +55,9 @@ class ServiceProvider extends AddonServiceProvider
             ->unique();
 
         $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
+            if (! isset($tag[0])) {
+                return $tag;
+            }
             $default = $node->type === 'heading'
                 ? ($defaults[$node->type][$node->attrs->level] ?? null)
                 : ($defaults[$node->type] ?? null);
