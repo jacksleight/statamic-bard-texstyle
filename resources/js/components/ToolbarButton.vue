@@ -15,7 +15,7 @@
 <script>
 
 export default {
-    mixins: [BardToolbarButton],
+    mixins: [ BardToolbarButton ],
     data() {
         const style = this.button.bts_style;
         return {
