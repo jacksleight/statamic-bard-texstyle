@@ -8,7 +8,7 @@
 
 <!-- /statamic:hide -->
 
-**FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md), I’ve made it as simple as possible.
+> **FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md).
 
 This Statamic addon gives you the ability to add custom heading, paragraph, inline text (span) and container (div) styles to the Bard fieldtype.
 
@@ -97,3 +97,5 @@ By default the class names are saved to your content. If you would prefer to sav
 ## Compatibility
 
 This addon uses Bard Mutator under the hood to extend the built-in Heading and Paragraph node functionality. Please check the [compatibility](https://github.com/jacksleight/statamic-bard-mutator#compatibility) notes for more information.
+
+Bard Texstyle does not support Bard's `save_html` option.
