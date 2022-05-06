@@ -57,7 +57,12 @@ Each style must have a key which is used as the button name. Styles can have the
 * **ident (string)**  
   A short identification string (one or two characters). This will appear in the button icon.
 * **icon (string, optional)**  
-  Icon name or custom icon HTML. Name options are: `letter`, `square`, `square_filled`, `circle`, `circle_filled`.
+  Icon name or custom icon HTML. Name options are:
+    * `letter`
+    * `square`
+    * `square_filled`
+    * `circle`
+    * `circle_filled`
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
 
