@@ -4,6 +4,7 @@
 
 - [new] Ability to create custom container (div) styles
 - [new] Additional built-in and custom icon options
+- Update Statamic version requirement
 
 ## 1.0.0 (2022-03-21)
 
