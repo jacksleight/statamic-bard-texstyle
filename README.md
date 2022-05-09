@@ -51,8 +51,7 @@ Each style must have a key which is used as the button name. Styles can have the
     * `heading`
     * `paragraph`
     * `span`
-    * `div`
-      Container (div) styles are intended for simple blocks of wrapped text. They cannot contain sets or be nested. If you need something more complex then using a set is the way to go.
+    * `div`*
 * **level (string)**  
   The heading level (only applicable to `heading` styles).
 * **class (string)**  
@@ -71,6 +70,8 @@ Each style must have a key which is used as the button name. Styles can have the
     * `symbol`
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
+
+\* Container (div) styles are for simple blocks of wrapped text only. They cannot contain sets or be nested. If you need something more complex then using a set is the way to go.
 
 ### Enabling the Buttons
 
