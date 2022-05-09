@@ -47,7 +47,12 @@ Open `config/statamic/bard_texstyle.php` and add your styles:
 Each style must have a key which is used as the button name. Styles can have the following options:
 
 * **type (string)**  
-  The type (`heading`, `paragraph`, `span` or `div`).
+  The type. Options are:
+    * `heading`
+    * `paragraph`
+    * `span`
+    * `div`
+      Container (div) styles are intended for simple blocks of wrapped text. They cannot contain sets or be nested. If you need something more complex then using a set is the way to go.
 * **level (string)**  
   The heading level (only applicable to `heading` styles).
 * **class (string)**  
@@ -55,18 +60,17 @@ Each style must have a key which is used as the button name. Styles can have the
 * **name (string)**  
   The name of the style. This will appear in the tooltip.
 * **ident (string)**  
-  A short identification string (one or two characters). This will appear in the button icon.
+  An identification character. This will appear in the button icon.
 * **icon (string, optional)**  
   Icon name or custom icon HTML. Name options are:
     * `letter`
     * `square`
-    * `square_filled`
+    * `square-solid`
     * `circle`
-    * `circle_filled`
+    * `circle-solid`
+    * `symbol`
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
-
-Container (div) styles are intended for simple blocks of wrapped text. They cannot contain sets or be nested. If you need something more complex then using a set is the right way to go.
 
 ### Enabling the Buttons
 

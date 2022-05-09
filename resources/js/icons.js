@@ -25,11 +25,11 @@ const icons = {
             </svg>
         `;
     },
-    'square_filled': (style) => {
+    'square-solid': (style) => {
         const ident = style.ident;
         const maskId = `bts-mask-${maskCount++}`;
         return `
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <mask id="${maskId}">
                     <rect width="16" height="16" fill="white" />
                     <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" text-anchor="end" fill="black">${ident}</text>
@@ -47,7 +47,7 @@ const icons = {
             </svg>
         `;
     },
-    'circle_filled': (style) => {
+    'circle-solid': (style) => {
         const ident = style.ident;
         const maskId = `bts-mask-${maskCount++}`;
         return `
@@ -57,6 +57,14 @@ const icons = {
                     <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" text-anchor="end" fill="black">${ident}</text>
                 </mask>
                 <circle cx="8" cy="8" r="7.5" stroke-width="1" stroke="currentColor" mask="url(#${maskId})" />
+            </svg>
+        `;
+    },
+    'symbol': (style) => {
+        const ident = style.ident;
+        return `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <text text-anchor="middle" x="8" y="16" style="font-size: 23px;">${ident}</text>
             </svg>
         `;
     },
