@@ -15,7 +15,7 @@ class BaseDiv extends Node {
             defining: false,
             draggable: false,
             parseDOM: [{
-                tag: 'div',
+                tag: 'div[data-bts]',
             }],
             toDOM: () => ['div', 0],
         };

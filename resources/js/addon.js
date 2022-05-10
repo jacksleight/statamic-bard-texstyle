@@ -45,10 +45,10 @@ Statamic.booting(() => {
             },
         },
         parseDOMAttrs: dom => ({
-            [attr]: dom.getAttribute(`data-bts-${attr}`),
+            [attr]: dom.getAttribute(`data-bts`),
         }),
         toDOMAttrs: node => ({
-            [`data-bts-${attr}`]: node.attrs[attr],
+            ['data-bts']: node.attrs[attr],
         }),
     });
 
@@ -97,12 +97,12 @@ Statamic.booting(() => {
     // CSS
 
     const css = [
-        `.bard-fieldtype .ProseMirror [data-bts-${attr}] { margin-top: 0px; margin-bottom: 0.85em; }`,
+        `.bard-fieldtype .ProseMirror [data-bts] { margin-top: 0px; margin-bottom: 0.85em; }`,
     ];
 
     const selector = [
         `.bard-fieldtype .ProseMirror >`,
-        `.bard-fieldtype .ProseMirror [data-bts-${attr}] >`,
+        `.bard-fieldtype .ProseMirror [data-bts] >`,
     ];
     const cpCss = Array.from(document.styleSheets)
         .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
@@ -118,7 +118,7 @@ Statamic.booting(() => {
         const tag = style.type === 'heading'
             ? `${type.tag}${style.level}`
             : `${type.tag}`;
-        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts-${attr}="${style[store]}"] { ${style.cp_css} }`);
+        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[store]}"] { ${style.cp_css} }`);
     });
     const el = document.createElement('style');
     el.appendChild(document.createTextNode(css.join(' ')));

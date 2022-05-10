@@ -216,7 +216,7 @@ var BaseSpan = /*#__PURE__*/function (_Mark) {
     get: function get() {
       return {
         parseDOM: [{
-          tag: 'span'
+          tag: 'span[data-bts]'
         }],
         toDOM: function toDOM() {
           return ['span', 0];
@@ -316,7 +316,7 @@ var BaseDiv = /*#__PURE__*/function (_Node) {
         defining: false,
         draggable: false,
         parseDOM: [{
-          tag: 'div'
+          tag: 'div[data-bts]'
         }],
         toDOM: function toDOM() {
           return ['div', 0];
@@ -727,10 +727,10 @@ Statamic.booting(function () {
         "default": null
       }),
       parseDOMAttrs: function parseDOMAttrs(dom) {
-        return _defineProperty({}, attr, dom.getAttribute("data-bts-".concat(attr)));
+        return _defineProperty({}, attr, dom.getAttribute("data-bts"));
       },
       toDOMAttrs: function toDOMAttrs(node) {
-        return _defineProperty({}, "data-bts-".concat(attr), node.attrs[attr]);
+        return _defineProperty({}, 'data-bts', node.attrs[attr]);
       }
     });
   };
@@ -794,8 +794,8 @@ Statamic.booting(function () {
     });
   }); // CSS
 
-  var css = [".bard-fieldtype .ProseMirror [data-bts-".concat(attr, "] { margin-top: 0px; margin-bottom: 0.85em; }")];
-  var selector = [".bard-fieldtype .ProseMirror >", ".bard-fieldtype .ProseMirror [data-bts-".concat(attr, "] >")];
+  var css = [".bard-fieldtype .ProseMirror [data-bts] { margin-top: 0px; margin-bottom: 0.85em; }"];
+  var selector = [".bard-fieldtype .ProseMirror >", ".bard-fieldtype .ProseMirror [data-bts] >"];
   var cpCss = Array.from(document.styleSheets).find(function (sheet) {
     return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
   });
@@ -814,7 +814,7 @@ Statamic.booting(function () {
 
     var type = types[style.type];
     var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
-    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts-").concat(attr, "=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
+    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
   el.appendChild(document.createTextNode(css.join(' ')));
