@@ -60,13 +60,17 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "liftAll": () => (/* binding */ liftAll),
+/* harmony export */   "liftTarget": () => (/* binding */ liftTarget),
 /* harmony export */   "toggleWrapFlat": () => (/* binding */ toggleWrapFlat),
 /* harmony export */   "updateNodeMerge": () => (/* binding */ updateNodeMerge)
 /* harmony export */ });
+var TextSelection = Statamic.$bard.tiptap.core.TextSelection;
 var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
     wrapIn = _Statamic$$bard$tipta.wrapIn,
     lift = _Statamic$$bard$tipta.lift;
-var nodeIsActive = Statamic.$bard.tiptap.utils.nodeIsActive;
+var nodeIsActive = Statamic.$bard.tiptap.utils.nodeIsActive; // use findParentNodeClosestToPos
+
 function updateNodeMerge(type) {
   var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return function (state, dispatch) {
@@ -87,13 +91,30 @@ function updateNodeMerge(type) {
     return true;
   };
 }
+function liftTarget(range) {
+  return 0;
+}
+function liftAll(state, dispatch) {
+  var _state$selection2 = state.selection,
+      $from = _state$selection2.$from,
+      $to = _state$selection2.$to;
+  var range = $from.blockRange($to);
+  var target = liftTarget(range);
+  var inner = target + 1;
+  var from = $from.start(inner),
+      to = $to.end(inner);
+  var fullRange = TextSelection.create(state.doc, from, to).ranges[0];
+  fullRange.depth = inner;
+  if (dispatch) dispatch(state.tr.lift(fullRange, target).scrollIntoView());
+  return true;
+}
 function toggleWrapFlat(type) {
   var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return function (state, dispatch, view) {
     var isActive = nodeIsActive(state, type, attrs);
 
     if (isActive) {
-      return lift(state, dispatch, view);
+      return liftAll(state, dispatch);
     }
 
     var isAnyActive = nodeIsActive(state, type);
