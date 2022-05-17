@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (2022-05-17)
+
+- Update Statamic version requirement
+
 ## 1.0.1 (2022-04-21)
 
 - [fix] Error applying class when the target tag has been removed
