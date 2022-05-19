@@ -7,7 +7,7 @@
         v-tooltip="button.text"
         @click="editor.commands[button.command](button.args)"
     >
-        <div class="bts-button"><span class="bts-button-char" v-text="icon[0]"></span><sup class="bts-button-ident" v-text="icon[1]"></sup></div>
+        <div class="flex items-center" v-html="icon"></div>
     </button>
 
 </template>
@@ -36,16 +36,3 @@ export default {
 }
 
 </script>
-
-<style>
-
-.bts-button {
-    margin-bottom: -0.1em;
-}
-.bts-button-char {
-    font-size: 21px;
-    font-family: Times, serif;
-}
-.bts-button-ident {}
-
-</style>

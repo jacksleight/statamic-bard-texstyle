@@ -19,7 +19,7 @@ return [
         //     'name'   => 'Hero Heading',
         //     'ident'  => 'H',
         //     'class'  => 'hero-heading',
-        //     'cp_css' => 'font-family: Caslon',
+        //     'cp_css' => 'font-family: serif',
         // ],
 
         // 'intro' => [
@@ -27,7 +27,7 @@ return [
         //     'name'   => 'Introduction',
         //     'ident'  => 'I',
         //     'class'  => 'introduction',
-        //     'cp_css' => 'font-size: 1.25em; margin-top: -0.5em',
+        //     'cp_css' => 'font-size: 1.25em',
         // ],
 
         // 'brand' => [
@@ -36,6 +36,22 @@ return [
         //     'ident'  => 'B',
         //     'class'  => 'brand-text',
         //     'cp_css' => 'color: dodgerblue; font-weight: 700',
+        // ],
+
+        // 'columns' => [
+        //     'type'   => 'div',
+        //     'name'   => 'Two Columns',
+        //     'ident'  => '❙ ❙',
+        //     'class'  => 'two-columns',
+        //     'cp_css' => 'column-count: 2; column-gap: 1em',
+        // ],
+
+        // 'hint' => [
+        //     'type'   => 'div',
+        //     'name'   => 'Hint',
+        //     'ident'  => '✽',
+        //     'class'  => 'hint',
+        //     'cp_css' => 'background: #eff2fb; border-radius: 3px; padding: 1em',
         // ],
 
     ],

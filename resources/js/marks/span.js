@@ -10,7 +10,7 @@ class BaseSpan extends Mark {
     get schema() {
         return {
             parseDOM: [{
-                tag: 'span',
+                tag: 'span[data-bts]',
             }],
             toDOM: () => ['span', 0],
         };
@@ -22,4 +22,4 @@ class BaseSpan extends Mark {
 
 }
 
-export default class Span extends BardMutator.mutatesNode(BaseSpan) {}
+export default class Span extends BardMutator.mutatesMark(BaseSpan) {}

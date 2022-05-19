@@ -5,6 +5,7 @@ namespace JackSleight\StatamicBardTexstyle;
 use Illuminate\Support\Arr;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
+use JackSleight\StatamicBardTexstyle\Nodes\Div;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -39,11 +40,16 @@ class ServiceProvider extends AddonServiceProvider
         ]);
 
         Augmentor::addMark(Span::class);
+        Augmentor::addNode(Div::class);
 
         $coreTypes = collect($styles)
             ->pluck('type')
-            ->map(fn ($v) => $v === 'span' ? 'bts_span' : $v)
+            ->map(fn ($v) => [
+                'span' => 'bts_span',
+                'div'  => 'bts_div',
+            ][$v] ?? $v)
             ->unique();
+
         $allTypes = $coreTypes
             ->merge(collect($defaults)->keys())
             ->unique();

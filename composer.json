@@ -8,7 +8,7 @@
     "extra": {
         "statamic": {
             "name": "Bard Texstyle",
-            "description": "This Statamic addon gives you the ability to add custom heading, paragraph and inline (span) text styles to the Bard fieldtype."
+            "description": "This Statamic addon gives you the ability to add custom heading, paragraph, inline text (span) and container (div) styles to the Bard fieldtype."
         },
         "laravel": {
             "providers": [
@@ -18,7 +18,7 @@
     },
     "require": {
         "statamic/cms": "~3.2.24 || 3.3.*",
-        "jacksleight/statamic-bard-mutator": "^1.0.3"
+        "jacksleight/statamic-bard-mutator": "^1.0.4"
     },
     "config": {
         "allow-plugins": {
