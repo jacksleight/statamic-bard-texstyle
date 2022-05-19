@@ -5,7 +5,7 @@
         :class="{ active: isActive() }"
         :aria-label="button.text"
         v-tooltip="button.text"
-        @click="editor.commands[button.command](button.args)"
+        @click="button.command(editor, button.args)"
     >
         <div class="flex items-center" v-html="icon"></div>
     </button>

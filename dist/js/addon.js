@@ -52,83 +52,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/commands.js":
-/*!**********************************!*\
-  !*** ./resources/js/commands.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "liftAll": () => (/* binding */ liftAll),
-/* harmony export */   "liftTarget": () => (/* binding */ liftTarget),
-/* harmony export */   "toggleWrapFlat": () => (/* binding */ toggleWrapFlat),
-/* harmony export */   "updateNodeMerge": () => (/* binding */ updateNodeMerge)
-/* harmony export */ });
-var TextSelection = Statamic.$bard.tiptap.core.TextSelection;
-var _Statamic$$bard$tipta = Statamic.$bard.tiptap.commands,
-    wrapIn = _Statamic$$bard$tipta.wrapIn,
-    lift = _Statamic$$bard$tipta.lift;
-var nodeIsActive = Statamic.$bard.tiptap.utils.nodeIsActive; // use findParentNodeClosestToPos
-
-function updateNodeMerge(type) {
-  var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return function (state, dispatch) {
-    var _state$selection = state.selection,
-        from = _state$selection.from,
-        to = _state$selection.to;
-    var node, pos;
-    state.doc.nodesBetween(from, to, function (n, p) {
-      if (n.type.name !== type.name) {
-        return;
-      }
-
-      node = n;
-      pos = p;
-      return false;
-    });
-    dispatch(state.tr.setNodeMarkup(pos, null, Object.assign({}, node.attrs, attrs)));
-    return true;
-  };
-}
-function liftTarget(range) {
-  return 0;
-}
-function liftAll(state, dispatch) {
-  var _state$selection2 = state.selection,
-      $from = _state$selection2.$from,
-      $to = _state$selection2.$to;
-  var range = $from.blockRange($to);
-  var target = liftTarget(range);
-  var inner = target + 1;
-  var from = $from.start(inner),
-      to = $to.end(inner);
-  var fullRange = TextSelection.create(state.doc, from, to).ranges[0];
-  fullRange.depth = inner;
-  if (dispatch) dispatch(state.tr.lift(fullRange, target).scrollIntoView());
-  return true;
-}
-function toggleWrapFlat(type) {
-  var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return function (state, dispatch, view) {
-    var isActive = nodeIsActive(state, type, attrs);
-
-    if (isActive) {
-      return liftAll(state, dispatch);
-    }
-
-    var isAnyActive = nodeIsActive(state, type);
-
-    if (isAnyActive) {
-      return updateNodeMerge(type, attrs)(state, dispatch, view);
-    }
-
-    return wrapIn(type, attrs)(state, dispatch, view);
-  };
-}
-
-/***/ }),
-
 /***/ "./resources/js/icons.js":
 /*!*******************************!*\
   !*** ./resources/js/icons.js ***!
@@ -178,206 +101,6 @@ var styleToIcon = function styleToIcon(style, type) {
   var icon = style.icon ? style.icon : style.type === 'div' ? 'square' : 'letter';
   return icons[icon] ? icons[icon](style) : icon;
 };
-
-/***/ }),
-
-/***/ "./resources/js/marks/Span.js":
-/*!************************************!*\
-  !*** ./resources/js/marks/Span.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Span)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var Mark = Statamic.$bard.tiptap.core.Mark;
-var toggleMark = Statamic.$bard.tiptap.commands.toggleMark;
-
-var BaseSpan = /*#__PURE__*/function (_Mark) {
-  _inherits(BaseSpan, _Mark);
-
-  var _super = _createSuper(BaseSpan);
-
-  function BaseSpan() {
-    _classCallCheck(this, BaseSpan);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(BaseSpan, [{
-    key: "name",
-    get: function get() {
-      return 'bts_span';
-    }
-  }, {
-    key: "schema",
-    get: function get() {
-      return {
-        parseDOM: [{
-          tag: 'span[data-bts]'
-        }],
-        toDOM: function toDOM() {
-          return ['span', 0];
-        }
-      };
-    }
-  }, {
-    key: "commands",
-    value: function commands(_ref) {
-      var type = _ref.type;
-      return function (attrs) {
-        return toggleMark(type, attrs);
-      };
-    }
-  }]);
-
-  return BaseSpan;
-}(Mark);
-
-var Span = /*#__PURE__*/function (_BardMutator$mutatesM) {
-  _inherits(Span, _BardMutator$mutatesM);
-
-  var _super2 = _createSuper(Span);
-
-  function Span() {
-    _classCallCheck(this, Span);
-
-    return _super2.apply(this, arguments);
-  }
-
-  return _createClass(Span);
-}(BardMutator.mutatesMark(BaseSpan));
-
-
-
-/***/ }),
-
-/***/ "./resources/js/nodes/Div.js":
-/*!***********************************!*\
-  !*** ./resources/js/nodes/Div.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Div)
-/* harmony export */ });
-/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../commands */ "./resources/js/commands.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-var Node = Statamic.$bard.tiptap.core.Node;
-var wrappingInputRule = Statamic.$bard.tiptap.commands.wrappingInputRule;
-
-var BaseDiv = /*#__PURE__*/function (_Node) {
-  _inherits(BaseDiv, _Node);
-
-  var _super = _createSuper(BaseDiv);
-
-  function BaseDiv() {
-    _classCallCheck(this, BaseDiv);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(BaseDiv, [{
-    key: "name",
-    get: function get() {
-      return 'bts_div';
-    }
-  }, {
-    key: "schema",
-    get: function get() {
-      return {
-        content: 'block*',
-        group: 'block',
-        defining: false,
-        draggable: false,
-        parseDOM: [{
-          tag: 'div[data-bts]'
-        }],
-        toDOM: function toDOM() {
-          return ['div', 0];
-        }
-      };
-    }
-  }, {
-    key: "commands",
-    value: function commands(_ref) {
-      var type = _ref.type;
-      return function (attrs) {
-        return (0,_commands__WEBPACK_IMPORTED_MODULE_0__.toggleWrapFlat)(type, attrs);
-      };
-    }
-  }, {
-    key: "inputRules",
-    value: function inputRules(_ref2) {
-      var type = _ref2.type;
-      return [wrappingInputRule(/^\s*>\s$/, type)];
-    }
-  }]);
-
-  return BaseDiv;
-}(Node);
-
-var Div = /*#__PURE__*/function (_BardMutator$mutatesN) {
-  _inherits(Div, _BardMutator$mutatesN);
-
-  var _super2 = _createSuper(Div);
-
-  function Div() {
-    _classCallCheck(this, Div);
-
-    return _super2.apply(this, arguments);
-  }
-
-  return _createClass(Div);
-}(BardMutator.mutatesNode(BaseDiv));
-
-
 
 /***/ }),
 
@@ -481,7 +204,7 @@ var render = function () {
       attrs: { "aria-label": _vm.button.text },
       on: {
         click: function ($event) {
-          _vm.editor.commands[_vm.button.command](_vm.button.args)
+          return _vm.button.command(_vm.editor, _vm.button.args)
         },
       },
     },
@@ -675,10 +398,8 @@ var __webpack_exports__ = {};
   !*** ./resources/js/addon.js ***!
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _marks_Span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/Span */ "./resources/js/marks/Span.js");
-/* harmony import */ var _nodes_Div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/Div */ "./resources/js/nodes/Div.js");
-/* harmony import */ var _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ToolbarButton.vue */ "./resources/js/components/ToolbarButton.vue");
-/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
+/* harmony import */ var _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/ToolbarButton.vue */ "./resources/js/components/ToolbarButton.vue");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -697,15 +418,15 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+// import Span from './marks/Span'
+// import Div from './nodes/Div'
 
+ // const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
-
-
-var toggleBlockType = Statamic.$bard.tiptap.commands.toggleBlockType;
 var types = {
   heading: {
     tag: 'h',
-    cmd: 'heading'
+    cmd: 'toggleHeading'
   },
   paragraph: {
     tag: 'p',
@@ -722,13 +443,9 @@ var types = {
 };
 Statamic.booting(function () {
   var _BardMutator = BardMutator,
-      mutator = _BardMutator.mutator;
-  Statamic.$bard.addExtension(function () {
-    return new _marks_Span__WEBPACK_IMPORTED_MODULE_0__["default"]();
-  });
-  Statamic.$bard.addExtension(function () {
-    return new _nodes_Div__WEBPACK_IMPORTED_MODULE_1__["default"]();
-  });
+      mutator = _BardMutator.mutator; // Statamic.$bard.addExtension(() => new Span());
+  // Statamic.$bard.addExtension(() => new Div());
+
   var store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
   var attr = store === 'class' ? 'class' : 'bts_key';
   var styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
@@ -739,69 +456,86 @@ Statamic.booting(function () {
     return style.type;
   }).filter(function (value, index, self) {
     return self.indexOf(value) === index;
-  });
-
-  var schemaMutator = function schemaMutator(schema, _ref3) {
-    var extendSchema = _ref3.extendSchema;
-    return extendSchema(schema, {
-      attrs: _defineProperty({}, attr, {
-        "default": null
-      }),
-      parseDOMAttrs: function parseDOMAttrs(dom) {
-        return _defineProperty({}, attr, dom.getAttribute("data-bts"));
-      },
-      toDOMAttrs: function toDOMAttrs(node) {
-        return _defineProperty({}, 'data-bts', node.attrs[attr]);
-      }
-    });
-  };
+  }); // const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
+  //     attrs: {
+  //         [attr]: {
+  //             default: null,
+  //         },
+  //     },
+  //     parseDOMAttrs: dom => ({
+  //         [attr]: dom.getAttribute(`data-bts`),
+  //     }),
+  //     toDOMAttrs: node => ({
+  //         ['data-bts']: node.attrs[attr],
+  //     }),
+  // });
 
   if (activeTypes.includes('heading')) {
-    mutator.schema('heading', schemaMutator);
-  }
+    mutator.mutator('heading', 'addAttributes', function (_ref3) {
+      var value = _ref3.value;
+      return _objectSpread(_objectSpread({}, value), {}, _defineProperty({}, attr, {
+        "default": null,
+        rendered: false
+      }));
+    }); // mutator.mutator('heading', 'parseHTML', ({ value }) => {
+    //     console.log(value);
+    //     return [
+    //         {
+    //             tag: 'h1',
+    //             getAttrs: node => {
+    //                 console.log(node);
+    //                 return node.getAttribute(`data-bts`) === 'hero' && null;
+    //             }
+    //         },
+    //         ...value,
+    //     ];
+    // });
 
-  if (activeTypes.includes('paragraph')) {
-    mutator.schema('paragraph', schemaMutator);
-    mutator.commands('paragraph', function (commands, _ref6) {
-      var type = _ref6.type,
-          schema = _ref6.schema;
-      return _objectSpread(_objectSpread({}, commands), {}, {
-        paragraph: function paragraph(attrs) {
-          return toggleBlockType(type, schema.nodes.paragraph, attrs);
-        }
-      });
+    mutator.mutator('heading', 'renderHTML', function (_ref4) {
+      var value = _ref4.value,
+          node = _ref4.node;
+      value[1]['data-bts'] = node.attrs[attr];
+      return value;
     });
-  }
-
-  if (activeTypes.includes('span')) {
-    mutator.schema('bts_span', schemaMutator);
-  }
-
-  if (activeTypes.includes('div')) {
-    mutator.schema('bts_div', schemaMutator);
-  } // Buttons
+  } // if (activeTypes.includes('paragraph')) {
+  //     mutator.schema('paragraph', schemaMutator);
+  //     mutator.commands('paragraph', (commands, { type, schema }) => ({
+  //         ...commands,
+  //         paragraph: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
+  //     }));
+  // }
+  // if (activeTypes.includes('span')) {
+  //     mutator.schema('bts_span', schemaMutator);
+  // }
+  // if (activeTypes.includes('div')) {
+  //     mutator.schema('bts_div', schemaMutator);
+  // }
+  // Buttons
 
 
   Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref7) {
-      var _ref9;
+    Object.entries(styles).forEach(function (_ref5) {
+      var _ref7;
 
-      var _ref8 = _slicedToArray(_ref7, 2),
-          key = _ref8[0],
-          style = _ref8[1];
+      var _ref6 = _slicedToArray(_ref5, 2),
+          key = _ref6[0],
+          style = _ref6[1];
 
       if (!types[style.type]) {
         return;
       }
 
       var type = types[style.type];
-      var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_3__.styleToIcon)(style, type);
+      var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_1__.styleToIcon)(style, type);
       var data = {
         name: key,
+        activeName: 'heading',
         text: style.name,
-        command: type.cmd,
-        args: style.type === 'heading' ? (_ref9 = {}, _defineProperty(_ref9, attr, style[store]), _defineProperty(_ref9, "level", style.level), _ref9) : _defineProperty({}, attr, style[store]),
-        component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+        command: function command(editor, args) {
+          return editor.commands[type.cmd](args);
+        },
+        args: style.type === 'heading' ? (_ref7 = {}, _defineProperty(_ref7, attr, style[store]), _defineProperty(_ref7, "level", style.level), _ref7) : _defineProperty({}, attr, style[store]),
+        component: _components_ToolbarButton_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
         html: icon,
         bts_config: {
           store: store,
@@ -825,9 +559,9 @@ Statamic.booting(function () {
   }).forEach(function (rule) {
     return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
   });
-  Object.entries(styles).forEach(function (_ref11) {
-    var _ref12 = _slicedToArray(_ref11, 2),
-        style = _ref12[1];
+  Object.entries(styles).forEach(function (_ref9) {
+    var _ref10 = _slicedToArray(_ref9, 2),
+        style = _ref10[1];
 
     if (!types[style.type]) {
       return;

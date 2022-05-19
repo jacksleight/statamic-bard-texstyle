@@ -1,13 +1,13 @@
-import Span from './marks/Span'
-import Div from './nodes/Div'
+// import Span from './marks/Span'
+// import Div from './nodes/Div'
 import ToolbarButton from "./components/ToolbarButton.vue";
 import { styleToIcon } from './icons';
-const { toggleBlockType } = Statamic.$bard.tiptap.commands;
+// const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = {
     heading: {
         tag: 'h',
-        cmd: 'heading'
+        cmd: 'toggleHeading'
     },
     paragraph: {
         tag: 'p',
@@ -27,8 +27,8 @@ Statamic.booting(() => {
 
     const { mutator } = BardMutator;
 
-    Statamic.$bard.addExtension(() => new Span());
-    Statamic.$bard.addExtension(() => new Div());
+    // Statamic.$bard.addExtension(() => new Span());
+    // Statamic.$bard.addExtension(() => new Div());
 
     const store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
     const attr  = store === 'class' ? 'class' : 'bts_key';
@@ -38,36 +38,61 @@ Statamic.booting(() => {
         .map(([, style]) => style.type)
         .filter((value, index, self) => self.indexOf(value) === index);
 
-    const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
-        attrs: {
-            [attr]: {
-                default: null,
-            },
-        },
-        parseDOMAttrs: dom => ({
-            [attr]: dom.getAttribute(`data-bts`),
-        }),
-        toDOMAttrs: node => ({
-            ['data-bts']: node.attrs[attr],
-        }),
-    });
+    // const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
+    //     attrs: {
+    //         [attr]: {
+    //             default: null,
+    //         },
+    //     },
+    //     parseDOMAttrs: dom => ({
+    //         [attr]: dom.getAttribute(`data-bts`),
+    //     }),
+    //     toDOMAttrs: node => ({
+    //         ['data-bts']: node.attrs[attr],
+    //     }),
+    // });
 
     if (activeTypes.includes('heading')) {
-        mutator.schema('heading', schemaMutator);
+        mutator.mutator('heading', 'addAttributes', ({ value }) => {
+            return {
+                ...value,
+                [attr]: {
+                    default: null,
+                    rendered: false,
+                },
+            };
+        });
+        // mutator.mutator('heading', 'parseHTML', ({ value }) => {
+        //     console.log(value);
+        //     return [
+        //         {
+        //             tag: 'h1',
+        //             getAttrs: node => {
+        //                 console.log(node);
+        //                 return node.getAttribute(`data-bts`) === 'hero' && null;
+        //             }
+        //         },
+        //         ...value,
+        //     ];
+        // });
+        mutator.mutator('heading', 'renderHTML', ({ value, node }) => {
+            value[1]['data-bts'] = node.attrs[attr];
+            return value;
+        });
     }
-    if (activeTypes.includes('paragraph')) {
-        mutator.schema('paragraph', schemaMutator);
-        mutator.commands('paragraph', (commands, { type, schema }) => ({
-            ...commands,
-            paragraph: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
-        }));
-    }
-    if (activeTypes.includes('span')) {
-        mutator.schema('bts_span', schemaMutator);
-    }
-    if (activeTypes.includes('div')) {
-        mutator.schema('bts_div', schemaMutator);
-    }
+    // if (activeTypes.includes('paragraph')) {
+    //     mutator.schema('paragraph', schemaMutator);
+    //     mutator.commands('paragraph', (commands, { type, schema }) => ({
+    //         ...commands,
+    //         paragraph: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
+    //     }));
+    // }
+    // if (activeTypes.includes('span')) {
+    //     mutator.schema('bts_span', schemaMutator);
+    // }
+    // if (activeTypes.includes('div')) {
+    //     mutator.schema('bts_div', schemaMutator);
+    // }
 
     // Buttons
     
@@ -80,8 +105,9 @@ Statamic.booting(() => {
             const icon = styleToIcon(style, type);
             const data = {
                 name: key,
+                activeName: 'heading',
                 text: style.name,
-                command: type.cmd,
+                command: (editor, args) => editor.commands[type.cmd](args),
                 args: style.type === 'heading'
                     ? { [attr]: style[store], level: style.level }
                     : { [attr]: style[store] },

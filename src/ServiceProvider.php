@@ -39,51 +39,51 @@ class ServiceProvider extends AddonServiceProvider
             ],
         ]);
 
-        Augmentor::addMark(Span::class);
-        Augmentor::addNode(Div::class);
+        // Augmentor::addMark(Span::class);
+        // Augmentor::addNode(Div::class);
 
-        $coreTypes = collect($styles)
-            ->pluck('type')
-            ->map(fn ($v) => [
-                'span' => 'bts_span',
-                'div'  => 'bts_div',
-            ][$v] ?? $v)
-            ->unique();
+        // $coreTypes = collect($styles)
+        //     ->pluck('type')
+        //     ->map(fn ($v) => [
+        //         'span' => 'bts_span',
+        //         'div'  => 'bts_div',
+        //     ][$v] ?? $v)
+        //     ->unique();
 
-        $allTypes = $coreTypes
-            ->merge(collect($defaults)->keys())
-            ->unique();
+        // $allTypes = $coreTypes
+        //     ->merge(collect($defaults)->keys())
+        //     ->unique();
 
-        $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
-            if (! isset($tag[0])) {
-                return $tag;
-            }
-            $default = $node->type === 'heading'
-                ? ($defaults[$node->type][$node->attrs->level] ?? null)
-                : ($defaults[$node->type] ?? null);
-            if ($coreTypes->contains($node->type)) {
-                if ($store === 'class') {
-                    $class = isset($node->attrs->class)
-                        ? $node->attrs->class
-                        : $default;
-                } else {
-                    $class = isset($node->attrs->bts_key)
-                        ? ($styles[$node->attrs->bts_key]['class'] ?? null)
-                        : $default;
-                }
-            } else {
-                $class = $default;
-            }
-            if (isset($class)) {
-                $tag[0]['attrs']['class'] = $class;
-            }
+        // $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
+        //     if (! isset($tag[0])) {
+        //         return $tag;
+        //     }
+        //     $default = $node->type === 'heading'
+        //         ? ($defaults[$node->type][$node->attrs->level] ?? null)
+        //         : ($defaults[$node->type] ?? null);
+        //     if ($coreTypes->contains($node->type)) {
+        //         if ($store === 'class') {
+        //             $class = isset($node->attrs->class)
+        //                 ? $node->attrs->class
+        //                 : $default;
+        //         } else {
+        //             $class = isset($node->attrs->bts_key)
+        //                 ? ($styles[$node->attrs->bts_key]['class'] ?? null)
+        //                 : $default;
+        //         }
+        //     } else {
+        //         $class = $default;
+        //     }
+        //     if (isset($class)) {
+        //         $tag[0]['attrs']['class'] = $class;
+        //     }
 
-            return $tag;
-        };
+        //     return $tag;
+        // };
 
-        foreach ($allTypes as $type) {
-            Mutator::tag($type, $tagMutator);
-        }
+        // foreach ($allTypes as $type) {
+        //     Mutator::tag($type, $tagMutator);
+        // }
 
         return $this;
     }
