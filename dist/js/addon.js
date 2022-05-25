@@ -60,45 +60,48 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // import { Extension } from '@tiptap/core';
 var Extension = Statamic.$bard.tiptap.core.Extension;
-
-var CreateCore = function CreateCore(_ref) {
-  var attr = _ref.attr,
-      classTypes = _ref.classTypes;
-  return Extension.create({
-    name: 'bts_core',
-    addGlobalAttributes: function addGlobalAttributes() {
-      return [{
-        types: classTypes,
-        attributes: _defineProperty({}, attr, {
-          parseHTML: function parseHTML(element) {
-            return element.getAttribute('data-bts');
-          },
-          renderHTML: function renderHTML(attributes) {
-            return _defineProperty({}, 'data-bts', attributes[attr]);
-          }
-        })
-      }];
-    },
-    addCommands: function addCommands() {
-      return {
-        btsToggleHeading: function btsToggleHeading(attributes) {
-          return function (_ref3) {
-            var commands = _ref3.commands;
-            return commands.toggleNode('heading', 'paragraph', attributes);
-          };
+var Core = Extension.create({
+  name: 'bts_core',
+  addOptions: function addOptions() {
+    return {
+      attr: null,
+      types: []
+    };
+  },
+  addGlobalAttributes: function addGlobalAttributes() {
+    var _this$options = this.options,
+        attr = _this$options.attr,
+        types = _this$options.types;
+    return [{
+      types: types,
+      attributes: _defineProperty({}, attr, {
+        parseHTML: function parseHTML(element) {
+          return element.getAttribute('data-bts');
         },
-        btsToggleParagraph: function btsToggleParagraph(attributes) {
-          return function (_ref4) {
-            var commands = _ref4.commands;
-            return commands.toggleNode('paragraph', 'paragraph', attributes);
-          };
+        renderHTML: function renderHTML(attributes) {
+          return _defineProperty({}, 'data-bts', attributes[attr]);
         }
-      };
-    }
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateCore);
+      })
+    }];
+  },
+  addCommands: function addCommands() {
+    return {
+      btsToggleHeading: function btsToggleHeading(attributes) {
+        return function (_ref2) {
+          var commands = _ref2.commands;
+          return commands.toggleNode('heading', 'paragraph', attributes);
+        };
+      },
+      btsToggleParagraph: function btsToggleParagraph(attributes) {
+        return function (_ref3) {
+          var commands = _ref3.commands;
+          return commands.toggleNode('paragraph', 'paragraph', attributes);
+        };
+      }
+    };
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Core);
 
 /***/ }),
 
@@ -601,17 +604,12 @@ var types = {
 };
 Statamic.booting(function () {
   // Initialization
-  var store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
-  var attr = store === 'class' ? 'class' : 'bts_key';
-  var styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
-  var classTypes = Object.entries(styles).map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-        style = _ref2[1];
+  var _Statamic$$config$get = Statamic.$config.get('statamic-bard-texstyle'),
+      store = _Statamic$$config$get.store,
+      attr = _Statamic$$config$get.attr,
+      styles = _Statamic$$config$get.styles,
+      coreTypes = _Statamic$$config$get.coreTypes; // Extensions
 
-    return types[style.type].ext;
-  }).filter(function (value, index, self) {
-    return self.indexOf(value) === index;
-  }); // Extensions
 
   Statamic.$bard.addExtension(function () {
     return _marks_span__WEBPACK_IMPORTED_MODULE_0__["default"];
@@ -620,19 +618,19 @@ Statamic.booting(function () {
     return _nodes_Div__WEBPACK_IMPORTED_MODULE_1__["default"];
   });
   Statamic.$bard.addExtension(function () {
-    return (0,_extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"])({
+    return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure({
       attr: attr,
-      classTypes: classTypes
+      types: coreTypes
     });
   }); // Buttons
 
   Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref3) {
-      var _ref5;
+    Object.entries(styles).forEach(function (_ref) {
+      var _ref3;
 
-      var _ref4 = _slicedToArray(_ref3, 2),
-          key = _ref4[0],
-          style = _ref4[1];
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          style = _ref2[1];
 
       if (!types[style.type]) {
         return;
@@ -640,7 +638,7 @@ Statamic.booting(function () {
 
       var type = types[style.type];
       var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_4__.styleToIcon)(style, type);
-      var args = style.type === 'heading' ? (_ref5 = {}, _defineProperty(_ref5, attr, style[store]), _defineProperty(_ref5, "level", style.level), _ref5) : _defineProperty({}, attr, style[store]);
+      var args = style.type === 'heading' ? (_ref3 = {}, _defineProperty(_ref3, attr, style[store]), _defineProperty(_ref3, "level", style.level), _ref3) : _defineProperty({}, attr, style[store]);
       var data = {
         name: key,
         text: style.name,
@@ -672,9 +670,9 @@ Statamic.booting(function () {
   }).forEach(function (rule) {
     return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
   });
-  Object.entries(styles).forEach(function (_ref7) {
-    var _ref8 = _slicedToArray(_ref7, 2),
-        style = _ref8[1];
+  Object.entries(styles).forEach(function (_ref5) {
+    var _ref6 = _slicedToArray(_ref5, 2),
+        style = _ref6[1];
 
     if (!types[style.type]) {
       return;

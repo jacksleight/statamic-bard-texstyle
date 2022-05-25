@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
+use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -23,8 +24,7 @@ class ServiceProvider extends AddonServiceProvider
         ], 'statamic-bard-texstyle-config');
 
         $store = config('statamic.bard_texstyle.store', 'class');
-
-        $defaults = config('statamic.bard_texstyle.default_classes', []);
+        $attr  = $store === 'class' ? 'class' : 'bts_key';
 
         $styles = config('statamic.bard_texstyle.styles', []);
         $styles = $this->normalizeStyles($styles);
@@ -32,58 +32,35 @@ class ServiceProvider extends AddonServiceProvider
             $style['key'] = $key;
         });
 
-        Statamic::provideToScript([
-            'statamic-bard-texstyle' => [
-                'styles' => $styles,
-                'store'  => $store,
-            ],
-        ]);
+        $coreTypes = collect($styles)
+            ->pluck('type')
+            ->map(fn ($v) => [
+                'span' => 'bts_span',
+                'div'  => 'bts_div',
+            ][$v] ?? $v)
+            ->unique();
 
-        // Augmentor::addMark(Span::class);
-        // Augmentor::addNode(Div::class);
-
-        // $coreTypes = collect($styles)
-        //     ->pluck('type')
-        //     ->map(fn ($v) => [
-        //         'span' => 'bts_span',
-        //         'div'  => 'bts_div',
-        //     ][$v] ?? $v)
-        //     ->unique();
-
+        // @todo
+        // $defaults = config('statamic.bard_texstyle.default_classes', []);
         // $allTypes = $coreTypes
         //     ->merge(collect($defaults)->keys())
         //     ->unique();
 
-        // $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
-        //     if (! isset($tag[0])) {
-        //         return $tag;
-        //     }
-        //     $default = $node->type === 'heading'
-        //         ? ($defaults[$node->type][$node->attrs->level] ?? null)
-        //         : ($defaults[$node->type] ?? null);
-        //     if ($coreTypes->contains($node->type)) {
-        //         if ($store === 'class') {
-        //             $class = isset($node->attrs->class)
-        //                 ? $node->attrs->class
-        //                 : $default;
-        //         } else {
-        //             $class = isset($node->attrs->bts_key)
-        //                 ? ($styles[$node->attrs->bts_key]['class'] ?? null)
-        //                 : $default;
-        //         }
-        //     } else {
-        //         $class = $default;
-        //     }
-        //     if (isset($class)) {
-        //         $tag[0]['attrs']['class'] = $class;
-        //     }
+        Statamic::provideToScript([
+            'statamic-bard-texstyle' => [
+                'store'     => $store,
+                'attr'      => $attr,
+                'styles'    => $styles,
+                'coreTypes' => $coreTypes,
+            ],
+        ]);
 
-        //     return $tag;
-        // };
-
-        // foreach ($allTypes as $type) {
-        //     Mutator::tag($type, $tagMutator);
-        // }
+        Augmentor::addExtension('bts_span', new Span());
+        Augmentor::addExtension('bts_div', new Div());
+        Augmentor::addExtension('bts_core', new Core([
+            'attr'  => $attr,
+            'types' => $coreTypes,
+        ]));
 
         return $this;
     }

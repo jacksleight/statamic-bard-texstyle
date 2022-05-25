@@ -1,20 +1,30 @@
 // import { Extension } from '@tiptap/core';
 const { Extension } = Statamic.$bard.tiptap.core;
 
-const CreateCore = ({ attr, classTypes }) => Extension.create({
+const Core = Extension.create({
 
     name: 'bts_core',
 
+    addOptions() {
+        return {
+            attr: null,
+            types: [],
+        }
+    },
+
     addGlobalAttributes() {
+        const { attr, types } = this.options;
         return [
             {
-                types: classTypes,
+                types: types,
                 attributes: {
                     [attr]: {
                         parseHTML: element => element.getAttribute('data-bts'),
-                        renderHTML: attributes => ({
-                            ['data-bts']: attributes[attr],
-                        }),
+                        renderHTML: attributes => {
+                            return {
+                                ['data-bts']: attributes[attr],
+                            };
+                        },
                     },
                 },
             },
@@ -33,4 +43,4 @@ const CreateCore = ({ attr, classTypes }) => Extension.create({
     },
 
 });
-export default CreateCore;
+export default Core;

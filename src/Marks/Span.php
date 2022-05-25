@@ -2,13 +2,18 @@
 
 namespace JackSleight\StatamicBardTexstyle\Marks;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
-use ProseMirrorToHtml\Marks\Mark;
+use Tiptap\Core\Mark;
 
 class Span extends Mark
 {
-    use MutatesMark;
+    public static $name = 'bts_span';
 
-    protected $markType = 'bts_span';
-    protected $tagName = 'span';
+    // @todo
+    // public function parseHTML()
+    // {}
+
+    public function renderHTML($mark, $HTMLAttributes = [])
+    {
+        return ['span', $HTMLAttributes, 0];
+    }
 }

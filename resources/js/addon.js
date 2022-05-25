@@ -1,6 +1,6 @@
 import Span from './marks/span'
 import Div from './nodes/Div'
-import CreateCore from './extensions/core'
+import Core from './extensions/core'
 import ToolbarButton from "./components/ToolbarButton.vue";
 import { styleToIcon } from './icons';
 
@@ -31,19 +31,13 @@ Statamic.booting(() => {
 
     // Initialization
 
-    const store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
-    const attr  = store === 'class' ? 'class' : 'bts_key';
-
-    const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
-    const classTypes = Object.entries(styles)
-        .map(([, style]) => types[style.type].ext)
-        .filter((value, index, self) => self.indexOf(value) === index);
+    const { store, attr, styles, coreTypes } = Statamic.$config.get('statamic-bard-texstyle');
 
     // Extensions
 
     Statamic.$bard.addExtension(() => Span);
     Statamic.$bard.addExtension(() => Div);
-    Statamic.$bard.addExtension(() => CreateCore({ attr, classTypes }));
+    Statamic.$bard.addExtension(() => Core.configure({ attr, types: coreTypes }));
 
     // Buttons
     

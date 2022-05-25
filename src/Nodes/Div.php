@@ -2,13 +2,18 @@
 
 namespace JackSleight\StatamicBardTexstyle\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
-use ProseMirrorToHtml\Nodes\Node;
+use Tiptap\Core\Node;
 
 class Div extends Node
 {
-    use MutatesNode;
+    public static $name = 'bts_div';
 
-    protected $nodeType = 'bts_div';
-    protected $tagName = 'div';
+    // @todo
+    // public function parseHTML()
+    // {}
+
+    public function renderHTML($node, $HTMLAttributes = [])
+    {
+        return ['div', $HTMLAttributes, 0];
+    }
 }
