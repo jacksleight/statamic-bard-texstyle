@@ -1,98 +1,49 @@
-// import Span from './marks/Span'
-// import Div from './nodes/Div'
+import Span from './marks/span'
+import Div from './nodes/Div'
+import CreateCore from './extensions/core'
 import ToolbarButton from "./components/ToolbarButton.vue";
 import { styleToIcon } from './icons';
-// const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = {
     heading: {
         tag: 'h',
-        cmd: 'toggleHeading'
+        ext: 'heading',
+        cmd: 'btsToggleHeading'
     },
     paragraph: {
         tag: 'p',
-        cmd: 'paragraph'
+        ext: 'paragraph',
+        cmd: 'btsToggleParagraph'
     },
     span: {
         tag: 'span',
-        cmd: 'bts_span'
+        ext: 'bts_span',
+        cmd: 'btsToggleSpan'
     },
     div: {
         tag: 'div',
-        cmd: 'bts_div'
+        ext: 'bts_div',
+        cmd: 'btsToggleDiv'
     },
 };
 
 Statamic.booting(() => {
 
-    const { mutator } = BardMutator;
-
-    // Statamic.$bard.addExtension(() => new Span());
-    // Statamic.$bard.addExtension(() => new Div());
+    // Initialization
 
     const store = Statamic.$config.get('statamic-bard-texstyle.store') || 'class';
     const attr  = store === 'class' ? 'class' : 'bts_key';
 
     const styles = Statamic.$config.get('statamic-bard-texstyle.styles') || [];
-    const activeTypes = Object.entries(styles)
-        .map(([, style]) => style.type)
+    const classTypes = Object.entries(styles)
+        .map(([, style]) => types[style.type].ext)
         .filter((value, index, self) => self.indexOf(value) === index);
 
-    // const schemaMutator = (schema, { extendSchema }) => extendSchema(schema, {
-    //     attrs: {
-    //         [attr]: {
-    //             default: null,
-    //         },
-    //     },
-    //     parseDOMAttrs: dom => ({
-    //         [attr]: dom.getAttribute(`data-bts`),
-    //     }),
-    //     toDOMAttrs: node => ({
-    //         ['data-bts']: node.attrs[attr],
-    //     }),
-    // });
+    // Extensions
 
-    if (activeTypes.includes('heading')) {
-        mutator.mutator('heading', 'addAttributes', ({ value }) => {
-            return {
-                ...value,
-                [attr]: {
-                    default: null,
-                    rendered: false,
-                },
-            };
-        });
-        // mutator.mutator('heading', 'parseHTML', ({ value }) => {
-        //     console.log(value);
-        //     return [
-        //         {
-        //             tag: 'h1',
-        //             getAttrs: node => {
-        //                 console.log(node);
-        //                 return node.getAttribute(`data-bts`) === 'hero' && null;
-        //             }
-        //         },
-        //         ...value,
-        //     ];
-        // });
-        mutator.mutator('heading', 'renderHTML', ({ value, node }) => {
-            value[1]['data-bts'] = node.attrs[attr];
-            return value;
-        });
-    }
-    // if (activeTypes.includes('paragraph')) {
-    //     mutator.schema('paragraph', schemaMutator);
-    //     mutator.commands('paragraph', (commands, { type, schema }) => ({
-    //         ...commands,
-    //         paragraph: attrs => toggleBlockType(type, schema.nodes.paragraph, attrs),
-    //     }));
-    // }
-    // if (activeTypes.includes('span')) {
-    //     mutator.schema('bts_span', schemaMutator);
-    // }
-    // if (activeTypes.includes('div')) {
-    //     mutator.schema('bts_div', schemaMutator);
-    // }
+    Statamic.$bard.addExtension(() => Span);
+    Statamic.$bard.addExtension(() => Div);
+    Statamic.$bard.addExtension(() => CreateCore({ attr, classTypes }));
 
     // Buttons
     
@@ -103,18 +54,17 @@ Statamic.booting(() => {
             }
             const type = types[style.type];
             const icon = styleToIcon(style, type);
+            const args = style.type === 'heading'
+                ? { [attr]: style[store], level: style.level }
+                : { [attr]: style[store] };
             const data = {
                 name: key,
-                activeName: 'heading',
                 text: style.name,
+                args: args,
                 command: (editor, args) => editor.commands[type.cmd](args),
-                args: style.type === 'heading'
-                    ? { [attr]: style[store], level: style.level }
-                    : { [attr]: style[store] },
                 component: ToolbarButton,
                 html: icon,
-                bts_config: { store, attr },
-                bts_style: { ...style, icon },
+                bts: { store, attr, style, icon, ext: type.ext },
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
         });

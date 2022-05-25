@@ -5,9 +5,8 @@
         :class="{ active: isActive() }"
         :aria-label="button.text"
         v-tooltip="button.text"
-        @click="button.command(editor, button.args)"
-    >
-        <div class="flex items-center" v-html="icon"></div>
+        @click="button.command(editor, button.args)">
+        <div class="flex items-center" v-html="button.bts.icon"></div>
     </button>
 
 </template>
@@ -16,20 +15,13 @@
 
 export default {
     mixins: [BardToolbarButton],
-    data() {
-        const style = this.button.bts_style;
-        return {
-            style: style,
-            icon: style.icon,
-        };
-    },
     methods: {
         isActive() {
-            const { store, attr } = this.button.bts_config;
-            if (this.style.type === 'span') {
+            const { store, attr, type, ext } = this.button.bts;
+            if (type === 'span') {
                 return this.editor.getMarkAttrs(this.button.command)[attr] === this.style[store];
             } else {
-                return this.active;
+                return this.editor.isActive(ext, this.button.args);
             }
         },
     },

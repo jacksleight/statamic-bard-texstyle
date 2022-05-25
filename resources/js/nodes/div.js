@@ -1,36 +1,54 @@
-import { toggleWrapFlat } from '../commands';
-const { Node } = Statamic.$bard.tiptap.core;
-const { wrappingInputRule } = Statamic.$bard.tiptap.commands;
+import { Node } from '@tiptap/core';
 
-class BaseDiv extends Node {
+const Div = Node.create({
 
-    get name() {
-        return 'bts_div';
-    }
+    name: 'bts_div',
+    
+    content: 'block*',
 
-    get schema() {
-        return {
-            content: 'block*',
-            group: 'block',
-            defining: false,
-            draggable: false,
-            parseDOM: [{
-                tag: 'div[data-bts]',
-            }],
-            toDOM: () => ['div', 0],
-        };
-    }
+    group: 'block',
 
-    commands({ type }) {
-        return attrs => toggleWrapFlat(type, attrs);
-    }
+    defining: false,
 
-    inputRules({ type }) {
+    parseHTML() {
         return [
-            wrappingInputRule(/^\s*>\s$/, type),
+            { tag: 'div[data-bts]' },
         ]
-    }
+    },
 
-}
+    renderHTML({ HTMLAttributes }) {
+        return ['div', HTMLAttributes, 0]
+    },
 
-export default class Div extends BardMutator.mutatesNode(BaseDiv) {}
+    addCommands() {
+        return {
+            btsToggleDiv: (attributes) => ({ editor, commands }) => {
+                if (editor.isActive(this.name, attributes)) {
+                    // return commands.liftAll();
+                }
+                if (editor.isActive(this.name)) {
+                    return commands.updateAttributes(this.name, attributes)
+                }
+                return commands.wrapIn(this.name, attributes)
+            },
+        }
+    },
+
+});
+export default Div;
+
+// export function liftTarget(range) {
+//     return 0;
+// }
+
+// export function liftAll(state, dispatch) {
+//     let { $from, $to } = state.selection;
+//     let range = $from.blockRange($to)
+//     let target = liftTarget(range)
+//     let inner = target + 1
+//     let from = $from.start(inner), to = $to.end(inner)
+//     let fullRange = TextSelection.create(state.doc, from, to).ranges[0]
+//     fullRange.depth = inner;
+//     if (dispatch) dispatch(state.tr.lift(fullRange, target).scrollIntoView())
+//     return true
+// }

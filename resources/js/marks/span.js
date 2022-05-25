@@ -1,25 +1,26 @@
-const { Mark } = Statamic.$bard.tiptap.core;
-const { toggleMark } = Statamic.$bard.tiptap.commands;
+import { Mark } from '@tiptap/core';
 
-class BaseSpan extends Mark {
+const Span = Mark.create({
 
-    get name() {
-        return 'bts_span';
-    }
+    name: 'bts_span',
 
-    get schema() {
+    parseHTML() {
+        return [
+            { tag: 'span[data-bts]' },
+        ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+        return ['span', HTMLAttributes, 0]
+    },
+
+    addCommands() {
         return {
-            parseDOM: [{
-                tag: 'span[data-bts]',
-            }],
-            toDOM: () => ['span', 0],
-        };
-    }
+            btsToggleSpan: (attributes) => ({ commands }) => {
+                return commands.toggleMark(this.name, attributes);
+            },
+        }
+    },
 
-    commands({ type }) {
-        return attrs => toggleMark(type, attrs);
-    }
-
-}
-
-export default class Span extends BardMutator.mutatesMark(BaseSpan) {}
+});
+export default Span;
