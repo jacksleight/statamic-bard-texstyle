@@ -1,4 +1,5 @@
-import { Node } from '@tiptap/core';
+// import { Node } from '@tiptap/core';
+const { Node } = Statamic.$bard.tiptap.core;
 
 const Div = Node.create({
 

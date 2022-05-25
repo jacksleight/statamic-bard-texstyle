@@ -1,4 +1,5 @@
-import { Extension } from '@tiptap/core';
+// import { Extension } from '@tiptap/core';
+const { Extension } = Statamic.$bard.tiptap.core;
 
 const CreateCore = ({ attr, classTypes }) => Extension.create({
 

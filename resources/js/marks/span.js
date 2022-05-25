@@ -1,4 +1,5 @@
-import { Mark } from '@tiptap/core';
+// import { Mark } from '@tiptap/core';
+const { Mark } = Statamic.$bard.tiptap.core;
 
 const Span = Mark.create({
 
