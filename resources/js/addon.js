@@ -1,7 +1,6 @@
 import Span from './marks/span'
 import Div from './nodes/Div'
 import Core from './extensions/core'
-import ToolbarButton from "./components/ToolbarButton.vue";
 import { styleToIcon } from './icons';
 
 const types = {
@@ -55,10 +54,9 @@ Statamic.booting(() => {
                 name: key,
                 text: style.name,
                 args: args,
-                command: (editor, args) => editor.commands[type.cmd](args),
-                component: ToolbarButton,
+                activeName: type.ext,
                 html: icon,
-                bts: { store, attr, style, icon, ext: type.ext },
+                command: (editor, args) => editor.chain().focus()[type.cmd](args).run(),
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
         });

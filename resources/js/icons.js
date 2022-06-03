@@ -11,7 +11,7 @@ const icons = {
         const ident = style.ident;
         return `
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 16" fill="currentColor" style="width: 24px;">
-                <text text-anchor="middle" x="8.3" y="16" style="font-family: Times, serif; font-size: 23px;">${letter}</text>
+                <text text-anchor="middle" x="8.3" y="15" style="font-family: Times, serif; font-size: 21px;">${letter}</text>
                 <text text-anchor="middle" x="20" y="12.5" style="font-size: 12px;" text-anchor="end">${ident}</text>
             </svg>
         `;

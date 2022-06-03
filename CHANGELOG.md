@@ -2,7 +2,7 @@
 
 ## 2.0.0 ()
 
-- Bard 2
+- [new] Statamic 3.4 and Bard 2 support
 - [new] Ability to create custom container (div) styles
 - [new] Additional built-in and custom icon options
 - [fix] Plain spans sometimes being added when copying and pasting

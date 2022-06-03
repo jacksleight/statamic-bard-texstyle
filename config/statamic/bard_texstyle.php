@@ -38,7 +38,7 @@ return [
         //     'cp_css' => 'color: dodgerblue; font-weight: 700',
         // ],
 
-        // 'columns' => [
+        // 'two_columns' => [
         //     'type'   => 'div',
         //     'name'   => 'Two Columns',
         //     'ident'  => '❙ ❙',
@@ -46,14 +46,13 @@ return [
         //     'cp_css' => 'column-count: 2; column-gap: 1em',
         // ],
 
-        // 'hint' => [
+        // 'three_columns' => [
         //     'type'   => 'div',
-        //     'name'   => 'Hint',
-        //     'ident'  => '✽',
-        //     'class'  => 'hint',
-        //     'cp_css' => 'background: #eff2fb; border-radius: 3px; padding: 1em',
+        //     'name'   => 'Three Columns',
+        //     'ident'  => '❙❙❙',
+        //     'class'  => 'three-columns',
+        //     'cp_css' => 'column-count: 3; column-gap: 1em',
         // ],
-
     ],
 
     /*
