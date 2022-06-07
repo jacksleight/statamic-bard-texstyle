@@ -23,6 +23,8 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
 
+        $defaults = config('statamic.bard_texstyle.default_classes', []);
+
         $store = config('statamic.bard_texstyle.store', 'class');
         $attr  = $store === 'class' ? 'class' : 'bts_key';
 
@@ -40,12 +42,6 @@ class ServiceProvider extends AddonServiceProvider
             ][$v] ?? $v)
             ->unique();
 
-        // @todo
-        // $defaults = config('statamic.bard_texstyle.default_classes', []);
-        // $allTypes = $coreTypes
-        //     ->merge(collect($defaults)->keys())
-        //     ->unique();
-
         Statamic::provideToScript([
             'statamic-bard-texstyle' => [
                 'store'     => $store,
@@ -58,8 +54,9 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addExtension('bts_span', new Span());
         Augmentor::addExtension('bts_div', new Div());
         Augmentor::addExtension('bts_core', new Core([
-            'attr'  => $attr,
-            'types' => $coreTypes,
+            'attr'     => $attr,
+            'types'    => $coreTypes,
+            'defaults' => $defaults,
         ]));
 
         return $this;
