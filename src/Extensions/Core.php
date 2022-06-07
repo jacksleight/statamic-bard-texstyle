@@ -11,7 +11,9 @@ class Core extends Extension
     public function addOptions()
     {
         return [
+            'store'    => null,
             'attr'     => null,
+            'styles'   => [],
             'types'    => [],
             'defaults' => [],
         ];
@@ -19,7 +21,9 @@ class Core extends Extension
 
     public function addGlobalAttributes()
     {
+        $store    = $this->options['store'];
         $attr     = $this->options['attr'];
+        $styles   = $this->options['styles'];
         $types    = $this->options['types'];
         $defaults = $this->options['defaults'];
 
@@ -28,10 +32,12 @@ class Core extends Extension
             'attributes' => [
                 $attr => [
                     'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('class'),
-                    'renderHTML' => function ($attributes) use ($attr) {
-                        return ($attributes->{$attr} ?? null) ? [
-                            'class' => $attributes->{$attr}
-                        ] : [];
+                    'renderHTML' => function ($attributes) use ($store, $attr, $styles) {
+                        $class = $attributes->{$attr} ?? null;
+                        if ($store === 'key') {
+                            $class = $styles[$class]['class'] ?? null;
+                        }
+                        return $class ? ['class' => $class] : [];
                     },
                 ],
             ],
@@ -46,9 +52,7 @@ class Core extends Extension
                             if ($type === 'heading') {
                                 $class = $class[$attributes->level] ?? null;
                             }
-                            return $class ? [
-                                'class' => $class
-                            ] : [];
+                            return $class ? ['class' => $class] : [];
                         },
                     ],
                 ],

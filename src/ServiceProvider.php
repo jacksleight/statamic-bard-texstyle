@@ -54,7 +54,9 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addExtension('bts_span', new Span());
         Augmentor::addExtension('bts_div', new Div());
         Augmentor::addExtension('bts_core', new Core([
+            'store'    => $store,
             'attr'     => $attr,
+            'styles'   => $styles,
             'types'    => $coreTypes,
             'defaults' => $defaults,
         ]));
