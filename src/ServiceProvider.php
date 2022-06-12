@@ -41,6 +41,9 @@ class ServiceProvider extends AddonServiceProvider
                 'div'  => 'bts_div',
             ][$v] ?? $v)
             ->unique();
+        $allTypes = $coreTypes
+            ->merge(collect($defaults)->keys())
+            ->unique();
 
         Statamic::provideToScript([
             'statamic-bard-texstyle' => [
@@ -54,11 +57,12 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addExtension('bts_span', new Span());
         Augmentor::addExtension('bts_div', new Div());
         Augmentor::addExtension('bts_core', new Core([
-            'store'    => $store,
-            'attr'     => $attr,
-            'styles'   => $styles,
-            'types'    => $coreTypes,
-            'defaults' => $defaults,
+            'store'     => $store,
+            'attr'      => $attr,
+            'styles'    => $styles,
+            'defaults'  => $defaults,
+            'coreTypes' => $coreTypes,
+            'allTypes'  => $allTypes,
         ]));
 
         return $this;

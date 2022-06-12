@@ -1,4 +1,3 @@
-// import { Extension } from '@tiptap/core';
 const { Extension } = Statamic.$bard.tiptap.core;
 
 const Core = Extension.create({

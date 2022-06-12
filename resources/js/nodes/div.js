@@ -1,4 +1,3 @@
-// import { Node } from '@tiptap/core';
 const { Node } = Statamic.$bard.tiptap.core;
 
 const Div = Node.create({
@@ -25,31 +24,24 @@ const Div = Node.create({
         return {
             btsToggleDiv: (attributes) => ({ editor, commands }) => {
                 if (editor.isActive(this.name, attributes)) {
-                    // return commands.liftAll();
+                    return commands.btsLiftDiv();
                 }
                 if (editor.isActive(this.name)) {
                     return commands.updateAttributes(this.name, attributes)
                 }
                 return commands.wrapIn(this.name, attributes)
             },
+            btsLiftDiv: () => ({ state, dispatch }) => {
+                const { $from, $to } = state.selection;
+                const range = {
+                    $from: state.doc.resolve($from.start(1)),
+                    $to: state.doc.resolve($to.end(1)),
+                    depth: 1,
+                };
+                return dispatch(state.tr.lift(range, 0).scrollIntoView());
+            },
         }
     },
 
 });
 export default Div;
-
-// export function liftTarget(range) {
-//     return 0;
-// }
-
-// export function liftAll(state, dispatch) {
-//     let { $from, $to } = state.selection;
-//     let range = $from.blockRange($to)
-//     let target = liftTarget(range)
-//     let inner = target + 1
-//     let from = $from.start(inner), to = $to.end(inner)
-//     let fullRange = TextSelection.create(state.doc, from, to).ranges[0]
-//     fullRange.depth = inner;
-//     if (dispatch) dispatch(state.tr.lift(fullRange, target).scrollIntoView())
-//     return true
-// }

@@ -21,36 +21,32 @@ class Core extends Extension
 
     public function addGlobalAttributes()
     {
-        $store    = $this->options['store'];
-        $attr     = $this->options['attr'];
-        $styles   = $this->options['styles'];
-        $types    = $this->options['types'];
-        $defaults = $this->options['defaults'];
+        $store     = $this->options['store'];
+        $attr      = $this->options['attr'];
+        $styles    = $this->options['styles'];
+        $defaults  = $this->options['defaults'];
+        $coreTypes = $this->options['coreTypes'];
+        $allTypes  = $this->options['allTypes'];
 
-        $attrs = [[
-            'types' => $types,
-            'attributes' => [
-                $attr => [
-                    'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('class'),
-                    'renderHTML' => function ($attributes) use ($store, $attr, $styles) {
-                        $class = $attributes->{$attr} ?? null;
-                        if ($store === 'key') {
-                            $class = $styles[$class]['class'] ?? null;
-                        }
-                        return $class ? ['class' => $class] : [];
-                    },
-                ],
-            ],
-        ]];
-        
-        foreach ($defaults as $type => $class) {
+        $attrs = [];
+        foreach ($allTypes as $type) {
             $attrs[] = [
                 'types' => [$type],
                 'attributes' => [
-                    'default-class' => [
-                        'renderHTML' => function ($attributes) use ($type, $class) {
-                            if ($type === 'heading') {
-                                $class = $class[$attributes->level] ?? null;
+                    $attr => [
+                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $coreTypes, $type) {
+                            if ($coreTypes->contains($type)) {
+                                $class = $attributes->{$attr} ?? null;
+                                if ($store === 'key') {
+                                    $class = $styles[$class]['class'] ?? null;
+                                }
+                            } else {
+                                $class = null;
+                            }
+                            if (!$class) {
+                                $class = $type === 'heading'
+                                    ? ($defaults[$type][$attributes->level] ?? null)
+                                    : ($defaults[$type] ?? null);
                             }
                             return $class ? ['class' => $class] : [];
                         },

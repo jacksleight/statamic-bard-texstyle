@@ -14,7 +14,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// import { Extension } from '@tiptap/core';
 var Extension = Statamic.$bard.tiptap.core.Extension;
 var Core = Extension.create({
   name: 'bts_core',
@@ -123,7 +122,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-// import { Mark } from '@tiptap/core';
 var Mark = Statamic.$bard.tiptap.core.Mark;
 var Span = Mark.create({
   name: 'bts_span',
@@ -163,7 +161,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-// import { Node } from '@tiptap/core';
 var Node = Statamic.$bard.tiptap.core.Node;
 var Div = Node.create({
   name: 'bts_div',
@@ -188,7 +185,8 @@ var Div = Node.create({
           var editor = _ref2.editor,
               commands = _ref2.commands;
 
-          if (editor.isActive(_this.name, attributes)) {// return commands.liftAll();
+          if (editor.isActive(_this.name, attributes)) {
+            return commands.btsLiftDiv();
           }
 
           if (editor.isActive(_this.name)) {
@@ -197,24 +195,27 @@ var Div = Node.create({
 
           return commands.wrapIn(_this.name, attributes);
         };
+      },
+      btsLiftDiv: function btsLiftDiv() {
+        return function (_ref3) {
+          var state = _ref3.state,
+              dispatch = _ref3.dispatch;
+          console.log(state.doc);
+          var _state$selection = state.selection,
+              $from = _state$selection.$from,
+              $to = _state$selection.$to;
+          var range = {
+            $from: state.doc.resolve($from.start(1)),
+            $to: state.doc.resolve($to.end(1)),
+            depth: 1
+          };
+          return dispatch(state.tr.lift(range, 0).scrollIntoView());
+        };
       }
     };
   }
 });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Div); // export function liftTarget(range) {
-//     return 0;
-// }
-// export function liftAll(state, dispatch) {
-//     let { $from, $to } = state.selection;
-//     let range = $from.blockRange($to)
-//     let target = liftTarget(range)
-//     let inner = target + 1
-//     let from = $from.start(inner), to = $to.end(inner)
-//     let fullRange = TextSelection.create(state.doc, from, to).ranges[0]
-//     fullRange.depth = inner;
-//     if (dispatch) dispatch(state.tr.lift(fullRange, target).scrollIntoView())
-//     return true
-// }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Div);
 
 /***/ })
 
