@@ -4,9 +4,7 @@ const Div = Node.create({
 
     name: 'bts_div',
     
-    content: 'block*',
-
-    group: 'block',
+    content: 'block+',
 
     defining: false,
 
@@ -24,14 +22,14 @@ const Div = Node.create({
         return {
             btsToggleDiv: (attributes) => ({ editor, commands }) => {
                 if (editor.isActive(this.name, attributes)) {
-                    return commands.btsLiftDiv();
+                    return commands.btsUnsetDiv();
                 }
                 if (editor.isActive(this.name)) {
-                    return commands.updateAttributes(this.name, attributes)
+                    return commands.updateAttributes(this.name, attributes);
                 }
-                return commands.wrapIn(this.name, attributes)
+                return commands.wrapIn(this.name, attributes);
             },
-            btsLiftDiv: () => ({ state, dispatch }) => {
+            btsUnsetDiv: () => ({ state, dispatch }) => {
                 const { $from, $to } = state.selection;
                 const range = {
                     $from: state.doc.resolve($from.start(1)),

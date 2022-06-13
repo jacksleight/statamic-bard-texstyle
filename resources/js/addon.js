@@ -37,6 +37,9 @@ Statamic.booting(() => {
     Statamic.$bard.addExtension(() => Span);
     Statamic.$bard.addExtension(() => Div);
     Statamic.$bard.addExtension(() => Core.configure({ attr, types: coreTypes }));
+    Statamic.$bard.replaceExtension('doc', ({ extension }) => extension.extend({
+        content: extension.config.content.replace('set', 'set | bts_div'),
+    }));
 
     // Buttons
     
