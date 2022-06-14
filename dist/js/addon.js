@@ -328,7 +328,7 @@ Statamic.booting(function () {
       store = _Statamic$$config$get.store,
       attr = _Statamic$$config$get.attr,
       styles = _Statamic$$config$get.styles,
-      coreTypes = _Statamic$$config$get.coreTypes; // Extensions
+      styleTypes = _Statamic$$config$get.styleTypes; // Extensions
 
 
   Statamic.$bard.addExtension(function () {
@@ -340,7 +340,7 @@ Statamic.booting(function () {
   Statamic.$bard.addExtension(function () {
     return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure({
       attr: attr,
-      types: coreTypes
+      types: styleTypes
     });
   });
   Statamic.$bard.replaceExtension('doc', function (_ref) {

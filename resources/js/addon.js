@@ -30,16 +30,13 @@ Statamic.booting(() => {
 
     // Initialization
 
-    const { store, attr, styles, coreTypes } = Statamic.$config.get('statamic-bard-texstyle');
+    const { store, attr, styles, styleTypes } = Statamic.$config.get('statamic-bard-texstyle');
 
     // Extensions
 
     Statamic.$bard.addExtension(() => Span);
     Statamic.$bard.addExtension(() => Div);
-    Statamic.$bard.addExtension(() => Core.configure({ attr, types: coreTypes }));
-    Statamic.$bard.replaceExtension('doc', ({ extension }) => extension.extend({
-        content: extension.config.content.replace('set', 'set | bts_div'),
-    }));
+    Statamic.$bard.addExtension(() => Core.configure({ attr, styleTypes }));
 
     // Buttons
     

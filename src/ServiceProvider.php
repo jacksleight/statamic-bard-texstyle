@@ -34,35 +34,35 @@ class ServiceProvider extends AddonServiceProvider
             $style['key'] = $key;
         });
 
-        $coreTypes = collect($styles)
+        $styleTypes = collect($styles)
             ->pluck('type')
             ->map(fn ($v) => [
                 'span' => 'bts_span',
                 'div'  => 'bts_div',
             ][$v] ?? $v)
             ->unique();
-        $allTypes = $coreTypes
+        $allTypes = $styleTypes
             ->merge(collect($defaults)->keys())
             ->unique();
 
         Statamic::provideToScript([
             'statamic-bard-texstyle' => [
-                'store'     => $store,
-                'attr'      => $attr,
-                'styles'    => $styles,
-                'coreTypes' => $coreTypes,
+                'store'      => $store,
+                'attr'       => $attr,
+                'styles'     => $styles,
+                'styleTypes' => $styleTypes,
             ],
         ]);
 
         Augmentor::addExtension('bts_span', new Span());
         Augmentor::addExtension('bts_div', new Div());
         Augmentor::addExtension('bts_core', new Core([
-            'store'     => $store,
-            'attr'      => $attr,
-            'styles'    => $styles,
-            'defaults'  => $defaults,
-            'coreTypes' => $coreTypes,
-            'allTypes'  => $allTypes,
+            'store'      => $store,
+            'attr'       => $attr,
+            'styles'     => $styles,
+            'defaults'   => $defaults,
+            'styleTypes' => $styleTypes,
+            'allTypes'   => $allTypes,
         ]));
 
         return $this;

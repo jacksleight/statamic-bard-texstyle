@@ -7,15 +7,15 @@ const Core = Extension.create({
     addOptions() {
         return {
             attr: null,
-            types: [],
+            styleTypes: [],
         }
     },
 
     addGlobalAttributes() {
-        const { attr, types } = this.options;
+        const { attr, styleTypes } = this.options;
         return [
             {
-                types: types,
+                types: styleTypes,
                 attributes: {
                     [attr]: {
                         parseHTML: element => element.getAttribute('data-bts'),

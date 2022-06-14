@@ -21,12 +21,12 @@ class Core extends Extension
 
     public function addGlobalAttributes()
     {
-        $store     = $this->options['store'];
-        $attr      = $this->options['attr'];
-        $styles    = $this->options['styles'];
-        $defaults  = $this->options['defaults'];
-        $coreTypes = $this->options['coreTypes'];
-        $allTypes  = $this->options['allTypes'];
+        $store      = $this->options['store'];
+        $attr       = $this->options['attr'];
+        $styles     = $this->options['styles'];
+        $defaults   = $this->options['defaults'];
+        $styleTypes = $this->options['styleTypes'];
+        $allTypes   = $this->options['allTypes'];
 
         $attrs = [];
         foreach ($allTypes as $type) {
@@ -34,8 +34,8 @@ class Core extends Extension
                 'types' => [$type],
                 'attributes' => [
                     $attr => [
-                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $coreTypes, $type) {
-                            if ($coreTypes->contains($type)) {
+                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
+                            if ($styleTypes->contains($type)) {
                                 $class = $attributes->{$attr} ?? null;
                                 if ($store === 'key') {
                                     $class = $styles[$class]['class'] ?? null;

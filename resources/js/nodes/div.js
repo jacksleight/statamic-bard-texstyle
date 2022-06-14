@@ -5,6 +5,8 @@ const Div = Node.create({
     name: 'bts_div',
     
     content: 'block+',
+    
+    group: 'root',
 
     defining: false,
 
