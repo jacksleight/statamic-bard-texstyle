@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle\Extensions;
 
 use Tiptap\Core\Extension;
+use Statamic\Support\Arr;
 
 class Core extends Extension
 {
@@ -26,7 +27,7 @@ class Core extends Extension
         $styles     = $this->options['styles'];
         $defaults   = $this->options['defaults'];
         $styleTypes = $this->options['styleTypes'];
-        $allTypes   = $this->options['allTypes'];
+        $allTypes   = $this->options['allTypes'];        
 
         $attrs = [];
         foreach ($allTypes as $type) {
@@ -34,8 +35,26 @@ class Core extends Extension
                 'types' => [$type],
                 'attributes' => [
                     $attr => [
+                        'parseHTML' => function ($DOMNode) use ($store, $styles, $styleTypes, $type) {
+                            if (in_array($type, $styleTypes)) {
+                                $value = $DOMNode->getAttribute('class');
+                                if ($store === 'key') {
+                                    $style = Arr::first($styles, fn ($style) =>
+                                        $style['type'] === ([
+                                            'bts_span' => 'span',
+                                            'bts_div'  => 'div',
+                                        ][$type] ?? $type) &&
+                                        $style['class'] === $value
+                                    );
+                                    $value = $style ? $style['key'] : null;
+                                }
+                            } else {
+                                $value = null;
+                            }
+                            return $value;
+                        },
                         'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
-                            if ($styleTypes->contains($type)) {
+                            if (in_array($type, $styleTypes)) {
                                 $class = $attributes->{$attr} ?? null;
                                 if ($store === 'key') {
                                     $class = $styles[$class]['class'] ?? null;
