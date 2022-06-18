@@ -7,6 +7,8 @@ const icons = {
             paragraph: 'P',
             span: 'T',
             div: 'C',
+            bulletList: 'L',
+            orderedList: 'L',
         }[style.type];
         const ident = style.ident;
         return `

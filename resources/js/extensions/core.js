@@ -38,6 +38,28 @@ const Core = Extension.create({
             btsToggleParagraph: (attributes) => ({ commands }) => {
                 return commands.toggleNode('paragraph', 'paragraph', attributes);
             },
+            btsToggleBulletList: (attributes) => ({ commands }) => {
+                if (editor.isActive('bulletList', attributes)) {
+                    return commands.toggleList('bulletList', 'listItem');
+                } else if (editor.isActive('bulletList')) {
+                    return commands.updateAttributes('bulletList', attributes);
+                }
+                return editor.chain()
+                    .toggleList('bulletList', 'listItem')
+                    .updateAttributes('bulletList', attributes)
+                    .run();
+            },
+            btsToggleOrderedList: (attributes) => ({ commands, editor }) => {
+                if (editor.isActive('orderedList', attributes)) {
+                    return commands.toggleList('orderedList', 'listItem');
+                } else if (editor.isActive('orderedList')) {
+                    return commands.updateAttributes('orderedList', attributes);
+                }
+                return editor.chain()
+                    .toggleList('orderedList', 'listItem')
+                    .updateAttributes('orderedList', attributes)
+                    .run();
+            },
         }
     },
 

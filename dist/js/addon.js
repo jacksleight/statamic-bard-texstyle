@@ -20,15 +20,15 @@ var Core = Extension.create({
   addOptions: function addOptions() {
     return {
       attr: null,
-      types: []
+      styleTypes: []
     };
   },
   addGlobalAttributes: function addGlobalAttributes() {
     var _this$options = this.options,
         attr = _this$options.attr,
-        types = _this$options.types;
+        styleTypes = _this$options.styleTypes;
     return [{
-      types: types,
+      types: styleTypes,
       attributes: _defineProperty({}, attr, {
         parseHTML: function parseHTML(element) {
           return element.getAttribute('data-bts');
@@ -51,6 +51,37 @@ var Core = Extension.create({
         return function (_ref3) {
           var commands = _ref3.commands;
           return commands.toggleNode('paragraph', 'paragraph', attributes);
+        };
+      },
+      btsToggleBulletList: function btsToggleBulletList(attributes) {
+        return function (_ref4) {
+          var commands = _ref4.commands;
+
+          if (editor.isActive('bulletList', attributes)) {
+            return commands.toggleList('bulletList', 'listItem');
+          }
+
+          if (editor.isActive('bulletList')) {
+            return commands.updateAttributes('bulletList', attributes);
+          }
+
+          return editor.chain().toggleList('bulletList', 'listItem').updateAttributes('bulletList', attributes).run();
+        };
+      },
+      btsToggleOrderedList: function btsToggleOrderedList(attributes) {
+        return function (_ref5) {
+          var commands = _ref5.commands,
+              editor = _ref5.editor;
+
+          if (editor.isActive('orderedList', attributes)) {
+            return commands.toggleList('orderedList', 'listItem');
+          }
+
+          if (editor.isActive('orderedList')) {
+            return commands.updateAttributes('orderedList', attributes);
+          }
+
+          return editor.chain().toggleList('orderedList', 'listItem').updateAttributes('orderedList', attributes).run();
         };
       }
     };
@@ -77,7 +108,9 @@ var icons = {
       heading: 'H',
       paragraph: 'P',
       span: 'T',
-      div: 'C'
+      div: 'C',
+      bulletList: 'L',
+      orderedList: 'L'
     }[style.type];
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\" text-anchor=\"end\">").concat(ident, "</text>\n            </svg>\n        ");
@@ -165,6 +198,7 @@ var Node = Statamic.$bard.tiptap.core.Node;
 var Div = Node.create({
   name: 'bts_div',
   content: 'block+',
+  group: 'block',
   defining: false,
   parseHTML: function parseHTML() {
     return [{
@@ -183,29 +217,14 @@ var Div = Node.create({
         return function (_ref2) {
           var editor = _ref2.editor,
               commands = _ref2.commands;
-          // if (editor.isActive(this.name, attributes)) {
-          //     return commands.btsUnsetDiv();
-          // }
-          // if (editor.isActive(this.name)) {
-          //     return commands.updateAttributes(this.name, attributes);
-          // }
-          // return commands.wrapIn(this.name, attributes);
-          return commands.toggleWrap(_this.name, attributes);
-        };
-      },
-      btsUnsetDiv: function btsUnsetDiv() {
-        return function (_ref3) {
-          var state = _ref3.state,
-              dispatch = _ref3.dispatch;
-          var _state$selection = state.selection,
-              $from = _state$selection.$from,
-              $to = _state$selection.$to;
-          var range = {
-            $from: state.doc.resolve($from.start(1)),
-            $to: state.doc.resolve($to.end(1)),
-            depth: 1
-          };
-          return dispatch(state.tr.lift(range, 0).scrollIntoView());
+
+          if (editor.isActive(_this.name, attributes)) {
+            return commands.lift(_this.name);
+          } else if (editor.isActive(_this.name)) {
+            return commands.updateAttributes(_this.name, attributes);
+          }
+
+          return commands.wrapIn(_this.name, attributes);
         };
       }
     };
@@ -320,6 +339,16 @@ var types = {
     tag: 'div',
     ext: 'bts_div',
     cmd: 'btsToggleDiv'
+  },
+  bulletList: {
+    tag: 'ul',
+    ext: 'bulletList',
+    cmd: 'btsToggleBulletList'
+  },
+  orderedList: {
+    tag: 'ol',
+    ext: 'orderedList',
+    cmd: 'btsToggleOrderedList'
   }
 };
 Statamic.booting(function () {
@@ -340,23 +369,17 @@ Statamic.booting(function () {
   Statamic.$bard.addExtension(function () {
     return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure({
       attr: attr,
-      types: styleTypes
-    });
-  });
-  Statamic.$bard.replaceExtension('doc', function (_ref) {
-    var extension = _ref.extension;
-    return extension.extend({
-      content: extension.config.content.replace('set', 'set | bts_div')
+      styleTypes: styleTypes
     });
   }); // Buttons
 
   Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref2) {
-      var _ref4;
+    Object.entries(styles).forEach(function (_ref) {
+      var _ref3;
 
-      var _ref3 = _slicedToArray(_ref2, 2),
-          key = _ref3[0],
-          style = _ref3[1];
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          style = _ref2[1];
 
       if (!types[style.type]) {
         return;
@@ -364,7 +387,7 @@ Statamic.booting(function () {
 
       var type = types[style.type];
       var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_3__.styleToIcon)(style, type);
-      var args = style.type === 'heading' ? (_ref4 = {}, _defineProperty(_ref4, attr, style[store]), _defineProperty(_ref4, "level", style.level), _ref4) : _defineProperty({}, attr, style[store]);
+      var args = style.type === 'heading' ? (_ref3 = {}, _defineProperty(_ref3, attr, style[store]), _defineProperty(_ref3, "level", style.level), _ref3) : _defineProperty({}, attr, style[store]);
       var data = {
         name: key,
         text: style.name,
@@ -389,9 +412,9 @@ Statamic.booting(function () {
   }).forEach(function (rule) {
     return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
   });
-  Object.entries(styles).forEach(function (_ref6) {
-    var _ref7 = _slicedToArray(_ref6, 2),
-        style = _ref7[1];
+  Object.entries(styles).forEach(function (_ref5) {
+    var _ref6 = _slicedToArray(_ref5, 2),
+        style = _ref6[1];
 
     if (!types[style.type]) {
       return;

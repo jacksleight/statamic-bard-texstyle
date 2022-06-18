@@ -24,21 +24,11 @@ const Div = Node.create({
         return {
             btsToggleDiv: (attributes) => ({ editor, commands }) => {
                 if (editor.isActive(this.name, attributes)) {
-                    return commands.btsUnsetDiv();
-                }
-                if (editor.isActive(this.name)) {
+                    return commands.lift(this.name);
+                } else if (editor.isActive(this.name)) {
                     return commands.updateAttributes(this.name, attributes);
                 }
                 return commands.wrapIn(this.name, attributes);
-            },
-            btsUnsetDiv: () => ({ state, dispatch }) => {
-                const { $from, $to } = state.selection;
-                const range = {
-                    $from: state.doc.resolve($from.start(1)),
-                    $to: state.doc.resolve($to.end(1)),
-                    depth: 1,
-                };
-                return dispatch(state.tr.lift(range, 0).scrollIntoView());
             },
         }
     },

@@ -40,10 +40,14 @@ class ServiceProvider extends AddonServiceProvider
                 'span' => 'bts_span',
                 'div'  => 'bts_div',
             ][$v] ?? $v)
-            ->unique();
-        $allTypes = $styleTypes
+            ->unique()
+            ->values()
+            ->all();
+        $allTypes = collect($styleTypes)
             ->merge(collect($defaults)->keys())
-            ->unique();
+            ->unique()
+            ->values()
+            ->all();
 
         Statamic::provideToScript([
             'statamic-bard-texstyle' => [

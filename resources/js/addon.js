@@ -24,6 +24,16 @@ const types = {
         ext: 'bts_div',
         cmd: 'btsToggleDiv'
     },
+    bulletList: {
+        tag: 'ul',
+        ext: 'bulletList',
+        cmd: 'btsToggleBulletList'
+    },
+    orderedList: {
+        tag: 'ol',
+        ext: 'orderedList',
+        cmd: 'btsToggleOrderedList'
+    },
 };
 
 Statamic.booting(() => {
