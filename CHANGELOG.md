@@ -2,7 +2,7 @@
 
 ## 1.0.3 (2022-06-21)
 
-- [fix] Plain spans being added when copying and pasting
+- [fix] Plain spans sometimes being added when copying and pasting
 
 ## 1.0.2 (2022-05-17)
 
