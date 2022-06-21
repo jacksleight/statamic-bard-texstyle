@@ -9,9 +9,10 @@ class BaseSpan extends Mark {
 
     get schema() {
         return {
-            parseDOM: [{
-                tag: 'span',
-            }],
+            parseDOM: [
+                { tag: 'span[data-bard-class]' },
+                { tag: 'span[data-bard-bts_key]' },
+            ],
             toDOM: () => ['span', 0],
         };
     }
