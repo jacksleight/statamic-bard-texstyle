@@ -38,7 +38,7 @@ const Core = Extension.create({
             btsToggleParagraph: (attributes) => ({ commands }) => {
                 return commands.toggleNode('paragraph', 'paragraph', attributes);
             },
-            btsToggleBulletList: (attributes) => ({ commands }) => {
+            btsToggleBulletList: (attributes) => ({ commands, editor }) => {
                 if (editor.isActive('bulletList', attributes)) {
                     return commands.toggleList('bulletList', 'listItem');
                 } else if (editor.isActive('bulletList')) {

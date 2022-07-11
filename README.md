@@ -69,6 +69,7 @@ Each style must have a key which is used as the button name. Styles can have the
     * `square-solid`
     * `circle`
     * `circle-solid`
+    * `dashes`
     * `symbol`
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
