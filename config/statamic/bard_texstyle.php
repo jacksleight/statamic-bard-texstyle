@@ -30,6 +30,14 @@ return [
         //     'cp_css' => 'font-size: 1.25em',
         // ],
 
+        // 'list_roman' => [
+        //     'type'   => 'orderedList',
+        //     'name'   => 'Ordered List (Roman)',
+        //     'ident'  => 'V',
+        //     'class'  => 'list-roman',
+        //     'cp_css' => 'list-style-type: upper-roman',
+        // ],
+
         // 'brand' => [
         //     'type'   => 'span',
         //     'name'   => 'Brand Text',
@@ -53,6 +61,7 @@ return [
         //     'class'  => 'three-columns',
         //     'cp_css' => 'column-count: 3; column-gap: 1em',
         // ],
+
     ],
 
     /*

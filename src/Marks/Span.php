@@ -8,10 +8,6 @@ class Span extends Mark
 {
     public static $name = 'bts_span';
 
-    // @todo
-    // public function parseHTML()
-    // {}
-
     public function renderHTML($mark, $HTMLAttributes = [])
     {
         return ['span', $HTMLAttributes, 0];

@@ -23,7 +23,19 @@ var Core = Extension.create({
       styleTypes: []
     };
   },
-
+  addGlobalAttributes: function addGlobalAttributes() {
+    var _this$options = this.options,
+        attr = _this$options.attr,
+        styleTypes = _this$options.styleTypes;
+    console.log(attr);
+    return [{
+      types: styleTypes,
+      attributes: _defineProperty({}, attr, {
+        parseHTML: function parseHTML(element) {
+          return element.getAttribute('data-bts');
+        },
+        renderHTML: function renderHTML(attributes) {
+          return _defineProperty({}, 'data-bts', attributes[attr]);
         }
       })
     }];
@@ -48,9 +60,7 @@ var Core = Extension.create({
 
           if (editor.isActive('bulletList', attributes)) {
             return commands.toggleList('bulletList', 'listItem');
-          }
-
-          if (editor.isActive('bulletList')) {
+          } else if (editor.isActive('bulletList')) {
             return commands.updateAttributes('bulletList', attributes);
           }
 
@@ -64,9 +74,7 @@ var Core = Extension.create({
 
           if (editor.isActive('orderedList', attributes)) {
             return commands.toggleList('orderedList', 'listItem');
-          }
-
-          if (editor.isActive('orderedList')) {
+          } else if (editor.isActive('orderedList')) {
             return commands.updateAttributes('orderedList', attributes);
           }
 
@@ -187,7 +195,7 @@ var Node = Statamic.$bard.tiptap.core.Node;
 var Div = Node.create({
   name: 'bts_div',
   content: 'block+',
-  group: 'block',
+  group: 'root',
   defining: false,
   parseHTML: function parseHTML() {
     return [{
@@ -276,11 +284,6 @@ var Div = Node.create({
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/nonce */
-/******/ 	(() => {
-/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

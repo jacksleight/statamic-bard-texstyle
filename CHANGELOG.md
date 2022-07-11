@@ -3,7 +3,7 @@
 ## 2.0.0 ()
 
 - [new] Statamic 3.4 and Bard 2 support
-- [new] Ability to add custom container (div) styles
+- [new] Ability to add custom div styles
 - [new] Ability to add custom bullet and ordered list styles
 - [new] Support for Bard's `save_html` option
 - [new] Additional built-in and custom icon options
