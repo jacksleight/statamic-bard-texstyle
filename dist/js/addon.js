@@ -210,7 +210,7 @@ var Node = Statamic.$bard.tiptap.core.Node;
 var Div = Node.create({
   name: 'bts_div',
   content: 'block+',
-  group: 'block',
+  group: 'root',
   defining: false,
   parseHTML: function parseHTML() {
     return [{
