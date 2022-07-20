@@ -75,12 +75,12 @@ Statamic.booting(() => {
     // CSS
 
     const css = [
-        `.bard-fieldtype .ProseMirror [data-bts] { margin-top: 0px; margin-bottom: 0.85em; }`,
+        '.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }',
     ];
 
     const selector = [
-        `.bard-fieldtype .ProseMirror >`,
-        `.bard-fieldtype .ProseMirror [data-bts] >`,
+        '.bard-fieldtype .ProseMirror >',
+        '.bard-fieldtype .ProseMirror div[data-bts] >',
     ];
     const cpCss = Array.from(document.styleSheets)
         .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));

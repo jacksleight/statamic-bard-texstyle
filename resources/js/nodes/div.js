@@ -6,7 +6,7 @@ const Div = Node.create({
     
     content: 'block+',
     
-    group: 'root',
+    group: 'block',
 
     defining: false,
 

@@ -210,7 +210,7 @@ var Node = Statamic.$bard.tiptap.core.Node;
 var Div = Node.create({
   name: 'bts_div',
   content: 'block+',
-  group: 'root',
+  group: 'block',
   defining: false,
   parseHTML: function parseHTML() {
     return [{
@@ -414,8 +414,8 @@ Statamic.booting(function () {
     });
   }); // CSS
 
-  var css = [".bard-fieldtype .ProseMirror [data-bts] { margin-top: 0px; margin-bottom: 0.85em; }"];
-  var selector = [".bard-fieldtype .ProseMirror >", ".bard-fieldtype .ProseMirror [data-bts] >"];
+  var css = ['.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }'];
+  var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror div[data-bts] >'];
   var cpCss = Array.from(document.styleSheets).find(function (sheet) {
     return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
   });
