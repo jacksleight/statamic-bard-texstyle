@@ -5,6 +5,7 @@ namespace JackSleight\StatamicBardTexstyle;
 use Illuminate\Support\Arr;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
+use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -16,7 +17,7 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     public function bootAddon()
-    {
+    {        
         $this->publishes([
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
@@ -78,6 +79,13 @@ class ServiceProvider extends AddonServiceProvider
         foreach ($allTypes as $type) {
             Mutator::tag($type, $tagMutator);
         }
+
+        Bard::appendConfigField('bts_menu', [
+            'display' => __('Style Menu'),
+            'instructions' => __('Choose which buttons to show in the style menu'),
+            'type' => 'bard_buttons_setting',
+            'default' => [],
+        ]);
 
         return $this;
     }

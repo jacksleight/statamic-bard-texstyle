@@ -1,5 +1,6 @@
 import Span from './marks/Span'
 import ToolbarButton from "./components/ToolbarButton.vue";
+import MenuButton from "./components/MenuButton.vue";
 const { toggleBlockType } = Statamic.$bard.tiptap.commands;
 
 const types = ['heading', 'paragraph', 'span'];
@@ -65,6 +66,7 @@ Statamic.booting(() => {
     // Buttons
     
     Statamic.$bard.buttons((buttons, button) => {
+
         Object.entries(styles).forEach(([key, style]) => {
             if (!types.includes(style.type)) {
                 return;
@@ -82,8 +84,16 @@ Statamic.booting(() => {
                 bts_config: { store, attr },
                 bts_style: { ...style, icon },
             };
-            buttons.splice(buttons.indexOf(key), 0, button(data));
+            buttons.splice(buttons.indexOf(key), 1, button(data));
         });
+
+        buttons.splice(buttons.indexOf('bts_menu'), 1, button({
+            name: 'bts_menu',
+            text: 'Styles',
+            component: MenuButton,
+            html: `<div>S</div>`,
+        }));
+
     });
 
     // CSS
