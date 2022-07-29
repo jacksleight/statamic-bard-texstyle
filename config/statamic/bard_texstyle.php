@@ -19,15 +19,7 @@ return [
         //     'name'   => 'Hero Heading',
         //     'ident'  => 'H',
         //     'class'  => 'hero-heading',
-        //     'cp_css' => 'font-family: Caslon',
-        // ],
-
-        // 'intro' => [
-        //     'type'   => 'paragraph',
-        //     'name'   => 'Introduction',
-        //     'ident'  => 'I',
-        //     'class'  => 'introduction',
-        //     'cp_css' => 'font-size: 1.25em; margin-top: -0.5em',
+        //     'cp_css' => 'font-family: serif',
         // ],
 
         // 'brand' => [
@@ -36,6 +28,38 @@ return [
         //     'ident'  => 'B',
         //     'class'  => 'brand-text',
         //     'cp_css' => 'color: dodgerblue; font-weight: 700',
+        // ],
+
+        // 'two_columns' => [
+        //     'type'   => 'div',
+        //     'name'   => 'Two Columns',
+        //     'ident'  => '❙ ❙',
+        //     'class'  => 'two-columns',
+        //     'cp_css' => 'column-count: 2; column-gap: 1em',
+        // ],
+
+        // 'three_columns' => [
+        //     'type'   => 'div',
+        //     'name'   => 'Three Columns',
+        //     'ident'  => '❙❙❙',
+        //     'class'  => 'three-columns',
+        //     'cp_css' => 'column-count: 3; column-gap: 1em',
+        // ],
+
+        // 'circle_list' => [
+        //     'type'   => 'bulletList',
+        //     'name'   => 'Unordered List (Circle)',
+        //     'ident'  => '○',
+        //     'class'  => 'circle-list',
+        //     'cp_css' => 'list-style-type: circle',
+        // ],
+
+        // 'roman_list' => [
+        //     'type'   => 'orderedList',
+        //     'name'   => 'Ordered List (Roman)',
+        //     'ident'  => 'V',
+        //     'class'  => 'roman-list',
+        //     'cp_css' => 'list-style-type: upper-roman',
         // ],
 
     ],

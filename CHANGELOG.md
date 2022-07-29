@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0 ()
+
+- [new] Statamic 3.4 and Bard 2 support
+- [new] Ability to add custom div styles
+- [new] Ability to add custom bullet and ordered list styles
+- [new] Support for Bard's `save_html` option
+- [new] Additional built-in and custom icon options
+- Bard Mutator is no longer a dependency, if you're using it make sure you've required it and check the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html)
+
 ## 1.0.3 (2022-06-21)
 
 - [fix] Plain spans sometimes being added when copying and pasting

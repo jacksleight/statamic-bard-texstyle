@@ -10,7 +10,7 @@
 
 > **FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md).
 
-This Statamic addon gives you the ability to add custom heading, paragraph and inline (span) text styles to the Bard fieldtype.
+This Statamic addon gives you the ability to add custom heading, paragraph, list, span and div styles to the Bard fieldtype.
 
 ## Installation
 
@@ -47,17 +47,34 @@ Open `config/statamic/bard_texstyle.php` and add your styles:
 Each style must have a key which is used as the button name. Styles can have the following options:
 
 * **type (string)**  
-  The type (`heading`, `paragraph` or `span`).
+  The type. Options are:
+    * `heading`
+    * `paragraph`
+    * `bulletList`
+    * `orderedList`
+    * `span`
+    * `div`*
 * **level (string)**  
   The heading level (only applicable to `heading` styles).
+* **class (string)**  
+  The class name that will be applied for this style. Must be unique within the type.
 * **name (string)**  
   The name of the style. This will appear in the tooltip.
 * **ident (string)**  
-  A short identification string (one or two characters). This will appear in the button.
-* **class (string)**  
-  The class name that will be applied for this style. Must be unique within the type.
+  An identification character. This will appear in the button icon.
+* **icon (string, optional)**  
+  Icon name or custom icon HTML. Name options are:
+    * `letter`
+    * `square`
+    * `square-solid`
+    * `circle`
+    * `circle-solid`
+    * `dashes`
+    * `symbol`
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
+
+\* Div styles are for simple blocks of wrapped text only. They cannot contain sets or be nested. If you need something more complex then using a set is the way to go.
 
 ### Enabling the Buttons
 
