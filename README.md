@@ -97,7 +97,7 @@ You can use the `default_classes` option to apply classes to elements that have 
 ],
 ```
 
-You can add default classes for any of the [nodes and marks supported by Bard Mutator](https://github.com/jacksleight/statamic-bard-mutator#avaliable-nodes--marks).
+You can add default classes for any node or mark type.
 
 ### Stored Values
 
@@ -106,9 +106,3 @@ By default the class names are saved to your content. If you would prefer to sav
 ```php
 'store' => 'key',
 ```
-
-## Compatibility
-
-This addon uses Bard Mutator under the hood to extend the built-in Heading and Paragraph node functionality. Please check the [compatibility](https://github.com/jacksleight/statamic-bard-mutator#compatibility) notes for more information.
-
-Bard Texstyle does not support Bard's `save_html` option.
