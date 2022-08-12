@@ -29,7 +29,6 @@ class ServiceProvider extends AddonServiceProvider
         $attr  = $store === 'class' ? 'class' : 'bts_key';
 
         $styles = config('statamic.bard_texstyle.styles', []);
-        $styles = $this->normalizeStyles($styles);
         array_walk($styles, function (&$style, $key) {
             $style['key'] = $key;
         });
@@ -70,27 +69,5 @@ class ServiceProvider extends AddonServiceProvider
         ]));
 
         return $this;
-    }
-
-    /**
-     * Converts Bard Paragraph Style config to Bard Texstyle config.
-     */
-    protected function normalizeStyles($styles)
-    {
-        if (Arr::isAssoc($styles)) {
-            return $styles;
-        }
-
-        $normal = [];
-
-        foreach ($styles as $style) {
-            $key = isset($style['button'])
-                ? $style['button']
-                : ('bts_'.preg_replace('/[^\w-]/i', '_', $style['class']));
-            $style['type'] = 'paragraph';
-            $normal[$key] = $style;
-        }
-
-        return $normal;
     }
 }
