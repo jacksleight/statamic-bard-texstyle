@@ -41,6 +41,8 @@ Some node and mark names have changed in Tiptap 2. The table below lists the aff
 
 Bard Mutator is no longer a dependency, if you're using it make sure you've composer required it and follow the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html).
 
-### Bard Paragraph Style config no longer supported (Low Impact)
+## Deprecated
 
-If you're still using the deprecated Bard Paragraph Style config format you'll need to update it by following the [migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md).
+### Bard Paragraph Style config support
+
+If you're still using the deprecated Bard Paragraph Style config format you should update it by following the [migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md).
