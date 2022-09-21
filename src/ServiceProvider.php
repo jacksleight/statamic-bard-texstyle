@@ -80,6 +80,7 @@ class ServiceProvider extends AddonServiceProvider
             'display' => __('Default Classes'),
             'instructions' => 'The set of default classes to use. The standard set will be used by default.',
             'type' => 'select',
+            'clearable' => true,
             'options' => collect($defaults)
                 ->map(fn ($v, $k) => $k)
                 ->except('standard')
