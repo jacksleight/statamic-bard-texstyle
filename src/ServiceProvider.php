@@ -78,7 +78,7 @@ class ServiceProvider extends AddonServiceProvider
         
         Bard::appendConfigField('bts_default_classes', [
             'display' => __('Default Classes'),
-            'instructions' => 'The set of default classes to use, the standard set will be used by default.',
+            'instructions' => 'The set of default classes to use. The standard set will be used by default.',
             'type' => 'select',
             'options' => collect($defaults)
                 ->map(fn ($v, $k) => $k)

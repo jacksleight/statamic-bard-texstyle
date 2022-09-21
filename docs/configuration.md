@@ -85,16 +85,21 @@ When using heading styles the matching `h*` button must also be enabled in the B
 
 ## Default Classes
 
-You can use the `default_classes` option to apply classes to elements that have no style set:
+You can use the `default_classes` option to apply classes to elements that have no style set. Multiple sets of classes are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
 
 ```php
 'default_classes' => [
-    'heading' => [
-        1 => 'head-1',
-        2 => 'head-2',
+    'standard' => [
+        'heading' => [
+            1 => 'head-1',
+            2 => 'head-2',
+            // ...
+        ],
+        'paragraph' => 'para',
+    ],
+    'article' => [
         // ...
     ],
-    'paragraph' => 'para',
 ],
 ```
 

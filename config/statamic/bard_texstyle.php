@@ -69,7 +69,8 @@ return [
     | Default Classes
     |--------------------------------------------------------------------------
     |
-    | Default classes that will be applied to elements with no style set.
+    | Default classes that will be applied to elements with no style set. The
+    | standard set will be used if no set is selected in the field config.
     |
     */
 

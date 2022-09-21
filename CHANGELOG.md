@@ -5,8 +5,9 @@
 - [new] Statamic 3.4 and Bard 2 support
 - [new] Ability to add custom div styles
 - [new] Ability to add custom bullet and ordered list styles
-- [new] Support for Bard's `save_html` option
 - [new] Additional built-in and custom icon options
+- [new] Support for multiple sets of default classes
+- [new] Support for Bard's `save_html` option
 - [break] There are a couple of low-impact breaking changes, refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-texstyle/upgrade-1-0-to-2-0.html) for more information
 
 ## 1.0.3 (2022-06-21)
