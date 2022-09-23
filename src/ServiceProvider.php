@@ -72,21 +72,23 @@ class ServiceProvider extends AddonServiceProvider
                 'defaults' => $defaults[$bard->config('bts_default_classes', 'standard')] ?? null,
             ]);
         });
-
         Augmentor::addExtension('bts_span', new Span());
         Augmentor::addExtension('bts_div', new Div());
         
-        Bard::appendConfigField('bts_default_classes', [
-            'display' => __('Default Classes'),
-            'instructions' => 'The set of default classes to use. The standard set will be used by default.',
-            'type' => 'select',
-            'clearable' => true,
-            'options' => collect($defaults)
-                ->map(fn ($v, $k) => $k)
-                ->except('standard')
-                ->all(),
-            'width' => 50,
-        ]);
+        $defaultSets = collect($defaults)
+            ->map(fn ($v, $k) => $k)
+            ->except('standard')
+            ->all();
+        if (count($defaultSets)) {
+            Bard::appendConfigField('bts_default_classes', [
+                'display' => __('Default Classes'),
+                'instructions' => 'The set of default classes to use. The standard set will be used by default.',
+                'type' => 'select',
+                'clearable' => true,
+                'options' => $defaultSets,
+                'width' => 50,
+            ]);
+        }
 
         return $this;
     }
