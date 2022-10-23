@@ -1,19 +1,11 @@
 ---
 title: Upgrade 1.0 to 2.0
-nav_order: 9
+order: 9
 ---
 
 # Upgrade from 1.0 to 2.0
-{:.no_toc}
 
-<details open markdown="block">
-  <summary>
-      Table of contents
-  </summary>
-  {: .text-delta }
-* TOC
-{:toc}
-</details>
+[TOC]
 
 ---
 
