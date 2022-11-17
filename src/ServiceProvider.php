@@ -7,6 +7,7 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
+use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -24,6 +25,7 @@ class ServiceProvider extends AddonServiceProvider
         ], 'statamic-bard-texstyle-config');
 
         $defaults = config('statamic.bard_texstyle.default_classes', []);
+        $defaults = $this->normalizeDefaults($defaults);
 
         $store = config('statamic.bard_texstyle.store', 'class');
         $attr  = $store === 'class' ? 'class' : 'bts_key';
@@ -58,18 +60,48 @@ class ServiceProvider extends AddonServiceProvider
             ],
         ]);
 
-        Augmentor::addExtension('bts_span', new Span());
-        Augmentor::addExtension('bts_div', new Div());
-        Augmentor::addExtension('bts_core', new Core([
+        $options = [
             'store'      => $store,
             'attr'       => $attr,
             'styles'     => $styles,
-            'defaults'   => $defaults,
             'styleTypes' => $styleTypes,
             'allTypes'   => $allTypes,
-        ]));
+        ];
+        Augmentor::addExtension('bts_core', function ($bard) use ($options, $defaults) {
+            return new Core($options + [
+                'defaults' => $defaults[$bard->config('bts_default_classes', 'standard')] ?? null,
+            ]);
+        });
+        Augmentor::addExtension('bts_span', new Span());
+        Augmentor::addExtension('bts_div', new Div());
+        
+        $defaultSets = collect($defaults)
+            ->map(fn ($v, $k) => $k)
+            ->except('standard')
+            ->all();
+        if (count($defaultSets)) {
+            Bard::appendConfigField('bts_default_classes', [
+                'display' => __('Default Classes'),
+                'instructions' => 'The set of default classes to use. The standard set will be used by default.',
+                'type' => 'select',
+                'clearable' => true,
+                'options' => $defaultSets,
+                'width' => 50,
+            ]);
+        }
 
         return $this;
+    }
+
+    protected function normalizeDefaults($defaults)
+    {
+        if (array_key_exists('standard', $defaults)) {
+            return $defaults;
+        }
+
+        return [
+            'standard' => $defaults,
+        ];
     }
 
     /**
