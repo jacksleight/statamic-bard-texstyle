@@ -6,7 +6,8 @@
 - [new] Additional built-in and custom icon options
 - [new] Support for multiple sets of default classes
 - [new] Support for Bard's `save_html` option
-- [break] There are a couple of low-impact breaking changes, refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-texstyle/upgrade-1-0-to-2-0.html) for more information
+- [new] Brand new [documentation](https://jacksleight.dev/docs/bard-texstyle) 
+- [break] There are a couple of low-impact breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-1-0-to-2-0) for more information
 
 ## 1.0.3 (2022-06-21)
 
