@@ -1,19 +1,11 @@
 ---
 title: Configuration
-nav_order: 3
+order: 3
 ---
 
 # Configuration
-{:.no_toc}
 
-<details open markdown="block">
-  <summary>
-      Table of contents
-  </summary>
-  {: .text-delta }
-* TOC
-{:toc}
-</details>
+[TOC]
 
 ---
 
