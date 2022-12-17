@@ -106,3 +106,13 @@ By default the class names are saved to your content. If you would prefer to sav
 ```
 
 Default classes are never saved to your content, they're applied when the HTML is rendered.
+
+## Using with Tailwind
+
+When using Tailwind the JIT compiler scans your content for classes, and this will need to include any classes you're using in  Texstyle. To ensure Tailwind finds these classes you should add the Texstyle config path to your `tailwind.config.js` file:
+
+```js
+content: [
+    './config/statamic/bard_texstyle.php',
+],
+```
