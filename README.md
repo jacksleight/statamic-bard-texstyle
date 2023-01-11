@@ -8,8 +8,6 @@
 
 <!-- /statamic:hide -->
 
-> **FYI:** This addon supersedes [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), it offers everything that did and more! If you're using that already [check the migration guide](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md).
-
 This Statamic addon gives you the ability to add custom heading, paragraph and inline (span) text styles to the Bard fieldtype.
 
 ## Installation
