@@ -96,4 +96,4 @@ Bard Texstyle does not support Bard's `save_html` option.
 
 ## Sponsoring 
 
-This addon is open-source and completely free to use. However fixing bugs, adding features, and helping users takes time and effort. If you find this addon useful and are able to support it’s development financially a [one-time or monthly contribution](https://github.com/sponsors/jacksleight) would be greatly appreciated. Thanks! 🙂
+This addon is open-source and completely free to use. However fixing bugs, adding features and helping users takes time and effort. If you find this addon useful and would like to support its development a [one-time or monthly contribution](https://github.com/sponsors/jacksleight) would be greatly appreciated. Thanks! 🙂
