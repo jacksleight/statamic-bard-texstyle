@@ -12,7 +12,7 @@ This Statamic addon gives you the ability to add custom heading, paragraph and s
 
 ## Documentation
 
-[Statamic Bard Texstyle Documentation](https://jacksleight.github.io/statamic-bard-texstyle/)
+[Statamic Bard Texstyle Documentation](https://jacksleight.dev/docs/bard-texstyle/)
 
 ## Sponsoring 
 
