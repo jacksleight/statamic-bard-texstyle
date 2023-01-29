@@ -1,5 +1,4 @@
 import Span from './marks/span'
-import Div from './nodes/Div'
 import Core from './extensions/core'
 import { styleToIcon } from './icons';
 
@@ -19,33 +18,17 @@ const types = {
         ext: 'bts_span',
         cmd: 'btsToggleSpan'
     },
-    div: {
-        tag: 'div',
-        ext: 'bts_div',
-        cmd: 'btsToggleDiv'
-    },
-    bulletList: {
-        tag: 'ul',
-        ext: 'bulletList',
-        cmd: 'btsToggleBulletList'
-    },
-    orderedList: {
-        tag: 'ol',
-        ext: 'orderedList',
-        cmd: 'btsToggleOrderedList'
-    },
 };
 
 Statamic.booting(() => {
 
     // Initialization
 
-    const { store, attr, styles, styleTypes } = Statamic.$config.get('statamic-bard-texstyle');
+    const { store, attr, styles, styleTypes } = Statamic.$config.get('bard-texstyle');
 
     // Extensions
 
     Statamic.$bard.addExtension(() => Span);
-    Statamic.$bard.addExtension(() => Div);
     Statamic.$bard.addExtension(() => Core.configure({ attr, styleTypes }));
 
     // Buttons
@@ -74,20 +57,7 @@ Statamic.booting(() => {
 
     // CSS
 
-    const css = [
-        '.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }',
-    ];
-
-    const selector = [
-        '.bard-fieldtype .ProseMirror >',
-        '.bard-fieldtype .ProseMirror div[data-bts] >',
-    ];
-    const cpCss = Array.from(document.styleSheets)
-        .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
-    Array.from(cpCss.cssRules)
-        .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
-        .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
-
+    const css = [];
     Object.entries(styles).forEach(([, style]) => {
         if (!types[style.type]) {
             return;

@@ -3,10 +3,8 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Illuminate\Support\Arr;
-use JackSleight\StatamicBardMutator\Facades\Mutator;
-use JackSleight\StatamicBardTexstyle\Marks\Span;
-use JackSleight\StatamicBardTexstyle\Nodes\Div;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
+use JackSleight\StatamicBardTexstyle\Marks\Span;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
@@ -28,7 +26,7 @@ class ServiceProvider extends AddonServiceProvider
         $defaults = $this->normalizeDefaults($defaults);
 
         $store = config('statamic.bard_texstyle.store', 'class');
-        $attr  = $store === 'class' ? 'class' : 'bts_key';
+        $attr = $store === 'class' ? 'class' : 'bts_key';
 
         $styles = config('statamic.bard_texstyle.styles', []);
         $styles = $this->normalizeStyles($styles);
@@ -40,7 +38,6 @@ class ServiceProvider extends AddonServiceProvider
             ->pluck('type')
             ->map(fn ($v) => [
                 'span' => 'bts_span',
-                'div'  => 'bts_div',
             ][$v] ?? $v)
             ->unique()
             ->values()
@@ -52,20 +49,20 @@ class ServiceProvider extends AddonServiceProvider
             ->all();
 
         Statamic::provideToScript([
-            'statamic-bard-texstyle' => [
-                'store'      => $store,
-                'attr'       => $attr,
-                'styles'     => $styles,
+            'bard-texstyle' => [
+                'store' => $store,
+                'attr' => $attr,
+                'styles' => $styles,
                 'styleTypes' => $styleTypes,
             ],
         ]);
 
         $options = [
-            'store'      => $store,
-            'attr'       => $attr,
-            'styles'     => $styles,
+            'store' => $store,
+            'attr' => $attr,
+            'styles' => $styles,
             'styleTypes' => $styleTypes,
-            'allTypes'   => $allTypes,
+            'allTypes' => $allTypes,
         ];
         Augmentor::addExtension('bts_core', function ($bard) use ($options, $defaults) {
             return new Core($options + [
@@ -73,8 +70,7 @@ class ServiceProvider extends AddonServiceProvider
             ]);
         });
         Augmentor::addExtension('bts_span', new Span());
-        Augmentor::addExtension('bts_div', new Div());
-        
+
         $defaultSets = collect($defaults)
             ->map(fn ($v, $k) => $k)
             ->except('standard')

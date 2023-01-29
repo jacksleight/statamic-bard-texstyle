@@ -43,10 +43,7 @@ Each style must have a key which is used as the button name. Styles can have the
   The type. Options are:
     * `heading`
     * `paragraph`
-    * `bulletList`
-    * `orderedList`
     * `span`
-    * `div` (see note below)
 * **level (string)**  
   The heading level (only applicable to `heading` styles).
 * **class (string)**  
@@ -62,12 +59,9 @@ Each style must have a key which is used as the button name. Styles can have the
     * `square-solid`
     * `circle`
     * `circle-solid`
-    * `dashes`
     * `symbol`
 * **cp_css (string)**  
   The CSS properties that will be added to the control panel for this style.
-
-Div styles are for simple blocks of wrapped text only. They cannot contain sets or be nested. If you need something more complex then using a set is the way to go.
 
 ### 3. Enable the buttons
 
