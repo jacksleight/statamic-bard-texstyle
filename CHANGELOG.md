@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 ()
+## 2.0.0 (2023-01-30)
 
 - [new] Statamic 3.4 support
 - [new] Built-in and custom icon options
