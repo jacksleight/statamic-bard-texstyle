@@ -3,8 +3,9 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Illuminate\Support\Arr;
-use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
+use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -21,9 +22,11 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
 
-        $store = config('statamic.bard_texstyle.store', 'class');
-
         $defaults = config('statamic.bard_texstyle.default_classes', []);
+        $defaults = $this->normalizeDefaults($defaults);
+
+        $store = config('statamic.bard_texstyle.store', 'class');
+        $attr = $store === 'class' ? 'class' : 'bts_key';
 
         $styles = config('statamic.bard_texstyle.styles', []);
         $styles = $this->normalizeStyles($styles);
@@ -31,59 +34,74 @@ class ServiceProvider extends AddonServiceProvider
             $style['key'] = $key;
         });
 
+        $styleTypes = collect($styles)
+            ->pluck('type')
+            ->map(fn ($v) => [
+                'span' => 'bts_span',
+            ][$v] ?? $v)
+            ->unique()
+            ->values()
+            ->all();
+        $allTypes = collect($styleTypes)
+            ->merge(collect($defaults)->keys())
+            ->unique()
+            ->values()
+            ->all();
+
         Statamic::provideToScript([
-            'statamic-bard-texstyle' => [
+            'bard-texstyle' => [
+                'store' => $store,
+                'attr' => $attr,
                 'styles' => $styles,
-                'store'  => $store,
+                'styleTypes' => $styleTypes,
             ],
         ]);
 
-        Augmentor::addMark(Span::class);
+        $options = [
+            'store' => $store,
+            'attr' => $attr,
+            'styles' => $styles,
+            'styleTypes' => $styleTypes,
+            'allTypes' => $allTypes,
+        ];
+        Augmentor::addExtension('bts_core', function ($bard) use ($options, $defaults) {
+            return new Core($options + [
+                'defaults' => $defaults[$bard->config('bts_default_classes', 'standard')] ?? null,
+            ]);
+        });
+        Augmentor::addExtension('bts_span', new Span());
 
-        $coreTypes = collect($styles)
-            ->pluck('type')
-            ->map(fn ($v) => $v === 'span' ? 'bts_span' : $v)
-            ->unique();
-        $allTypes = $coreTypes
-            ->merge(collect($defaults)->keys())
-            ->unique();
-
-        $tagMutator = function ($tag, $node) use ($store, $styles, $defaults, $coreTypes) {
-            if (! isset($tag[0])) {
-                return $tag;
-            }
-            $default = $node->type === 'heading'
-                ? ($defaults[$node->type][$node->attrs->level] ?? null)
-                : ($defaults[$node->type] ?? null);
-            if ($coreTypes->contains($node->type)) {
-                if ($store === 'class') {
-                    $class = isset($node->attrs->class)
-                        ? $node->attrs->class
-                        : $default;
-                } else {
-                    $class = isset($node->attrs->bts_key)
-                        ? ($styles[$node->attrs->bts_key]['class'] ?? null)
-                        : $default;
-                }
-            } else {
-                $class = $default;
-            }
-            if (isset($class)) {
-                $tag[0]['attrs']['class'] = $class;
-            }
-
-            return $tag;
-        };
-
-        foreach ($allTypes as $type) {
-            Mutator::tag($type, $tagMutator);
+        $defaultSets = collect($defaults)
+            ->map(fn ($v, $k) => $k)
+            ->except('standard')
+            ->all();
+        if (count($defaultSets)) {
+            Bard::appendConfigField('bts_default_classes', [
+                'display' => __('Default Classes'),
+                'instructions' => 'The set of default classes to use. The standard set will be used by default.',
+                'type' => 'select',
+                'clearable' => true,
+                'options' => $defaultSets,
+                'width' => 50,
+            ]);
         }
 
         return $this;
     }
 
+    protected function normalizeDefaults($defaults)
+    {
+        if (array_key_exists('standard', $defaults)) {
+            return $defaults;
+        }
+
+        return [
+            'standard' => $defaults,
+        ];
+    }
+
     /**
-     * Converts Bard Paragraph Style config to Bard Texstyle config.
+     * @deprecated
      */
     protected function normalizeStyles($styles)
     {

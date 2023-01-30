@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0 ()
+
+- [new] Statamic 3.4 support
+- [new] Built-in and custom icon options
+- [new] Support for multiple sets of default classes
+- [new] Support for Bard's `save_html` option
+- [new] Brand new [documentation](https://jacksleight.dev/docs/bard-texstyle) 
+- The Bard Paragraph Style config format is [deprecated](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md)
+- Bard Mutator is no longer a dependency
+
 ## 1.0.3 (2022-06-21)
 
 - [fix] Plain spans sometimes being added when copying and pasting

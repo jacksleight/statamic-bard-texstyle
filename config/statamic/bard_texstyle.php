@@ -14,27 +14,27 @@ return [
     'styles' => [
 
         // 'hero' => [
-        //     'type'   => 'heading',
-        //     'level'  => 1,
-        //     'name'   => 'Hero Heading',
-        //     'ident'  => 'H',
-        //     'class'  => 'hero-heading',
-        //     'cp_css' => 'font-family: Caslon',
+        //     'type' => 'heading',
+        //     'level' => 1,
+        //     'name' => 'Hero Heading',
+        //     'ident' => 'H',
+        //     'class' => 'hero-heading',
+        //     'cp_css' => 'font-family: serif',
         // ],
 
         // 'intro' => [
-        //     'type'   => 'paragraph',
-        //     'name'   => 'Introduction',
-        //     'ident'  => 'I',
-        //     'class'  => 'introduction',
+        //     'type' => 'paragraph',
+        //     'name' => 'Introduction',
+        //     'ident' => 'I',
+        //     'class' => 'introduction',
         //     'cp_css' => 'font-size: 1.25em; margin-top: -0.5em',
         // ],
 
         // 'brand' => [
-        //     'type'   => 'span',
-        //     'name'   => 'Brand Text',
-        //     'ident'  => 'B',
-        //     'class'  => 'brand-text',
+        //     'type' => 'span',
+        //     'name' => 'Brand Text',
+        //     'ident' => 'B',
+        //     'class' => 'brand-text',
         //     'cp_css' => 'color: dodgerblue; font-weight: 700',
         // ],
 
@@ -45,20 +45,23 @@ return [
     | Default Classes
     |--------------------------------------------------------------------------
     |
-    | Default classes that will be applied to elements with no style set.
+    | Default classes that will be applied to elements with no style set. The
+    | standard set will be used if no set is selected in the field config.
     |
     */
 
     'default_classes' => [
-        // 'heading' => [
-        //     1 => 'heading-1',
-        //     2 => 'heading-2',
-        //     3 => 'heading-3',
-        //     4 => 'heading-4',
-        //     5 => 'heading-5',
-        //     6 => 'heading-6',
-        // ],
-        // 'paragraph' => 'paragraph',
+        'standard' => [
+            // 'heading' => [
+            //     1 => 'heading-1',
+            //     2 => 'heading-2',
+            //     3 => 'heading-3',
+            //     4 => 'heading-4',
+            //     5 => 'heading-5',
+            //     6 => 'heading-6',
+            // ],
+            // 'paragraph' => 'paragraph',
+        ],
     ],
 
     /*
