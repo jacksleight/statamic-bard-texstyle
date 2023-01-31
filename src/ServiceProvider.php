@@ -37,7 +37,7 @@ class ServiceProvider extends AddonServiceProvider
         $styleTypes = collect($styles)
             ->pluck('type')
             ->map(fn ($v) => [
-                'span' => 'bts_span',
+                'span' => 'btsSpan',
             ][$v] ?? $v)
             ->unique()
             ->values()
@@ -64,12 +64,12 @@ class ServiceProvider extends AddonServiceProvider
             'styleTypes' => $styleTypes,
             'allTypes' => $allTypes,
         ];
-        Augmentor::addExtension('bts_core', function ($bard) use ($options, $defaults) {
+        Augmentor::addExtension('btsCore', function ($bard) use ($options, $defaults) {
             return new Core($options + [
                 'defaults' => $defaults[$bard->config('bts_default_classes', 'standard')] ?? null,
             ]);
         });
-        Augmentor::addExtension('bts_span', new Span());
+        Augmentor::addExtension('btsSpan', new Span());
 
         $defaultSets = collect($defaults)
             ->map(fn ($v, $k) => $k)

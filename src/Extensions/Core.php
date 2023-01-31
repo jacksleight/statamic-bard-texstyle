@@ -7,7 +7,7 @@ use Tiptap\Core\Extension;
 
 class Core extends Extension
 {
-    public static $name = 'bts_core';
+    public static $name = 'btsCore';
 
     public function addOptions()
     {
@@ -40,7 +40,7 @@ class Core extends Extension
                                 $value = $DOMNode->getAttribute('class');
                                 if ($store === 'key') {
                                     $style = Arr::first($styles, fn ($style) => $style['type'] === ([
-                                        'bts_span' => 'span',
+                                        'btsSpan' => 'span',
                                     ][$type] ?? $type) &&
                                         $style['class'] === $value
                                     );

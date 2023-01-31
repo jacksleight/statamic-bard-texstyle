@@ -2,7 +2,7 @@ const { Mark } = Statamic.$bard.tiptap.core;
 
 const Span = Mark.create({
 
-    name: 'bts_span',
+    name: 'btsSpan',
 
     parseHTML() {
         return [

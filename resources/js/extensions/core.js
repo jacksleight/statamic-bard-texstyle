@@ -2,7 +2,7 @@ const { Extension } = Statamic.$bard.tiptap.core;
 
 const Core = Extension.create({
 
-    name: 'bts_core',
+    name: 'btsCore',
 
     addOptions() {
         return {

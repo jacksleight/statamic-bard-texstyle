@@ -15,7 +15,7 @@ const types = {
     },
     span: {
         tag: 'span',
-        ext: 'bts_span',
+        ext: 'btsSpan',
         cmd: 'btsToggleSpan'
     },
 };

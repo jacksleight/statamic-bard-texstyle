@@ -6,7 +6,7 @@ use Tiptap\Core\Mark;
 
 class Span extends Mark
 {
-    public static $name = 'bts_span';
+    public static $name = 'btsSpan';
 
     public function parseHTML()
     {

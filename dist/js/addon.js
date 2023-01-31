@@ -16,7 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var Extension = Statamic.$bard.tiptap.core.Extension;
 var Core = Extension.create({
-  name: 'bts_core',
+  name: 'btsCore',
   addOptions: function addOptions() {
     return {
       attr: null,
@@ -88,7 +88,7 @@ var icons = {
   'square-solid': function squareSolid(style) {
     var ident = style.ident;
     var maskId = "bts-mask-".concat(maskCount++);
-    return "\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <mask id=\"".concat(maskId, "\">\n                    <rect width=\"16\" height=\"16\" fill=\"white\" />\n                    <text text-anchor=\"middle\" x=\"8\" y=\"12\" style=\"font-size: 11px;\" fill=\"black\">").concat(ident, "</text>\n                </mask>\n                <rect width=\"15\" height=\"15\" x=\"0.5\" y=\"0.5\" rx=\"2\" stroke-width=\"1\" stroke=\"currentColor\" mask=\"url(#").concat(maskId, ")\" />\n            </svg>\n        ");
+    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <mask id=\"".concat(maskId, "\">\n                    <rect width=\"16\" height=\"16\" fill=\"white\" />\n                    <text text-anchor=\"middle\" x=\"8\" y=\"12\" style=\"font-size: 11px;\" fill=\"black\">").concat(ident, "</text>\n                </mask>\n                <rect width=\"15\" height=\"15\" x=\"0.5\" y=\"0.5\" rx=\"2\" stroke-width=\"1\" stroke=\"currentColor\" mask=\"url(#").concat(maskId, ")\" />\n            </svg>\n        ");
   },
   'circle': function circle(style) {
     var ident = style.ident;
@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var Mark = Statamic.$bard.tiptap.core.Mark;
 var Span = Mark.create({
-  name: 'bts_span',
+  name: 'btsSpan',
   parseHTML: function parseHTML() {
     return [{
       tag: 'span[data-bts]'
@@ -253,7 +253,7 @@ var types = {
   },
   span: {
     tag: 'span',
-    ext: 'bts_span',
+    ext: 'btsSpan',
     cmd: 'btsToggleSpan'
   }
 };
