@@ -28,7 +28,7 @@ const icons = {
         const ident = style.ident;
         const maskId = `bts-mask-${maskCount++}`;
         return `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <mask id="${maskId}">
                     <rect width="16" height="16" fill="white" />
                     <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" fill="black">${ident}</text>
