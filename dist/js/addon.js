@@ -223,6 +223,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
 /* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
 /* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -257,6 +259,25 @@ var types = {
     cmd: 'btsToggleSpan'
   }
 };
+
+var objectToCss = function objectToCss(prefix, data) {
+  return Object.entries(data).map(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+        selector = _ref2[0],
+        properties = _ref2[1];
+
+    var prefixed = selector.includes('&') ? selector.replace('&', prefix) : "".concat(prefix, " ").concat(selector);
+    var string = Object.entries(properties).map(function (_ref3) {
+      var _ref4 = _slicedToArray(_ref3, 2),
+          name = _ref4[0],
+          value = _ref4[1];
+
+      return "".concat(name, ": ").concat(value, ";");
+    }).join('');
+    return "".concat(prefixed, " { ").concat(string, " }");
+  }).join('');
+};
+
 Statamic.booting(function () {
   // Initialization
   var _Statamic$$config$get = Statamic.$config.get('bard-texstyle'),
@@ -277,12 +298,12 @@ Statamic.booting(function () {
   }); // Buttons
 
   Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref) {
-      var _ref3;
+    Object.entries(styles).forEach(function (_ref5) {
+      var _ref7;
 
-      var _ref2 = _slicedToArray(_ref, 2),
-          key = _ref2[0],
-          style = _ref2[1];
+      var _ref6 = _slicedToArray(_ref5, 2),
+          key = _ref6[0],
+          style = _ref6[1];
 
       if (!types[style.type]) {
         return;
@@ -290,7 +311,7 @@ Statamic.booting(function () {
 
       var type = types[style.type];
       var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_2__.styleToIcon)(style, type);
-      var args = style.type === 'heading' ? (_ref3 = {}, _defineProperty(_ref3, attr, style[store]), _defineProperty(_ref3, "level", style.level), _ref3) : _defineProperty({}, attr, style[store]);
+      var args = style.type === 'heading' ? (_ref7 = {}, _defineProperty(_ref7, attr, style[store]), _defineProperty(_ref7, "level", style.level), _ref7) : _defineProperty({}, attr, style[store]);
       var data = {
         name: key,
         text: style.name,
@@ -306,9 +327,9 @@ Statamic.booting(function () {
   }); // CSS
 
   var css = [];
-  Object.entries(styles).forEach(function (_ref5) {
-    var _ref6 = _slicedToArray(_ref5, 2),
-        style = _ref6[1];
+  Object.entries(styles).forEach(function (_ref9) {
+    var _ref10 = _slicedToArray(_ref9, 2),
+        style = _ref10[1];
 
     if (!types[style.type]) {
       return;
@@ -316,7 +337,8 @@ Statamic.booting(function () {
 
     var type = types[style.type];
     var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
-    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
+    var selector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[store], "\"]");
+    css.push(_typeof(style.cp_css) === 'object' ? objectToCss(selector, style.cp_css) : "".concat(selector, " { ").concat(style.cp_css, " }"));
   });
   var el = document.createElement('style');
   el.appendChild(document.createTextNode(css.join(' ')));
