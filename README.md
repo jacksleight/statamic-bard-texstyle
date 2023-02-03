@@ -4,7 +4,7 @@
 ![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/statamic-bard-texstyle)
 ![License](https://flat.badgen.net/github/license/jacksleight/statamic-bard-texstyle)
 
-# Statamic Bard Texstyle
+# Bard Texstyle
 
 <!-- /statamic:hide -->
 
