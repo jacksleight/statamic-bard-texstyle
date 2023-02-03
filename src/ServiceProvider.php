@@ -38,6 +38,7 @@ class ServiceProvider extends AddonServiceProvider
             ->pluck('type')
             ->map(fn ($v) => [
                 'span' => 'btsSpan',
+                'div' => 'btsDiv',
             ][$v] ?? $v)
             ->unique()
             ->values()
@@ -70,6 +71,7 @@ class ServiceProvider extends AddonServiceProvider
             ]);
         });
         Augmentor::addExtension('btsSpan', new Span());
+        Augmentor::addExtension('btsDiv', new Div());
 
         $defaultSets = collect($defaults)
             ->map(fn ($v, $k) => $k)

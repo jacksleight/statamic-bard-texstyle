@@ -6,6 +6,7 @@ const icons = {
             heading: 'H',
             paragraph: 'P',
             span: 'T',
+            div: 'C',
         }[style.type];
         const ident = style.ident;
         return `
@@ -73,6 +74,8 @@ export const styleToIcon = (style, type) => {
     let icon;
     if (style.icon) {
         icon = style.icon;
+    } else if (style.type === 'div') {
+        icon = 'square';
     } else {
         icon = 'letter';
     }
