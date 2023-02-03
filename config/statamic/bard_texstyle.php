@@ -38,6 +38,22 @@ return [
         //     'cp_css' => 'color: dodgerblue; font-weight: 700',
         // ],
 
+        // 'circle_list' => [
+        //     'type' => 'bulletList',
+        //     'name' => 'Unordered List (Circle)',
+        //     'ident' => '○',
+        //     'class' => 'circle-list',
+        //     'cp_css' => 'list-style-type: circle',
+        // ],
+
+        // 'roman_list' => [
+        //     'type' => 'orderedList',
+        //     'name' => 'Ordered List (Roman)',
+        //     'ident' => 'V',
+        //     'class' => 'roman-list',
+        //     'cp_css' => 'list-style-type: upper-roman',
+        // ],
+
     ],
 
     /*

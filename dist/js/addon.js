@@ -52,6 +52,32 @@ var Core = Extension.create({
           var commands = _ref3.commands;
           return commands.toggleNode('paragraph', 'paragraph', attributes);
         };
+      },
+      btsToggleList: function btsToggleList(attributes, type) {
+        return function (_ref4) {
+          var commands = _ref4.commands,
+              editor = _ref4.editor;
+
+          if (editor.isActive(type, attributes)) {
+            return commands.toggleList(type, 'listItem');
+          } else if (editor.isActive(type)) {
+            return commands.updateAttributes(type, attributes);
+          }
+
+          return editor.chain().toggleList(type, 'listItem').updateAttributes(type, attributes).run();
+        };
+      },
+      btsToggleBulletList: function btsToggleBulletList(attributes) {
+        return function (_ref5) {
+          var commands = _ref5.commands;
+          return commands.btsToggleList(attributes, 'bulletList');
+        };
+      },
+      btsToggleOrderedList: function btsToggleOrderedList(attributes) {
+        return function (_ref6) {
+          var commands = _ref6.commands;
+          return commands.btsToggleList(attributes, 'orderedList');
+        };
       }
     };
   }
@@ -76,7 +102,9 @@ var icons = {
     var letter = {
       heading: 'H',
       paragraph: 'P',
-      span: 'T'
+      span: 'T',
+      bulletList: 'L',
+      orderedList: 'L'
     }[style.type];
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\">").concat(ident, "</text>\n            </svg>\n        ");
@@ -99,6 +127,10 @@ var icons = {
     var maskId = "bts-mask-".concat(maskCount++);
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <mask id=\"".concat(maskId, "\">\n                    <rect width=\"16\" height=\"16\" fill=\"white\" />\n                    <text text-anchor=\"middle\" x=\"8\" y=\"12\" style=\"font-size: 11px;\" fill=\"black\">").concat(ident, "</text>\n                </mask>\n                <circle cx=\"8\" cy=\"8\" r=\"7.5\" stroke-width=\"1\" stroke=\"currentColor\" mask=\"url(#").concat(maskId, ")\" />\n            </svg>\n        ");
   },
+  'dashes': function dashes(style) {
+    var ident = style.ident;
+    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <rect width=\"4\" height=\"2\" x=\"0\" y=\"2\" rx=\"1\" fill=\"currentColor\" />\n                <rect width=\"4\" height=\"2\" x=\"0\" y=\"7\" rx=\"1\" fill=\"currentColor\" />\n                <rect width=\"4\" height=\"2\" x=\"0\" y=\"12\" rx=\"1\" fill=\"currentColor\" />\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
+  },
   'symbol': function symbol(style) {
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <text text-anchor=\"middle\" x=\"8\" y=\"16\" style=\"font-size: 23px;\">".concat(ident, "</text>\n            </svg>\n        ");
@@ -109,6 +141,8 @@ var styleToIcon = function styleToIcon(style, type) {
 
   if (style.icon) {
     icon = style.icon;
+  } else if (style.type === 'bulletList' || style.type === 'orderedList') {
+    icon = 'dashes';
   } else {
     icon = 'letter';
   }
@@ -255,6 +289,16 @@ var types = {
     tag: 'span',
     ext: 'btsSpan',
     cmd: 'btsToggleSpan'
+  },
+  bulletList: {
+    tag: 'ul',
+    ext: 'bulletList',
+    cmd: 'btsToggleBulletList'
+  },
+  orderedList: {
+    tag: 'ol',
+    ext: 'orderedList',
+    cmd: 'btsToggleOrderedList'
   }
 };
 Statamic.booting(function () {

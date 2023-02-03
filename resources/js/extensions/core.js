@@ -38,27 +38,22 @@ const Core = Extension.create({
             btsToggleParagraph: (attributes) => ({ commands }) => {
                 return commands.toggleNode('paragraph', 'paragraph', attributes);
             },
-            btsToggleBulletList: (attributes) => ({ commands, editor }) => {
-                if (editor.isActive('bulletList', attributes)) {
-                    return commands.toggleList('bulletList', 'listItem');
-                } else if (editor.isActive('bulletList')) {
-                    return commands.updateAttributes('bulletList', attributes);
+            btsToggleList: (attributes, type) => ({ commands, editor }) => {
+                if (editor.isActive(type, attributes)) {
+                    return commands.toggleList(type, 'listItem');
+                } else if (editor.isActive(type)) {
+                    return commands.updateAttributes(type, attributes);
                 }
                 return editor.chain()
-                    .toggleList('bulletList', 'listItem')
-                    .updateAttributes('bulletList', attributes)
+                    .toggleList(type, 'listItem')
+                    .updateAttributes(type, attributes)
                     .run();
             },
-            btsToggleOrderedList: (attributes) => ({ commands, editor }) => {
-                if (editor.isActive('orderedList', attributes)) {
-                    return commands.toggleList('orderedList', 'listItem');
-                } else if (editor.isActive('orderedList')) {
-                    return commands.updateAttributes('orderedList', attributes);
-                }
-                return editor.chain()
-                    .toggleList('orderedList', 'listItem')
-                    .updateAttributes('orderedList', attributes)
-                    .run();
+            btsToggleBulletList: (attributes) => ({ commands }) => {
+                return commands.btsToggleList(attributes, 'bulletList');
+            },
+            btsToggleOrderedList: (attributes) => ({ commands }) => {
+                return commands.btsToggleList(attributes, 'orderedList');
             },
         }
     },
