@@ -76,7 +76,8 @@ var icons = {
     var letter = {
       heading: 'H',
       paragraph: 'P',
-      span: 'T'
+      span: 'T',
+      div: 'C'
     }[style.type];
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\">").concat(ident, "</text>\n            </svg>\n        ");
@@ -109,6 +110,8 @@ var styleToIcon = function styleToIcon(style, type) {
 
   if (style.icon) {
     icon = style.icon;
+  } else if (style.type === 'div') {
+    icon = 'square';
   } else {
     icon = 'letter';
   }
@@ -154,6 +157,56 @@ var Span = Mark.create({
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Span);
+
+/***/ }),
+
+/***/ "./resources/js/nodes/Div.js":
+/*!***********************************!*\
+  !*** ./resources/js/nodes/Div.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var Node = Statamic.$bard.tiptap.core.Node;
+var Div = Node.create({
+  name: 'btsDiv',
+  content: 'block+',
+  group: 'root',
+  defining: false,
+  parseHTML: function parseHTML() {
+    return [{
+      tag: 'div[data-bts]'
+    }];
+  },
+  renderHTML: function renderHTML(_ref) {
+    var HTMLAttributes = _ref.HTMLAttributes;
+    return ['div', HTMLAttributes, 0];
+  },
+  addCommands: function addCommands() {
+    var _this = this;
+
+    return {
+      btsToggleDiv: function btsToggleDiv(attributes) {
+        return function (_ref2) {
+          var editor = _ref2.editor,
+              commands = _ref2.commands;
+
+          if (editor.isActive(_this.name, attributes)) {
+            return commands.lift(_this.name);
+          } else if (editor.isActive(_this.name)) {
+            return commands.updateAttributes(_this.name, attributes);
+          }
+
+          return commands.wrapIn(_this.name, attributes);
+        };
+      }
+    };
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Div);
 
 /***/ })
 
@@ -221,8 +274,9 @@ var __webpack_exports__ = {};
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
-/* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
-/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
+/* harmony import */ var _nodes_Div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/Div */ "./resources/js/nodes/Div.js");
+/* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -236,6 +290,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -255,11 +310,17 @@ var types = {
     tag: 'span',
     ext: 'btsSpan',
     cmd: 'btsToggleSpan'
+  },
+  div: {
+    tag: 'div',
+    ext: 'btsDiv',
+    cmd: 'btsToggleDiv'
   }
 };
 Statamic.booting(function () {
   // Initialization
   var _Statamic$$config$get = Statamic.$config.get('bard-texstyle'),
+      pro = _Statamic$$config$get.pro,
       store = _Statamic$$config$get.store,
       attr = _Statamic$$config$get.attr,
       styles = _Statamic$$config$get.styles,
@@ -267,14 +328,21 @@ Statamic.booting(function () {
 
 
   Statamic.$bard.addExtension(function () {
-    return _marks_span__WEBPACK_IMPORTED_MODULE_0__["default"];
-  });
-  Statamic.$bard.addExtension(function () {
-    return _extensions_core__WEBPACK_IMPORTED_MODULE_1__["default"].configure({
+    return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure({
       attr: attr,
       styleTypes: styleTypes
     });
-  }); // Buttons
+  });
+  Statamic.$bard.addExtension(function () {
+    return _marks_span__WEBPACK_IMPORTED_MODULE_0__["default"];
+  });
+
+  if (pro) {
+    Statamic.$bard.addExtension(function () {
+      return _nodes_Div__WEBPACK_IMPORTED_MODULE_1__["default"];
+    });
+  } // Buttons
+
 
   Statamic.$bard.buttons(function (buttons, button) {
     Object.entries(styles).forEach(function (_ref) {
@@ -289,7 +357,7 @@ Statamic.booting(function () {
       }
 
       var type = types[style.type];
-      var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_2__.styleToIcon)(style, type);
+      var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_3__.styleToIcon)(style, type);
       var args = style.type === 'heading' ? (_ref3 = {}, _defineProperty(_ref3, attr, style[store]), _defineProperty(_ref3, "level", style.level), _ref3) : _defineProperty({}, attr, style[store]);
       var data = {
         name: key,
@@ -306,6 +374,20 @@ Statamic.booting(function () {
   }); // CSS
 
   var css = [];
+
+  if (pro) {
+    css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
+    var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror div[data-bts] >'];
+    var cpCss = Array.from(document.styleSheets).find(function (sheet) {
+      return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
+    });
+    Array.from(cpCss.cssRules).filter(function (rule) {
+      return rule.selectorText && rule.selectorText.startsWith(selector[0]);
+    }).forEach(function (rule) {
+      return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
+    });
+  }
+
   Object.entries(styles).forEach(function (_ref5) {
     var _ref6 = _slicedToArray(_ref5, 2),
         style = _ref6[1];

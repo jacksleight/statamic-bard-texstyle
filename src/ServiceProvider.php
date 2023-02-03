@@ -5,6 +5,8 @@ namespace JackSleight\StatamicBardTexstyle;
 use Illuminate\Support\Arr;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
+use JackSleight\StatamicBardTexstyle\Nodes\Div;
+use Statamic\Facades\Addon;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
@@ -18,6 +20,9 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
+        $pro = Addon::get('jacksleight/statamic-bard-texstyle')->edition() === 'pro';
+        // $pro = true;
+
         $this->publishes([
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
@@ -51,6 +56,7 @@ class ServiceProvider extends AddonServiceProvider
 
         Statamic::provideToScript([
             'bard-texstyle' => [
+                'pro' => $pro,
                 'store' => $store,
                 'attr' => $attr,
                 'styles' => $styles,
@@ -71,7 +77,9 @@ class ServiceProvider extends AddonServiceProvider
             ]);
         });
         Augmentor::addExtension('btsSpan', new Span());
-        Augmentor::addExtension('btsDiv', new Div());
+        if ($pro) {
+            Augmentor::addExtension('btsDiv', new Div());
+        }
 
         $defaultSets = collect($defaults)
             ->map(fn ($v, $k) => $k)

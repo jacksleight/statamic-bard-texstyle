@@ -8,7 +8,8 @@
     "extra": {
         "statamic": {
             "name": "Bard Texstyle",
-            "description": "This Statamic addon gives you the ability to add custom heading, paragraph and span styles to the Bard fieldtype."
+            "description": "This Statamic addon gives you the ability to add custom heading, paragraph and span styles to the Bard fieldtype.",
+            "editions": ["free", "pro"]
         },
         "laravel": {
             "providers": [
