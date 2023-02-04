@@ -1,5 +1,6 @@
 import Span from './marks/span'
 import Core from './extensions/core'
+import MenuButton from "./components/MenuButton.vue";
 import { styleToIcon } from './icons';
 
 const types = {
@@ -53,6 +54,12 @@ Statamic.booting(() => {
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
         });
+        buttons.splice(buttons.indexOf('bts_menu'), 0, button({
+            name: 'bts_menu',
+            text: 'Styles',
+            component: MenuButton,
+            html: `<div>S</div>`,
+        }));
     });
 
     // CSS
