@@ -52,6 +52,13 @@ var Core = Extension.create({
           var commands = _ref3.commands;
           return commands.toggleNode('paragraph', 'paragraph', attributes);
         };
+      },
+      btsToggleTable: function btsToggleTable(attributes) {
+        return function (_ref4) {
+          var commands = _ref4.commands;
+          // @broken https://github.com/ueberdosis/tiptap/issues/3508
+          return commands.updateAttributes('table', attributes);
+        };
       }
     };
   }
@@ -76,7 +83,8 @@ var icons = {
     var letter = {
       heading: 'H',
       paragraph: 'P',
-      span: 'T'
+      span: 'T',
+      table: 'X'
     }[style.type];
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\">").concat(ident, "</text>\n            </svg>\n        ");
@@ -255,6 +263,11 @@ var types = {
     tag: 'span',
     ext: 'btsSpan',
     cmd: 'btsToggleSpan'
+  },
+  table: {
+    tag: 'table',
+    ext: 'table',
+    cmd: 'btsToggleTable'
   }
 };
 Statamic.booting(function () {

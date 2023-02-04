@@ -38,6 +38,10 @@ const Core = Extension.create({
             btsToggleParagraph: (attributes) => ({ commands }) => {
                 return commands.toggleNode('paragraph', 'paragraph', attributes);
             },
+            btsToggleTable: (attributes) => ({ commands }) => {
+                // @broken https://github.com/ueberdosis/tiptap/issues/3508
+                return commands.updateAttributes('table', attributes);
+            },
         }
     },
 

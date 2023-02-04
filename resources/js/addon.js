@@ -18,6 +18,11 @@ const types = {
         ext: 'btsSpan',
         cmd: 'btsToggleSpan'
     },
+    table: {
+        tag: 'table',
+        ext: 'table',
+        cmd: 'btsToggleTable'
+    },
 };
 
 Statamic.booting(() => {
