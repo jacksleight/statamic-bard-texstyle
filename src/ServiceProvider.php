@@ -86,16 +86,16 @@ class ServiceProvider extends AddonServiceProvider
             ]);
         }
 
-        $buttons = collect($styles)
-            ->mapWithKeys(fn ($style, $key) => [$key => $style['name']]);
-        Bard::appendConfigField('bts_menu', [
-            'display' => __('Style Menu'),
-            'instructions' => __('Choose which buttons to show in the style menu'),
-            'type' => 'select',
-            'default' => [],
-            'multiple' => true,
-            'options' => $buttons,
-        ]);
+        // $buttons = collect($styles)
+        //     ->mapWithKeys(fn ($style, $key) => [$key => $style['name']]);
+        // Bard::appendConfigField('bts_menu', [
+        //     'display' => __('Style Menu'),
+        //     'instructions' => __('Choose which buttons to show in the style menu'),
+        //     'type' => 'select',
+        //     'default' => [],
+        //     'multiple' => true,
+        //     'options' => $buttons,
+        // ]);
 
         return $this;
     }
