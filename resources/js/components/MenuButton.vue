@@ -1,17 +1,20 @@
 <template>
 
-    <div class="inline-block relative">
+    <div class="inline-block relative" v-bts-click-outside="closeDropdown">
         <button
-            class="bard-toolbar-button"
+            class="bard-toolbar-button bts-menu-button"
             v-html="button.html"
+            v-tooltip="button.text"
             :aria-label="button.text"
             @click="toggleDropdown"
         />
         <MenuDropdown
-            v-if="showingDropdown"
+            v-if="dropdownActive"
             :config="config"
             :bard="bard"
             :editor="editor"
+            :btsConfig="button.btsConfig"
+            @bts-menu-click="closeDropdown"
         />
     </div>
 
@@ -30,13 +33,16 @@ export default {
 
     data() {    
         return {
-            showingDropdown: false,
+            dropdownActive: false,
         };
     },
 
     methods: {
         toggleDropdown() {
-            this.showingDropdown = ! this.showingDropdown;
+            this.dropdownActive = ! this.dropdownActive;
+        },
+        closeDropdown() {
+            this.dropdownActive = false;
         },
     }
 

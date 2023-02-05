@@ -1,14 +1,16 @@
 <template>
 
     <button
-        class="bard-toolbar-button"
+        class="bts-menu-item"
         :class="{ active }"
-        :aria-label="button.text"
-        v-tooltip="button.text"
-        @click="button.command(editor, button.args)"
+        @click="click"
     >
-        <svg-icon :name="button.svg" v-if="button.svg"></svg-icon>
-        <div class="flex items-center" v-html="button.html" v-if="button.html"></div>
+        <div
+            class="bts-menu-preview"
+            :data-bts-match="previewMatch"
+        >
+            {{ item.text }}
+        </div>
     </button>
 
 </template>
@@ -17,11 +19,37 @@
 export default {
 
     props: {
-        button: Object,
-        active: Boolean,
-        config: Object,
+        item: Object,
+        config: {},
         bard: {},
-        editor: {}
+        editor: {},
+        btsConfig: {},
+    },
+
+    computed: {
+
+        active() {
+            const nameProperty = this.item.hasOwnProperty('activeName') ? 'activeName' : 'name';
+            const name = this.item[nameProperty];
+            return this.editor.isActive(name, this.item.args);
+        },
+        previewMatch() {
+            const style = this.item.btsStyle || {};
+            return [
+                style.level ? `h${style.level}` : null,
+                this.item.name,
+            ].join(' ');
+        },
+
+    },
+
+    methods: {
+
+        click() {
+            this.item.command(this.editor, this.item.args);
+            this.$emit('bts-menu-click');
+        },
+
     }
 
 }

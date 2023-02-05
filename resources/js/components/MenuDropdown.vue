@@ -1,17 +1,17 @@
 <template>
 
-    <div class="bard-link-toolbar p-1">
-
-        <div v-for="button in buttons">
-            <button
-                class="bard-toolbar-button w-full flex gap-1 items-center justify-start"
-                :class="{ active: buttonIsActive(button) }"
-                @click="button.command(editor, button.args)"
-            >
-                <svg-icon :name="button.svg" v-if="button.svg"></svg-icon>
-                <div class="flex items-center" v-html="button.html" v-if="button.html"></div>
-                <span class="text-base" style="white-space: nowrap;">{{ button.text }}</span>
-            </button>
+    <div class="bts-menu-dropdown">
+        <div class="bts-menu-items">
+            <MenuItem
+                v-for="item in items"
+                v-bind:key="item.name"
+                :item="item"
+                :config="config"
+                :bard="bard"
+                :editor="editor"
+                :btsConfig="btsConfig"
+                @bts-menu-click="$emit('bts-menu-click')"
+            />
         </div>
         
     </div>
@@ -19,39 +19,32 @@
 </template>
 
 <script>
+import MenuItem from './MenuItem.vue';
+
 export default {
 
+    components: {
+        MenuItem,
+    },
+
     props: {
-        buttons: Array,
         config: {},
         bard: {},
         editor: {},
-    },
-
-    data() {
-        return {
-
-        }
+        btsConfig: {},
     },
 
     computed: {
 
-        buttons() {
+        items() {
+            const buttons = this.bard.buttons;
             const menu = this.config.bts_menu;
-            return this.bard.buttons.filter(button => typeof button === 'object' && menu.includes(button.name));    
+            return buttons.filter(button => {
+                return typeof button === 'object' && menu.includes(button.name);
+            });    
         },
 
     },
-
-    methods: {
-
-        buttonIsActive(button) {
-            const nameProperty = button.hasOwnProperty('activeName') ? 'activeName' : 'name';
-            const name = button[nameProperty];
-            return this.editor.isActive(name, button.args);
-        },
-
-    }
 
 }
 </script>
