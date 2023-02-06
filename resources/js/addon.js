@@ -20,6 +20,19 @@ const types = {
     },
 };
 
+const objectToCss = (prefix, data) => {
+    return Object.entries(data).map(([selector, properties]) => {
+        const prefixed = selector.includes('&')
+            ? selector.replace('&', prefix)
+            : `${prefix} ${selector}`;
+        const string = typeof properties === 'object'
+            ? Object.entries(properties).map(([name, value]) => {
+                return `${name}: ${value};`
+            }).join('') : properties;
+        return `${prefixed} { ${string} }`
+    }).join('')
+};
+
 Statamic.booting(() => {
 
     // Initialization
@@ -66,7 +79,10 @@ Statamic.booting(() => {
         const tag = style.type === 'heading'
             ? `${type.tag}${style.level}`
             : `${type.tag}`;
-        css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[store]}"] { ${style.cp_css} }`);
+        const selector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[store]}"]`;
+        css.push(typeof style.cp_css === 'object'
+            ? objectToCss(selector, style.cp_css)
+            : `${selector} { ${style.cp_css} }`);
     });
     const el = document.createElement('style');
     el.appendChild(document.createTextNode(css.join(' ')));
