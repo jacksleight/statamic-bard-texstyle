@@ -1,6 +1,9 @@
 // Bard Texstyle
 
 .bard-fieldtype .ProseMirror {
+    [data-bts]::before {
+        display: none;
+    }
     h1, h2, h3, h4, h5, h6, p {
         &[data-bts]::before {
             background-color: #e4ebf1;
@@ -14,11 +17,6 @@
             display: block;
             max-width: max-content;
             position: relative;
-        }
-    }
-    span {
-        &[data-bts]::before {
-            display: none;
         }
     }
 }
