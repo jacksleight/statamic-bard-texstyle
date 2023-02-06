@@ -21,7 +21,7 @@ class ServiceProvider extends AddonServiceProvider
     public function bootAddon()
     {
         $pro = Addon::get('jacksleight/statamic-bard-texstyle')->edition() === 'pro';
-        // $pro = true;
+        $pro = config('app.url') === 'http://sandbox-bard.test';
 
         $this->publishes([
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
