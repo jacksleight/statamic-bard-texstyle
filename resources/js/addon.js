@@ -25,9 +25,10 @@ const objectToCss = (prefix, data) => {
         const prefixed = selector.includes('&')
             ? selector.replace('&', prefix)
             : `${prefix} ${selector}`;
-        const string = Object.entries(properties).map(([name, value]) => {
-            return `${name}: ${value};`
-        }).join('')
+        const string = typeof properties === 'object'
+            ? Object.entries(properties).map(([name, value]) => {
+                return `${name}: ${value};`
+            }).join('') : properties;
         return `${prefixed} { ${string} }`
     }).join('')
 };

@@ -223,9 +223,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
 /* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
 /* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -267,13 +267,13 @@ var objectToCss = function objectToCss(prefix, data) {
         properties = _ref2[1];
 
     var prefixed = selector.includes('&') ? selector.replace('&', prefix) : "".concat(prefix, " ").concat(selector);
-    var string = Object.entries(properties).map(function (_ref3) {
+    var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref3) {
       var _ref4 = _slicedToArray(_ref3, 2),
           name = _ref4[0],
           value = _ref4[1];
 
       return "".concat(name, ": ").concat(value, ";");
-    }).join('');
+    }).join('') : properties;
     return "".concat(prefixed, " { ").concat(string, " }");
   }).join('');
 };
