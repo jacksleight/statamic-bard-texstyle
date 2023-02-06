@@ -8,6 +8,7 @@ const icons = {
             span: 'T',
             bulletList: 'L',
             orderedList: 'L',
+            div: 'C',
         }[style.type];
         const ident = style.ident;
         return `
@@ -88,6 +89,8 @@ export const styleToIcon = (style, type) => {
         icon = style.icon;
     } else if (style.type === 'bulletList' || style.type === 'orderedList') {
         icon = 'dashes';
+    } else if (style.type === 'div') {
+        icon = 'square';
     } else {
         icon = 'letter';
     }

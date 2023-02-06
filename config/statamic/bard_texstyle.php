@@ -52,6 +52,21 @@ return [
         //     'ident' => 'V',
         //     'class' => 'roman-list',
         //     'cp_css' => 'list-style-type: upper-roman',
+
+        // 'two_columns' => [
+        //     'type' => 'div',
+        //     'name' => 'Two Columns',
+        //     'ident' => '❙ ❙',
+        //     'class' => 'two-columns',
+        //     'cp_css' => 'column-count: 2; column-gap: 1em',
+        // ],
+
+        // 'three_columns' => [
+        //     'type' => 'div',
+        //     'name' => 'Three Columns',
+        //     'ident' => '❙❙❙',
+        //     'class' => 'three-columns',
+        //     'cp_css' => 'column-count: 3; column-gap: 1em',
         // ],
 
     ],

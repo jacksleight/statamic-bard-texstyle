@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0 ()
+
+-
+
 ## 2.0.1 (2023-01-31)
 
 - [fix] Invalid content error when using span styles with Statamic 3.4.1+

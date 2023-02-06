@@ -1,3 +1,4 @@
+<<<<<<< feature/lists
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -370,3 +371,5 @@ Statamic.booting(function () {
 
 /******/ })()
 ;
+=======
+>>>>>>> v2.1
