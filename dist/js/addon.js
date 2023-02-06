@@ -201,15 +201,15 @@ var Core = Extension.create({
   addOptions: function addOptions() {
     return {
       attr: null,
-      styleTypes: []
+      styleExtensions: []
     };
   },
   addGlobalAttributes: function addGlobalAttributes() {
     var _this$options = this.options,
         attr = _this$options.attr,
-        styleTypes = _this$options.styleTypes;
+        styleExtensions = _this$options.styleExtensions;
     return [{
-      types: styleTypes,
+      types: styleExtensions,
       attributes: _defineProperty({}, attr, {
         parseHTML: function parseHTML(element) {
           return element.getAttribute('data-bts');
@@ -287,6 +287,7 @@ var Core = Extension.create({
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "menuIcon": () => (/* binding */ menuIcon),
 /* harmony export */   "styleToIcon": () => (/* binding */ styleToIcon)
 /* harmony export */ });
 var maskCount = 0;
@@ -346,6 +347,7 @@ var styleToIcon = function styleToIcon(style, type) {
 
   return icons[icon] ? icons[icon](style) : icon;
 };
+var menuIcon = "<svg viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\" xml:space=\"preserve\" style=\"fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2\"><path fill=\"currentColor\" d=\"M12 17.989V16h.532a.67.67 0 0 0 .633-.887L12.349 13H6.117l-.815 2.113a.67.67 0 0 0 .633.887H7v2H0v-2h.43a1.4 1.4 0 0 0 1.32-.935L7.257 0h3.952l4.768 13.042-.346.319c-1.407 1.317-1.454 1.899-1.909 4.069a.865.865 0 0 0-.016.258 1.074 1.074 0 0 0-.114-.006c-.648.007-1.166.12-1.592.307ZM7.114 10h4.238L9.093 3.801 7.114 10Z\" style=\"fill-rule:nonzero\"/><path fill=\"currentColor\" d=\"M0 21.398c5.504.456 3.533-5.392 8.626-5.445l2.206 1.841c.549 6.645-7.579 8.127-10.832 3.604Zm16.878-8.538c1.713-2.687 7.016-11.698 7.016-11.698.423-.747-.515-1.528-1.17-.976 0 0-7.887 6.857-10.213 9.03-1.838 1.719-1.846 2.504-2.441 5.336l2.016 1.681c2.67-1.098 3.439-1.248 4.792-3.373Z\" style=\"fill-rule:nonzero\" transform=\"translate(7.766 7.766) scale(.6764)\"/></svg>";
 
 /***/ }),
 
@@ -435,6 +437,334 @@ var Div = Node.create({
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Div);
+
+/***/ }),
+
+/***/ "./resources/js/provider.js":
+/*!**********************************!*\
+  !*** ./resources/js/provider.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
+/* harmony import */ var _nodes_Div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/Div */ "./resources/js/nodes/Div.js");
+/* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
+/* harmony import */ var _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/MenuButton.vue */ "./resources/js/components/MenuButton.vue");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+var Provider = /*#__PURE__*/function () {
+  function Provider(options) {
+    _classCallCheck(this, Provider);
+
+    _defineProperty(this, "types", {
+      heading: {
+        tag: 'h',
+        extension: 'heading',
+        command: 'btsToggleHeading',
+        autohide: false
+      },
+      paragraph: {
+        tag: 'p',
+        extension: 'paragraph',
+        command: 'btsToggleParagraph',
+        autohide: false
+      },
+      span: {
+        tag: 'span',
+        extension: 'btsSpan',
+        command: 'btsToggleSpan',
+        autohide: false
+      },
+      link: {
+        tag: 'a',
+        extension: 'link',
+        command: 'btsToggleLink',
+        autohide: true
+      },
+      bulletList: {
+        tag: 'ul',
+        extension: 'bulletList',
+        command: 'btsToggleBulletList',
+        autohide: false
+      },
+      orderedList: {
+        tag: 'ol',
+        extension: 'orderedList',
+        command: 'btsToggleOrderedList',
+        autohide: false
+      },
+      div: {
+        tag: 'div',
+        extension: 'btsDiv',
+        command: 'btsToggleDiv',
+        autohide: false
+      }
+    });
+
+    options = _objectSpread(_objectSpread({}, options), {}, {
+      types: this.mergeTypeData(options.types)
+    });
+    this.bootDirectives().bootExtensions(options).bootOverrides(options).bootStyleButtons(options).bootMenuButton(options).bootCss(options);
+  }
+
+  _createClass(Provider, [{
+    key: "mergeTypeData",
+    value: function mergeTypeData(types) {
+      var _this = this;
+
+      return Object.fromEntries(Object.entries(types).map(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            key = _ref2[0],
+            type = _ref2[1];
+
+        return [key, _objectSpread(_objectSpread({}, type), _this.types[key])];
+      }));
+    }
+  }, {
+    key: "bootDirectives",
+    value: function bootDirectives() {
+      Vue.directive('bts-click-outside', {
+        bind: function bind(el, binding, vnode) {
+          el.clickOutsideEvent = function (event) {
+            if (!(el == event.target || el.contains(event.target))) {
+              vnode.context[binding.expression](event);
+            }
+          };
+
+          document.body.addEventListener('click', el.clickOutsideEvent);
+        },
+        unbind: function unbind(el) {
+          document.body.removeEventListener('click', el.clickOutsideEvent);
+        }
+      });
+      return this;
+    }
+  }, {
+    key: "bootExtensions",
+    value: function bootExtensions(options) {
+      Statamic.$bard.addExtension(function () {
+        return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure(options);
+      });
+      Statamic.$bard.addExtension(function () {
+        return _marks_span__WEBPACK_IMPORTED_MODULE_0__["default"];
+      });
+
+      if (options.pro) {
+        Statamic.$bard.addExtension(function () {
+          return _nodes_Div__WEBPACK_IMPORTED_MODULE_1__["default"];
+        });
+      }
+
+      return this;
+    }
+  }, {
+    key: "bootOverrides",
+    value: function bootOverrides(options) {
+      Statamic.$bard.addExtension(function (_ref3) {
+        var bard = _ref3.bard;
+        var buttons = bard.buttons;
+
+        if (!buttons.find(function (button) {
+          return button.name === 'bts_menu';
+        })) {
+          return;
+        }
+
+        var menu = bard.config.bts_menu || [];
+        bard.buttons.forEach(function (button) {
+          if (menu.includes(button.name)) {
+            button.visibleWhenActive = 'btsVoid';
+          }
+        });
+      });
+      Statamic.$bard.addExtension(function (_ref4) {
+        var bard = _ref4.bard;
+        var blank = [].concat(_toConsumableArray(options.styleExtensions.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleExtensions.includes('bulletList') ? ['unordererdlist'] : []), _toConsumableArray(options.styleExtensions.includes('ordererdList') ? ['ordererdlist'] : []));
+        bard.buttons.forEach(function (button) {
+          if (blank.includes(button.name)) {
+            button.args["class"] = null;
+          }
+        });
+      });
+      return this;
+    }
+  }, {
+    key: "bootStyleButtons",
+    value: function bootStyleButtons(options) {
+      Statamic.$bard.buttons(function (buttons, button) {
+        Object.entries(options.styles).forEach(function (_ref5) {
+          var _ref7;
+
+          var _ref6 = _slicedToArray(_ref5, 2),
+              key = _ref6[0],
+              style = _ref6[1];
+
+          var type = options.types[style.type];
+          var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_4__.styleToIcon)(style, type);
+          var args = style.type === 'heading' ? (_ref7 = {}, _defineProperty(_ref7, options.attr, style[options.store]), _defineProperty(_ref7, "level", style.level), _ref7) : _defineProperty({}, options.attr, style[options.store]);
+          var data = {
+            name: key,
+            text: style.name,
+            args: args,
+            activeName: type.extension,
+            html: icon,
+            isVisible: function isVisible(editor) {
+              return editor.isActive(type.extension);
+            },
+            command: function command(editor, args) {
+              return editor.commands[type.command](args);
+            },
+            btsStyle: style
+          };
+          buttons.splice(buttons.indexOf(key), 0, button(data));
+        });
+      });
+      return this;
+    }
+  }, {
+    key: "bootMenuButton",
+    value: function bootMenuButton(options) {
+      if (options.pro) {
+        Statamic.$bard.buttons(function (buttons, button) {
+          buttons.splice(buttons.indexOf('bts_menu'), 0, button({
+            name: 'bts_menu',
+            text: 'Style',
+            component: _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+            html: _icons__WEBPACK_IMPORTED_MODULE_4__.menuIcon,
+            btsConfig: options
+          }));
+        });
+      }
+
+      return this;
+    }
+  }, {
+    key: "bootCss",
+    value: function bootCss(options) {
+      var css = [].concat(_toConsumableArray(this.gatherStyleCss(options)), _toConsumableArray(options.pro ? this.gatherDivCss() : []));
+      var el = document.createElement('style');
+      el.appendChild(document.createTextNode(css.join(' ')));
+      document.head.appendChild(el);
+      return this;
+    }
+  }, {
+    key: "gatherStyleCss",
+    value: function gatherStyleCss(options) {
+      var _this2 = this;
+
+      var css = [];
+      Object.entries(options.styles).forEach(function (_ref9) {
+        var _ref10 = _slicedToArray(_ref9, 2),
+            key = _ref10[0],
+            style = _ref10[1];
+
+        var type = options.types[style.type];
+        var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
+        var selector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[options.store], "\"]");
+        var badgeSelector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[options.store], "\"]::before");
+        var menuSelector = ".bard-fieldtype .bts-menu-preview[data-bts-match~=\"".concat(key, "\"]");
+        css.push.apply(css, _toConsumableArray(_this2.parseCss(selector, style.cp_css)));
+        css.push.apply(css, _toConsumableArray(_this2.parseMenuCss(menuSelector, style.cp_css)));
+
+        if (style.cp_badge) {
+          css.push("".concat(badgeSelector, " { content: \"").concat(style.name, "\"; }"));
+        }
+      });
+      return css;
+    }
+  }, {
+    key: "gatherDivCss",
+    value: function gatherDivCss() {
+      var css = [];
+      css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
+      var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror div[data-bts] >'];
+      var cpCss = Array.from(document.styleSheets).find(function (sheet) {
+        return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
+      });
+      Array.from(cpCss.cssRules).filter(function (rule) {
+        return rule.selectorText && rule.selectorText.startsWith(selector[0]);
+      }).forEach(function (rule) {
+        return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
+      });
+      return css;
+    }
+  }, {
+    key: "parseCss",
+    value: function parseCss(prefix, data) {
+      if (typeof data === 'string') {
+        return ["".concat(prefix, " { ").concat(data, " }")];
+      }
+
+      return Object.entries(data).map(function (_ref11) {
+        var _ref12 = _slicedToArray(_ref11, 2),
+            selector = _ref12[0],
+            properties = _ref12[1];
+
+        var prefixed = selector.includes('&') ? selector.replace('&', prefix) : "".concat(prefix, " ").concat(selector);
+        var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref13) {
+          var _ref14 = _slicedToArray(_ref13, 2),
+              name = _ref14[0],
+              value = _ref14[1];
+
+          return "".concat(name, ": ").concat(value, ";");
+        }).join('') : properties;
+        return "".concat(prefixed, " { ").concat(string, " }");
+      });
+    }
+  }, {
+    key: "parseMenuCss",
+    value: function parseMenuCss(prefix, data) {
+      return this.parseCss(prefix, typeof data === 'string' ? data : data['&'] || '');
+    }
+  }]);
+
+  return Provider;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Provider);
 
 /***/ }),
 
@@ -1399,247 +1729,11 @@ var __webpack_exports__ = {};
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_addon_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/addon.scss */ "./resources/css/addon.scss");
-/* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
-/* harmony import */ var _nodes_Div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodes/Div */ "./resources/js/nodes/Div.js");
-/* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
-/* harmony import */ var _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/MenuButton.vue */ "./resources/js/components/MenuButton.vue");
-/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/* harmony import */ var _provider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./provider */ "./resources/js/provider.js");
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-var types = {
-  heading: {
-    tag: 'h',
-    ext: 'heading',
-    cmd: 'btsToggleHeading',
-    toggle: false
-  },
-  paragraph: {
-    tag: 'p',
-    ext: 'paragraph',
-    cmd: 'btsToggleParagraph',
-    toggle: false
-  },
-  span: {
-    tag: 'span',
-    ext: 'btsSpan',
-    cmd: 'btsToggleSpan',
-    toggle: false
-  },
-  link: {
-    tag: 'a',
-    ext: 'link',
-    cmd: 'btsToggleLink',
-    toggle: true
-  },
-  bulletList: {
-    tag: 'ul',
-    ext: 'bulletList',
-    cmd: 'btsToggleBulletList',
-    toggle: false
-  },
-  orderedList: {
-    tag: 'ol',
-    ext: 'orderedList',
-    cmd: 'btsToggleOrderedList',
-    toggle: false
-  },
-  div: {
-    tag: 'div',
-    ext: 'btsDiv',
-    cmd: 'btsToggleDiv',
-    toggle: false
-  }
-};
-
-var objectToCss = function objectToCss(prefix, data) {
-  return Object.entries(data).map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-        selector = _ref2[0],
-        properties = _ref2[1];
-
-    var prefixed = selector.includes('&') ? selector.replace('&', prefix) : "".concat(prefix, " ").concat(selector);
-    var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref3) {
-      var _ref4 = _slicedToArray(_ref3, 2),
-          name = _ref4[0],
-          value = _ref4[1];
-
-      return "".concat(name, ": ").concat(value, ";");
-    }).join('') : properties;
-    return "".concat(prefixed, " { ").concat(string, " }");
-  }).join('');
-};
 
 Statamic.booting(function () {
-  // Initialization
-  var btsConfig = Statamic.$config.get('bard-texstyle');
-  var pro = btsConfig.pro,
-      store = btsConfig.store,
-      attr = btsConfig.attr,
-      styles = btsConfig.styles,
-      styleTypes = btsConfig.styleTypes; // Extensions
-
-  Statamic.$bard.addExtension(function () {
-    return _extensions_core__WEBPACK_IMPORTED_MODULE_3__["default"].configure({
-      attr: attr,
-      styleTypes: styleTypes
-    });
-  });
-  Statamic.$bard.addExtension(function (_ref5) {
-    var bard = _ref5.bard;
-    var buttons = bard.buttons;
-
-    if (!buttons.find(function (button) {
-      return button.name === 'bts_menu';
-    })) {
-      return;
-    }
-
-    bard.buttons.forEach(function (button) {
-      var menu = bard.config.bts_menu || [];
-
-      if (menu.includes(button.name)) {
-        button.visibleWhenActive = 'btsVoid';
-      }
-    });
-  });
-  Statamic.$bard.addExtension(function (_ref6) {
-    var bard = _ref6.bard;
-    var nullify = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ordererdlist', 'unordererdlist'];
-    bard.buttons.forEach(function (button) {
-      if (nullify.includes(button.name)) {
-        button.args["class"] = null;
-      }
-    });
-  });
-  Statamic.$bard.addExtension(function () {
-    return _marks_span__WEBPACK_IMPORTED_MODULE_1__["default"];
-  });
-
-  if (pro) {
-    Statamic.$bard.addExtension(function () {
-      return _nodes_Div__WEBPACK_IMPORTED_MODULE_2__["default"];
-    });
-  } // Buttons
-
-
-  Statamic.$bard.buttons(function (buttons, button) {
-    Object.entries(styles).forEach(function (_ref7) {
-      var _ref9;
-
-      var _ref8 = _slicedToArray(_ref7, 2),
-          key = _ref8[0],
-          style = _ref8[1];
-
-      if (!types[style.type]) {
-        return;
-      }
-
-      var type = types[style.type];
-      var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_5__.styleToIcon)(style, type);
-      var args = style.type === 'heading' ? (_ref9 = {}, _defineProperty(_ref9, attr, style[store]), _defineProperty(_ref9, "level", style.level), _ref9) : _defineProperty({}, attr, style[store]);
-      var data = {
-        name: key,
-        text: style.name,
-        args: args,
-        activeName: type.ext,
-        html: icon,
-        isVisible: function isVisible(editor) {
-          return editor.isActive(type.ext);
-        },
-        command: function command(editor, args) {
-          return editor.commands[type.cmd](args);
-        },
-        btsStyle: style
-      };
-      buttons.splice(buttons.indexOf(key), 0, button(data));
-    });
-  });
-
-  if (pro) {
-    Statamic.$bard.buttons(function (buttons, button) {
-      buttons.splice(buttons.indexOf('bts_menu'), 0, button({
-        name: 'bts_menu',
-        text: 'Style',
-        component: _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-        html: "<svg viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\" xml:space=\"preserve\" style=\"fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2\"><path fill=\"currentColor\" d=\"M12 17.989V16h.532a.67.67 0 0 0 .633-.887L12.349 13H6.117l-.815 2.113a.67.67 0 0 0 .633.887H7v2H0v-2h.43a1.4 1.4 0 0 0 1.32-.935L7.257 0h3.952l4.768 13.042-.346.319c-1.407 1.317-1.454 1.899-1.909 4.069a.865.865 0 0 0-.016.258 1.074 1.074 0 0 0-.114-.006c-.648.007-1.166.12-1.592.307ZM7.114 10h4.238L9.093 3.801 7.114 10Z\" style=\"fill-rule:nonzero\"/><path fill=\"currentColor\" d=\"M0 21.398c5.504.456 3.533-5.392 8.626-5.445l2.206 1.841c.549 6.645-7.579 8.127-10.832 3.604Zm16.878-8.538c1.713-2.687 7.016-11.698 7.016-11.698.423-.747-.515-1.528-1.17-.976 0 0-7.887 6.857-10.213 9.03-1.838 1.719-1.846 2.504-2.441 5.336l2.016 1.681c2.67-1.098 3.439-1.248 4.792-3.373Z\" style=\"fill-rule:nonzero\" transform=\"translate(7.766 7.766) scale(.6764)\"/></svg>",
-        btsConfig: btsConfig
-      }));
-    });
-  } // CSS
-
-
-  var css = [];
-
-  if (pro) {
-    css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
-    var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror div[data-bts] >'];
-    var cpCss = Array.from(document.styleSheets).find(function (sheet) {
-      return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
-    });
-    Array.from(cpCss.cssRules).filter(function (rule) {
-      return rule.selectorText && rule.selectorText.startsWith(selector[0]);
-    }).forEach(function (rule) {
-      return css.push(rule.cssText.replaceAll(selector[0], selector[1]));
-    });
-  }
-
-  Object.entries(styles).forEach(function (_ref11) {
-    var _ref12 = _slicedToArray(_ref11, 2),
-        key = _ref12[0],
-        style = _ref12[1];
-
-    if (!types[style.type]) {
-      return;
-    }
-
-    var type = types[style.type];
-    var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
-    var selector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[store], "\"]");
-    css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[store], "\"] { ").concat(style.cp_css, " }"));
-    css.push(".bard-fieldtype .bts-menu-preview[data-bts-match~=\"".concat(key, "\"] { ").concat(style.cp_css, " }"));
-    css.push(_typeof(style.cp_css) === 'object' ? objectToCss(selector, style.cp_css) : "".concat(selector, " { ").concat(style.cp_css, " }"));
-
-    if (style.cp_badge) {
-      css.push(".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[store], "\"]::before { content: \"").concat(style.name, "\"; }"));
-    }
-  });
-  var el = document.createElement('style');
-  el.appendChild(document.createTextNode(css.join(' ')));
-  document.head.appendChild(el);
-  Vue.directive('bts-click-outside', {
-    bind: function bind(el, binding, vnode) {
-      el.clickOutsideEvent = function (event) {
-        if (!(el == event.target || el.contains(event.target))) {
-          vnode.context[binding.expression](event);
-        }
-      };
-
-      document.body.addEventListener('click', el.clickOutsideEvent);
-    },
-    unbind: function unbind(el) {
-      document.body.removeEventListener('click', el.clickOutsideEvent);
-    }
-  });
+  new _provider__WEBPACK_IMPORTED_MODULE_1__["default"](Statamic.$config.get('bard-texstyle'));
 });
 })();
 

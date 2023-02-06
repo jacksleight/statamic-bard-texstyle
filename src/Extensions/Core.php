@@ -26,17 +26,17 @@ class Core extends Extension
         $attr = $this->options['attr'];
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
-        $styleTypes = $this->options['styleTypes'];
-        $allTypes = $this->options['allTypes'];
+        $styleExtensions = $this->options['styleExtensions'];
+        $allExtensions = $this->options['allExtensions'];
 
         $attrs = [];
-        foreach ($allTypes as $type) {
+        foreach ($allExtensions as $type) {
             $attrs[] = [
                 'types' => [$type],
                 'attributes' => [
                     $attr => [
-                        'parseHTML' => function ($DOMNode) use ($store, $styles, $styleTypes, $type) {
-                            if (in_array($type, $styleTypes)) {
+                        'parseHTML' => function ($DOMNode) use ($store, $styles, $styleExtensions, $type) {
+                            if (in_array($type, $styleExtensions)) {
                                 $value = $DOMNode->getAttribute('class');
                                 if ($store === 'key') {
                                     $style = Arr::first($styles, fn ($style) => $style['type'] === ([
@@ -53,8 +53,8 @@ class Core extends Extension
 
                             return $value;
                         },
-                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
-                            if (in_array($type, $styleTypes)) {
+                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleExtensions, $type) {
+                            if (in_array($type, $styleExtensions)) {
                                 $class = $attributes->{$attr} ?? null;
                                 if ($store === 'key') {
                                     $class = $styles[$class]['class'] ?? null;
