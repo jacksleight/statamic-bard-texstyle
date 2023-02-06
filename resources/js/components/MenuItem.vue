@@ -44,12 +44,13 @@ export default {
             return true;
         },
         previewMatch() {
-            const style = this.item.btsStyle || {};
-            return [
+            return (this.item.btsStyle ? [
                 this.item.name,
-                `bts-${style.type}`,
-                style.level ? `h${style.level}` : null,
-            ].join(' ');
+                this.item.btsStyle.type,
+                this.item.btsStyle.level ? `h${this.item.btsStyle.level}` : null,
+            ] : [
+                this.item.name,
+            ]).join(' ');
         },
 
     },

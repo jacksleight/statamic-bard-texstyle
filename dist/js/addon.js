@@ -112,8 +112,7 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     previewMatch: function previewMatch() {
-      var style = this.item.btsStyle || {};
-      return [this.item.name, "bts-".concat(style.type), style.level ? "h".concat(style.level) : null].join(' ');
+      return (this.item.btsStyle ? [this.item.name, this.item.btsStyle.type, this.item.btsStyle.level ? "h".concat(this.item.btsStyle.level) : null] : [this.item.name]).join(' ');
     }
   },
   methods: {
@@ -662,8 +661,10 @@ var Provider = /*#__PURE__*/function () {
             args: args,
             activeName: type.extension,
             html: icon,
-            isVisible: function isVisible(editor) {
+            isVisible: type.autohide ? function (editor) {
               return editor.isActive(type.extension);
+            } : function () {
+              return true;
             },
             command: function command(editor, args) {
               return editor.commands[type.command](args);
@@ -678,18 +679,19 @@ var Provider = /*#__PURE__*/function () {
   }, {
     key: "bootMenuButton",
     value: function bootMenuButton(options) {
-      if (options.pro) {
-        Statamic.$bard.buttons(function (buttons, button) {
-          buttons.splice(buttons.indexOf('bts_menu'), 0, button({
-            name: 'bts_menu',
-            text: 'Style',
-            component: _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-            html: _icons__WEBPACK_IMPORTED_MODULE_4__.menuIcon,
-            btsConfig: options
-          }));
-        });
+      if (!options.pro) {
+        return this;
       }
 
+      Statamic.$bard.buttons(function (buttons, button) {
+        buttons.splice(buttons.indexOf('bts_menu'), 0, button({
+          name: 'bts_menu',
+          text: 'Style',
+          component: _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+          html: _icons__WEBPACK_IMPORTED_MODULE_4__.menuIcon,
+          btsConfig: options
+        }));
+      });
       return this;
     }
   }, {
@@ -795,7 +797,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: 1px solid #e4ebf1;\n  border-radius: 2px;\n  padding: 16px;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  top: -1px;\n  left: -1px;\n}\n.bard-fieldtype .bts-menu-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-menu-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-unorderedlist] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-orderedlist] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: 1px solid #e4ebf1;\n  border-radius: 2px;\n  padding: 16px;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  top: -1px;\n  left: -1px;\n}\n.bard-fieldtype .bts-menu-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-menu-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

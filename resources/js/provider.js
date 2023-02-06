@@ -141,7 +141,7 @@ class Provider {
                     args: args,
                     activeName: type.extension,
                     html: icon,
-                    isVisible: (editor) => editor.isActive(type.extension),
+                    isVisible: type.autohide ? (editor) => editor.isActive(type.extension) : () => true,
                     command: (editor, args) => editor.commands[type.command](args),
                     btsStyle: style,
                 };
@@ -152,17 +152,18 @@ class Provider {
     }    
 
     bootMenuButton(options) {
-        if (options.pro) {
-            Statamic.$bard.buttons((buttons, button) => {
-                buttons.splice(buttons.indexOf('bts_menu'), 0, button({
-                    name: 'bts_menu',
-                    text: 'Style',
-                    component: MenuButton,
-                    html: menuIcon,
-                    btsConfig: options,
-                }));
-            });
+        if (!options.pro) {
+            return this;
         }
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_menu'), 0, button({
+                name: 'bts_menu',
+                text: 'Style',
+                component: MenuButton,
+                html: menuIcon,
+                btsConfig: options,
+            }));
+        });
         return this;
     }    
 

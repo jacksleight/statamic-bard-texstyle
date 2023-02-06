@@ -113,12 +113,14 @@
             &[data-bts-match~="bts-link"] {
                 display: inline;
             }
-            &[data-bts-match~="bts-unorderedlist"] {
+            &[data-bts-match~="unorderedlist"],
+            &[data-bts-match~="bulletList"] {
                 display: list-item;
                 list-style-type: disc;
                 margin-left: 17px !important;
             }
-            &[data-bts-match~="bts-orderedlist"] {
+            &[data-bts-match~="orderedlist"],
+            &[data-bts-match~="orderedList"] {
                 display: list-item;
                 list-style-type: decimal;
                 margin-left: 17px !important;
