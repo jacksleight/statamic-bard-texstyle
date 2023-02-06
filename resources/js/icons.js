@@ -6,6 +6,9 @@ const icons = {
             heading: 'H',
             paragraph: 'P',
             span: 'T',
+            bulletList: 'L',
+            orderedList: 'L',
+            div: 'C',
         }[style.type];
         const ident = style.ident;
         return `
@@ -59,6 +62,17 @@ const icons = {
             </svg>
         `;
     },
+    'dashes': (style) => {
+        const ident = style.ident;
+        return `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <rect width="4" height="2" x="0" y="2" rx="1" fill="currentColor" />
+                <rect width="4" height="2" x="0" y="7" rx="1" fill="currentColor" />
+                <rect width="4" height="2" x="0" y="12" rx="1" fill="currentColor" />
+                <text text-anchor="middle" x="11" y="12" style="font-size: 11px;">${ident}</text>
+            </svg>
+        `;
+    },
     'symbol': (style) => {
         const ident = style.ident;
         return `
@@ -73,6 +87,10 @@ export const styleToIcon = (style, type) => {
     let icon;
     if (style.icon) {
         icon = style.icon;
+    } else if (style.type === 'bulletList' || style.type === 'orderedList') {
+        icon = 'dashes';
+    } else if (style.type === 'div') {
+        icon = 'square';
     } else {
         icon = 'letter';
     }
