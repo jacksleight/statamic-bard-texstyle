@@ -10,17 +10,26 @@ const types = {
     heading: {
         tag: 'h',
         ext: 'heading',
+        toggle: false,
         cmd: 'btsToggleHeading'
     },
     paragraph: {
         tag: 'p',
         ext: 'paragraph',
+        toggle: false,
         cmd: 'btsToggleParagraph'
     },
     span: {
         tag: 'span',
         ext: 'btsSpan',
+        toggle: false,
         cmd: 'btsToggleSpan'
+    },
+    link: {
+        tag: 'a',
+        ext: 'link',
+        toggle: true,
+        cmd: 'btsToggleLink'
     },
     bulletList: {
         tag: 'ul',

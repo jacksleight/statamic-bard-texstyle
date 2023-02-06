@@ -6,6 +6,7 @@ const icons = {
             heading: 'H',
             paragraph: 'P',
             span: 'T',
+            link: 'L',
             bulletList: 'L',
             orderedList: 'L',
             div: 'C',
