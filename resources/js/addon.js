@@ -21,6 +21,16 @@ const types = {
         ext: 'btsSpan',
         cmd: 'btsToggleSpan'
     },
+    bulletList: {
+        tag: 'ul',
+        ext: 'bulletList',
+        cmd: 'btsToggleBulletList'
+    },
+    orderedList: {
+        tag: 'ol',
+        ext: 'orderedList',
+        cmd: 'btsToggleOrderedList'
+    },
     div: {
         tag: 'div',
         ext: 'btsDiv',
