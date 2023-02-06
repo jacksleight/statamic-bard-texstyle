@@ -6,17 +6,26 @@ const types = {
     heading: {
         tag: 'h',
         ext: 'heading',
+        toggle: false,
         cmd: 'btsToggleHeading'
     },
     paragraph: {
         tag: 'p',
         ext: 'paragraph',
+        toggle: false,
         cmd: 'btsToggleParagraph'
     },
     span: {
         tag: 'span',
         ext: 'btsSpan',
+        toggle: false,
         cmd: 'btsToggleSpan'
+    },
+    link: {
+        tag: 'a',
+        ext: 'link',
+        toggle: true,
+        cmd: 'btsToggleLink'
     },
 };
 
@@ -46,10 +55,11 @@ Statamic.booting(() => {
             const data = {
                 name: key,
                 text: style.name,
-                args: args,
+                // args: args,
                 activeName: type.ext,
+                visibleWhenActive: type.toggle ? type.ext : undefined,
                 html: icon,
-                command: (editor, args) => editor.chain().focus()[type.cmd](args).run(),
+                command: (editor) => editor.chain().focus()[type.cmd](args).run(),
             };
             buttons.splice(buttons.indexOf(key), 0, button(data));
         });

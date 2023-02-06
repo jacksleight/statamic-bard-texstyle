@@ -38,6 +38,13 @@ const Core = Extension.create({
             btsToggleParagraph: (attributes) => ({ commands }) => {
                 return commands.toggleNode('paragraph', 'paragraph', attributes);
             },
+            btsToggleLink: (attributes) => ({ commands, editor }) => {
+                if (editor.isActive('link', attributes)) {
+                    return commands.resetAttributes('link', 'class');
+                } else {
+                    return commands.updateAttributes('link', attributes);
+                }
+            },
         }
     },
 

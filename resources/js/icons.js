@@ -6,6 +6,7 @@ const icons = {
             heading: 'H',
             paragraph: 'P',
             span: 'T',
+            link: 'L',
         }[style.type];
         const ident = style.ident;
         return `
