@@ -1,6 +1,7 @@
 import '../css/addon.scss';
 
 import Span from './marks/span'
+import Div from './nodes/Div'
 import Core from './extensions/core'
 import { styleToIcon } from './icons';
 
@@ -19,6 +20,11 @@ const types = {
         tag: 'span',
         ext: 'btsSpan',
         cmd: 'btsToggleSpan'
+    },
+    div: {
+        tag: 'div',
+        ext: 'btsDiv',
+        cmd: 'btsToggleDiv'
     },
 };
 
@@ -39,12 +45,15 @@ Statamic.booting(() => {
 
     // Initialization
 
-    const { store, attr, styles, styleTypes } = Statamic.$config.get('bard-texstyle');
+    const { pro, store, attr, styles, styleTypes } = Statamic.$config.get('bard-texstyle');
 
     // Extensions
 
-    Statamic.$bard.addExtension(() => Span);
     Statamic.$bard.addExtension(() => Core.configure({ attr, styleTypes }));
+    Statamic.$bard.addExtension(() => Span);
+    if (pro) {
+        Statamic.$bard.addExtension(() => Div);
+    }
 
     // Buttons
     
@@ -73,6 +82,20 @@ Statamic.booting(() => {
     // CSS
 
     const css = [];
+
+    if (pro) {
+        css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
+        const selector = [
+            '.bard-fieldtype .ProseMirror >',
+            '.bard-fieldtype .ProseMirror div[data-bts] >',
+        ];
+        const cpCss = Array.from(document.styleSheets)
+            .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
+        Array.from(cpCss.cssRules)
+            .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
+            .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
+    }
+
     Object.entries(styles).forEach(([, style]) => {
         if (!types[style.type]) {
             return;

@@ -41,6 +41,7 @@ class Core extends Extension
                                 if ($store === 'key') {
                                     $style = Arr::first($styles, fn ($style) => $style['type'] === ([
                                         'btsSpan' => 'span',
+                                        'btsDiv' => 'div',
                                     ][$type] ?? $type) &&
                                         $style['class'] === $value
                                     );
