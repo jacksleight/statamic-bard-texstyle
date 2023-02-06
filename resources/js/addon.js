@@ -1,3 +1,5 @@
+import '../css/addon.scss';
+
 import Span from './marks/span'
 import Div from './nodes/Div'
 import Core from './extensions/core'
@@ -24,6 +26,19 @@ const types = {
         ext: 'btsDiv',
         cmd: 'btsToggleDiv'
     },
+};
+
+const objectToCss = (prefix, data) => {
+    return Object.entries(data).map(([selector, properties]) => {
+        const prefixed = selector.includes('&')
+            ? selector.replace('&', prefix)
+            : `${prefix} ${selector}`;
+        const string = typeof properties === 'object'
+            ? Object.entries(properties).map(([name, value]) => {
+                return `${name}: ${value};`
+            }).join('') : properties;
+        return `${prefixed} { ${string} }`
+    }).join('')
 };
 
 Statamic.booting(() => {
@@ -89,7 +104,14 @@ Statamic.booting(() => {
         const tag = style.type === 'heading'
             ? `${type.tag}${style.level}`
             : `${type.tag}`;
+        const selector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[store]}"]`;
         css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[store]}"] { ${style.cp_css} }`);
+        css.push(typeof style.cp_css === 'object'
+            ? objectToCss(selector, style.cp_css)
+            : `${selector} { ${style.cp_css} }`);   
+        if (style.cp_badge) {
+            css.push(`.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[store]}"]::before { content: "${style.name}"; }`);
+        }
     });
     const el = document.createElement('style');
     el.appendChild(document.createTextNode(css.join(' ')));
