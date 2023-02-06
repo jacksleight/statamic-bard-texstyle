@@ -3,6 +3,7 @@
     <button
         class="bts-menu-item"
         :class="{ active }"
+        v-if="visible"
         @click="click"
     >
         <div
@@ -29,15 +30,25 @@ export default {
     computed: {
 
         active() {
+            if (this.item.hasOwnProperty('isActive')) {
+                return this.item.isActive(this.editor, this.item.args);
+            }
             const nameProperty = this.item.hasOwnProperty('activeName') ? 'activeName' : 'name';
             const name = this.item[nameProperty];
             return this.editor.isActive(name, this.item.args);
         },
+        visible() {
+            if (this.item.hasOwnProperty('isVisible')) {
+                return this.item.isVisible(this.editor, this.item.args);
+            }
+            return true;
+        },
         previewMatch() {
             const style = this.item.btsStyle || {};
             return [
-                style.level ? `h${style.level}` : null,
                 this.item.name,
+                `bts-${style.type}`,
+                style.level ? `h${style.level}` : null,
             ].join(' ');
         },
 

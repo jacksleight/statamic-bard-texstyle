@@ -1,48 +1,48 @@
 <template>
 
-    <div class="inline-block relative" v-bts-click-outside="closeDropdown">
+    <div class="inline-block relative" v-bts-click-outside="closePanel">
         <button
             class="bard-toolbar-button bts-menu-button"
             v-html="button.html"
             v-tooltip="button.text"
             :aria-label="button.text"
-            @click="toggleDropdown"
+            @click="togglePanel"
         />
-        <MenuDropdown
-            v-if="dropdownActive"
+        <MenuPanel
+            v-if="panelActive"
             :config="config"
             :bard="bard"
             :editor="editor"
             :btsConfig="button.btsConfig"
-            @bts-menu-click="closeDropdown"
+            @bts-menu-click="closePanel"
         />
     </div>
 
 </template>
 
 <script>
-import MenuDropdown from './MenuDropdown.vue';
+import MenuPanel from './MenuPanel.vue';
 
 export default {
 
     mixins: [ BardToolbarButton ],
 
     components: {
-        MenuDropdown,
+        MenuPanel,
     },
 
     data() {    
         return {
-            dropdownActive: false,
+            panelActive: false,
         };
     },
 
     methods: {
-        toggleDropdown() {
-            this.dropdownActive = ! this.dropdownActive;
+        togglePanel() {
+            this.panelActive = ! this.panelActive;
         },
-        closeDropdown() {
-            this.dropdownActive = false;
+        closePanel() {
+            this.panelActive = false;
         },
     }
 
