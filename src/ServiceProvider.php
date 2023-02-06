@@ -5,6 +5,8 @@ namespace JackSleight\StatamicBardTexstyle;
 use Illuminate\Support\Arr;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
+use JackSleight\StatamicBardTexstyle\Nodes\Div;
+use Statamic\Facades\Addon;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
@@ -18,6 +20,9 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
+        $pro = Addon::get('jacksleight/statamic-bard-texstyle')->edition() === 'pro';
+        $pro = config('app.url') === 'http://sandbox-bard.test';
+
         $this->publishes([
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
@@ -38,6 +43,7 @@ class ServiceProvider extends AddonServiceProvider
             ->pluck('type')
             ->map(fn ($v) => [
                 'span' => 'btsSpan',
+                'div' => 'btsDiv',
             ][$v] ?? $v)
             ->unique()
             ->values()
@@ -50,6 +56,7 @@ class ServiceProvider extends AddonServiceProvider
 
         Statamic::provideToScript([
             'bard-texstyle' => [
+                'pro' => $pro,
                 'store' => $store,
                 'attr' => $attr,
                 'styles' => $styles,
@@ -70,6 +77,9 @@ class ServiceProvider extends AddonServiceProvider
             ]);
         });
         Augmentor::addExtension('btsSpan', new Span());
+        if ($pro) {
+            Augmentor::addExtension('btsDiv', new Div());
+        }
 
         $defaultSets = collect($defaults)
             ->map(fn ($v, $k) => $k)
@@ -85,6 +95,27 @@ class ServiceProvider extends AddonServiceProvider
                 'width' => 50,
             ]);
         }
+
+        // $buttons = collect($styles)
+        //     ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
+        //     ->merge([
+        //         'h1' => 'Heading 1',
+        //         'h2' => 'Heading 2',
+        //         'h3' => 'Heading 3',
+        //         'h4' => 'Heading 4',
+        //         'h5' => 'Heading 5',
+        //         'h6' => 'Heading 6',
+        //         'unorderedlist' => 'Unordered List',
+        //         'orderedlist' => 'Ordered List',
+        //     ]);
+        // Bard::appendConfigField('bts_menu', [
+        //     'display' => __('Style Menu'),
+        //     'instructions' => __('Which style options should be moved to the style menu'),
+        //     'type' => 'checkboxes',
+        //     'default' => [],
+        //     'multiple' => true,
+        //     'options' => $buttons,
+        // ]);
 
         return $this;
     }
