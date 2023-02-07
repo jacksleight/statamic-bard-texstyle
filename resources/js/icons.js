@@ -5,9 +5,8 @@ const icons = {
         const letter = {
             heading: 'H',
             paragraph: 'P',
-            span: 'T',
-            link: 'L',
-        }[style.type] ?? '';
+            btsSpan: 'T',
+        }[style.type] ?? 'S';
         const ident = style.ident;
         return `
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 16" fill="currentColor" style="width: 24px;">
@@ -60,7 +59,7 @@ const icons = {
             </svg>
         `;
     },
-    'bulletList': (style) => {
+    'bullet-list': (style) => {
         const ident = style.ident;
         return `
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
@@ -69,7 +68,7 @@ const icons = {
             </svg>
         `;
     },
-    'orderedList': (style) => {
+    'ordered-list': (style) => {
         const ident = style.ident;
         return `
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
@@ -104,10 +103,10 @@ export const styleToIcon = (style, type) => {
     } else if (style.type === 'link') {
         icon = 'link';
     } else if (style.type === 'bulletList') {
-        icon = 'bulletList';
+        icon = 'bullet-list';
     } else if (style.type === 'orderedList') {
-        icon = 'orderedList';
-    } else if (style.type === 'div') {
+        icon = 'ordered-list';
+    } else if (style.type === 'btsDiv') {
         icon = 'square';
     } else {
         icon = 'letter';

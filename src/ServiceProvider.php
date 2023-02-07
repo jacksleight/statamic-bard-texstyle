@@ -18,6 +18,11 @@ class ServiceProvider extends AddonServiceProvider
         __DIR__.'/../dist/js/addon.js',
     ];
 
+    protected $aliases = [
+        'span' => 'btsSpan',
+        'div' => 'btsDiv',
+    ];
+
     protected $types = [
         'heading' => [
             'extension' => 'heading',
@@ -27,7 +32,7 @@ class ServiceProvider extends AddonServiceProvider
             'extension' => 'paragraph',
             'pro' => false,
         ],
-        'span' => [
+        'btsSpan' => [
             'extension' => 'btsSpan',
             'pro' => false,
         ],
@@ -43,7 +48,7 @@ class ServiceProvider extends AddonServiceProvider
             'extension' => 'orderedList',
             'pro' => false,
         ],
-        'div' => [
+        'btsDiv' => [
             'extension' => 'btsDiv',
             'pro' => true,
         ],
@@ -87,24 +92,18 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function resolveStylesAndTypes($pro)
     {
-        // @todo use collections here
         $styles = config('statamic.bard_texstyle.styles', []);
         $styles = $this->normalizeStyles($styles);
-        array_walk($styles, function (&$style, $key) {
-            $style['key'] = $key;
-        });
 
-        $types = $this->types;
-        array_walk($types, function (&$type, $key) {
-            $type['key'] = $key;
-        });
-
-        $types = collect($types)
+        $types = collect($this->types)
+            ->map(fn ($type, $key) => array_merge($type, ['key' => $key]))
             ->filter(fn ($type) => ! $type['pro'] || $pro)
             ->all();
 
         $usedTypes = [];
         $styles = collect($styles)
+            ->map(fn ($style, $key) => array_merge($style, ['key' => $key]))
+            ->map(fn ($style) => array_merge($style, ['type' => $this->aliases[$style['type']] ?? $style['type']]))
             ->filter(fn ($style) => isset($types[$style['type']]))
             ->each(function ($style) use (&$usedTypes) {
                 $usedTypes[$style['type']] = true;

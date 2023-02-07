@@ -19,7 +19,7 @@ class Provider {
             command: 'btsToggleParagraph',
             autohide: false,
         },
-        span: {
+        btsSpan: {
             tag: 'span',
             extension: 'btsSpan',
             command: 'btsToggleSpan',
@@ -43,7 +43,7 @@ class Provider {
             command: 'btsToggleOrderedList',
             autohide: false,
         },
-        div: {
+        btsDiv: {
             tag: 'div',
             extension: 'btsDiv',
             command: 'btsToggleDiv',

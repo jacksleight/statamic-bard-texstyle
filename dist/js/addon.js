@@ -292,14 +292,13 @@ __webpack_require__.r(__webpack_exports__);
 var maskCount = 0;
 var icons = {
   'letter': function letter(style) {
-    var _heading$paragraph$sp;
+    var _heading$paragraph$bt;
 
-    var letter = (_heading$paragraph$sp = {
+    var letter = (_heading$paragraph$bt = {
       heading: 'H',
       paragraph: 'P',
-      span: 'T',
-      link: 'L'
-    }[style.type]) !== null && _heading$paragraph$sp !== void 0 ? _heading$paragraph$sp : '';
+      btsSpan: 'T'
+    }[style.type]) !== null && _heading$paragraph$bt !== void 0 ? _heading$paragraph$bt : 'S';
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\">").concat(ident, "</text>\n            </svg>\n        ");
   },
@@ -321,11 +320,11 @@ var icons = {
     var maskId = "bts-mask-".concat(maskCount++);
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <mask id=\"".concat(maskId, "\">\n                    <rect width=\"16\" height=\"16\" fill=\"white\" />\n                    <text text-anchor=\"middle\" x=\"8\" y=\"12\" style=\"font-size: 11px;\" fill=\"black\">").concat(ident, "</text>\n                </mask>\n                <circle cx=\"8\" cy=\"8\" r=\"7.5\" stroke-width=\"1\" stroke=\"currentColor\" mask=\"url(#").concat(maskId, ")\" />\n            </svg>\n        ");
   },
-  'bulletList': function bulletList(style) {
+  'bullet-list': function bulletList(style) {
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" style=\"fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2\">\n                <path d=\"M384 1408c0 53.33-18.667 98.67-56 136s-82.667 56-136 56-98.667-18.67-136-56-56-82.67-56-136 18.667-98.67 56-136 82.667-56 136-56 98.667 18.67 136 56 56 82.67 56 136Zm0-512c0 53.333-18.667 98.667-56 136-37.333 37.33-82.667 56-136 56s-98.667-18.67-136-56C18.667 994.667 0 949.333 0 896s18.667-98.667 56-136 82.667-56 136-56 98.667 18.667 136 56 56 82.667 56 136Zm0-512c0 53.333-18.667 98.667-56 136s-82.667 56-136 56-98.667-18.667-136-56S0 437.333 0 384s18.667-98.667 56-136 82.667-56 136-56 98.667 18.667 136 56 56 82.667 56 136Z\" style=\"fill-rule:nonzero\" transform=\"rotate(1.025) scale(.00893)\"/>\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
   },
-  'orderedList': function orderedList(style) {
+  'ordered-list': function orderedList(style) {
     var ident = style.ident;
     return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" style=\"fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2\">\n                <path d=\"M381 1620c0 53.33-18.167 95.33-54.5 126s-81.5 46-135.5 46c-70.667 0-128-22-172-66l57-88c32.667 30 68 45 106 45 19.333 0 36.167-4.83 50.5-14.5 14.333-9.67 21.5-23.83 21.5-42.5 0-42.67-35-61.33-105-56l-26-56c5.333-6.67 16.167-21.17 32.5-43.5s30.5-40.33 42.5-54c12-13.67 24.333-26.5 37-38.5v-1c-10.667 0-26.833.33-48.5 1-21.667.67-37.833 1-48.5 1v53H32v-152h333v88l-95 115c34 8 61 24.33 81 49s30 54 30 88Zm2-627v159H21c-4-24-6-42-6-54 0-34 7.833-65 23.5-93S73 954.333 95 937s44-33.167 66-47.5c22-14.333 40.833-28.833 56.5-43.5 15.667-14.667 23.5-29.667 23.5-45 0-16.667-4.833-29.5-14.5-38.5S203.667 749 187 749c-30.667 0-57.667 19.333-81 58l-85-59c16-34 39.833-60.5 71.5-79.5S159.333 640 198 640c48.667 0 89.667 13.833 123 41.5s50 65.167 50 112.5c0 33.333-11.333 63.833-34 91.5s-47.667 49.167-75 64.5c-27.333 15.333-52.5 32.167-75.5 50.5-23 18.33-34.833 35.83-35.5 52.5h127v-60h105Zm1-580v99H49v-99h107c0-27.333.167-67.833.5-121.5.333-53.667.5-94.167.5-121.5v-12h-2c-5.333 11.333-22 29.333-50 54l-71-76L170 9h106v404h108Z\" style=\"fill-rule:nonzero\" transform=\"rotate(1.025) scale(.00893)\"/>\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
   },
@@ -346,10 +345,10 @@ var styleToIcon = function styleToIcon(style, type) {
   } else if (style.type === 'link') {
     icon = 'link';
   } else if (style.type === 'bulletList') {
-    icon = 'bulletList';
+    icon = 'bullet-list';
   } else if (style.type === 'orderedList') {
-    icon = 'orderedList';
-  } else if (style.type === 'div') {
+    icon = 'ordered-list';
+  } else if (style.type === 'btsDiv') {
     icon = 'square';
   } else {
     icon = 'letter';
@@ -522,7 +521,7 @@ var Provider = /*#__PURE__*/function () {
         command: 'btsToggleParagraph',
         autohide: false
       },
-      span: {
+      btsSpan: {
         tag: 'span',
         extension: 'btsSpan',
         command: 'btsToggleSpan',
@@ -546,7 +545,7 @@ var Provider = /*#__PURE__*/function () {
         command: 'btsToggleOrderedList',
         autohide: false
       },
-      div: {
+      btsDiv: {
         tag: 'div',
         extension: 'btsDiv',
         command: 'btsToggleDiv',

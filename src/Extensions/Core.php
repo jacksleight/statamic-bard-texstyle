@@ -39,12 +39,7 @@ class Core extends Extension
                             if (in_array($type, $styleExtensions)) {
                                 $value = $DOMNode->getAttribute('class');
                                 if ($store === 'key') {
-                                    $style = Arr::first($styles, fn ($style) => $style['type'] === ([
-                                        'btsSpan' => 'span',
-                                        'btsDiv' => 'div',
-                                    ][$type] ?? $type) &&
-                                        $style['class'] === $value
-                                    );
+                                    $style = Arr::first($styles, fn ($style) => $style['type'] === $type && $style['class'] === $value);
                                     $value = $style ? $style['key'] : null;
                                 }
                             } else {
