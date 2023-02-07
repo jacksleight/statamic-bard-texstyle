@@ -106,6 +106,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     config: {},
@@ -118,27 +123,18 @@ __webpack_require__.r(__webpack_exports__);
       items: this.editor.commands.btsAttrsFetchItems(),
       titles: {
         blockquote: 'Blockquote',
-        bold: 'Bold',
         bulletList: 'Unordered List',
-        code: 'Code',
         codeBlock: 'Code Block',
         heading: 'Heading',
         horizontalRule: 'Horizontal Rule',
         image: 'Image',
-        italic: 'Italic',
-        link: 'Link',
         listItem: 'List Item',
         orderedList: 'Ordered List',
         paragraph: 'Paragraph',
-        small: 'Small',
-        strike: 'Strike',
-        subscript: 'Subscript',
-        superscript: 'Superscript',
         table: 'Table',
         tableCell: 'Table Cell',
         tableHeader: 'Table Header',
-        tableRow: 'Table Row',
-        underline: 'Underline'
+        tableRow: 'Table Row'
       }
     };
   },
@@ -372,6 +368,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -386,7 +386,9 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var Extension = Statamic.$bard.tiptap.core.Extension;
+var _Statamic$$bard$tipta = Statamic.$bard.tiptap.core,
+    Extension = _Statamic$$bard$tipta.Extension,
+    getNodeAttributes = _Statamic$$bard$tipta.getNodeAttributes;
 var Attrs = Extension.create({
   name: 'btsAttrs',
   addOptions: function addOptions() {
@@ -438,13 +440,10 @@ var Attrs = Extension.create({
             var type = node.type.name;
 
             if (attributesExtensions.includes(type)) {
-              var attrs = attributes[type];
               items.push({
                 pos: pos,
                 type: type,
-                attrs: Object.fromEntries(Object.keys(attrs).map(function (name) {
-                  return [name, node.attrs[name]];
-                }))
+                attrs: _objectSpread({}, node.attrs)
               });
             }
           });
@@ -1031,7 +1030,6 @@ var Provider = /*#__PURE__*/function () {
     key: "gatherDivCss",
     value: function gatherDivCss() {
       var css = [];
-      css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
       var selector = ['.bard-fieldtype .ProseMirror >', '.bard-fieldtype .ProseMirror div[data-bts] >'];
       var cpCss = Array.from(document.styleSheets).find(function (sheet) {
         return sheet.href && sheet.href.includes('statamic/cp/css/cp.css');
@@ -1096,7 +1094,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: 1px solid #e4ebf1;\n  border-radius: 2px;\n  padding: 16px 16px 2px 16px;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  top: -1px;\n  left: -1px;\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: #e4ebf1 solid;\n  border-width: 1px 0;\n  padding: 16px;\n  margin-left: -16px;\n  margin-right: -16px;\n  margin-top: 0;\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  bottom: 100%;\n  right: 0;\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1901,88 +1899,107 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "bts-panel" },
-    [
-      _vm._l(_vm.items, function (item) {
-        return _c("div", [
-          _c(
-            "div",
-            { staticClass: "font-bold px-2 py-1 bg-grey-10 title-case" },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.titles[item.type] || item.type) +
-                  "\n        "
-              ),
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "p-2 border-b border-t space-y-1" },
-            _vm._l(_vm.fields(item.type), function (field, name) {
-              return _c(
-                "div",
-                {
-                  staticClass:
-                    "h-8 p-1 border rounded border-grey-50 flex items-center",
-                },
-                [
-                  _c("input", {
-                    directives: [
+  return _c("div", { staticClass: "bts-panel" }, [
+    _vm.items.length
+      ? _c(
+          "div",
+          [
+            _vm._l(_vm.items, function (item) {
+              return _c("div", [
+                _c(
+                  "div",
+                  { staticClass: "font-bold px-2 py-1 bg-grey-10 title-case" },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.titles[item.type] || item.type) +
+                        "\n            "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "p-2 border-b border-t space-y-1" },
+                  _vm._l(_vm.fields(item.type), function (field, name) {
+                    return _c(
+                      "div",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: item.attrs[name],
-                        expression: "item.attrs[name]",
+                        staticClass:
+                          "h-8 p-1 border rounded border-grey-50 flex items-center",
                       },
-                      {
-                        name: "tooltip",
-                        rawName: "v-tooltip.right",
-                        value: field.display || name,
-                        expression: "field.display || name",
-                        modifiers: { right: true },
-                      },
-                    ],
-                    staticClass: "input h-auto text-sm placeholder-gray-50",
-                    attrs: { type: "text", placeholder: field.display || name },
-                    domProps: { value: item.attrs[name] },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(item.attrs, name, $event.target.value)
-                      },
-                    },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: item.attrs[name],
+                              expression: "item.attrs[name]",
+                            },
+                            {
+                              name: "tooltip",
+                              rawName: "v-tooltip.right",
+                              value: field.display || name,
+                              expression: "field.display || name",
+                              modifiers: { right: true },
+                            },
+                          ],
+                          staticClass:
+                            "input h-auto text-sm placeholder-gray-50",
+                          attrs: {
+                            type: "text",
+                            placeholder: field.display || name,
+                          },
+                          domProps: { value: item.attrs[name] },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(item.attrs, name, $event.target.value)
+                            },
+                          },
+                        }),
+                      ]
+                    )
                   }),
-                ]
-              )
+                  0
+                ),
+              ])
             }),
-            0
-          ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex items-center justify-end space-x-1 font-normal px-2 py-1.5",
+              },
+              [
+                _c(
+                  "button",
+                  { staticClass: "btn btn-sm", on: { click: _vm.apply } },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.__("Apply")) +
+                        "\n            "
+                    ),
+                  ]
+                ),
+              ]
+            ),
+          ],
+          2
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.items.length
+      ? _c("div", { staticClass: "p-4 w-40 text-center text-grey-70" }, [
+          _vm._v("\n        " + _vm._s(_vm.__("No Options")) + "\n    "),
         ])
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "flex items-center justify-end space-x-1 font-normal px-2 py-1.5",
-        },
-        [
-          _c(
-            "button",
-            { staticClass: "btn btn-sm", on: { click: _vm.apply } },
-            [_vm._v("\n            " + _vm._s(_vm.__("Apply")) + "\n        ")]
-          ),
-        ]
-      ),
-    ],
-    2
-  )
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,4 +1,4 @@
-const { Extension } = Statamic.$bard.tiptap.core;
+const { Extension, getNodeAttributes } = Statamic.$bard.tiptap.core;
 
 const Attrs = Extension.create({
 
@@ -36,11 +36,10 @@ const Attrs = Extension.create({
                 state.doc.nodesBetween(from, to, (node, pos) => {
                     const type = node.type.name;
                     if (attributesExtensions.includes(type)) {
-                        const attrs = attributes[type];
                         items.push({
                             pos,
                             type: type,
-                            attrs: Object.fromEntries(Object.keys(attrs).map(name => [name, node.attrs[name]])),
+                            attrs: {...node.attrs},
                         });
                     }
                 });

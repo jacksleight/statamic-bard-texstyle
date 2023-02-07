@@ -29,9 +29,9 @@ class Core extends Extension
         $styleExtensions = $this->options['styleExtensions'];
         $classExtensions = $this->options['classExtensions'];
 
-        $attrs = [];
+        $globals = [];
         foreach ($classExtensions as $type) {
-            $attrs[] = [
+            $globals[] = [
                 'types' => [$type],
                 'attributes' => [
                     $attr => [
@@ -75,6 +75,6 @@ class Core extends Extension
             ];
         }
 
-        return $attrs;
+        return $globals;
     }
 }

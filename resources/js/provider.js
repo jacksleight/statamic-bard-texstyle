@@ -201,7 +201,6 @@ class Provider {
 
     gatherDivCss() {
         const css = [];
-        css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
         const selector = [
             '.bard-fieldtype .ProseMirror >',
             '.bard-fieldtype .ProseMirror div[data-bts] >',

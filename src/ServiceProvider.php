@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Illuminate\Support\Arr;
+use JackSleight\StatamicBardTexstyle\Extensions\Attrs;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
@@ -59,6 +60,7 @@ class ServiceProvider extends AddonServiceProvider
         $options = $this->resolveOptions();
         $this
             ->bootConfig()
+            ->bootExtensions($options)
             ->bootProvideToScripts($options)
             ->bootDefaultClassesField($options)
             ->bootMenuField($options);
@@ -196,6 +198,7 @@ class ServiceProvider extends AddonServiceProvider
                 'defaults' => $options['defaultClasses'][$defaultSet] ?? null,
             ]);
         });
+        Augmentor::addExtension('btsAttrs', new Attrs($options));
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
             Augmentor::addExtension('btsDiv', new Div());
