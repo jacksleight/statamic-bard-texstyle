@@ -18,6 +18,11 @@ class ServiceProvider extends AddonServiceProvider
         __DIR__.'/../dist/js/addon.js',
     ];
 
+    protected $aliases = [
+        'span' => 'btsSpan',
+        'div' => 'btsDiv',
+    ];
+
     protected $types = [
         'heading' => [
             'extension' => 'heading',
@@ -71,7 +76,11 @@ class ServiceProvider extends AddonServiceProvider
 
         $defaultClasses = $this->resolveDefaultClasses();
         [$styles, $types] = $this->resolveStylesAndTypes($pro);
-        [$styleExtensions, $allExtensions] = $this->resolveExtensions($styles, $types, $defaultClasses);
+        $attributes = $this->resolveAttributes($pro);
+
+        $styleExtensions = $this->resolveStyleExtensions($styles, $types);
+        $classExtensions = $this->resolveClassExtensions($styleExtensions, $defaultClasses);
+        $attributesExtensions = $this->resolveAttributesExtensions($attributes);
 
         return [
             'pro' => $pro,
@@ -79,8 +88,10 @@ class ServiceProvider extends AddonServiceProvider
             'attr' => $attr,
             'styles' => $styles,
             'types' => $types,
+            'attributes' => $attributes,
             'styleExtensions' => $styleExtensions,
-            'allExtensions' => $allExtensions,
+            'classExtensions' => $classExtensions,
+            'attributesExtensions' => $attributesExtensions,
             'defaultClasses' => $defaultClasses,
         ];
     }
@@ -118,6 +129,21 @@ class ServiceProvider extends AddonServiceProvider
         return [$styles, $types];
     }
 
+    protected function resolveAttributes($pro)
+    {
+        if (! $pro) {
+            return [];
+        }
+
+        $attributes = config('statamic.bard_texstyle.attributes', []);
+
+        $attributes = collect($attributes)
+            ->mapWithKeys(fn ($attrs, $extension) => [($this->aliases[$extension] ?? $extension) => $attrs])
+            ->all();
+
+        return $attributes;
+    }
+
     protected function resolveDefaultClasses()
     {
         $defaultClasses = config('statamic.bard_texstyle.default_classes', []);
@@ -126,22 +152,30 @@ class ServiceProvider extends AddonServiceProvider
         return $defaultClasses;
     }
 
-    protected function resolveExtensions($styles, $types, $defaultClasses)
+    protected function resolveStyleExtensions($styles, $types)
     {
-        $styleExtensions = collect($styles)
+        return collect($styles)
             ->pluck('type')
             ->map(fn ($type) => $types[$type]['extension'])
             ->unique()
             ->values()
             ->all();
+    }
 
-        $allExtensions = collect($styleExtensions)
+    protected function resolveClassExtensions($styleExtensions, $defaultClasses)
+    {
+        return collect($styleExtensions)
             ->merge(collect($defaultClasses)->flatMap(fn ($value) => $value)->keys())
             ->unique()
             ->values()
             ->all();
+    }
 
-        return [$styleExtensions, $allExtensions];
+    protected function resolveAttributesExtensions($attributes)
+    {
+        return collect($attributes)
+            ->keys()
+            ->all();
     }
 
     protected function bootConfig()

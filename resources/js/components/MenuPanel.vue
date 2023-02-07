@@ -10,7 +10,7 @@
                 :bard="bard"
                 :editor="editor"
                 :btsConfig="btsConfig"
-                @bts-menu-click="$emit('bts-menu-click')"
+                @picked="$emit('picked')"
             />
         </div>
         
@@ -32,6 +32,14 @@ export default {
         bard: {},
         editor: {},
         btsConfig: {},
+    },
+
+    created() {
+        this.bard.$on('bts-reselected', () => this.$emit('close'));
+    },
+
+    beforeDestroy() {
+        this.bard.$off('bts-reselected');
     },
 
     computed: {

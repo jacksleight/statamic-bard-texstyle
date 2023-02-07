@@ -35,6 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [BardToolbarButton],
@@ -49,9 +50,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     togglePanel: function togglePanel() {
       this.panelActive = !this.panelActive;
+
+      if (!this.panelActive) {
+        this.editor.commands.focus();
+      }
     },
     closePanel: function closePanel() {
-      this.panelActive = false;
+      if (this.panelActive) {
+        this.togglePanel();
+      }
     }
   }
 });
@@ -68,24 +75,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+//
+//
+//
 //
 //
 //
@@ -123,44 +115,50 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   },
   data: function data() {
     return {
-      store: Object.fromEntries(Object.keys(this.fieldset.fields).map(function (name) {
-        return [name, null];
-      }))
+      items: this.editor.commands.btsAttrsFetchItems(),
+      titles: {
+        blockquote: 'Blockquote',
+        bold: 'Bold',
+        bulletList: 'Unordered List',
+        code: 'Code',
+        codeBlock: 'Code Block',
+        heading: 'Heading',
+        horizontalRule: 'Horizontal Rule',
+        image: 'Image',
+        italic: 'Italic',
+        link: 'Link',
+        listItem: 'List Item',
+        orderedList: 'Ordered List',
+        paragraph: 'Paragraph',
+        small: 'Small',
+        strike: 'Strike',
+        subscript: 'Subscript',
+        superscript: 'Superscript',
+        table: 'Table',
+        tableCell: 'Table Cell',
+        tableHeader: 'Table Header',
+        tableRow: 'Table Row',
+        underline: 'Underline'
+      }
     };
   },
   created: function created() {
-    this.editor.commands.btsGetAttrsNodes();
-    this.applyAttrs(this.attrs); // this.bard.$on('attributes-deselected', () => this.$emit('deselected'));
+    var _this = this;
+
+    this.bard.$on('bts-reselected', function () {
+      return _this.$emit('close');
+    });
   },
-  beforeDestroy: function beforeDestroy() {// this.bard.$off('attributes-deselected');
-  },
-  computed: {
-    fieldset: function fieldset() {
-      return {
-        title: 'Heading',
-        fields: {
-          id: {
-            display: 'ID',
-            type: 'text'
-          }
-        }
-      };
-    }
+  beforeDestroy: function beforeDestroy() {
+    this.bard.$off('bts-reselected');
   },
   methods: {
-    applyAttrs: function applyAttrs(attrs) {
-      var _this = this;
-
-      Object.entries(attrs).forEach(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-            name = _ref2[0],
-            value = _ref2[1];
-
-        _this.store[name] = value;
-      });
+    fields: function fields(type) {
+      return this.btsConfig.attributes[type];
     },
-    commit: function commit() {
-      this.$emit('updated', _objectSpread({}, this.store));
+    apply: function apply() {
+      this.editor.commands.btsAttrsApplyItems(this.items);
+      this.$emit('applied');
     }
   }
 });
@@ -200,6 +198,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [BardToolbarButton],
@@ -214,9 +213,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     togglePanel: function togglePanel() {
       this.panelActive = !this.panelActive;
+
+      if (!this.panelActive) {
+        this.editor.commands.focus();
+      }
     },
     closePanel: function closePanel() {
-      this.panelActive = false;
+      if (this.panelActive) {
+        this.togglePanel();
+      }
     }
   }
 });
@@ -283,7 +288,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     click: function click() {
       this.item.command(this.editor, this.item.args);
-      this.$emit('bts-menu-click');
+      this.$emit('picked');
     }
   }
 });
@@ -334,6 +339,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     editor: {},
     btsConfig: {}
   },
+  created: function created() {
+    var _this = this;
+
+    this.bard.$on('bts-reselected', function () {
+      return _this.$emit('close');
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.bard.$off('bts-reselected');
+  },
   computed: {
     items: function items() {
       var buttons = this.bard.buttons;
@@ -359,48 +374,89 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 var Extension = Statamic.$bard.tiptap.core.Extension;
 var Attrs = Extension.create({
   name: 'btsAttrs',
   addOptions: function addOptions() {
-    return {// attr: null,
-      // styleExtensions: [],
+    return {
+      attributes: {},
+      attributesExtensions: {}
     };
   },
   addGlobalAttributes: function addGlobalAttributes() {
-    // const { attr, styleExtensions } = this.options;
-    return [{
-      types: ['heading'],
-      attributes: {
-        id: {
-          parseHTML: function parseHTML(element) {
-            return element.getAttribute('id');
-          },
-          renderHTML: function renderHTML(attributes) {
-            return _defineProperty({}, 'id', attributes.id);
-          }
-        }
-      }
-    }];
+    var attributes = this.options.attributes;
+    return Object.entries(attributes).map(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          extension = _ref2[0],
+          attrs = _ref2[1];
+
+      return {
+        types: [extension],
+        attributes: Object.fromEntries(Object.entries(attrs).map(function (_ref3) {
+          var _ref4 = _slicedToArray(_ref3, 2),
+              name = _ref4[0],
+              attr = _ref4[1];
+
+          return [name, {
+            "default": attr["default"],
+            parseHTML: function parseHTML(element) {
+              return element.getAttribute(name);
+            },
+            renderHTML: function renderHTML(attributes) {
+              return _defineProperty({}, name, attributes[name]);
+            }
+          }];
+        }))
+      };
+    });
   },
   addCommands: function addCommands() {
+    var _this$options = this.options,
+        attributes = _this$options.attributes,
+        attributesExtensions = _this$options.attributesExtensions;
     return {
-      btsAttrsListItems: function btsAttrsListItems() {
-        return function (_ref2) {
-          var state = _ref2.state;
+      btsAttrsFetchItems: function btsAttrsFetchItems() {
+        return function (_ref6) {
+          var state = _ref6.state;
           var _state$selection = state.selection,
               from = _state$selection.from,
               to = _state$selection.to;
           var items = [];
           state.doc.nodesBetween(from, to, function (node, pos) {
-            items.push({
-              node: node,
-              pos: pos,
-              type: node.type.name,
-              attrs: node.attrs
-            });
+            var type = node.type.name;
+
+            if (attributesExtensions.includes(type)) {
+              var attrs = attributes[type];
+              items.push({
+                pos: pos,
+                type: type,
+                attrs: Object.fromEntries(Object.keys(attrs).map(function (name) {
+                  return [name, node.attrs[name]];
+                }))
+              });
+            }
           });
           return items;
+        };
+      },
+      btsAttrsApplyItems: function btsAttrsApplyItems(items) {
+        return function (_ref7) {
+          var state = _ref7.state;
+          items.forEach(function (item) {
+            state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
+          });
         };
       }
     };
@@ -427,6 +483,7 @@ var Core = Extension.create({
   name: 'btsCore',
   addOptions: function addOptions() {
     return {
+      bard: {},
       attr: null,
       styleExtensions: []
     };
@@ -500,6 +557,9 @@ var Core = Extension.create({
         };
       }
     };
+  },
+  onSelectionUpdate: function onSelectionUpdate() {
+    this.options.bard.$emit('bts-reselected');
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Core);
@@ -791,7 +851,7 @@ var Provider = /*#__PURE__*/function () {
     options = _objectSpread(_objectSpread({}, options), {}, {
       types: this.mergeTypeData(options.types)
     });
-    this.bootDirectives().bootExtensions(options).bootOverrides(options).bootStyleButtons(options).bootMenuButton(options).bootAttrsButton(options).bootCss(options);
+    this.bootExtensions(options).bootOverrides(options).bootStyleButtons(options).bootMenuButton(options).bootAttrsButton(options).bootCss(options);
   }
 
   _createClass(Provider, [{
@@ -808,29 +868,13 @@ var Provider = /*#__PURE__*/function () {
       }));
     }
   }, {
-    key: "bootDirectives",
-    value: function bootDirectives() {
-      Vue.directive('bts-click-outside', {
-        bind: function bind(el, binding, vnode) {
-          el.clickOutsideEvent = function (event) {
-            if (!(el == event.target || el.contains(event.target))) {
-              vnode.context[binding.expression](event);
-            }
-          };
-
-          document.body.addEventListener('click', el.clickOutsideEvent);
-        },
-        unbind: function unbind(el) {
-          document.body.removeEventListener('click', el.clickOutsideEvent);
-        }
-      });
-      return this;
-    }
-  }, {
     key: "bootExtensions",
     value: function bootExtensions(options) {
-      Statamic.$bard.addExtension(function () {
-        return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure(options);
+      Statamic.$bard.addExtension(function (_ref3) {
+        var bard = _ref3.bard;
+        return _extensions_core__WEBPACK_IMPORTED_MODULE_2__["default"].configure(_objectSpread(_objectSpread({}, options), {}, {
+          bard: bard
+        }));
       });
       Statamic.$bard.addExtension(function () {
         return _marks_span__WEBPACK_IMPORTED_MODULE_0__["default"];
@@ -838,7 +882,7 @@ var Provider = /*#__PURE__*/function () {
 
       if (options.pro) {
         Statamic.$bard.addExtension(function () {
-          return _extensions_attrs__WEBPACK_IMPORTED_MODULE_3__["default"];
+          return _extensions_attrs__WEBPACK_IMPORTED_MODULE_3__["default"].configure(options);
         });
         Statamic.$bard.addExtension(function () {
           return _nodes_div__WEBPACK_IMPORTED_MODULE_1__["default"];
@@ -850,8 +894,8 @@ var Provider = /*#__PURE__*/function () {
   }, {
     key: "bootOverrides",
     value: function bootOverrides(options) {
-      Statamic.$bard.addExtension(function (_ref3) {
-        var bard = _ref3.bard;
+      Statamic.$bard.addExtension(function (_ref4) {
+        var bard = _ref4.bard;
         var buttons = bard.buttons;
 
         if (!buttons.find(function (button) {
@@ -867,8 +911,8 @@ var Provider = /*#__PURE__*/function () {
           }
         });
       });
-      Statamic.$bard.addExtension(function (_ref4) {
-        var bard = _ref4.bard;
+      Statamic.$bard.addExtension(function (_ref5) {
+        var bard = _ref5.bard;
         var blank = [].concat(_toConsumableArray(options.styleExtensions.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleExtensions.includes('bulletList') ? ['unordererdlist'] : []), _toConsumableArray(options.styleExtensions.includes('ordererdList') ? ['ordererdlist'] : []));
         bard.buttons.forEach(function (button) {
           if (blank.includes(button.name)) {
@@ -882,16 +926,16 @@ var Provider = /*#__PURE__*/function () {
     key: "bootStyleButtons",
     value: function bootStyleButtons(options) {
       Statamic.$bard.buttons(function (buttons, button) {
-        Object.entries(options.styles).forEach(function (_ref5) {
-          var _ref7;
+        Object.entries(options.styles).forEach(function (_ref6) {
+          var _ref8;
 
-          var _ref6 = _slicedToArray(_ref5, 2),
-              key = _ref6[0],
-              style = _ref6[1];
+          var _ref7 = _slicedToArray(_ref6, 2),
+              key = _ref7[0],
+              style = _ref7[1];
 
           var type = options.types[style.type];
           var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_6__.styleToIcon)(style, type);
-          var args = style.type === 'heading' ? (_ref7 = {}, _defineProperty(_ref7, options.attr, style[options.store]), _defineProperty(_ref7, "level", style.level), _ref7) : _defineProperty({}, options.attr, style[options.store]);
+          var args = style.type === 'heading' ? (_ref8 = {}, _defineProperty(_ref8, options.attr, style[options.store]), _defineProperty(_ref8, "level", style.level), _ref8) : _defineProperty({}, options.attr, style[options.store]);
           var data = {
             name: key,
             text: style.name,
@@ -964,10 +1008,10 @@ var Provider = /*#__PURE__*/function () {
       var _this2 = this;
 
       var css = [];
-      Object.entries(options.styles).forEach(function (_ref9) {
-        var _ref10 = _slicedToArray(_ref9, 2),
-            key = _ref10[0],
-            style = _ref10[1];
+      Object.entries(options.styles).forEach(function (_ref10) {
+        var _ref11 = _slicedToArray(_ref10, 2),
+            key = _ref11[0],
+            style = _ref11[1];
 
         var type = options.types[style.type];
         var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
@@ -1006,16 +1050,16 @@ var Provider = /*#__PURE__*/function () {
         return ["".concat(prefix, " { ").concat(data, " }")];
       }
 
-      return Object.entries(data).map(function (_ref11) {
-        var _ref12 = _slicedToArray(_ref11, 2),
-            selector = _ref12[0],
-            properties = _ref12[1];
+      return Object.entries(data).map(function (_ref12) {
+        var _ref13 = _slicedToArray(_ref12, 2),
+            selector = _ref13[0],
+            properties = _ref13[1];
 
         var prefixed = selector.includes('&') ? selector.replace('&', prefix) : "".concat(prefix, " ").concat(selector);
-        var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref13) {
-          var _ref14 = _slicedToArray(_ref13, 2),
-              name = _ref14[0],
-              value = _ref14[1];
+        var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref14) {
+          var _ref15 = _slicedToArray(_ref14, 2),
+              name = _ref15[0],
+              value = _ref15[1];
 
           return "".concat(name, ": ").concat(value, ";");
         }).join('') : properties;
@@ -1053,29 +1097,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: 1px solid #e4ebf1;\n  border-radius: 2px;\n  padding: 16px 16px 2px 16px;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  top: -1px;\n  left: -1px;\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css&":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bts-panel .form-group {\n    padding: 8px !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1183,35 +1204,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_11_0_rules_0_use_1_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_11_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_11_0_rules_0_use_3_addon_scss__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css&":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css& ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AttrsPanel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AttrsPanel.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css&");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AttrsPanel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AttrsPanel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -1543,17 +1535,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _AttrsPanel_vue_vue_type_template_id_4b1833a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AttrsPanel.vue?vue&type=template&id=4b1833a6& */ "./resources/js/components/AttrsPanel.vue?vue&type=template&id=4b1833a6&");
 /* harmony import */ var _AttrsPanel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AttrsPanel.vue?vue&type=script&lang=js& */ "./resources/js/components/AttrsPanel.vue?vue&type=script&lang=js&");
-/* harmony import */ var _AttrsPanel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AttrsPanel.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
-;
 
 
 /* normalize component */
-
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _AttrsPanel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _AttrsPanel_vue_vue_type_template_id_4b1833a6___WEBPACK_IMPORTED_MODULE_0__.render,
   _AttrsPanel_vue_vue_type_template_id_4b1833a6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -1760,18 +1750,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css&":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css& ***!
-  \*********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AttrsPanel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AttrsPanel.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/AttrsPanel.vue?vue&type=style&index=0&lang=css&");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/AttrsButton.vue?vue&type=template&id=3ea59759&":
 /*!********************************************************************************!*\
   !*** ./resources/js/components/AttrsButton.vue?vue&type=template&id=3ea59759& ***!
@@ -1869,17 +1847,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      directives: [
-        {
-          name: "bts-click-outside",
-          rawName: "v-bts-click-outside",
-          value: _vm.closePanel,
-          expression: "closePanel",
-        },
-      ],
-      staticClass: "inline-block relative",
-    },
+    { staticClass: "inline-block relative" },
     [
       _c("button", {
         directives: [
@@ -1904,7 +1872,7 @@ var render = function () {
               editor: _vm.editor,
               btsConfig: _vm.button.btsConfig,
             },
-            on: { "bts-menu-click": _vm.closePanel },
+            on: { close: _vm.closePanel, applied: _vm.closePanel },
           })
         : _vm._e(),
     ],
@@ -1933,41 +1901,88 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "bts-panel" }, [
-    _c(
-      "div",
-      {
-        staticClass:
-          "flex items-center justify-start space-x-1 font-normal px-2 py-2",
-      },
-      [_c("strong", [_vm._v(_vm._s(_vm.fieldset.title))])]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "p-1 border-b border-t" },
-      [
-        _c("publish-fields", {
-          attrs: { fields: _vm.fieldset.fields },
-          on: { updated: _vm.setFieldValue },
-        }),
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass:
-          "flex items-center justify-end space-x-1 font-normal px-2 py-1.5",
-      },
-      [
-        _c("button", { staticClass: "btn btn-sm", on: { click: _vm.commit } }, [
-          _vm._v("\n            " + _vm._s(_vm.__("Apply")) + "\n        "),
-        ]),
-      ]
-    ),
-  ])
+  return _c(
+    "div",
+    { staticClass: "bts-panel" },
+    [
+      _vm._l(_vm.items, function (item) {
+        return _c("div", [
+          _c(
+            "div",
+            { staticClass: "font-bold px-2 py-1 bg-grey-10 title-case" },
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.titles[item.type] || item.type) +
+                  "\n        "
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "p-2 border-b border-t space-y-1" },
+            _vm._l(_vm.fields(item.type), function (field, name) {
+              return _c(
+                "div",
+                {
+                  staticClass:
+                    "h-8 p-1 border rounded border-grey-50 flex items-center",
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: item.attrs[name],
+                        expression: "item.attrs[name]",
+                      },
+                      {
+                        name: "tooltip",
+                        rawName: "v-tooltip.right",
+                        value: field.display || name,
+                        expression: "field.display || name",
+                        modifiers: { right: true },
+                      },
+                    ],
+                    staticClass: "input h-auto text-sm placeholder-gray-50",
+                    attrs: { type: "text", placeholder: field.display || name },
+                    domProps: { value: item.attrs[name] },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(item.attrs, name, $event.target.value)
+                      },
+                    },
+                  }),
+                ]
+              )
+            }),
+            0
+          ),
+        ])
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex items-center justify-end space-x-1 font-normal px-2 py-1.5",
+        },
+        [
+          _c(
+            "button",
+            { staticClass: "btn btn-sm", on: { click: _vm.apply } },
+            [_vm._v("\n            " + _vm._s(_vm.__("Apply")) + "\n        ")]
+          ),
+        ]
+      ),
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1993,17 +2008,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      directives: [
-        {
-          name: "bts-click-outside",
-          rawName: "v-bts-click-outside",
-          value: _vm.closePanel,
-          expression: "closePanel",
-        },
-      ],
-      staticClass: "inline-block relative",
-    },
+    { staticClass: "inline-block relative" },
     [
       _c("button", {
         directives: [
@@ -2028,7 +2033,7 @@ var render = function () {
               editor: _vm.editor,
               btsConfig: _vm.button.btsConfig,
             },
-            on: { "bts-menu-click": _vm.closePanel },
+            on: { close: _vm.closePanel, picked: _vm.closePanel },
           })
         : _vm._e(),
     ],
@@ -2115,8 +2120,8 @@ var render = function () {
             btsConfig: _vm.btsConfig,
           },
           on: {
-            "bts-menu-click": function ($event) {
-              return _vm.$emit("bts-menu-click")
+            picked: function ($event) {
+              return _vm.$emit("picked")
             },
           },
         })

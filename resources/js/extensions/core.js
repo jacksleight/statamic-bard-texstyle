@@ -6,6 +6,7 @@ const Core = Extension.create({
 
     addOptions() {
         return {
+            bard: {},
             attr: null,
             styleExtensions: [],
         }
@@ -63,6 +64,10 @@ const Core = Extension.create({
                 return commands.btsToggleList(attributes, 'orderedList');
             },
         }
+    },
+
+    onSelectionUpdate() {
+        this.options.bard.$emit('bts-reselected');
     },
 
 });

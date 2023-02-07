@@ -27,10 +27,10 @@ class Core extends Extension
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
         $styleExtensions = $this->options['styleExtensions'];
-        $allExtensions = $this->options['allExtensions'];
+        $classExtensions = $this->options['classExtensions'];
 
         $attrs = [];
-        foreach ($allExtensions as $type) {
+        foreach ($classExtensions as $type) {
             $attrs[] = [
                 'types' => [$type],
                 'attributes' => [

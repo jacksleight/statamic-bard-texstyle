@@ -59,7 +59,7 @@ export default {
 
         click() {
             this.item.command(this.editor, this.item.args);
-            this.$emit('bts-menu-click');
+            this.$emit('picked');
         },
 
     }

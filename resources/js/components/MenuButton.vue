@@ -1,6 +1,6 @@
 <template>
 
-    <div class="inline-block relative" v-bts-click-outside="closePanel">
+    <div class="inline-block relative">
         <button
             class="bard-toolbar-button bts-menu-button"
             v-html="button.html"
@@ -14,7 +14,8 @@
             :bard="bard"
             :editor="editor"
             :btsConfig="button.btsConfig"
-            @bts-menu-click="closePanel"
+            @close="closePanel"
+            @picked="closePanel"
         />
     </div>
 
@@ -40,9 +41,14 @@ export default {
     methods: {
         togglePanel() {
             this.panelActive = ! this.panelActive;
+            if (! this.panelActive) {
+                this.editor.commands.focus();
+            }
         },
         closePanel() {
-            this.panelActive = false;
+            if (this.panelActive) {
+                this.togglePanel();
+            }
         },
     }
 

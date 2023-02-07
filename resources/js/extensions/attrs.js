@@ -6,40 +6,50 @@ const Attrs = Extension.create({
 
     addOptions() {
         return {
-            // attr: null,
-            // styleExtensions: [],
+            attributes: {},
+            attributesExtensions: {},
         }
     },
 
     addGlobalAttributes() {
-        // const { attr, styleExtensions } = this.options;
-        return [
-            {
-                types: ['heading'],
-                attributes: {
-                    id: {
-                        parseHTML: element => element.getAttribute('id'),
-                        renderHTML: attributes => ({['id']: attributes.id}),
-                    },
-                },
-            },
-        ]
+        const { attributes } = this.options;
+        return Object.entries(attributes).map(([extension, attrs]) => {
+            return {
+                types: [extension],
+                attributes: Object.fromEntries(Object.entries(attrs).map(([name, attr]) => {
+                    return [name, {
+                        default: attr.default,
+                        parseHTML: element => element.getAttribute(name),
+                        renderHTML: attributes => ({[name]: attributes[name]}),
+                    }];
+                })),
+            };
+        });
     },
 
     addCommands() {
+        const { attributes, attributesExtensions } = this.options;
         return {
-            btsAttrsListItems: () => ({ state }) => {
+            btsAttrsFetchItems: () => ({ state }) => {
                 const { from, to } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, to, (node, pos) => {
-                    items.push({
-                        node,
-                        pos,
-                        type: node.type.name,
-                        attrs: node.attrs,
-                    });
+                    const type = node.type.name;
+                    if (attributesExtensions.includes(type)) {
+                        const attrs = attributes[type];
+                        items.push({
+                            pos,
+                            type: type,
+                            attrs: Object.fromEntries(Object.keys(attrs).map(name => [name, node.attrs[name]])),
+                        });
+                    }
                 });
                 return items;
+            },
+            btsAttrsApplyItems: (items) => ({ state }) => {
+                items.forEach(item => {
+                    state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
+                });
             },
         }
     },

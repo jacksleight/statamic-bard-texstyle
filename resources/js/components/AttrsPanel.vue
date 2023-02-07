@@ -1,17 +1,26 @@
 <template>
 
     <div class="bts-panel">
-        <div class="flex items-center justify-start space-x-1 font-normal px-2 py-2">
-            <strong>{{ fieldset.title }}</strong>
-        </div>
-        <div class="p-1 border-b border-t">
-            <publish-fields
-                :fields="fieldset.fields"
-                @updated="setFieldValue" />
+        <div v-for="item in items">
+            <div class="font-bold px-2 py-1 bg-grey-10 title-case">
+                {{ titles[item.type] || item.type }}
+            </div>
+            <div class="p-2 border-b border-t space-y-1">
+                <div class="h-8 p-1 border rounded border-grey-50 flex items-center" v-for="(field, name) in fields(item.type)">
+                    <input
+                        type="text"
+                        v-model="item.attrs[name]"
+                        class="input h-auto text-sm placeholder-gray-50"
+                        v-tooltip.right="field.display || name"
+                        :placeholder="field.display || name"
+                    />
+                </div>
+                
+            </div>
         </div>
         <div class="flex items-center justify-end space-x-1 font-normal px-2 py-1.5">
             <button
-                @click="commit"
+                @click="apply"
                 class="btn btn-sm">
                 {{ __('Apply') }}
             </button>
@@ -19,12 +28,6 @@
     </div>
 
 </template>
-
-<style>
-    .bts-panel .form-group {
-        padding: 8px !important;
-    }
-</style>
 
 <script>
 
@@ -39,47 +42,51 @@ export default {
 
     data() {
         return {
-            store: Object.fromEntries(Object.keys(this.fieldset.fields).map(name => {
-                return [name, null];
-            })),
+            items: this.editor.commands.btsAttrsFetchItems(),
+            titles: {
+                blockquote: 'Blockquote',
+                bold: 'Bold',
+                bulletList: 'Unordered List',
+                code: 'Code',
+                codeBlock: 'Code Block',
+                heading: 'Heading',
+                horizontalRule: 'Horizontal Rule',
+                image: 'Image',
+                italic: 'Italic',
+                link: 'Link',
+                listItem: 'List Item',
+                orderedList: 'Ordered List',
+                paragraph: 'Paragraph',
+                small: 'Small',
+                strike: 'Strike',
+                subscript: 'Subscript',
+                superscript: 'Superscript',
+                table: 'Table',
+                tableCell: 'Table Cell',
+                tableHeader: 'Table Header',
+                tableRow: 'Table Row',
+                underline: 'Underline',
+            },
         };
     },
 
     created() {
-
-        this.editor.commands.btsGetAttrsNodes();
-
-        this.applyAttrs(this.attrs);
-        // this.bard.$on('attributes-deselected', () => this.$emit('deselected'));
+        this.bard.$on('bts-reselected', () => this.$emit('close'));
     },
 
     beforeDestroy() {
-        // this.bard.$off('attributes-deselected');
-    },
-
-    computed: {
-        
-        fieldset() {
-            return {
-                title: 'Heading',
-                fields: {
-                    id: { display: 'ID', type: 'text' }
-                }
-            };
-        },
-
+        this.bard.$off('bts-reselected');
     },
 
     methods: {
 
-        applyAttrs(attrs) {
-            Object.entries(attrs).forEach(([ name, value ]) => {
-                this.store[name] = value;
-            });
+        fields(type) {
+            return this.btsConfig.attributes[type];
         },
 
-        commit() {
-            this.$emit('updated', {...this.store});
+        apply() {
+            this.editor.commands.btsAttrsApplyItems(this.items);
+            this.$emit('applied');
         },
 
     },

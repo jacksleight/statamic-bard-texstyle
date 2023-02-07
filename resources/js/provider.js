@@ -61,7 +61,6 @@ class Provider {
         };
 
         this
-            .bootDirectives()
             .bootExtensions(options)
             .bootOverrides(options)
             .bootStyleButtons(options)
@@ -74,30 +73,13 @@ class Provider {
         return Object.fromEntries(Object.entries(types).map(([ key, type ]) => {
             return [ key, {...type, ...this.types[key]} ];
         }));
-    }
-
-    bootDirectives() {
-        Vue.directive('bts-click-outside', {
-            bind: function (el, binding, vnode) {
-                el.clickOutsideEvent = function (event) {
-                    if (!(el == event.target || el.contains(event.target))) {
-                        vnode.context[binding.expression](event);
-                    }
-                };
-                document.body.addEventListener('click', el.clickOutsideEvent)
-            },
-            unbind: function (el) {
-                document.body.removeEventListener('click', el.clickOutsideEvent)
-            },
-        });
-        return this;
-    }    
+    } 
 
     bootExtensions(options) {
-        Statamic.$bard.addExtension(() => Core.configure(options));
+        Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
-            Statamic.$bard.addExtension(() => Attrs);
+            Statamic.$bard.addExtension(() => Attrs.configure(options));
             Statamic.$bard.addExtension(() => Div);
         }
         return this;
