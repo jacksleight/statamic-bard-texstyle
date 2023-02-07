@@ -7,35 +7,37 @@ const Attrs = Extension.create({
     addOptions() {
         return {
             attributes: {},
-            attributesExtensions: {},
+            attributesTypes: {},
         }
     },
 
     addGlobalAttributes() {
         const { attributes } = this.options;
-        return Object.entries(attributes).map(([extension, attrs]) => {
+        return Object.entries(attributes).map(([type, attrs]) => {
             return {
-                types: [extension],
-                attributes: Object.fromEntries(Object.entries(attrs).map(([name, attr]) => {
-                    return [name, {
-                        default: attr.default,
-                        parseHTML: element => element.getAttribute(name),
-                        renderHTML: attributes => ({[name]: attributes[name]}),
-                    }];
-                })),
+                types: [type],
+                attributes: Object.fromEntries(Object.entries(attrs)
+                    .filter(([name, attr]) => attr.extra)
+                    .map(([name, attr]) => {
+                        return [name, {
+                            default: attr.default,
+                            parseHTML: element => element.getAttribute(name),
+                            renderHTML: attributes => ({[name]: attributes[name]}),
+                        }];
+                    })),
             };
         });
     },
 
     addCommands() {
-        const { attributes, attributesExtensions } = this.options;
+        const { attributesTypes } = this.options;
         return {
             btsAttrsFetchItems: () => ({ state }) => {
                 const { from, to } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, to, (node, pos) => {
                     const type = node.type.name;
-                    if (attributesExtensions.includes(type)) {
+                    if (attributesTypes.includes(type)) {
                         items.push({
                             pos,
                             type: type,

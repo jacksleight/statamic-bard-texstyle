@@ -20,10 +20,11 @@ class Attrs extends Extension
         $attributes = $this->options['attributes'];
 
         $globals = [];
-        foreach ($attributes as $extension => $attrs) {
+        foreach ($attributes as $type => $attrs) {
             $globals[] = [
-                'types' => [$extension],
+                'types' => [$type],
                 'attributes' => collect($attrs)
+                    ->filter(fn ($attr) => $attr['extra'])
                     ->map(function ($attr, $name) {
                         return [
                             'parseHTML' => function ($DOMNode) {

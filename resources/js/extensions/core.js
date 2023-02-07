@@ -8,15 +8,15 @@ const Core = Extension.create({
         return {
             bard: {},
             attr: null,
-            styleExtensions: [],
+            styleTypes: [],
         }
     },
 
     addGlobalAttributes() {
-        const { attr, styleExtensions } = this.options;
+        const { attr, styleTypes } = this.options;
         return [
             {
-                types: styleExtensions,
+                types: styleTypes,
                 attributes: {
                     [attr]: {
                         parseHTML: element => element.getAttribute('data-bts'),

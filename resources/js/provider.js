@@ -11,43 +11,36 @@ class Provider {
     types = {
         heading: {
             tag: 'h',
-            extension: 'heading',
             command: 'btsToggleHeading',
             autohide: false,
         },
         paragraph: {
             tag: 'p',
-            extension: 'paragraph',
             command: 'btsToggleParagraph',
             autohide: false,
         },
         span: {
             tag: 'span',
-            extension: 'btsSpan',
             command: 'btsToggleSpan',
             autohide: false,
         },
         link: {
             tag: 'a',
-            extension: 'link',
             command: 'btsToggleLink',
             autohide: true,
         },
         bulletList: {
             tag: 'ul',
-            extension: 'bulletList',
             command: 'btsToggleBulletList',
             autohide: false,
         },
         orderedList: {
             tag: 'ol',
-            extension: 'orderedList',
             command: 'btsToggleOrderedList',
             autohide: false,
         },
         div: {
             tag: 'div',
-            extension: 'btsDiv',
             command: 'btsToggleDiv',
             autohide: false,
         },
@@ -100,9 +93,9 @@ class Provider {
         });
         Statamic.$bard.addExtension(({ bard }) => {
             const blank = [
-                ...(options.styleExtensions.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
-                ...(options.styleExtensions.includes('bulletList')) ? ['unordererdlist'] : [],
-                ...(options.styleExtensions.includes('ordererdList')) ? ['ordererdlist'] : [],
+                ...(options.styleTypes.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
+                ...(options.styleTypes.includes('bulletList')) ? ['unordererdlist'] : [],
+                ...(options.styleTypes.includes('ordererdList')) ? ['ordererdlist'] : [],
             ];
             bard.buttons.forEach(button => {
                 if (blank.includes(button.name)) {
@@ -125,9 +118,9 @@ class Provider {
                     name: key,
                     text: style.name,
                     args: args,
-                    activeName: type.extension,
+                    activeName: type.key,
                     html: icon,
-                    isVisible: type.autohide ? (editor) => editor.isActive(type.extension) : () => true,
+                    isVisible: type.autohide ? (editor) => editor.isActive(type.key) : () => true,
                     command: (editor, args) => editor.commands[type.command](args),
                     btsStyle: style,
                 };

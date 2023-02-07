@@ -394,22 +394,28 @@ var Attrs = Extension.create({
   addOptions: function addOptions() {
     return {
       attributes: {},
-      attributesExtensions: {}
+      attributesTypes: {}
     };
   },
   addGlobalAttributes: function addGlobalAttributes() {
     var attributes = this.options.attributes;
     return Object.entries(attributes).map(function (_ref) {
       var _ref2 = _slicedToArray(_ref, 2),
-          extension = _ref2[0],
+          type = _ref2[0],
           attrs = _ref2[1];
 
       return {
-        types: [extension],
-        attributes: Object.fromEntries(Object.entries(attrs).map(function (_ref3) {
+        types: [type],
+        attributes: Object.fromEntries(Object.entries(attrs).filter(function (_ref3) {
           var _ref4 = _slicedToArray(_ref3, 2),
               name = _ref4[0],
               attr = _ref4[1];
+
+          return attr.extra;
+        }).map(function (_ref5) {
+          var _ref6 = _slicedToArray(_ref5, 2),
+              name = _ref6[0],
+              attr = _ref6[1];
 
           return [name, {
             "default": attr["default"],
@@ -425,13 +431,11 @@ var Attrs = Extension.create({
     });
   },
   addCommands: function addCommands() {
-    var _this$options = this.options,
-        attributes = _this$options.attributes,
-        attributesExtensions = _this$options.attributesExtensions;
+    var attributesTypes = this.options.attributesTypes;
     return {
       btsAttrsFetchItems: function btsAttrsFetchItems() {
-        return function (_ref6) {
-          var state = _ref6.state;
+        return function (_ref8) {
+          var state = _ref8.state;
           var _state$selection = state.selection,
               from = _state$selection.from,
               to = _state$selection.to;
@@ -439,7 +443,7 @@ var Attrs = Extension.create({
           state.doc.nodesBetween(from, to, function (node, pos) {
             var type = node.type.name;
 
-            if (attributesExtensions.includes(type)) {
+            if (attributesTypes.includes(type)) {
               items.push({
                 pos: pos,
                 type: type,
@@ -451,8 +455,8 @@ var Attrs = Extension.create({
         };
       },
       btsAttrsApplyItems: function btsAttrsApplyItems(items) {
-        return function (_ref7) {
-          var state = _ref7.state;
+        return function (_ref9) {
+          var state = _ref9.state;
           items.forEach(function (item) {
             state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
           });
@@ -484,15 +488,15 @@ var Core = Extension.create({
     return {
       bard: {},
       attr: null,
-      styleExtensions: []
+      styleTypes: []
     };
   },
   addGlobalAttributes: function addGlobalAttributes() {
     var _this$options = this.options,
         attr = _this$options.attr,
-        styleExtensions = _this$options.styleExtensions;
+        styleTypes = _this$options.styleTypes;
     return [{
-      types: styleExtensions,
+      types: styleTypes,
       attributes: _defineProperty({}, attr, {
         parseHTML: function parseHTML(element) {
           return element.getAttribute('data-bts');
@@ -805,43 +809,36 @@ var Provider = /*#__PURE__*/function () {
     _defineProperty(this, "types", {
       heading: {
         tag: 'h',
-        extension: 'heading',
         command: 'btsToggleHeading',
         autohide: false
       },
       paragraph: {
         tag: 'p',
-        extension: 'paragraph',
         command: 'btsToggleParagraph',
         autohide: false
       },
       span: {
         tag: 'span',
-        extension: 'btsSpan',
         command: 'btsToggleSpan',
         autohide: false
       },
       link: {
         tag: 'a',
-        extension: 'link',
         command: 'btsToggleLink',
         autohide: true
       },
       bulletList: {
         tag: 'ul',
-        extension: 'bulletList',
         command: 'btsToggleBulletList',
         autohide: false
       },
       orderedList: {
         tag: 'ol',
-        extension: 'orderedList',
         command: 'btsToggleOrderedList',
         autohide: false
       },
       div: {
         tag: 'div',
-        extension: 'btsDiv',
         command: 'btsToggleDiv',
         autohide: false
       }
@@ -912,7 +909,7 @@ var Provider = /*#__PURE__*/function () {
       });
       Statamic.$bard.addExtension(function (_ref5) {
         var bard = _ref5.bard;
-        var blank = [].concat(_toConsumableArray(options.styleExtensions.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleExtensions.includes('bulletList') ? ['unordererdlist'] : []), _toConsumableArray(options.styleExtensions.includes('ordererdList') ? ['ordererdlist'] : []));
+        var blank = [].concat(_toConsumableArray(options.styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleTypes.includes('bulletList') ? ['unordererdlist'] : []), _toConsumableArray(options.styleTypes.includes('ordererdList') ? ['ordererdlist'] : []));
         bard.buttons.forEach(function (button) {
           if (blank.includes(button.name)) {
             button.args["class"] = null;
@@ -939,10 +936,10 @@ var Provider = /*#__PURE__*/function () {
             name: key,
             text: style.name,
             args: args,
-            activeName: type.extension,
+            activeName: type.key,
             html: icon,
             isVisible: type.autohide ? function (editor) {
-              return editor.isActive(type.extension);
+              return editor.isActive(type.key);
             } : function () {
               return true;
             },

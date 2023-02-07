@@ -12,11 +12,21 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
+use Tiptap\Core\Node;
 
 class ServiceProvider extends AddonServiceProvider
 {
     protected $scripts = [
         __DIR__.'/../dist/js/addon.js',
+    ];
+
+    protected $nativeAttributes = [
+        'codeBlock' => ['language'],
+        'heading' => ['level'],
+        'image' => ['src', 'alt', 'title'],
+        // 'orderedList' => ['order'],
+        'tableCell' => ['rowspan', 'colspan', 'colwidth'],
+        'tableHeader' => ['rowspan', 'colspan', 'colwidth'],
     ];
 
     protected $aliases = [
@@ -76,13 +86,15 @@ class ServiceProvider extends AddonServiceProvider
         $store = config('statamic.bard_texstyle.store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key';
 
+        $nodeTypes = $this->resolveNodeTypes();
+
         $defaultClasses = $this->resolveDefaultClasses();
         [$styles, $types] = $this->resolveStylesAndTypes($pro);
-        $attributes = $this->resolveAttributes($pro);
+        $styleTypes = $this->resolveStyleTypes($styles, $types);
+        $classTypes = $this->resolveClassTypes($styleTypes, $defaultClasses);
 
-        $styleExtensions = $this->resolveStyleExtensions($styles, $types);
-        $classExtensions = $this->resolveClassExtensions($styleExtensions, $defaultClasses);
-        $attributesExtensions = $this->resolveAttributesExtensions($attributes);
+        $attributes = $this->resolveAttributes($pro, $nodeTypes, $classTypes);
+        $attributesTypes = $this->resolveAttributesTypes($attributes);
 
         return [
             'pro' => $pro,
@@ -91,11 +103,21 @@ class ServiceProvider extends AddonServiceProvider
             'styles' => $styles,
             'types' => $types,
             'attributes' => $attributes,
-            'styleExtensions' => $styleExtensions,
-            'classExtensions' => $classExtensions,
-            'attributesExtensions' => $attributesExtensions,
+            'nodeTypes' => $nodeTypes,
+            'styleTypes' => $styleTypes,
+            'classTypes' => $classTypes,
+            'attributesTypes' => $attributesTypes,
             'defaultClasses' => $defaultClasses,
         ];
+    }
+
+    protected function resolveNodeTypes()
+    {
+        return collect((new Augmentor(new Bard()))->extensions())
+            ->except(['document', 'text', 'set', 'hardBreak'])
+            ->filter(fn ($extension) => $extension instanceof Node)
+            ->keys()
+            ->all();
     }
 
     protected function resolveStylesAndTypes($pro)
@@ -131,7 +153,7 @@ class ServiceProvider extends AddonServiceProvider
         return [$styles, $types];
     }
 
-    protected function resolveAttributes($pro)
+    protected function resolveAttributes($pro, $nodeTypes, $classTypes)
     {
         if (! $pro) {
             return [];
@@ -140,7 +162,23 @@ class ServiceProvider extends AddonServiceProvider
         $attributes = config('statamic.bard_texstyle.attributes', []);
 
         $attributes = collect($attributes)
-            ->mapWithKeys(fn ($attrs, $extension) => [($this->aliases[$extension] ?? $extension) => $attrs])
+            ->mapWithKeys(fn ($attrs, $type) => [($this->aliases[$type] ?? $type) => $attrs])
+            ->filter(fn ($attrs, $type) => in_array($type, $nodeTypes))
+            ->map(function ($attrs, $type) use ($classTypes) {
+                return collect($attrs)->map(function ($attr, $name) use ($type, $classTypes) {
+                    $extra = $attr['extra'] ?? true;
+                    if (in_array($name, $this->nativeAttributes[$type] ?? [])) {
+                        $extra = false;
+                    }
+                    if ($name === 'class' && in_array($type, $classTypes)) {
+                        $extra = false;
+                    }
+
+                    return array_merge($attr, [
+                        'extra' => $extra,
+                    ]);
+                })->all();
+            })
             ->all();
 
         return $attributes;
@@ -154,7 +192,7 @@ class ServiceProvider extends AddonServiceProvider
         return $defaultClasses;
     }
 
-    protected function resolveStyleExtensions($styles, $types)
+    protected function resolveStyleTypes($styles, $types)
     {
         return collect($styles)
             ->pluck('type')
@@ -164,16 +202,16 @@ class ServiceProvider extends AddonServiceProvider
             ->all();
     }
 
-    protected function resolveClassExtensions($styleExtensions, $defaultClasses)
+    protected function resolveClassTypes($styleTypes, $defaultClasses)
     {
-        return collect($styleExtensions)
+        return collect($styleTypes)
             ->merge(collect($defaultClasses)->flatMap(fn ($value) => $value)->keys())
             ->unique()
             ->values()
             ->all();
     }
 
-    protected function resolveAttributesExtensions($attributes)
+    protected function resolveAttributesTypes($attributes)
     {
         return collect($attributes)
             ->keys()
