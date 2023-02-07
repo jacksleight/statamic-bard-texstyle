@@ -1,6 +1,6 @@
 <template>
 
-    <div class="bts-menu-panel">
+    <div class="bts-panel">
         <div class="bts-menu-items">
             <MenuItem
                 v-for="item in items"

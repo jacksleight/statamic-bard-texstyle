@@ -7,13 +7,13 @@
         div[data-bts] {
             border: 1px solid #e4ebf1;
             border-radius: 2px;
-            padding: 16px;
+            padding: 16px 16px 2px 16px;
         }
     
         [data-bts]::before {
             display: none;
         }
-        h1, h2, h3, h4, h5, h6, p, div {
+        h1, h2, h3, h4, h5, h6, p, ul, ol, div {
             &[data-bts] {
                 &::before {
                     background-color: #e4ebf1;
@@ -30,6 +30,13 @@
                 }
             }
         }
+        ul, ol {
+            &[data-bts] {
+                &::before {
+                    margin-bottom: 0.85em;
+                }
+            }
+        }
         div {
             &[data-bts] {
                 position: relative;
@@ -43,25 +50,26 @@
     
     }
 
-    .bts-menu {
-        &-panel {
-            background-color: white;
-            border-radius: 3px;
+    .bts-panel {
+        background-color: white;
+        border-radius: 3px;
+        position: absolute;
+        line-height: 1;
+        box-shadow: 0 0 0 1px rgb(49 49 93 / 5%), 0 2px 5px 0 rgb(49 49 93 / 8%), 0 1px 3px 0 rgb(49 49 93 / 15%);
+        margin-top: 8px;
+        z-index: 100;
+        top: 100%;
+        &::before {
+            content: '';
+            border: 6px solid transparent;
+            border-bottom-color: white;
             position: absolute;
-            line-height: 1;
-            box-shadow: 0 0 0 1px rgb(49 49 93 / 5%), 0 2px 5px 0 rgb(49 49 93 / 8%), 0 1px 3px 0 rgb(49 49 93 / 15%);
-            margin-top: 8px;
-            z-index: 100;
-            top: 100%;
-            &::before {
-                content: '';
-                border: 6px solid transparent;
-                border-bottom-color: white;
-                position: absolute;
-                bottom: 100%;
-                left: 10px;
-            }
+            bottom: 100%;
+            left: 10px;
         }
+    }
+    
+    .bts-menu {
         &-items {
             display: flex;
             flex-direction: column;

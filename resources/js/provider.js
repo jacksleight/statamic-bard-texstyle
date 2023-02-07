@@ -1,8 +1,10 @@
 import Span from './marks/span'
-import Div from './nodes/Div'
+import Div from './nodes/div'
 import Core from './extensions/core'
+import Attrs from './extensions/attrs'
 import MenuButton from "./components/MenuButton.vue";
-import { styleToIcon, menuIcon } from './icons';
+import AttrsButton from "./components/AttrsButton.vue";
+import { styleToIcon, menuIcon, attrsIcon } from './icons';
 
 class Provider {
 
@@ -64,6 +66,7 @@ class Provider {
             .bootOverrides(options)
             .bootStyleButtons(options)
             .bootMenuButton(options)
+            .bootAttrsButton(options)
             .bootCss(options);
     }
 
@@ -94,6 +97,7 @@ class Provider {
         Statamic.$bard.addExtension(() => Core.configure(options));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
+            Statamic.$bard.addExtension(() => Attrs);
             Statamic.$bard.addExtension(() => Div);
         }
         return this;
@@ -161,6 +165,22 @@ class Provider {
                 text: 'Style',
                 component: MenuButton,
                 html: menuIcon,
+                btsConfig: options,
+            }));
+        });
+        return this;
+    }    
+
+    bootAttrsButton(options) {
+        if (!options.pro) {
+            return this;
+        }
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_attrs'), 0, button({
+                name: 'bts_attrs',
+                text: 'Attributes',
+                component: AttrsButton,
+                html: attrsIcon,
                 btsConfig: options,
             }));
         });
