@@ -19,11 +19,6 @@ class ServiceProvider extends AddonServiceProvider
         __DIR__.'/../dist/js/addon.js',
     ];
 
-    protected $aliases = [
-        'span' => 'btsSpan',
-        'div' => 'btsDiv',
-    ];
-
     protected $types = [
         'heading' => [
             'extension' => 'heading',

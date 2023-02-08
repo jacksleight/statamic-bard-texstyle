@@ -3,7 +3,7 @@
     <div class="bts-panel">
         <div v-if="items.length">
             <div v-for="(item, i) in items">
-                <div class="font-bold px-2 py-1.5 bg-grey-10 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
+                <div class="font-bold px-2 bts-py-1.25 bg-grey-10 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow text-grey-70" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
