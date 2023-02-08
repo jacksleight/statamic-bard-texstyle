@@ -13,7 +13,7 @@
             :config="config"
             :bard="bard"
             :editor="editor"
-            :btsConfig="button.btsConfig"
+            :btsOptions="button.btsOptions"
             @close="closePanel"
             @picked="closePanel"
         />

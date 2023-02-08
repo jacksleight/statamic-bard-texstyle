@@ -128,7 +128,7 @@ __webpack_require__.r(__webpack_exports__);
     config: {},
     bard: {},
     editor: {},
-    btsConfig: {}
+    btsOptions: {}
   },
   data: function data() {
     return {
@@ -163,7 +163,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     fields: function fields(type) {
-      return this.btsConfig.attributes[type];
+      return this.btsOptions.attributes[type];
     },
     apply: function apply() {
       this.editor.commands.btsAttrsApplyItems(this.items);
@@ -271,7 +271,7 @@ __webpack_require__.r(__webpack_exports__);
     config: {},
     bard: {},
     editor: {},
-    btsConfig: {}
+    btsOptions: {}
   },
   computed: {
     active: function active() {
@@ -284,8 +284,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.editor.isActive(name, this.item.args);
     },
     visible: function visible() {
-      if (this.item.hasOwnProperty('isVisible')) {
-        return this.item.isVisible(this.editor, this.item.args);
+      if (this.item.hasOwnProperty('visible')) {
+        return this.item.visible(this.editor, this.item.args);
       }
 
       return true;
@@ -346,7 +346,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     config: {},
     bard: {},
     editor: {},
-    btsConfig: {}
+    btsOptions: {}
   },
   created: function created() {
     var _this = this;
@@ -364,7 +364,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
       var buttons = this.bard.buttons;
       var menu = this.config.bts_menu.filter(function (option) {
-        return Object.keys(_this2.btsConfig.menuOptions).includes(option);
+        return Object.keys(_this2.btsOptions.menuOptions).includes(option);
       });
       return buttons.filter(function (button) {
         return _typeof(button) === 'object' && menu.includes(button.name);
@@ -625,11 +625,11 @@ var icons = {
   },
   'bullet-list': function bulletList(style) {
     var ident = style.ident;
-    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <path d=\"M384 1408c0 53.33-18.667 98.67-56 136s-82.667 56-136 56-98.667-18.67-136-56-56-82.67-56-136 18.667-98.67 56-136 82.667-56 136-56 98.667 18.67 136 56 56 82.67 56 136Zm0-512c0 53.333-18.667 98.667-56 136-37.333 37.33-82.667 56-136 56s-98.667-18.67-136-56C18.667 994.667 0 949.333 0 896s18.667-98.667 56-136 82.667-56 136-56 98.667 18.667 136 56 56 82.667 56 136Zm0-512c0 53.333-18.667 98.667-56 136s-82.667 56-136 56-98.667-18.667-136-56S0 437.333 0 384s18.667-98.667 56-136 82.667-56 136-56 98.667 18.667 136 56 56 82.667 56 136Z\" transform=\"rotate(1.025) scale(.00893)\"/>\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
+    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <path d=\"M384 1408c0 53.33-18.667 98.67-56 136s-82.667 56-136 56-98.667-18.67-136-56-56-82.67-56-136 18.667-98.67 56-136 82.667-56 136-56 98.667 18.67 136 56 56 82.67 56 136Zm0-512c0 53.333-18.667 98.667-56 136-37.333 37.33-82.667 56-136 56s-98.667-18.67-136-56C18.667 994.667 0 949.333 0 896s18.667-98.667 56-136 82.667-56 136-56 98.667 18.667 136 56 56 82.667 56 136Zm0-512c0 53.333-18.667 98.667-56 136s-82.667 56-136 56-98.667-18.667-136-56S0 437.333 0 384s18.667-98.667 56-136 82.667-56 136-56 98.667 18.667 136 56 56 82.667 56 136Z\" transform=\"scale(.00893)\"/>\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
   },
   'ordered-list': function orderedList(style) {
     var ident = style.ident;
-    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <path d=\"M381 1620c0 53.33-18.167 95.33-54.5 126s-81.5 46-135.5 46c-70.667 0-128-22-172-66l57-88c32.667 30 68 45 106 45 19.333 0 36.167-4.83 50.5-14.5 14.333-9.67 21.5-23.83 21.5-42.5 0-42.67-35-61.33-105-56l-26-56c5.333-6.67 16.167-21.17 32.5-43.5s30.5-40.33 42.5-54c12-13.67 24.333-26.5 37-38.5v-1c-10.667 0-26.833.33-48.5 1-21.667.67-37.833 1-48.5 1v53H32v-152h333v88l-95 115c34 8 61 24.33 81 49s30 54 30 88Zm2-627v159H21c-4-24-6-42-6-54 0-34 7.833-65 23.5-93S73 954.333 95 937s44-33.167 66-47.5c22-14.333 40.833-28.833 56.5-43.5 15.667-14.667 23.5-29.667 23.5-45 0-16.667-4.833-29.5-14.5-38.5S203.667 749 187 749c-30.667 0-57.667 19.333-81 58l-85-59c16-34 39.833-60.5 71.5-79.5S159.333 640 198 640c48.667 0 89.667 13.833 123 41.5s50 65.167 50 112.5c0 33.333-11.333 63.833-34 91.5s-47.667 49.167-75 64.5c-27.333 15.333-52.5 32.167-75.5 50.5-23 18.33-34.833 35.83-35.5 52.5h127v-60h105Zm1-580v99H49v-99h107c0-27.333.167-67.833.5-121.5.333-53.667.5-94.167.5-121.5v-12h-2c-5.333 11.333-22 29.333-50 54l-71-76L170 9h106v404h108Z\" transform=\"rotate(1.025) scale(.00893)\"/>\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
+    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n                <path d=\"M381 1620c0 53.33-18.167 95.33-54.5 126s-81.5 46-135.5 46c-70.667 0-128-22-172-66l57-88c32.667 30 68 45 106 45 19.333 0 36.167-4.83 50.5-14.5 14.333-9.67 21.5-23.83 21.5-42.5 0-42.67-35-61.33-105-56l-26-56c5.333-6.67 16.167-21.17 32.5-43.5s30.5-40.33 42.5-54c12-13.67 24.333-26.5 37-38.5v-1c-10.667 0-26.833.33-48.5 1-21.667.67-37.833 1-48.5 1v53H32v-152h333v88l-95 115c34 8 61 24.33 81 49s30 54 30 88Zm2-627v159H21c-4-24-6-42-6-54 0-34 7.833-65 23.5-93S73 954.333 95 937s44-33.167 66-47.5c22-14.333 40.833-28.833 56.5-43.5 15.667-14.667 23.5-29.667 23.5-45 0-16.667-4.833-29.5-14.5-38.5S203.667 749 187 749c-30.667 0-57.667 19.333-81 58l-85-59c16-34 39.833-60.5 71.5-79.5S159.333 640 198 640c48.667 0 89.667 13.833 123 41.5s50 65.167 50 112.5c0 33.333-11.333 63.833-34 91.5s-47.667 49.167-75 64.5c-27.333 15.333-52.5 32.167-75.5 50.5-23 18.33-34.833 35.83-35.5 52.5h127v-60h105Zm1-580v99H49v-99h107c0-27.333.167-67.833.5-121.5.333-53.667.5-94.167.5-121.5v-12h-2c-5.333 11.333-22 29.333-50 54l-71-76L170 9h106v404h108Z\" transform=\"scale(.00893)\"/>\n                <text text-anchor=\"middle\" x=\"11\" y=\"12\" style=\"font-size: 11px;\">".concat(ident, "</text>\n            </svg>\n        ");
   },
   'link': function link(style) {
     var ident = style.ident;
@@ -660,7 +660,7 @@ var styleToIcon = function styleToIcon(style, type) {
   return icons[icon] ? icons[icon](style) : icon;
 };
 var menuIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m.304-.513-.079.221h.16L.304-.513ZM.278-.676h.144l.232.61.061.008V0H.391v-.058l.068-.005.008-.013-.053-.149H.201l-.05.148.01.012.064.007V0h-.241v-.058l.065-.004.229-.614Z\" transform=\"matrix(20.36607 0 0 20.36607 .894 14.905)\"/>\n    </svg>\n";
-var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"rotate(1.025) scale(.00893)\"/>\n    </svg>\n";
+var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"scale(.00893)\"/>\n    </svg>\n";
 
 /***/ }),
 
@@ -964,7 +964,7 @@ var Provider = /*#__PURE__*/function () {
             args: args,
             activeName: type.key,
             html: icon,
-            isVisible: type.autohide ? function (editor) {
+            visible: type.autohide ? function (editor) {
               return editor.isActive(type.key);
             } : function () {
               return true;
@@ -992,7 +992,7 @@ var Provider = /*#__PURE__*/function () {
           text: 'Style',
           component: _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
           html: _icons__WEBPACK_IMPORTED_MODULE_6__.menuIcon,
-          btsConfig: options
+          btsOptions: options
         }));
       });
       return this;
@@ -1010,7 +1010,7 @@ var Provider = /*#__PURE__*/function () {
           text: 'Attributes',
           component: _components_AttrsButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
           html: _icons__WEBPACK_IMPORTED_MODULE_6__.attrsIcon,
-          btsConfig: options
+          btsOptions: options
         }));
       });
       return this;
@@ -1891,7 +1891,7 @@ var render = function () {
               config: _vm.config,
               bard: _vm.bard,
               editor: _vm.editor,
-              btsConfig: _vm.button.btsConfig,
+              btsOptions: _vm.button.btsOptions,
             },
             on: { close: _vm.closePanel, applied: _vm.closePanel },
           })
@@ -2163,7 +2163,7 @@ var render = function () {
               config: _vm.config,
               bard: _vm.bard,
               editor: _vm.editor,
-              btsConfig: _vm.button.btsConfig,
+              btsOptions: _vm.button.btsOptions,
             },
             on: { close: _vm.closePanel, picked: _vm.closePanel },
           })
@@ -2249,7 +2249,7 @@ var render = function () {
             config: _vm.config,
             bard: _vm.bard,
             editor: _vm.editor,
-            btsConfig: _vm.btsConfig,
+            btsOptions: _vm.btsOptions,
           },
           on: {
             picked: function ($event) {

@@ -9,7 +9,7 @@
                 :config="config"
                 :bard="bard"
                 :editor="editor"
-                :btsConfig="btsConfig"
+                :btsOptions="btsOptions"
                 @picked="$emit('picked')"
             />
         </div>
@@ -31,7 +31,7 @@ export default {
         config: {},
         bard: {},
         editor: {},
-        btsConfig: {},
+        btsOptions: {},
     },
 
     created() {
@@ -47,7 +47,7 @@ export default {
         items() {
             const buttons = this.bard.buttons;
             const menu = this.config.bts_menu
-                .filter(option => Object.keys(this.btsConfig.menuOptions).includes(option));
+                .filter(option => Object.keys(this.btsOptions.menuOptions).includes(option));
             return buttons.filter(button => {
                 return typeof button === 'object' && menu.includes(button.name);
             });    

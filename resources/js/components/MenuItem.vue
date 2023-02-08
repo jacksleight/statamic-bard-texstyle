@@ -24,7 +24,7 @@ export default {
         config: {},
         bard: {},
         editor: {},
-        btsConfig: {},
+        btsOptions: {},
     },
 
     computed: {
@@ -38,8 +38,8 @@ export default {
             return this.editor.isActive(name, this.item.args);
         },
         visible() {
-            if (this.item.hasOwnProperty('isVisible')) {
-                return this.item.isVisible(this.editor, this.item.args);
+            if (this.item.hasOwnProperty('visible')) {
+                return this.item.visible(this.editor, this.item.args);
             }
             return true;
         },

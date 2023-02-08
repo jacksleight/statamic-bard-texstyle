@@ -54,7 +54,7 @@ export default {
         config: {},
         bard: {},
         editor: {},
-        btsConfig: {},
+        btsOptions: {},
     },
 
     data() {
@@ -90,7 +90,7 @@ export default {
     methods: {
 
         fields(type) {
-            return this.btsConfig.attributes[type];
+            return this.btsOptions.attributes[type];
         },
 
         apply() {

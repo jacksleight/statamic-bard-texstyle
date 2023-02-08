@@ -127,7 +127,7 @@ class Provider {
                     args: args,
                     activeName: type.key,
                     html: icon,
-                    isVisible: type.autohide ? (editor) => editor.isActive(type.key) : () => true,
+                    visible: type.autohide ? (editor) => editor.isActive(type.key) : () => true,
                     command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
                 };
@@ -147,7 +147,7 @@ class Provider {
                 text: 'Style',
                 component: MenuButton,
                 html: menuIcon,
-                btsConfig: options,
+                btsOptions: options,
             }));
         });
         return this;
@@ -163,7 +163,7 @@ class Provider {
                 text: 'Attributes',
                 component: AttrsButton,
                 html: attrsIcon,
-                btsConfig: options,
+                btsOptions: options,
             }));
         });
         return this;
