@@ -2,6 +2,13 @@
 
 ## 2.1.0 ()
 
+- [new] (Pro) Style selection menu
+- [new] (Pro) Attribute editor panel
+- [new] (Pro) Container div styles
+- [new] Custom unordered and ordered list styles
+- [new] Custom link styles
+- [new] Control panel badges
+- [new] Control panel CSS arrays
 - [fix] Standard buttons activating for custom styles
 
 ## 2.0.1 (2023-01-31)
