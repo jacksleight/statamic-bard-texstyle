@@ -21,31 +21,24 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $types = [
         'heading' => [
-            'extension' => 'heading',
             'pro' => false,
         ],
         'paragraph' => [
-            'extension' => 'paragraph',
             'pro' => false,
         ],
         'btsSpan' => [
-            'extension' => 'btsSpan',
             'pro' => false,
         ],
         'link' => [
-            'extension' => 'link',
             'pro' => false,
         ],
         'bulletList' => [
-            'extension' => 'bulletList',
             'pro' => false,
         ],
         'orderedList' => [
-            'extension' => 'orderedList',
             'pro' => false,
         ],
         'btsDiv' => [
-            'extension' => 'btsDiv',
             'pro' => true,
         ],
     ];
@@ -207,7 +200,6 @@ class ServiceProvider extends AddonServiceProvider
     {
         return collect($styles)
             ->pluck('type')
-            ->map(fn ($type) => $types[$type]['extension'])
             ->unique()
             ->values()
             ->all();

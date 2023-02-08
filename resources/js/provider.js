@@ -47,7 +47,7 @@ class Provider {
     }
 
     constructor(options) {
-       
+
         options = {
             ...options,
             types: this.mergeTypeData(options.types),
@@ -66,7 +66,7 @@ class Provider {
         return Object.fromEntries(Object.entries(types).map(([ key, type ]) => {
             return [ key, {...type, ...this.types[key]} ];
         }));
-    } 
+    }
 
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
@@ -76,7 +76,7 @@ class Provider {
             Statamic.$bard.addExtension(() => Div);
         }
         return this;
-    }    
+    }
 
     bootOverrides(options) {
         Statamic.$bard.addExtension(({ bard }) => {
@@ -95,17 +95,23 @@ class Provider {
         Statamic.$bard.addExtension(({ bard }) => {
             const blank = [
                 ...(options.styleTypes.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
-                ...(options.styleTypes.includes('bulletList')) ? ['unordererdlist'] : [],
-                ...(options.styleTypes.includes('ordererdList')) ? ['ordererdlist'] : [],
+                ...(options.styleTypes.includes('bulletList')) ? ['unorderedlist'] : [],
+                ...(options.styleTypes.includes('orderedList')) ? ['orderedlist'] : [],
             ];
             bard.buttons.forEach(button => {
                 if (blank.includes(button.name)) {
-                    button.args.class = null;
+                    button.args = { ...(button.args || {}), class: null };
+                }
+                if (button.name === 'unorderedlist' && options.styleTypes.includes('bulletList')) {
+                    button.command = (editor, args) => editor.chain().focus().btsToggleBulletList(args).run();
+                }
+                if (button.name === 'orderedlist' && options.styleTypes.includes('orderedList')) {
+                    button.command = (editor, args) => editor.chain().focus().btsToggleOrderedList(args).run();
                 }
             });
         });
         return this;
-    }    
+    }
 
     bootStyleButtons(options) {
         Statamic.$bard.buttons((buttons, button) => {
@@ -122,14 +128,14 @@ class Provider {
                     activeName: type.key,
                     html: icon,
                     isVisible: type.autohide ? (editor) => editor.isActive(type.key) : () => true,
-                    command: (editor, args) => editor.commands[type.command](args),
+                    command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
                 };
                 buttons.splice(buttons.indexOf(key), 0, button(data));
             });
         });
         return this;
-    }    
+    }
 
     bootMenuButton(options) {
         if (!options.pro) {
@@ -145,7 +151,7 @@ class Provider {
             }));
         });
         return this;
-    }    
+    }
 
     bootAttrsButton(options) {
         if (!options.pro) {
@@ -161,13 +167,13 @@ class Provider {
             }));
         });
         return this;
-    }    
+    }
 
     bootCss(options) {
         const css = [
             ...this.gatherStyleCss(options),
             ...(options.pro ? this.gatherDivCss() : []),
-        ];       
+        ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
         document.head.appendChild(el);
@@ -225,7 +231,7 @@ class Provider {
 
     parseMenuCss(prefix, data) {
         return this.parseCss(prefix, typeof data === 'string' ? data : (data['&'] || ''));
-    }    
+    }
 
 }
 

@@ -546,7 +546,8 @@ var Core = Extension.create({
       btsToggleList: function btsToggleList(attributes, type) {
         return function (_ref5) {
           var commands = _ref5.commands,
-              editor = _ref5.editor;
+              editor = _ref5.editor,
+              chain = _ref5.chain;
 
           if (editor.isActive(type, attributes)) {
             return commands.toggleList(type, 'listItem');
@@ -554,7 +555,7 @@ var Core = Extension.create({
             return commands.updateAttributes(type, attributes);
           }
 
-          return editor.chain().toggleList(type, 'listItem').updateAttributes(type, attributes).run();
+          return chain().toggleList(type, 'listItem').updateAttributes(type, attributes).run();
         };
       },
       btsToggleBulletList: function btsToggleBulletList(attributes) {
@@ -658,8 +659,8 @@ var styleToIcon = function styleToIcon(style, type) {
 
   return icons[icon] ? icons[icon](style) : icon;
 };
-var menuIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m789 559-170 450c22 0 67.5.67 136.5 2s122.5 2 160.5 2c12.667 0 31.667-.67 57-2-58-168.667-119.333-319.333-184-452ZM64 1664l2-79c15.333-4.67 34-8.83 56-12.5s41-7.17 57-10.5 32.5-8.17 49.5-14.5 31.833-16 44.5-29c12.667-13 23-29.83 31-50.5l237-616 280-724h128c5.333 9.333 9 16.333 11 21l205 480c22 52 57.33 137.833 106 257.5 48.67 119.67 86.67 211.17 114 274.5 10 22.67 29.33 70.83 58 144.5s52.67 129.83 72 168.5c13.33 30 25 49 35 57 12.67 10 42 19.83 88 29.5 46 9.67 74 16.5 84 20.5 4 25.33 6 44.33 6 57 0 3.33-.17 7.83-.5 13.5-.33 5.67-.5 9.83-.5 12.5-42 0-105.33-2.67-190-8s-148.33-8-191-8c-50.67 0-122.33 2.33-215 7s-152 7.33-178 8c0-28.67 1.333-54.67 4-78l131-28c.67 0 4.83-.83 12.5-2.5s12.83-2.83 15.5-3.5c2.67-.67 7.5-2.17 14.5-4.5s12-4.5 15-6.5 6.67-4.67 11-8 7.33-7 9-11 2.5-8.67 2.5-14c0-10.67-10.33-42.83-31-96.5s-44.67-112.83-72-177.5-41.33-98-42-100l-450-2c-17.333 38.67-42.833 103.83-76.5 195.5S446 1472.33 446 1489c0 14.67 4.667 27.17 14 37.5 9.333 10.33 23.833 18.5 43.5 24.5s35.833 10.5 48.5 13.5c12.667 3 31.667 5.83 57 8.5s39 4 41 4c.667 12.67 1 32 1 58 0 6-.667 15-2 27-38.667 0-96.833-3.33-174.5-10s-135.833-10-174.5-10c-5.333 0-14.167 1.33-26.5 4s-19.5 4-21.5 4c-53.333 9.33-116 14-188 14Z\" transform=\"rotate(1.025) scale(.00893)\"/>\n    </svg>\n";
-var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"rotate(1.025) scale(.00893)\"/>\n    </svg>\n";
+var menuIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m.304-.513-.079.221h.16L.304-.513ZM.278-.676h.144l.232.61.061.008V0H.391v-.058l.068-.005.008-.013-.053-.149H.201l-.05.148.01.012.064.007V0h-.241v-.058l.065-.004.229-.614Z\" transform=\"matrix(20.36607 0 0 20.36607 .894 14.905)\"/>\n    </svg>\n";
+var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m757.878 652.585-180.43 504.535H941.65L757.878 652.585ZM697.735 281.7H1026.3l529.04 1391.1 139.22 17.82v132.54H956.129v-132.54l154.811-11.14 17.82-30.07-120.28-339.7H522.873l-114.718 337.47 23.389 27.85 145.904 15.59v132.54H27.246v-132.54l148.131-8.91L697.735 281.7Z\" transform=\"matrix(.0093 0 0 .0093 -.002 -1.77)\"/>\n    </svg>\n";
 
 /***/ }),
 
@@ -920,10 +921,24 @@ var Provider = /*#__PURE__*/function () {
       });
       Statamic.$bard.addExtension(function (_ref5) {
         var bard = _ref5.bard;
-        var blank = [].concat(_toConsumableArray(options.styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleTypes.includes('bulletList') ? ['unordererdlist'] : []), _toConsumableArray(options.styleTypes.includes('ordererdList') ? ['ordererdlist'] : []));
+        var blank = [].concat(_toConsumableArray(options.styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleTypes.includes('bulletList') ? ['unorderedlist'] : []), _toConsumableArray(options.styleTypes.includes('orderedList') ? ['orderedlist'] : []));
         bard.buttons.forEach(function (button) {
           if (blank.includes(button.name)) {
-            button.args["class"] = null;
+            button.args = _objectSpread(_objectSpread({}, button.args || {}), {}, {
+              "class": null
+            });
+          }
+
+          if (button.name === 'unorderedlist' && options.styleTypes.includes('bulletList')) {
+            button.command = function (editor, args) {
+              return editor.chain().focus().btsToggleBulletList(args).run();
+            };
+          }
+
+          if (button.name === 'orderedlist' && options.styleTypes.includes('orderedList')) {
+            button.command = function (editor, args) {
+              return editor.chain().focus().btsToggleOrderedList(args).run();
+            };
           }
         });
       });
@@ -955,7 +970,7 @@ var Provider = /*#__PURE__*/function () {
               return true;
             },
             command: function command(editor, args) {
-              return editor.commands[type.command](args);
+              return editor.chain().focus()[type.command](args).run();
             },
             btsStyle: style
           };

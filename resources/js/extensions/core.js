@@ -46,13 +46,13 @@ const Core = Extension.create({
                     return commands.updateAttributes('link', attributes);
                 }
             },
-            btsToggleList: (attributes, type) => ({ commands, editor }) => {
+            btsToggleList: (attributes, type) => ({ commands, editor, chain }) => {
                 if (editor.isActive(type, attributes)) {
                     return commands.toggleList(type, 'listItem');
                 } else if (editor.isActive(type)) {
                     return commands.updateAttributes(type, attributes);
                 }
-                return editor.chain()
+                return chain()
                     .toggleList(type, 'listItem')
                     .updateAttributes(type, attributes)
                     .run();
