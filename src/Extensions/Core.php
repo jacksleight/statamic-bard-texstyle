@@ -26,17 +26,17 @@ class Core extends Extension
         $attr = $this->options['attr'];
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
-        $styleExtensions = $this->options['styleExtensions'];
-        $allExtensions = $this->options['allExtensions'];
+        $styleTypes = $this->options['styleTypes'];
+        $classTypes = $this->options['classTypes'];
 
-        $attrs = [];
-        foreach ($allExtensions as $type) {
-            $attrs[] = [
+        $globals = [];
+        foreach ($classTypes as $type) {
+            $globals[] = [
                 'types' => [$type],
                 'attributes' => [
                     $attr => [
-                        'parseHTML' => function ($DOMNode) use ($store, $styles, $styleExtensions, $type) {
-                            if (in_array($type, $styleExtensions)) {
+                        'parseHTML' => function ($DOMNode) use ($store, $styles, $styleTypes, $type) {
+                            if (in_array($type, $styleTypes)) {
                                 $value = $DOMNode->getAttribute('class');
                                 if ($store === 'key') {
                                     $style = Arr::first($styles, fn ($style) => $style['type'] === $type && $style['class'] === $value);
@@ -48,8 +48,8 @@ class Core extends Extension
 
                             return $value;
                         },
-                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleExtensions, $type) {
-                            if (in_array($type, $styleExtensions)) {
+                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
+                            if (in_array($type, $styleTypes)) {
                                 $class = $attributes->{$attr} ?? null;
                                 if ($store === 'key') {
                                     $class = $styles[$class]['class'] ?? null;
@@ -70,6 +70,6 @@ class Core extends Extension
             ];
         }
 
-        return $attrs;
+        return $globals;
     }
 }

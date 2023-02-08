@@ -1,6 +1,6 @@
 <template>
 
-    <div class="bts-menu-panel">
+    <div class="bts-panel">
         <div class="bts-menu-items">
             <MenuItem
                 v-for="item in items"
@@ -10,7 +10,7 @@
                 :bard="bard"
                 :editor="editor"
                 :btsConfig="btsConfig"
-                @bts-menu-click="$emit('bts-menu-click')"
+                @picked="$emit('picked')"
             />
         </div>
         
@@ -34,11 +34,20 @@ export default {
         btsConfig: {},
     },
 
+    created() {
+        this.bard.$on('bts-reselected', () => this.$emit('close'));
+    },
+
+    beforeDestroy() {
+        this.bard.$off('bts-reselected');
+    },
+
     computed: {
 
         items() {
             const buttons = this.bard.buttons;
-            const menu = this.config.bts_menu;
+            const menu = this.config.bts_menu
+                .filter(option => Object.keys(this.btsConfig.menuOptions).includes(option));
             return buttons.filter(button => {
                 return typeof button === 'object' && menu.includes(button.name);
             });    

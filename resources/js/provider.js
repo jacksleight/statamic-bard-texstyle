@@ -1,51 +1,46 @@
 import Span from './marks/span'
-import Div from './nodes/Div'
+import Div from './nodes/div'
 import Core from './extensions/core'
+import Attrs from './extensions/attrs'
 import MenuButton from "./components/MenuButton.vue";
-import { styleToIcon, menuIcon } from './icons';
+import AttrsButton from "./components/AttrsButton.vue";
+import { styleToIcon, menuIcon, attrsIcon } from './icons';
 
 class Provider {
 
     types = {
         heading: {
             tag: 'h',
-            extension: 'heading',
             command: 'btsToggleHeading',
             autohide: false,
         },
         paragraph: {
             tag: 'p',
-            extension: 'paragraph',
             command: 'btsToggleParagraph',
             autohide: false,
         },
         btsSpan: {
             tag: 'span',
-            extension: 'btsSpan',
             command: 'btsToggleSpan',
             autohide: false,
         },
         link: {
             tag: 'a',
-            extension: 'link',
             command: 'btsToggleLink',
             autohide: true,
         },
         bulletList: {
             tag: 'ul',
-            extension: 'bulletList',
             command: 'btsToggleBulletList',
             autohide: false,
         },
         orderedList: {
             tag: 'ol',
-            extension: 'orderedList',
             command: 'btsToggleOrderedList',
             autohide: false,
         },
         btsDiv: {
             tag: 'div',
-            extension: 'btsDiv',
             command: 'btsToggleDiv',
             autohide: false,
         },
@@ -59,11 +54,11 @@ class Provider {
         };
 
         this
-            .bootDirectives()
             .bootExtensions(options)
             .bootOverrides(options)
             .bootStyleButtons(options)
             .bootMenuButton(options)
+            .bootAttrsButton(options)
             .bootCss(options);
     }
 
@@ -71,29 +66,13 @@ class Provider {
         return Object.fromEntries(Object.entries(types).map(([ key, type ]) => {
             return [ key, {...type, ...this.types[key]} ];
         }));
-    }
-
-    bootDirectives() {
-        Vue.directive('bts-click-outside', {
-            bind: function (el, binding, vnode) {
-                el.clickOutsideEvent = function (event) {
-                    if (!(el == event.target || el.contains(event.target))) {
-                        vnode.context[binding.expression](event);
-                    }
-                };
-                document.body.addEventListener('click', el.clickOutsideEvent)
-            },
-            unbind: function (el) {
-                document.body.removeEventListener('click', el.clickOutsideEvent)
-            },
-        });
-        return this;
-    }    
+    } 
 
     bootExtensions(options) {
-        Statamic.$bard.addExtension(() => Core.configure(options));
+        Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
+            Statamic.$bard.addExtension(() => Attrs.configure(options));
             Statamic.$bard.addExtension(() => Div);
         }
         return this;
@@ -105,7 +84,8 @@ class Provider {
             if (!buttons.find(button => button.name === 'bts_menu')) {
                 return;
             }
-            const menu = bard.config.bts_menu || [];
+            const menu = (bard.config.bts_menu || [])
+                .filter(option => Object.keys(options.menuOptions).includes(option));
             bard.buttons.forEach(button => {
                 if (menu.includes(button.name)) {
                     button.visibleWhenActive = 'btsVoid';
@@ -114,9 +94,9 @@ class Provider {
         });
         Statamic.$bard.addExtension(({ bard }) => {
             const blank = [
-                ...(options.styleExtensions.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
-                ...(options.styleExtensions.includes('bulletList')) ? ['unordererdlist'] : [],
-                ...(options.styleExtensions.includes('ordererdList')) ? ['ordererdlist'] : [],
+                ...(options.styleTypes.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
+                ...(options.styleTypes.includes('bulletList')) ? ['unordererdlist'] : [],
+                ...(options.styleTypes.includes('ordererdList')) ? ['ordererdlist'] : [],
             ];
             bard.buttons.forEach(button => {
                 if (blank.includes(button.name)) {
@@ -139,9 +119,9 @@ class Provider {
                     name: key,
                     text: style.name,
                     args: args,
-                    activeName: type.extension,
+                    activeName: type.key,
                     html: icon,
-                    isVisible: type.autohide ? (editor) => editor.isActive(type.extension) : () => true,
+                    isVisible: type.autohide ? (editor) => editor.isActive(type.key) : () => true,
                     command: (editor, args) => editor.commands[type.command](args),
                     btsStyle: style,
                 };
@@ -161,6 +141,22 @@ class Provider {
                 text: 'Style',
                 component: MenuButton,
                 html: menuIcon,
+                btsConfig: options,
+            }));
+        });
+        return this;
+    }    
+
+    bootAttrsButton(options) {
+        if (!options.pro) {
+            return this;
+        }
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_attrs'), 0, button({
+                name: 'bts_attrs',
+                text: 'Attributes',
+                component: AttrsButton,
+                html: attrsIcon,
                 btsConfig: options,
             }));
         });
@@ -199,7 +195,6 @@ class Provider {
 
     gatherDivCss() {
         const css = [];
-        css.push('.bard-fieldtype .ProseMirror div[data-bts] { margin-top: 0px; margin-bottom: 0.85em; }');
         const selector = [
             '.bard-fieldtype .ProseMirror >',
             '.bard-fieldtype .ProseMirror div[data-bts] >',

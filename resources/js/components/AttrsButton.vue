@@ -8,28 +8,28 @@
             :aria-label="button.text"
             @click="togglePanel"
         />
-        <MenuPanel
+        <AttrsPanel
             v-if="panelActive"
             :config="config"
             :bard="bard"
             :editor="editor"
             :btsConfig="button.btsConfig"
             @close="closePanel"
-            @picked="closePanel"
+            @applied="closePanel"
         />
     </div>
 
 </template>
 
 <script>
-import MenuPanel from './MenuPanel.vue';
+import AttrsPanel from './AttrsPanel.vue';
 
 export default {
 
     mixins: [ BardToolbarButton ],
 
     components: {
-        MenuPanel,
+        AttrsPanel,
     },
 
     data() {    
