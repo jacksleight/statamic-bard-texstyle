@@ -19,22 +19,21 @@ class Attrs extends Extension
     {
         $attributes = $this->options['attributes'];
 
-        $globals = [];
-        foreach ($attributes as $type => $attrs) {
-            $globals[] = [
-                'types' => [$type],
-                'attributes' => collect($attrs)
-                    ->filter(fn ($attr) => $attr['extra'])
-                    ->map(function ($attr) {
-                        return [
-                            'default' => $attr['default'] ?? null,
-                            'rendered' => $attr['rendered'] ?? true,
-                        ];
-                    })
-                    ->all(),
-            ];
-        }
-
-        return $globals;
+        return collect($attributes)
+            ->map(function ($attrs, $type) {
+                return [
+                    'types' => [$type],
+                    'attributes' => collect($attrs)
+                        ->filter(fn ($attr) => $attr['extra'])
+                        ->map(function ($attr) {
+                            return [
+                                'default' => $attr['default'] ?? null,
+                                'rendered' => $attr['rendered'] ?? true,
+                            ];
+                        })
+                        ->all(),
+                ];
+            })
+            ->all();
     }
 }
