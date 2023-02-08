@@ -25,13 +25,10 @@ class Attrs extends Extension
                 'types' => [$type],
                 'attributes' => collect($attrs)
                     ->filter(fn ($attr) => $attr['extra'])
-                    ->map(function ($attr, $name) {
+                    ->map(function ($attr) {
                         return [
-                            'parseHTML' => function ($DOMNode) {
-                            },
-                            'renderHTML' => function ($attributes) use ($name) {
-                                return [$name => $attributes->{$name}];
-                            },
+                            'default' => $attr['default'] ?? null,
+                            'rendered' => $attr['rendered'] ?? true,
                         ];
                     })
                     ->all(),

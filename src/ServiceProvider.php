@@ -12,26 +12,11 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
-use Tiptap\Core\Node;
 
 class ServiceProvider extends AddonServiceProvider
 {
     protected $scripts = [
         __DIR__.'/../dist/js/addon.js',
-    ];
-
-    protected $nativeAttributes = [
-        'codeBlock' => ['language'],
-        'heading' => ['level'],
-        'image' => ['src', 'alt', 'title'],
-        // 'orderedList' => ['order'],
-        'tableCell' => ['rowspan', 'colspan', 'colwidth'],
-        'tableHeader' => ['rowspan', 'colspan', 'colwidth'],
-    ];
-
-    protected $aliases = [
-        'span' => 'btsSpan',
-        'div' => 'btsDiv',
     ];
 
     protected $types = [
@@ -65,6 +50,54 @@ class ServiceProvider extends AddonServiceProvider
         ],
     ];
 
+    protected $attributeTypes = [
+        'blockquote' => [],
+        'bulletList' => [],
+        'codeBlock' => [
+            'language',
+        ],
+        'heading' => [
+            'level',
+        ],
+        'horizontalRule' => [],
+        'image' => [
+            'src',
+            'alt',
+            'title',
+        ],
+        'listItem' => [],
+        'orderedList' => [
+            // 'order/start',
+        ],
+        'paragraph' => [],
+        'table' => [],
+        'tableCell' => [
+            'rowspan',
+            'colspan',
+            'colwidth',
+        ],
+        'tableHeader' => [
+            'rowspan',
+            'colspan',
+            'colwidth',
+        ],
+        'tableRow' => [],
+    ];
+
+    protected $menuTypes = [
+        'btsSpan',
+        'bulletList',
+        'heading',
+        'link',
+        'orderedList',
+        'paragraph',
+    ];
+
+    protected $aliases = [
+        'span' => 'btsSpan',
+        'div' => 'btsDiv',
+    ];
+
     public function bootAddon()
     {
         $options = $this->resolveOptions();
@@ -86,15 +119,15 @@ class ServiceProvider extends AddonServiceProvider
         $store = config('statamic.bard_texstyle.store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key';
 
-        $nodeTypes = $this->resolveNodeTypes();
-
         $defaultClasses = $this->resolveDefaultClasses();
         [$styles, $types] = $this->resolveStylesAndTypes($pro);
         $styleTypes = $this->resolveStyleTypes($styles, $types);
         $classTypes = $this->resolveClassTypes($styleTypes, $defaultClasses);
 
-        $attributes = $this->resolveAttributes($pro, $nodeTypes, $classTypes);
+        $attributes = $this->resolveAttributes($pro, $classTypes);
         $attributesTypes = $this->resolveAttributesTypes($attributes);
+
+        $menuOptions = $this->resolveMenuOptions($pro, $styles);
 
         return [
             'pro' => $pro,
@@ -103,21 +136,12 @@ class ServiceProvider extends AddonServiceProvider
             'styles' => $styles,
             'types' => $types,
             'attributes' => $attributes,
-            'nodeTypes' => $nodeTypes,
             'styleTypes' => $styleTypes,
             'classTypes' => $classTypes,
             'attributesTypes' => $attributesTypes,
             'defaultClasses' => $defaultClasses,
+            'menuOptions' => $menuOptions,
         ];
-    }
-
-    protected function resolveNodeTypes()
-    {
-        return collect((new Augmentor(new Bard()))->extensions())
-            ->except(['document', 'text', 'set', 'hardBreak'])
-            ->filter(fn ($extension) => $extension instanceof Node)
-            ->keys()
-            ->all();
     }
 
     protected function resolveStylesAndTypes($pro)
@@ -153,7 +177,7 @@ class ServiceProvider extends AddonServiceProvider
         return [$styles, $types];
     }
 
-    protected function resolveAttributes($pro, $nodeTypes, $classTypes)
+    protected function resolveAttributes($pro, $classTypes)
     {
         if (! $pro) {
             return [];
@@ -163,19 +187,12 @@ class ServiceProvider extends AddonServiceProvider
 
         $attributes = collect($attributes)
             ->mapWithKeys(fn ($attrs, $type) => [($this->aliases[$type] ?? $type) => $attrs])
-            ->filter(fn ($attrs, $type) => in_array($type, $nodeTypes))
+            ->filter(fn ($attrs, $type) => array_key_exists($type, $this->attributeTypes))
             ->map(function ($attrs, $type) use ($classTypes) {
                 return collect($attrs)->map(function ($attr, $name) use ($type, $classTypes) {
-                    $extra = $attr['extra'] ?? true;
-                    if (in_array($name, $this->nativeAttributes[$type] ?? [])) {
-                        $extra = false;
-                    }
-                    if ($name === 'class' && in_array($type, $classTypes)) {
-                        $extra = false;
-                    }
-
                     return array_merge($attr, [
-                        'extra' => $extra,
+                        'extra' => ! in_array($name, $this->attributeTypes[$type] ?? []) &&
+                            ($name !== 'class' || ! in_array($type, $classTypes)),
                     ]);
                 })->all();
             })
@@ -216,6 +233,28 @@ class ServiceProvider extends AddonServiceProvider
         return collect($attributes)
             ->keys()
             ->all();
+    }
+
+    protected function resolveMenuOptions($pro, $styles)
+    {
+        if (! $pro) {
+            return [];
+        }
+
+        return collect($styles)
+            ->filter(fn ($style) => in_array($style['type'], $this->menuTypes))
+            ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
+            ->merge([
+                'h1' => 'Heading 1',
+                'h2' => 'Heading 2',
+                'h3' => 'Heading 3',
+                'h4' => 'Heading 4',
+                'h5' => 'Heading 5',
+                'h6' => 'Heading 6',
+                'unorderedlist' => 'Unordered List',
+                'orderedlist' => 'Ordered List',
+            ])
+            ->sort();
     }
 
     protected function bootConfig()
@@ -282,26 +321,13 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
-        $options = collect($options['styles'])
-            ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
-            ->merge([
-                'h1' => 'Heading 1',
-                'h2' => 'Heading 2',
-                'h3' => 'Heading 3',
-                'h4' => 'Heading 4',
-                'h5' => 'Heading 5',
-                'h6' => 'Heading 6',
-                'unorderedlist' => 'Unordered List',
-                'orderedlist' => 'Ordered List',
-            ]);
-
         Bard::appendConfigField('bts_menu', [
             'display' => __('Style Menu'),
             'instructions' => __('Which style options should be moved to the style menu'),
-            'type' => 'checkboxes',
+            'type' => 'select',
             'default' => [],
             'multiple' => true,
-            'options' => $options,
+            'options' => $options['menuOptions'],
         ]);
 
         return $this;

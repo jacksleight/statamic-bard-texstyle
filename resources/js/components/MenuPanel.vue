@@ -46,7 +46,8 @@ export default {
 
         items() {
             const buttons = this.bard.buttons;
-            const menu = this.config.bts_menu;
+            const menu = this.config.bts_menu
+                .filter(option => Object.keys(this.btsConfig.menuOptions).includes(option));
             return buttons.filter(button => {
                 return typeof button === 'object' && menu.includes(button.name);
             });    

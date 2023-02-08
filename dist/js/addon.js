@@ -111,6 +111,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     config: {},
@@ -120,7 +132,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      items: this.editor.commands.btsAttrsFetchItems(),
+      activeItem: 0,
+      items: this.editor.commands.btsAttrsFetchItems().reverse(),
       titles: {
         blockquote: 'Blockquote',
         bulletList: 'Unordered List',
@@ -347,8 +360,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   },
   computed: {
     items: function items() {
+      var _this2 = this;
+
       var buttons = this.bard.buttons;
-      var menu = this.config.bts_menu;
+      var menu = this.config.bts_menu.filter(function (option) {
+        return Object.keys(_this2.btsConfig.menuOptions).includes(option);
+      });
       return buttons.filter(function (button) {
         return _typeof(button) === 'object' && menu.includes(button.name);
       });
@@ -418,13 +435,8 @@ var Attrs = Extension.create({
               attr = _ref6[1];
 
           return [name, {
-            "default": attr["default"],
-            parseHTML: function parseHTML(element) {
-              return element.getAttribute(name);
-            },
-            renderHTML: function renderHTML(attributes) {
-              return _defineProperty({}, name, attributes[name]);
-            }
+            "default": typeof attr["default"] !== 'undefined' ? attr["default"] : null,
+            rendered: typeof attr.rendered !== 'undefined' ? attr.rendered : true
           }];
         }))
       };
@@ -434,13 +446,11 @@ var Attrs = Extension.create({
     var attributesTypes = this.options.attributesTypes;
     return {
       btsAttrsFetchItems: function btsAttrsFetchItems() {
-        return function (_ref8) {
-          var state = _ref8.state;
-          var _state$selection = state.selection,
-              from = _state$selection.from,
-              to = _state$selection.to;
+        return function (_ref7) {
+          var state = _ref7.state;
+          var from = state.selection.from;
           var items = [];
-          state.doc.nodesBetween(from, to, function (node, pos) {
+          state.doc.nodesBetween(from, from, function (node, pos) {
             var type = node.type.name;
 
             if (attributesTypes.includes(type)) {
@@ -455,8 +465,8 @@ var Attrs = Extension.create({
         };
       },
       btsAttrsApplyItems: function btsAttrsApplyItems(items) {
-        return function (_ref9) {
-          var state = _ref9.state;
+        return function (_ref8) {
+          var state = _ref8.state;
           items.forEach(function (item) {
             state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
           });
@@ -900,7 +910,9 @@ var Provider = /*#__PURE__*/function () {
           return;
         }
 
-        var menu = bard.config.bts_menu || [];
+        var menu = (bard.config.bts_menu || []).filter(function (option) {
+          return Object.keys(options.menuOptions).includes(option);
+        });
         bard.buttons.forEach(function (button) {
           if (menu.includes(button.name)) {
             button.visibleWhenActive = 'btsVoid';
@@ -1091,7 +1103,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: #e4ebf1 solid;\n  border-width: 1px 0;\n  padding: 16px;\n  margin-left: -16px;\n  margin-right: -16px;\n  margin-top: 0;\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  bottom: 100%;\n  right: 0;\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: #e4ebf1 solid;\n  border-width: 1px 0;\n  padding: 16px;\n  margin-left: -16px;\n  margin-right: -16px;\n  margin-top: 0;\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  bottom: 100%;\n  right: 0;\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-arrow {\n  margin-left: -0.3em;\n  margin-right: 0.3em;\n}\n.bard-fieldtype .bts-gap-0\\.5 {\n  gap: 0.3rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1901,68 +1913,160 @@ var render = function () {
       ? _c(
           "div",
           [
-            _vm._l(_vm.items, function (item) {
+            _vm._l(_vm.items, function (item, i) {
               return _c("div", [
                 _c(
                   "div",
-                  { staticClass: "font-bold px-2 py-1 bg-grey-10 title-case" },
+                  {
+                    staticClass:
+                      "font-bold px-2 py-1.5 bg-grey-10 title-case border-b flex items-center cursor-pointer",
+                    on: {
+                      click: function ($event) {
+                        _vm.activeItem = i
+                      },
+                    },
+                  },
                   [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "w-4 h-4 bts-arrow text-grey-70",
+                        class: { "rotate-90": _vm.activeItem === i },
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          fill: "none",
+                          viewBox: "0 0 24 24",
+                          "stroke-width": "1.5",
+                          stroke: "currentColor",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M8.25 4.5l7.5 7.5-7.5 7.5",
+                          },
+                        }),
+                      ]
+                    ),
                     _vm._v(
                       "\n                " +
-                        _vm._s(_vm.titles[item.type] || item.type) +
+                        _vm._s(_vm.__(_vm.titles[item.type])) +
                         "\n            "
                     ),
                   ]
                 ),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "p-2 border-b border-t space-y-1" },
-                  _vm._l(_vm.fields(item.type), function (field, name) {
-                    return _c(
+                _vm.activeItem === i
+                  ? _c(
                       "div",
-                      {
-                        staticClass:
-                          "h-8 p-1 border rounded border-grey-50 flex items-center",
-                      },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: item.attrs[name],
-                              expression: "item.attrs[name]",
-                            },
-                            {
-                              name: "tooltip",
-                              rawName: "v-tooltip.right",
-                              value: field.display || name,
-                              expression: "field.display || name",
-                              modifiers: { right: true },
-                            },
-                          ],
-                          staticClass:
-                            "input h-auto text-sm placeholder-gray-50",
-                          attrs: {
-                            type: "text",
-                            placeholder: field.display || name,
-                          },
-                          domProps: { value: item.attrs[name] },
-                          on: {
-                            input: function ($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(item.attrs, name, $event.target.value)
-                            },
-                          },
-                        }),
-                      ]
+                      { staticClass: "p-2 border-b space-y-1.5" },
+                      _vm._l(_vm.fields(item.type), function (field, name) {
+                        return _c("div", [
+                          field.type === "toggle"
+                            ? _c(
+                                "label",
+                                {
+                                  staticClass:
+                                    "flex items-baseline bts-gap-0.5 font-normal",
+                                },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: item.attrs[name],
+                                        expression: "item.attrs[name]",
+                                      },
+                                    ],
+                                    attrs: {
+                                      type: "checkbox",
+                                      "true-value": true,
+                                      "false-value": null,
+                                    },
+                                    domProps: {
+                                      checked: Array.isArray(item.attrs[name])
+                                        ? _vm._i(item.attrs[name], null) > -1
+                                        : item.attrs[name],
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        var $$a = item.attrs[name],
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? true : null
+                                        if (Array.isArray($$a)) {
+                                          var $$v = null,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              _vm.$set(
+                                                item.attrs,
+                                                name,
+                                                $$a.concat([$$v])
+                                              )
+                                          } else {
+                                            $$i > -1 &&
+                                              _vm.$set(
+                                                item.attrs,
+                                                name,
+                                                $$a
+                                                  .slice(0, $$i)
+                                                  .concat($$a.slice($$i + 1))
+                                              )
+                                          }
+                                        } else {
+                                          _vm.$set(item.attrs, name, $$c)
+                                        }
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "text-sm" }, [
+                                    _vm._v(_vm._s(field.display || name)),
+                                  ]),
+                                ]
+                              )
+                            : _c("label", { staticClass: "font-normal" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "text-sm leading-none" },
+                                  [_vm._v(_vm._s(field.display || name))]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: item.attrs[name],
+                                      expression: "item.attrs[name]",
+                                    },
+                                  ],
+                                  staticClass:
+                                    "input h-8 p-1 border text-sm border-grey-50 rounded mt-1",
+                                  attrs: { type: "text" },
+                                  domProps: { value: item.attrs[name] },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        item.attrs,
+                                        name,
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]),
+                        ])
+                      }),
+                      0
                     )
-                  }),
-                  0
-                ),
+                  : _vm._e(),
               ])
             }),
             _vm._v(" "),
@@ -1979,7 +2083,7 @@ var render = function () {
                   [
                     _vm._v(
                       "\n                " +
-                        _vm._s(_vm.__("Apply")) +
+                        _vm._s(_vm.__("OK")) +
                         "\n            "
                     ),
                   ]

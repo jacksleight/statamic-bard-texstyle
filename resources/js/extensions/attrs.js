@@ -20,9 +20,8 @@ const Attrs = Extension.create({
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
                         return [name, {
-                            default: attr.default,
-                            parseHTML: element => element.getAttribute(name),
-                            renderHTML: attributes => ({[name]: attributes[name]}),
+                            default: typeof attr.default !== 'undefined' ? attr.default : null,
+                            rendered: typeof attr.rendered !== 'undefined' ? attr.rendered : true,
                         }];
                     })),
             };
@@ -33,9 +32,9 @@ const Attrs = Extension.create({
         const { attributesTypes } = this.options;
         return {
             btsAttrsFetchItems: () => ({ state }) => {
-                const { from, to } = state.selection
+                const { from } = state.selection
                 const items = [];
-                state.doc.nodesBetween(from, to, (node, pos) => {
+                state.doc.nodesBetween(from, from, (node, pos) => {
                     const type = node.type.name;
                     if (attributesTypes.includes(type)) {
                         items.push({

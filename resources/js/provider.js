@@ -84,7 +84,8 @@ class Provider {
             if (!buttons.find(button => button.name === 'bts_menu')) {
                 return;
             }
-            const menu = bard.config.bts_menu || [];
+            const menu = (bard.config.bts_menu || [])
+                .filter(option => Object.keys(options.menuOptions).includes(option));
             bard.buttons.forEach(button => {
                 if (menu.includes(button.name)) {
                     button.visibleWhenActive = 'btsVoid';
