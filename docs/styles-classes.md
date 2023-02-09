@@ -47,10 +47,6 @@ The style keys are used as the button names. Styles can have the following optio
   Whether to display a bage next to elements of this style.
 
 :::note
-Link style buttons will only appear when a link is selected. Links should still be created with the standard link button.
-:::
-
-:::note
 Container div styles are just for simple blocks of content, they cannot contain sets or be nested. If you need something more complex then using a set is the way to go.
 :::
 

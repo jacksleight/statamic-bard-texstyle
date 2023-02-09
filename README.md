@@ -8,12 +8,40 @@
 
 <!-- /statamic:hide -->
 
-This Statamic addon gives you the ability to add custom heading, paragraph and span styles to the Bard fieldtype.
+This Statamic addon allows you to add custom element styles to the Bard fieldtype and edit element attributes. Features include:
+
+* Add custom heading, paragraph, list, link and span styles
+* Add container div styles for things like multi-column text and hints
+* A style selection menu with previews of each style
+* An attribute editor panel for things like heading IDs and code block languages
+* Multiple sets of default classes for standard elements
+
+## Editions
+
+| Feature                  | Free | Pro   |
+| ------------------------ | :--: | :---: |
+| Custom Heading Styles    | ●    | ●     |
+| Custom Paragraph Styles  | ●    | ●     |
+| Custom List Styles       | ●    | ●     |
+| Custom Link Styles       | ●    | ●     |
+| Custom Span Styles       | ●    | ●     |
+| Container Divs Styles    |      | ●     |
+| Default Classes          | ●    | ●     |
+| Style Selector Menu      |      | ●     |
+| Attribute Editor Panel   |      | ●     |
 
 ## Documentation
 
 [Statamic Bard Texstyle Documentation](https://jacksleight.dev/docs/bard-texstyle/)
 
-## Sponsoring 
+<!-- statamic:hide -->
 
-This addon is completely free to use. However fixing bugs, adding features and helping users takes time and effort. If you find this addon useful and would like to support its development any [contribution](https://github.com/sponsors/jacksleight) would be greatly appreciated. Thanks! 🙂
+## Licencing
+
+Bard Texstyle Pro is not free software. You will need to purchase a license via the [Statamic Marketplace](https://statamic.com/addons/jacksleight/memberbox) to use it in production.
+
+## Contributing
+
+Contributions are very welcome, however please bear in mind that while Bard Texstyle's source code is open source and publicly available, it is proprietary. Everything in this repo, including any community-contributed code, is the property of Jack Sleight.
+
+<!-- /statamic:hide -->
