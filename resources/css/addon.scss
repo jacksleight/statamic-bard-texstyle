@@ -7,15 +7,9 @@
         div[data-bts] {
             border: #e4ebf1 solid;
             border-width: 1px 0;
-            padding: 16px;
-            margin-left: -8px;
-            margin-right: -8px;
+            padding: 0.85em 0;
             margin-top: 0;
             margin-bottom: 0.85em;
-            @media (min-width: 768px) {
-                margin-left: -16px;
-                margin-right: -16px;
-            }
         }
 
         [data-bts]::before {
