@@ -603,7 +603,7 @@ var icons = {
       btsSpan: 'T'
     }[style.type]) !== null && _heading$paragraph$bt !== void 0 ? _heading$paragraph$bt : 'S';
     var ident = style.ident;
-    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\">").concat(ident, "</text>\n            </svg>\n        ");
+    return "\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n                <text text-anchor=\"middle\" x=\"8.3\" y=\"15\" style=\"font-family: Times, Times New Roman, serif; font-size: 21px;\">".concat(letter, "</text>\n                <text text-anchor=\"middle\" x=\"20\" y=\"12.5\" style=\"font-size: 12px;\">").concat(ident, "</text>\n            </svg>\n        ");
   },
   'square': function square(style) {
     var ident = style.ident;
@@ -659,8 +659,8 @@ var styleToIcon = function styleToIcon(style, type) {
 
   return icons[icon] ? icons[icon](style) : icon;
 };
-var menuIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m.304-.513-.079.221h.16L.304-.513ZM.278-.676h.144l.232.61.061.008V0H.391v-.058l.068-.005.008-.013-.053-.149H.201l-.05.148.01.012.064.007V0h-.241v-.058l.065-.004.229-.614Z\" transform=\"matrix(20.36607 0 0 20.36607 .894 14.905)\"/>\n    </svg>\n";
-var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"scale(.00893)\"/>\n    </svg>\n";
+var menuIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n        <text text-anchor=\"middle\" x=\"12\" y=\"15\" style=\"font-family: Times, Times New Roman, serif; font-size: 21px; letter-spacing: -1px;\">Aa</text>\n    </svg>\n";
+var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"scale(.00893)\"/>\n    </svg>\n";
 
 /***/ }),
 
