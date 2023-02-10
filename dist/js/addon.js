@@ -1049,8 +1049,8 @@ var Provider = /*#__PURE__*/function () {
         var selector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[options.store], "\"]");
         var badgeSelector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[options.store], "\"]::before");
         var menuSelector = ".bard-fieldtype .bts-menu-preview[data-bts-match~=\"".concat(key, "\"]");
-        css.push.apply(css, _toConsumableArray(_this2.parseCss(selector, style.cp_css)));
-        css.push.apply(css, _toConsumableArray(_this2.parseMenuCss(menuSelector, style.cp_css)));
+        css.push.apply(css, _toConsumableArray(_this2.parseCss(selector, style.cp_css || '')));
+        css.push.apply(css, _toConsumableArray(_this2.parseMenuCss(menuSelector, style.cp_css || '')));
 
         if (style.cp_badge) {
           css.push("".concat(badgeSelector, " { content: \"").concat(style.name, "\"; }"));

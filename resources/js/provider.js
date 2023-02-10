@@ -191,8 +191,8 @@ class Provider {
             const selector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
             const badgeSelector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
             const menuSelector = `.bard-fieldtype .bts-menu-preview[data-bts-match~="${key}"]`;
-            css.push(...this.parseCss(selector, style.cp_css));
-            css.push(...this.parseMenuCss(menuSelector, style.cp_css));
+            css.push(...this.parseCss(selector, style.cp_css || ''));
+            css.push(...this.parseMenuCss(menuSelector, style.cp_css || ''));
             if (style.cp_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
