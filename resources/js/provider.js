@@ -12,37 +12,37 @@ class Provider {
         heading: {
             tag: 'h',
             command: 'btsToggleHeading',
-            autohide: false,
+            toggleVisibility: false,
         },
         paragraph: {
             tag: 'p',
             command: 'btsToggleParagraph',
-            autohide: false,
+            toggleVisibility: false,
         },
         btsSpan: {
             tag: 'span',
             command: 'btsToggleSpan',
-            autohide: false,
+            toggleVisibility: false,
         },
         link: {
             tag: 'a',
             command: 'btsToggleLink',
-            autohide: true,
+            toggleVisibility: true,
         },
         bulletList: {
             tag: 'ul',
             command: 'btsToggleBulletList',
-            autohide: false,
+            toggleVisibility: false,
         },
         orderedList: {
             tag: 'ol',
             command: 'btsToggleOrderedList',
-            autohide: false,
+            toggleVisibility: false,
         },
         btsDiv: {
             tag: 'div',
             command: 'btsToggleDiv',
-            autohide: false,
+            toggleVisibility: false,
         },
     }
 
@@ -88,7 +88,7 @@ class Provider {
                 .filter(option => Object.keys(options.menuOptions).includes(option));
             bard.buttons.forEach(button => {
                 if (menu.includes(button.name)) {
-                    button.visibleWhenActive = 'btsVoid';
+                    button.visible = () => false;
                 }
             });
         });
@@ -125,9 +125,10 @@ class Provider {
                     name: key,
                     text: style.name,
                     args: args,
-                    activeName: type.key,
                     html: icon,
-                    visible: type.autohide ? (editor) => editor.isActive(type.key) : () => true,
+                    active: (editor, args) => editor.isActive(type.key, args),
+                    visible: type.toggleVisibility ? (editor) => editor.isActive(type.key) : () => true,
+                    btsMenuVisible: type.toggleVisibility ? (editor) => editor.isActive(type.key) : () => true,
                     command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
                 };

@@ -135,19 +135,19 @@ __webpack_require__.r(__webpack_exports__);
       activeItem: 0,
       items: this.editor.commands.btsAttrsFetchItems().reverse(),
       titles: {
-        blockquote: 'Blockquote',
-        bulletList: 'Unordered List',
-        codeBlock: 'Code Block',
-        heading: 'Heading',
-        horizontalRule: 'Horizontal Rule',
-        image: 'Image',
-        listItem: 'List Item',
-        orderedList: 'Ordered List',
-        paragraph: 'Paragraph',
-        table: 'Table',
-        tableCell: 'Table Cell',
-        tableHeader: 'Table Header',
-        tableRow: 'Table Row'
+        blockquote: __('Blockquote'),
+        bulletList: __('Unordered List'),
+        codeBlock: __('Code Block'),
+        heading: __('Heading'),
+        horizontalRule: __('Horizontal Rule'),
+        image: __('Image'),
+        listItem: __('List Item'),
+        orderedList: __('Ordered List'),
+        paragraph: __('Paragraph'),
+        table: __('Table'),
+        tableCell: __('Table Cell'),
+        tableHeader: __('Table Header'),
+        tableRow: __('Table Row')
       }
     };
   },
@@ -275,8 +275,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     active: function active() {
-      if (this.item.hasOwnProperty('isActive')) {
-        return this.item.isActive(this.editor, this.item.args);
+      if (this.item.hasOwnProperty('active')) {
+        return this.item.active(this.editor, this.item.args);
       }
 
       var nameProperty = this.item.hasOwnProperty('activeName') ? 'activeName' : 'name';
@@ -284,8 +284,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.editor.isActive(name, this.item.args);
     },
     visible: function visible() {
-      if (this.item.hasOwnProperty('visible')) {
-        return this.item.visible(this.editor, this.item.args);
+      if (this.item.hasOwnProperty('btsMenuVisible')) {
+        return this.item.btsMenuVisible(this.editor, this.item.args);
       }
 
       return true;
@@ -820,37 +820,37 @@ var Provider = /*#__PURE__*/function () {
       heading: {
         tag: 'h',
         command: 'btsToggleHeading',
-        autohide: false
+        toggleVisibility: false
       },
       paragraph: {
         tag: 'p',
         command: 'btsToggleParagraph',
-        autohide: false
+        toggleVisibility: false
       },
       btsSpan: {
         tag: 'span',
         command: 'btsToggleSpan',
-        autohide: false
+        toggleVisibility: false
       },
       link: {
         tag: 'a',
         command: 'btsToggleLink',
-        autohide: true
+        toggleVisibility: true
       },
       bulletList: {
         tag: 'ul',
         command: 'btsToggleBulletList',
-        autohide: false
+        toggleVisibility: false
       },
       orderedList: {
         tag: 'ol',
         command: 'btsToggleOrderedList',
-        autohide: false
+        toggleVisibility: false
       },
       btsDiv: {
         tag: 'div',
         command: 'btsToggleDiv',
-        autohide: false
+        toggleVisibility: false
       }
     });
 
@@ -915,7 +915,9 @@ var Provider = /*#__PURE__*/function () {
         });
         bard.buttons.forEach(function (button) {
           if (menu.includes(button.name)) {
-            button.visibleWhenActive = 'btsVoid';
+            button.visible = function () {
+              return false;
+            };
           }
         });
       });
@@ -962,9 +964,16 @@ var Provider = /*#__PURE__*/function () {
             name: key,
             text: style.name,
             args: args,
-            activeName: type.key,
             html: icon,
-            visible: type.autohide ? function (editor) {
+            active: function active(editor, args) {
+              return editor.isActive(type.key, args);
+            },
+            visible: type.toggleVisibility ? function (editor) {
+              return editor.isActive(type.key);
+            } : function () {
+              return true;
+            },
+            btsMenuVisible: type.toggleVisibility ? function (editor) {
               return editor.isActive(type.key);
             } : function () {
               return true;
@@ -1966,7 +1975,7 @@ var render = function () {
                     ),
                     _vm._v(
                       "\n                " +
-                        _vm._s(_vm.__(_vm.titles[item.type])) +
+                        _vm._s(_vm.titles[item.type]) +
                         "\n            "
                     ),
                   ]

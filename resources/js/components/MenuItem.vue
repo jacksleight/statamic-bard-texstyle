@@ -30,16 +30,16 @@ export default {
     computed: {
 
         active() {
-            if (this.item.hasOwnProperty('isActive')) {
-                return this.item.isActive(this.editor, this.item.args);
+            if (this.item.hasOwnProperty('active')) {
+                return this.item.active(this.editor, this.item.args);
             }
             const nameProperty = this.item.hasOwnProperty('activeName') ? 'activeName' : 'name';
             const name = this.item[nameProperty];
             return this.editor.isActive(name, this.item.args);
         },
         visible() {
-            if (this.item.hasOwnProperty('visible')) {
-                return this.item.visible(this.editor, this.item.args);
+            if (this.item.hasOwnProperty('btsMenuVisible')) {
+                return this.item.btsMenuVisible(this.editor, this.item.args);
             }
             return true;
         },
