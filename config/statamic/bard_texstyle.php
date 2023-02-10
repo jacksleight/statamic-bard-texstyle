@@ -24,12 +24,12 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'intro' => [
+        // 'lead' => [
         //     'type' => 'paragraph',
-        //     'name' => 'Introduction',
-        //     'ident' => 'I',
+        //     'name' => 'Lead',
+        //     'ident' => 'L',
         //     'icon' => null,
-        //     'class' => 'introduction',
+        //     'class' => 'lead',
         //     'cp_css' => 'font-size: 1.25em; margin-top: -0.5em',
         //     'cp_badge' => false,
         // ],
@@ -83,7 +83,7 @@ return [
         //     'ident' => '❙ ❙',
         //     'icon' => null,
         //     'class' => 'two-columns',
-        //     'cp_css' => 'column-count: 2; column-gap: 1em',
+        //     'cp_css' => 'column-count: 2; column-gap: 16px',
         //     'cp_badge' => true,
         // ],
 
@@ -93,7 +93,7 @@ return [
         //     'ident' => '❙❙❙',
         //     'icon' => null,
         //     'class' => 'three-columns',
-        //     'cp_css' => 'column-count: 3; column-gap: 1em',
+        //     'cp_css' => 'column-count: 3; column-gap: 16px',
         //     'cp_badge' => true,
         // ],
 
