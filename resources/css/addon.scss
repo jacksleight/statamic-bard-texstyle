@@ -6,7 +6,7 @@
 
         div[data-bts] {
             border: #e4ebf1 solid;
-            border-width: 1px 0;
+            border-width: 4px 0;
             padding: 0.85em 0;
             margin-top: 0;
             margin-bottom: 0.85em;
@@ -42,10 +42,13 @@
         div {
             &[data-bts] {
                 position: relative;
+                margin-top: 1.7em;
+                margin-bottom: 1.7em;
                 &::before {
                     position: absolute;
                     bottom: 100%;
-                    right: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
                 }
             }
         }
