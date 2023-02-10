@@ -50,11 +50,11 @@ return [
         //     'ident' => 'A',
         //     'icon' => null,
         //     'class' => 'action',
-        //     'cp_css' => 'background: #737f8d; color: white; padding: 0.2em 0.5em; border-radius: 4px; text-decoration: none',
+        //     'cp_css' => 'background: #737f8d; color: white; padding: 0.2em 0.5em; border-radius: 4px',
         //     'cp_badge' => false,
         // ],
 
-        // 'square_list' => [
+        // 'squarelist' => [
         //     'type' => 'bulletList',
         //     'name' => 'Square List',
         //     'ident' => '■',
@@ -64,7 +64,7 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'roman_list' => [
+        // 'romanlist' => [
         //     'type' => 'orderedList',
         //     'name' => 'Roman List',
         //     'ident' => 'IV',
@@ -77,7 +77,7 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'two_columns' => [
+        // 'twocolumns' => [
         //     'type' => 'div',
         //     'name' => 'Two Columns',
         //     'ident' => '❙ ❙',
@@ -87,7 +87,7 @@ return [
         //     'cp_badge' => true,
         // ],
 
-        // 'three_columns' => [
+        // 'threecolumns' => [
         //     'type' => 'div',
         //     'name' => 'Three Columns',
         //     'ident' => '❙❙❙',
