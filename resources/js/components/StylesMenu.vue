@@ -2,7 +2,7 @@
 
     <div class="bts-panel">
         <div v-if="items.length" class="bts-menu-items">
-            <MenuItem
+            <StylesItem
                 v-for="item in items"
                 v-bind:key="item.name"
                 :item="item"
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import MenuItem from './MenuItem.vue';
+import StylesItem from './StylesItem.vue';
 
 export default {
 
     components: {
-        MenuItem,
+        StylesItem,
     },
 
     props: {

@@ -2,8 +2,8 @@ import Span from './marks/span'
 import Div from './nodes/div'
 import Core from './extensions/core'
 import Attributes from './extensions/attributes'
-import MenuButton from "./components/MenuButton.vue";
-import AttrsButton from "./components/AttrsButton.vue";
+import StylesButton from "./components/StylesButton.vue";
+import AttributesButton from "./components/AttributesButton.vue";
 import { styleToIcon, menuIcon, attrsIcon } from './icons';
 
 class Provider {
@@ -57,8 +57,8 @@ class Provider {
             .bootExtensions(options)
             .bootOverrides(options)
             .bootStyleButtons(options)
-            .bootMenuButton(options)
-            .bootAttrsButton(options)
+            .bootStylesButton(options)
+            .bootAttributesButton(options)
             .bootCss(options);
     }
 
@@ -138,7 +138,7 @@ class Provider {
         return this;
     }
 
-    bootMenuButton(options) {
+    bootStylesButton(options) {
         if (!options.pro) {
             return this;
         }
@@ -146,7 +146,7 @@ class Provider {
             buttons.splice(buttons.indexOf('btsstyles'), 0, button({
                 name: 'btsstyles',
                 text: __('Style'),
-                component: MenuButton,
+                component: StylesButton,
                 html: menuIcon,
                 btsOptions: options,
             }));
@@ -154,7 +154,7 @@ class Provider {
         return this;
     }
 
-    bootAttrsButton(options) {
+    bootAttributesButton(options) {
         if (!options.pro) {
             return this;
         }
@@ -162,7 +162,7 @@ class Provider {
             buttons.splice(buttons.indexOf('btsattributes'), 0, button({
                 name: 'btsattributes',
                 text: __('Attributes'),
-                component: AttrsButton,
+                component: AttributesButton,
                 html: attrsIcon,
                 btsOptions: options,
             }));
