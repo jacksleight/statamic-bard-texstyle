@@ -818,6 +818,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+var Extension = Statamic.$bard.tiptap.core.Extension;
 
 var Provider = /*#__PURE__*/function () {
   function Provider(options) {
@@ -909,30 +910,9 @@ var Provider = /*#__PURE__*/function () {
     value: function bootOverrides(options) {
       Statamic.$bard.addExtension(function (_ref4) {
         var bard = _ref4.bard;
-        var buttons = bard.buttons;
-
-        if (!buttons.find(function (button) {
-          return button.name === 'btsstyles';
-        })) {
-          return;
-        }
-
-        var menu = (bard.config.btsstyles || []).filter(function (option) {
-          return Object.keys(options.menuOptions).includes(option);
-        });
+        var blanks = [].concat(_toConsumableArray(options.styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleTypes.includes('bulletList') ? ['unorderedlist'] : []), _toConsumableArray(options.styleTypes.includes('orderedList') ? ['orderedlist'] : []));
         bard.buttons.forEach(function (button) {
-          if (menu.includes(button.name)) {
-            button.visible = function () {
-              return false;
-            };
-          }
-        });
-      });
-      Statamic.$bard.addExtension(function (_ref5) {
-        var bard = _ref5.bard;
-        var blank = [].concat(_toConsumableArray(options.styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleTypes.includes('bulletList') ? ['unorderedlist'] : []), _toConsumableArray(options.styleTypes.includes('orderedList') ? ['orderedlist'] : []));
-        bard.buttons.forEach(function (button) {
-          if (blank.includes(button.name)) {
+          if (blanks.includes(button.name)) {
             button.args = _objectSpread(_objectSpread({}, button.args || {}), {}, {
               "class": null
             });
@@ -950,6 +930,25 @@ var Provider = /*#__PURE__*/function () {
             };
           }
         });
+
+        if (bard.buttons.find(function (button) {
+          return button.name === 'btsstyles';
+        })) {
+          var stylesOptions = (bard.config.btsstyles || []).filter(function (option) {
+            return Object.keys(options.menuOptions).includes(option);
+          });
+          bard.buttons.forEach(function (button) {
+            if (stylesOptions.includes(button.name)) {
+              button.visible = function () {
+                return false;
+              };
+            }
+          });
+        }
+
+        return Extension.create({
+          name: 'btsOverrides'
+        });
       });
       return this;
     }
@@ -957,16 +956,16 @@ var Provider = /*#__PURE__*/function () {
     key: "bootStyleButtons",
     value: function bootStyleButtons(options) {
       Statamic.$bard.buttons(function (buttons, button) {
-        Object.entries(options.styles).forEach(function (_ref6) {
-          var _ref8;
+        Object.entries(options.styles).forEach(function (_ref5) {
+          var _ref7;
 
-          var _ref7 = _slicedToArray(_ref6, 2),
-              key = _ref7[0],
-              style = _ref7[1];
+          var _ref6 = _slicedToArray(_ref5, 2),
+              key = _ref6[0],
+              style = _ref6[1];
 
           var type = options.types[style.type];
           var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_6__.styleToIcon)(style, type);
-          var args = style.type === 'heading' ? (_ref8 = {}, _defineProperty(_ref8, options.attr, style[options.store]), _defineProperty(_ref8, "level", style.level), _ref8) : _defineProperty({}, options.attr, style[options.store]);
+          var args = style.type === 'heading' ? (_ref7 = {}, _defineProperty(_ref7, options.attr, style[options.store]), _defineProperty(_ref7, "level", style.level), _ref7) : _defineProperty({}, options.attr, style[options.store]);
           var data = {
             name: key,
             text: style.name,
@@ -1046,10 +1045,10 @@ var Provider = /*#__PURE__*/function () {
       var _this2 = this;
 
       var css = [];
-      Object.entries(options.styles).forEach(function (_ref10) {
-        var _ref11 = _slicedToArray(_ref10, 2),
-            key = _ref11[0],
-            style = _ref11[1];
+      Object.entries(options.styles).forEach(function (_ref9) {
+        var _ref10 = _slicedToArray(_ref9, 2),
+            key = _ref10[0],
+            style = _ref10[1];
 
         var type = options.types[style.type];
         var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
@@ -1087,16 +1086,16 @@ var Provider = /*#__PURE__*/function () {
         return ["".concat(prefix, " { ").concat(data, " }")];
       }
 
-      return Object.entries(data).map(function (_ref12) {
-        var _ref13 = _slicedToArray(_ref12, 2),
-            selector = _ref13[0],
-            properties = _ref13[1];
+      return Object.entries(data).map(function (_ref11) {
+        var _ref12 = _slicedToArray(_ref11, 2),
+            selector = _ref12[0],
+            properties = _ref12[1];
 
         var prefixed = selector.includes('&') ? selector.replace('&', prefix) : "".concat(prefix, " ").concat(selector);
-        var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref14) {
-          var _ref15 = _slicedToArray(_ref14, 2),
-              name = _ref15[0],
-              value = _ref15[1];
+        var string = _typeof(properties) === 'object' ? Object.entries(properties).map(function (_ref13) {
+          var _ref14 = _slicedToArray(_ref13, 2),
+              name = _ref14[0],
+              value = _ref14[1];
 
           return "".concat(name, ": ").concat(value, ";");
         }).join('') : properties;

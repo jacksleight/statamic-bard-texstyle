@@ -5,6 +5,7 @@ import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import { styleToIcon, menuIcon, attrsIcon } from './icons';
+const { Extension } = Statamic.$bard.tiptap.core;
 
 class Provider {
 
@@ -80,26 +81,13 @@ class Provider {
 
     bootOverrides(options) {
         Statamic.$bard.addExtension(({ bard }) => {
-            const buttons = bard.buttons;
-            if (!buttons.find(button => button.name === 'btsstyles')) {
-                return;
-            }
-            const menu = (bard.config.btsstyles || [])
-                .filter(option => Object.keys(options.menuOptions).includes(option));
-            bard.buttons.forEach(button => {
-                if (menu.includes(button.name)) {
-                    button.visible = () => false;
-                }
-            });
-        });
-        Statamic.$bard.addExtension(({ bard }) => {
-            const blank = [
+            const blanks = [
                 ...(options.styleTypes.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
                 ...(options.styleTypes.includes('bulletList')) ? ['unorderedlist'] : [],
                 ...(options.styleTypes.includes('orderedList')) ? ['orderedlist'] : [],
             ];
             bard.buttons.forEach(button => {
-                if (blank.includes(button.name)) {
+                if (blanks.includes(button.name)) {
                     button.args = { ...(button.args || {}), class: null };
                 }
                 if (button.name === 'unorderedlist' && options.styleTypes.includes('bulletList')) {
@@ -109,6 +97,16 @@ class Provider {
                     button.command = (editor, args) => editor.chain().focus().btsToggleOrderedList(args).run();
                 }
             });
+            if (bard.buttons.find(button => button.name === 'btsstyles')) {
+                const stylesOptions = (bard.config.btsstyles || [])
+                    .filter(option => Object.keys(options.menuOptions).includes(option));
+                bard.buttons.forEach(button => {
+                    if (stylesOptions.includes(button.name)) {
+                        button.visible = () => false;
+                    }
+                });
+            }
+            return Extension.create({ name: 'btsOverrides' });
         });
         return this;
     }
