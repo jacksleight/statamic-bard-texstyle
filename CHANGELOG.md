@@ -2,9 +2,10 @@
 
 ## 2.1.0 ()
 
-- [new] (Pro) Style selection menu
-- [new] (Pro) Attribute editor panel
-- [new] (Pro) Container div styles
+- [new] [Pro edition](https://jacksleight.dev/posts/introducing-bard-texstyle-pro-edition) 
+- [new] Style selection menu (Pro)
+- [new] Attribute editor panel (Pro)
+- [new] Container div styles (Pro)
 - [new] Custom unordered and ordered list styles
 - [new] Custom link styles
 - [new] Control panel badges
