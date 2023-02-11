@@ -39,8 +39,10 @@
                 </button>
             </div>
         </div>
-        <div v-if="!items.length" class="p-4 w-40 text-center text-grey-70">
-            {{ __('No Options') }}
+        <div v-else class="p-4 w-40 text-center text-grey-40">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
+                <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
+            </svg>
         </div>
     </div>
 

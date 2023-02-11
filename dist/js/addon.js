@@ -123,6 +123,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     config: {},
@@ -317,6 +319,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MenuItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MenuItem.vue */ "./resources/js/components/MenuItem.vue");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2116,13 +2123,31 @@ var render = function () {
           ],
           2
         )
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.items.length
-      ? _c("div", { staticClass: "p-4 w-40 text-center text-grey-70" }, [
-          _vm._v("\n        " + _vm._s(_vm.__("No Options")) + "\n    "),
-        ])
-      : _vm._e(),
+      : _c("div", { staticClass: "p-4 w-40 text-center text-grey-40" }, [
+          _c(
+            "svg",
+            {
+              staticClass: "w-12 h-12",
+              attrs: {
+                viewBox: "0 0 24 24",
+                xmlns: "http://www.w3.org/2000/svg",
+              },
+            },
+            [
+              _c("path", {
+                staticStyle: {
+                  fill: "none",
+                  "fill-rule": "nonzero",
+                  "stroke-width": "1.5px",
+                },
+                attrs: {
+                  d: "M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z",
+                  stroke: "currentColor",
+                },
+              }),
+            ]
+          ),
+        ]),
   ])
 }
 var staticRenderFns = []
@@ -2247,28 +2272,54 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "bts-panel" }, [
-    _c(
-      "div",
-      { staticClass: "bts-menu-items" },
-      _vm._l(_vm.items, function (item) {
-        return _c("MenuItem", {
-          key: item.name,
-          attrs: {
-            item: item,
-            config: _vm.config,
-            bard: _vm.bard,
-            editor: _vm.editor,
-            btsOptions: _vm.btsOptions,
-          },
-          on: {
-            picked: function ($event) {
-              return _vm.$emit("picked")
+    _vm.items.length
+      ? _c(
+          "div",
+          { staticClass: "bts-menu-items" },
+          _vm._l(_vm.items, function (item) {
+            return _c("MenuItem", {
+              key: item.name,
+              attrs: {
+                item: item,
+                config: _vm.config,
+                bard: _vm.bard,
+                editor: _vm.editor,
+                btsOptions: _vm.btsOptions,
+              },
+              on: {
+                picked: function ($event) {
+                  return _vm.$emit("picked")
+                },
+              },
+            })
+          }),
+          1
+        )
+      : _c("div", { staticClass: "p-4 w-40 text-center text-grey-40" }, [
+          _c(
+            "svg",
+            {
+              staticClass: "w-12 h-12",
+              attrs: {
+                viewBox: "0 0 24 24",
+                xmlns: "http://www.w3.org/2000/svg",
+              },
             },
-          },
-        })
-      }),
-      1
-    ),
+            [
+              _c("path", {
+                staticStyle: {
+                  fill: "none",
+                  "fill-rule": "nonzero",
+                  "stroke-width": "1.5px",
+                },
+                attrs: {
+                  d: "M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z",
+                  stroke: "currentColor",
+                },
+              }),
+            ]
+          ),
+        ]),
   ])
 }
 var staticRenderFns = []

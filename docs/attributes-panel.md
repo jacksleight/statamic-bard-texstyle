@@ -53,18 +53,20 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node types are currently supported:
+The following node types are currently supported. Some nodes have standard attributes built in, which you can add so they're editable through the attributes panel, however the `default` and `rendered` options do not apply.
 
-* `blockquote`
-* `bulletList`
-* `codeBlock`
-* `heading`
-* `horizontalRule`
-* `image`
-* `listItem`
-* `orderedList`
-* `paragraph`
-* `table`
-* `tableCell`
-* `tableHeader`
-* `tableRow`
+| Type                | Standard Attributes                |
+| ------------------- | ---------------------------------- |
+| blockquote          |                                    |
+| bulletList          |                                    |
+| codeBlock           | language                           |
+| heading             | level                              |
+| horizontalRule      |                                    |
+| image               | src, alt, title                    |
+| listItem            |                                    |
+| orderedList         |                                    |
+| paragraph           |                                    |
+| table               |                                    |
+| tableCell           | rowspan, colspan, colwidth         |
+| tableHeader         | rowspan, colspan, colwidth         |
+| tableRow            |                                    |
