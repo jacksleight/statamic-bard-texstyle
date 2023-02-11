@@ -363,7 +363,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       var _this2 = this;
 
       var buttons = this.bard.buttons;
-      var menu = this.config.bts_menu.filter(function (option) {
+      var menu = this.config.btsstyles.filter(function (option) {
         return Object.keys(_this2.btsOptions.menuOptions).includes(option);
       });
       return buttons.filter(function (button) {
@@ -375,10 +375,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
 /***/ }),
 
-/***/ "./resources/js/extensions/attrs.js":
-/*!******************************************!*\
-  !*** ./resources/js/extensions/attrs.js ***!
-  \******************************************/
+/***/ "./resources/js/extensions/attributes.js":
+/*!***********************************************!*\
+  !*** ./resources/js/extensions/attributes.js ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -406,8 +406,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var _Statamic$$bard$tipta = Statamic.$bard.tiptap.core,
     Extension = _Statamic$$bard$tipta.Extension,
     getNodeAttributes = _Statamic$$bard$tipta.getNodeAttributes;
-var Attrs = Extension.create({
-  name: 'btsAttrs',
+var Attributes = Extension.create({
+  name: 'btsAttributes',
   addOptions: function addOptions() {
     return {
       attributes: {},
@@ -475,7 +475,7 @@ var Attrs = Extension.create({
     };
   }
 });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Attrs);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Attributes);
 
 /***/ }),
 
@@ -766,7 +766,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
 /* harmony import */ var _nodes_div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/div */ "./resources/js/nodes/div.js");
 /* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
-/* harmony import */ var _extensions_attrs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./extensions/attrs */ "./resources/js/extensions/attrs.js");
+/* harmony import */ var _extensions_attributes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./extensions/attributes */ "./resources/js/extensions/attributes.js");
 /* harmony import */ var _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/MenuButton.vue */ "./resources/js/components/MenuButton.vue");
 /* harmony import */ var _components_AttrsButton_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/AttrsButton.vue */ "./resources/js/components/AttrsButton.vue");
 /* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
@@ -888,7 +888,7 @@ var Provider = /*#__PURE__*/function () {
 
       if (options.pro) {
         Statamic.$bard.addExtension(function () {
-          return _extensions_attrs__WEBPACK_IMPORTED_MODULE_3__["default"].configure(options);
+          return _extensions_attributes__WEBPACK_IMPORTED_MODULE_3__["default"].configure(options);
         });
         Statamic.$bard.addExtension(function () {
           return _nodes_div__WEBPACK_IMPORTED_MODULE_1__["default"];
@@ -905,12 +905,12 @@ var Provider = /*#__PURE__*/function () {
         var buttons = bard.buttons;
 
         if (!buttons.find(function (button) {
-          return button.name === 'bts_menu';
+          return button.name === 'btsstyles';
         })) {
           return;
         }
 
-        var menu = (bard.config.bts_menu || []).filter(function (option) {
+        var menu = (bard.config.btsstyles || []).filter(function (option) {
           return Object.keys(options.menuOptions).includes(option);
         });
         bard.buttons.forEach(function (button) {
@@ -996,9 +996,9 @@ var Provider = /*#__PURE__*/function () {
       }
 
       Statamic.$bard.buttons(function (buttons, button) {
-        buttons.splice(buttons.indexOf('bts_menu'), 0, button({
-          name: 'bts_menu',
-          text: 'Style',
+        buttons.splice(buttons.indexOf('btsstyles'), 0, button({
+          name: 'btsstyles',
+          text: __('Style'),
           component: _components_MenuButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
           html: _icons__WEBPACK_IMPORTED_MODULE_6__.menuIcon,
           btsOptions: options
@@ -1014,9 +1014,9 @@ var Provider = /*#__PURE__*/function () {
       }
 
       Statamic.$bard.buttons(function (buttons, button) {
-        buttons.splice(buttons.indexOf('bts_attrs'), 0, button({
-          name: 'bts_attrs',
-          text: 'Attributes',
+        buttons.splice(buttons.indexOf('btsattributes'), 0, button({
+          name: 'btsattributes',
+          text: __('Attributes'),
           component: _components_AttrsButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
           html: _icons__WEBPACK_IMPORTED_MODULE_6__.attrsIcon,
           btsOptions: options

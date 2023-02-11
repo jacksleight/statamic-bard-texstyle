@@ -1,7 +1,7 @@
 import Span from './marks/span'
 import Div from './nodes/div'
 import Core from './extensions/core'
-import Attrs from './extensions/attrs'
+import Attributes from './extensions/attributes'
 import MenuButton from "./components/MenuButton.vue";
 import AttrsButton from "./components/AttrsButton.vue";
 import { styleToIcon, menuIcon, attrsIcon } from './icons';
@@ -72,7 +72,7 @@ class Provider {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
-            Statamic.$bard.addExtension(() => Attrs.configure(options));
+            Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
         }
         return this;
@@ -81,10 +81,10 @@ class Provider {
     bootOverrides(options) {
         Statamic.$bard.addExtension(({ bard }) => {
             const buttons = bard.buttons;
-            if (!buttons.find(button => button.name === 'bts_menu')) {
+            if (!buttons.find(button => button.name === 'btsstyles')) {
                 return;
             }
-            const menu = (bard.config.bts_menu || [])
+            const menu = (bard.config.btsstyles || [])
                 .filter(option => Object.keys(options.menuOptions).includes(option));
             bard.buttons.forEach(button => {
                 if (menu.includes(button.name)) {
@@ -143,9 +143,9 @@ class Provider {
             return this;
         }
         Statamic.$bard.buttons((buttons, button) => {
-            buttons.splice(buttons.indexOf('bts_menu'), 0, button({
-                name: 'bts_menu',
-                text: 'Style',
+            buttons.splice(buttons.indexOf('btsstyles'), 0, button({
+                name: 'btsstyles',
+                text: __('Style'),
                 component: MenuButton,
                 html: menuIcon,
                 btsOptions: options,
@@ -159,9 +159,9 @@ class Provider {
             return this;
         }
         Statamic.$bard.buttons((buttons, button) => {
-            buttons.splice(buttons.indexOf('bts_attrs'), 0, button({
-                name: 'bts_attrs',
-                text: 'Attributes',
+            buttons.splice(buttons.indexOf('btsattributes'), 0, button({
+                name: 'btsattributes',
+                text: __('Attributes'),
                 component: AttrsButton,
                 html: attrsIcon,
                 btsOptions: options,

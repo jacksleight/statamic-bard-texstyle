@@ -1,8 +1,8 @@
 const { Extension, getNodeAttributes } = Statamic.$bard.tiptap.core;
 
-const Attrs = Extension.create({
+const Attributes = Extension.create({
 
-    name: 'btsAttrs',
+    name: 'btsAttributes',
 
     addOptions() {
         return {
@@ -55,4 +55,4 @@ const Attrs = Extension.create({
     },
 
 });
-export default Attrs;
+export default Attributes;

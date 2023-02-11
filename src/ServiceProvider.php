@@ -307,7 +307,7 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
-        Bard::appendConfigField('bts_menu', [
+        Bard::appendConfigField('btsstyles', [
             'display' => __('Style Menu'),
             'instructions' => __('Which style options should be moved to the style menu'),
             'type' => 'select',
