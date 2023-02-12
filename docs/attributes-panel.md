@@ -33,7 +33,7 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 Attributes are grouped by node type and the keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**  
-  The type. Options are:
+  The field type. Options are:
     * `text`
     * `toggle` (checkbox)
 * **display (string)**  
@@ -41,7 +41,7 @@ Attributes are grouped by node type and the keys are the attribute names. Attrib
 * **default (string)**  
   The default value for the attribute.
 * **rendered (boolean)**  
-  Whether to include this attribute in the HTML tag. Non-rendered attributes can be used with the [bard modifiers](https://statamic.dev/modifiers/bard_items) or [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator).
+  Whether to include this attribute in the HTML tag. Non-rendered attributes are stored in the data and can be used with the [bard modifiers](https://statamic.dev/modifiers/bard_items) or [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator).
 
 ---
 
@@ -53,7 +53,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node types are currently supported. Some nodes have standard attributes built in, which you can add so they're editable through the attributes panel, however the `default` and `rendered` options do not apply.
+The following node types are currently supported. Some nodes have standard attributes built in, which you can add to the attributes panel, but the `default` and `rendered` options do not apply.
 
 | Type                | Standard Attributes                |
 | ------------------- | ---------------------------------- |
@@ -64,7 +64,7 @@ The following node types are currently supported. Some nodes have standard attri
 | horizontalRule      |                                    |
 | image               | src, alt, title                    |
 | listItem            |                                    |
-| orderedList         |                                    |
+| orderedList         | start                              |
 | paragraph           |                                    |
 | table               |                                    |
 | tableCell           | rowspan, colspan, colwidth         |
