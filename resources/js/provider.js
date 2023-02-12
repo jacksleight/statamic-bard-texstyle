@@ -1,11 +1,11 @@
 import Span from './marks/span'
 import Div from './nodes/div'
 import Core from './extensions/core'
+import Overrides from './extensions/overrides'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import { styleToIcon, stylesIcon, attributesIcon } from './icons';
-const { Extension } = Statamic.$bard.tiptap.core;
 
 class Provider {
 
@@ -56,7 +56,6 @@ class Provider {
 
         this
             .bootExtensions(options)
-            .bootOverrides(options)
             .bootStyleButtons(options)
             .bootStylesButton(options)
             .bootAttributesButton(options)
@@ -71,43 +70,12 @@ class Provider {
 
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
+        Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
         }
-        return this;
-    }
-
-    bootOverrides(options) {
-        Statamic.$bard.addExtension(({ bard }) => {
-            const blanks = [
-                ...(options.styleTypes.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
-                ...(options.styleTypes.includes('bulletList')) ? ['unorderedlist'] : [],
-                ...(options.styleTypes.includes('orderedList')) ? ['orderedlist'] : [],
-            ];
-            bard.buttons.forEach(button => {
-                if (blanks.includes(button.name)) {
-                    button.args = { ...(button.args || {}), class: null };
-                }
-                if (button.name === 'unorderedlist' && options.styleTypes.includes('bulletList')) {
-                    button.command = (editor, args) => editor.chain().focus().btsToggleBulletList(args).run();
-                }
-                if (button.name === 'orderedlist' && options.styleTypes.includes('orderedList')) {
-                    button.command = (editor, args) => editor.chain().focus().btsToggleOrderedList(args).run();
-                }
-            });
-            if (bard.buttons.find(button => button.name === 'bts_styles')) {
-                const stylesOptions = (bard.config.bts_styles || [])
-                    .filter(option => Object.keys(options.styleOptions).includes(option));
-                bard.buttons.forEach(button => {
-                    if (stylesOptions.includes(button.name)) {
-                        button.visible = () => false;
-                    }
-                });
-            }
-            return Extension.create({ name: 'btsOverrides' });
-        });
         return this;
     }
 

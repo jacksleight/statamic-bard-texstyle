@@ -587,6 +587,90 @@ var Core = Extension.create({
 
 /***/ }),
 
+/***/ "./resources/js/extensions/overrides.js":
+/*!**********************************************!*\
+  !*** ./resources/js/extensions/overrides.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var Extension = Statamic.$bard.tiptap.core.Extension;
+var Overrides = Extension.create({
+  name: 'btsOverrides',
+  addOptions: function addOptions() {
+    return {
+      bard: {},
+      styleTypes: [],
+      styleOptions: {}
+    };
+  },
+  onCreate: function onCreate() {
+    var _this$options = this.options,
+        bard = _this$options.bard,
+        styleTypes = _this$options.styleTypes,
+        styleOptions = _this$options.styleOptions;
+    var blanks = [].concat(_toConsumableArray(styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(styleTypes.includes('bulletList') ? ['unorderedlist'] : []), _toConsumableArray(styleTypes.includes('orderedList') ? ['orderedlist'] : []));
+    bard.buttons.forEach(function (button) {
+      if (blanks.includes(button.name)) {
+        button.args = _objectSpread(_objectSpread({}, button.args || {}), {}, {
+          "class": null
+        });
+      }
+
+      if (button.name === 'unorderedlist' && styleTypes.includes('bulletList')) {
+        button.command = function (editor, args) {
+          return editor.chain().focus().btsToggleBulletList(args).run();
+        };
+      }
+
+      if (button.name === 'orderedlist' && styleTypes.includes('orderedList')) {
+        button.command = function (editor, args) {
+          return editor.chain().focus().btsToggleOrderedList(args).run();
+        };
+      }
+    });
+
+    if (bard.buttons.find(function (button) {
+      return button.name === 'bts_styles';
+    })) {
+      var movedOptions = (bard.config.bts_styles || []).filter(function (option) {
+        return Object.keys(styleOptions).includes(option);
+      });
+      bard.buttons.forEach(function (button) {
+        if (movedOptions.includes(button.name)) {
+          button.visible = function () {
+            return false;
+          };
+        }
+      });
+    }
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Overrides);
+
+/***/ }),
+
 /***/ "./resources/js/icons.js":
 /*!*******************************!*\
   !*** ./resources/js/icons.js ***!
@@ -773,10 +857,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _marks_span__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./marks/span */ "./resources/js/marks/span.js");
 /* harmony import */ var _nodes_div__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nodes/div */ "./resources/js/nodes/div.js");
 /* harmony import */ var _extensions_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./extensions/core */ "./resources/js/extensions/core.js");
-/* harmony import */ var _extensions_attributes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./extensions/attributes */ "./resources/js/extensions/attributes.js");
-/* harmony import */ var _components_StylesButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/StylesButton.vue */ "./resources/js/components/StylesButton.vue");
-/* harmony import */ var _components_AttributesButton_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/AttributesButton.vue */ "./resources/js/components/AttributesButton.vue");
-/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
+/* harmony import */ var _extensions_overrides__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./extensions/overrides */ "./resources/js/extensions/overrides.js");
+/* harmony import */ var _extensions_attributes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./extensions/attributes */ "./resources/js/extensions/attributes.js");
+/* harmony import */ var _components_StylesButton_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/StylesButton.vue */ "./resources/js/components/StylesButton.vue");
+/* harmony import */ var _components_AttributesButton_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/AttributesButton.vue */ "./resources/js/components/AttributesButton.vue");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./icons */ "./resources/js/icons.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -818,7 +903,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var Extension = Statamic.$bard.tiptap.core.Extension;
+
 
 var Provider = /*#__PURE__*/function () {
   function Provider(options) {
@@ -865,7 +950,7 @@ var Provider = /*#__PURE__*/function () {
     options = _objectSpread(_objectSpread({}, options), {}, {
       types: this.mergeTypeData(options.types)
     });
-    this.bootExtensions(options).bootOverrides(options).bootStyleButtons(options).bootStylesButton(options).bootAttributesButton(options).bootCss(options);
+    this.bootExtensions(options).bootStyleButtons(options).bootStylesButton(options).bootAttributesButton(options).bootCss(options);
   }
 
   _createClass(Provider, [{
@@ -890,66 +975,25 @@ var Provider = /*#__PURE__*/function () {
           bard: bard
         }));
       });
+      Statamic.$bard.addExtension(function (_ref4) {
+        var bard = _ref4.bard;
+        return _extensions_overrides__WEBPACK_IMPORTED_MODULE_3__["default"].configure(_objectSpread(_objectSpread({}, options), {}, {
+          bard: bard
+        }));
+      });
       Statamic.$bard.addExtension(function () {
         return _marks_span__WEBPACK_IMPORTED_MODULE_0__["default"];
       });
 
       if (options.pro) {
         Statamic.$bard.addExtension(function () {
-          return _extensions_attributes__WEBPACK_IMPORTED_MODULE_3__["default"].configure(options);
+          return _extensions_attributes__WEBPACK_IMPORTED_MODULE_4__["default"].configure(options);
         });
         Statamic.$bard.addExtension(function () {
           return _nodes_div__WEBPACK_IMPORTED_MODULE_1__["default"];
         });
       }
 
-      return this;
-    }
-  }, {
-    key: "bootOverrides",
-    value: function bootOverrides(options) {
-      Statamic.$bard.addExtension(function (_ref4) {
-        var bard = _ref4.bard;
-        var blanks = [].concat(_toConsumableArray(options.styleTypes.includes('heading') ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : []), _toConsumableArray(options.styleTypes.includes('bulletList') ? ['unorderedlist'] : []), _toConsumableArray(options.styleTypes.includes('orderedList') ? ['orderedlist'] : []));
-        bard.buttons.forEach(function (button) {
-          if (blanks.includes(button.name)) {
-            button.args = _objectSpread(_objectSpread({}, button.args || {}), {}, {
-              "class": null
-            });
-          }
-
-          if (button.name === 'unorderedlist' && options.styleTypes.includes('bulletList')) {
-            button.command = function (editor, args) {
-              return editor.chain().focus().btsToggleBulletList(args).run();
-            };
-          }
-
-          if (button.name === 'orderedlist' && options.styleTypes.includes('orderedList')) {
-            button.command = function (editor, args) {
-              return editor.chain().focus().btsToggleOrderedList(args).run();
-            };
-          }
-        });
-
-        if (bard.buttons.find(function (button) {
-          return button.name === 'bts_styles';
-        })) {
-          var stylesOptions = (bard.config.bts_styles || []).filter(function (option) {
-            return Object.keys(options.styleOptions).includes(option);
-          });
-          bard.buttons.forEach(function (button) {
-            if (stylesOptions.includes(button.name)) {
-              button.visible = function () {
-                return false;
-              };
-            }
-          });
-        }
-
-        return Extension.create({
-          name: 'btsOverrides'
-        });
-      });
       return this;
     }
   }, {
@@ -964,7 +1008,7 @@ var Provider = /*#__PURE__*/function () {
               style = _ref6[1];
 
           var type = options.types[style.type];
-          var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_6__.styleToIcon)(style, type);
+          var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_7__.styleToIcon)(style, type);
           var args = style.type === 'heading' ? (_ref7 = {}, _defineProperty(_ref7, options.attr, style[options.store]), _defineProperty(_ref7, "level", style.level), _ref7) : _defineProperty({}, options.attr, style[options.store]);
           var data = {
             name: key,
@@ -1005,8 +1049,8 @@ var Provider = /*#__PURE__*/function () {
         buttons.splice(buttons.indexOf('bts_styles'), 0, button({
           name: 'bts_styles',
           text: __('Style'),
-          component: _components_StylesButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-          html: _icons__WEBPACK_IMPORTED_MODULE_6__.stylesIcon,
+          component: _components_StylesButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+          html: _icons__WEBPACK_IMPORTED_MODULE_7__.stylesIcon,
           btsOptions: options
         }));
       });
@@ -1023,8 +1067,8 @@ var Provider = /*#__PURE__*/function () {
         buttons.splice(buttons.indexOf('bts_attributes'), 0, button({
           name: 'bts_attributes',
           text: __('Attributes'),
-          component: _components_AttributesButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-          html: _icons__WEBPACK_IMPORTED_MODULE_6__.attributesIcon,
+          component: _components_AttributesButton_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+          html: _icons__WEBPACK_IMPORTED_MODULE_7__.attributesIcon,
           btsOptions: options
         }));
       });
