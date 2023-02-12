@@ -309,7 +309,7 @@ class ServiceProvider extends AddonServiceProvider
 
         Bard::appendConfigField('bts_styles', [
             'display' => __('Style Menu'),
-            'instructions' => __('Which styles to move into the style menu'),
+            'instructions' => __('Which style options should be moved into the style menu'),
             'type' => 'select',
             // 'default' => [],
             'multiple' => true,
