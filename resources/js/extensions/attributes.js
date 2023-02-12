@@ -7,7 +7,7 @@ const Attributes = Extension.create({
     addOptions() {
         return {
             attributes: {},
-            attributesTypes: {},
+            attributeTypes: {},
         }
     },
 
@@ -29,14 +29,14 @@ const Attributes = Extension.create({
     },
 
     addCommands() {
-        const { attributesTypes } = this.options;
+        const { attributeTypes } = this.options;
         return {
             btsAttrsFetchItems: () => ({ state }) => {
                 const { from } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, from, (node, pos) => {
                     const type = node.type.name;
-                    if (attributesTypes.includes(type)) {
+                    if (attributeTypes.includes(type)) {
                         items.push({
                             pos,
                             type: type,

@@ -3,7 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Illuminate\Support\Arr;
-use JackSleight\StatamicBardTexstyle\Extensions\Attrs;
+use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
@@ -77,7 +77,7 @@ class ServiceProvider extends AddonServiceProvider
         'tableRow' => [],
     ];
 
-    protected $menuTypes = [
+    protected $styleTypes = [
         'btsSpan',
         'bulletList',
         'heading',
@@ -118,9 +118,9 @@ class ServiceProvider extends AddonServiceProvider
         $classTypes = $this->resolveClassTypes($styleTypes, $defaultClasses);
 
         $attributes = $this->resolveAttributes($pro, $classTypes);
-        $attributesTypes = $this->resolveAttributesTypes($attributes);
+        $attributeTypes = $this->resolveAttributeTypes($attributes);
 
-        $menuOptions = $this->resolveMenuOptions($pro, $styles);
+        $styleOptions = $this->resolveStyleOptions($pro, $styles);
 
         return [
             'pro' => $pro,
@@ -131,9 +131,9 @@ class ServiceProvider extends AddonServiceProvider
             'attributes' => $attributes,
             'styleTypes' => $styleTypes,
             'classTypes' => $classTypes,
-            'attributesTypes' => $attributesTypes,
+            'attributeTypes' => $attributeTypes,
             'defaultClasses' => $defaultClasses,
-            'menuOptions' => $menuOptions,
+            'styleOptions' => $styleOptions,
         ];
     }
 
@@ -214,21 +214,21 @@ class ServiceProvider extends AddonServiceProvider
             ->all();
     }
 
-    protected function resolveAttributesTypes($attributes)
+    protected function resolveAttributeTypes($attributes)
     {
         return collect($attributes)
             ->keys()
             ->all();
     }
 
-    protected function resolveMenuOptions($pro, $styles)
+    protected function resolveStyleOptions($pro, $styles)
     {
         if (! $pro) {
             return [];
         }
 
         return collect($styles)
-            ->filter(fn ($style) => in_array($style['type'], $this->menuTypes))
+            ->filter(fn ($style) => in_array($style['type'], $this->styleTypes))
             ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
             ->merge([
                 'h1' => 'Heading 1',
@@ -261,7 +261,7 @@ class ServiceProvider extends AddonServiceProvider
                 'defaults' => $options['defaultClasses'][$defaultSet] ?? null,
             ]);
         });
-        Augmentor::addExtension('btsAttrs', new Attrs($options));
+        Augmentor::addExtension('btsAttributes', new Attributes($options));
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
             Augmentor::addExtension('btsDiv', new Div());
@@ -307,13 +307,13 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
-        Bard::appendConfigField('btsstyles', [
+        Bard::appendConfigField('bts_styles', [
             'display' => __('Style Menu'),
-            'instructions' => __('Which style options should be moved to the style menu'),
+            'instructions' => __('Which styles to move into the style menu'),
             'type' => 'select',
-            'default' => [],
+            // 'default' => [],
             'multiple' => true,
-            'options' => $options['menuOptions'],
+            'options' => $options['styleOptions'],
         ]);
 
         return $this;

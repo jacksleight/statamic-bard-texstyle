@@ -1,7 +1,7 @@
 <template>
 
-    <div class="bts-panel">
-        <div v-if="items.length" class="bts-menu-items">
+    <div class="bts-panel bts-styles">
+        <div v-if="items.length" class="bts-styles-items">
             <StylesItem
                 v-for="item in items"
                 v-bind:key="item.name"
@@ -51,8 +51,8 @@ export default {
 
         items() {
             const buttons = this.bard.buttons;
-            const menu = this.config.btsstyles
-                .filter(option => Object.keys(this.btsOptions.menuOptions).includes(option));
+            const menu = (this.config.bts_styles || [])
+                .filter(option => Object.keys(this.btsOptions.styleOptions).includes(option));
             return buttons.filter(button => {
                 return typeof button === 'object' && menu.includes(button.name);
             });    

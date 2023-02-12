@@ -2,7 +2,7 @@
 
 ## 2.1.0 ()
 
-- [new] [Pro edition](https://jacksleight.dev/posts/introducing-bard-texstyle-pro-edition) 
+- [new] [Pro edition](https://jacksleight.dev/posts/introducing-bard-texstyle-pro-edition) 🚀
 - [new] Style selection menu (Pro)
 - [new] Attribute editor panel (Pro)
 - [new] Container div styles (Pro)

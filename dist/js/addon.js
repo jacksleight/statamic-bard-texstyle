@@ -370,8 +370,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       var _this2 = this;
 
       var buttons = this.bard.buttons;
-      var menu = this.config.btsstyles.filter(function (option) {
-        return Object.keys(_this2.btsOptions.menuOptions).includes(option);
+      var menu = (this.config.bts_styles || []).filter(function (option) {
+        return Object.keys(_this2.btsOptions.styleOptions).includes(option);
       });
       return buttons.filter(function (button) {
         return _typeof(button) === 'object' && menu.includes(button.name);
@@ -418,7 +418,7 @@ var Attributes = Extension.create({
   addOptions: function addOptions() {
     return {
       attributes: {},
-      attributesTypes: {}
+      attributeTypes: {}
     };
   },
   addGlobalAttributes: function addGlobalAttributes() {
@@ -450,7 +450,7 @@ var Attributes = Extension.create({
     });
   },
   addCommands: function addCommands() {
-    var attributesTypes = this.options.attributesTypes;
+    var attributeTypes = this.options.attributeTypes;
     return {
       btsAttrsFetchItems: function btsAttrsFetchItems() {
         return function (_ref7) {
@@ -460,7 +460,7 @@ var Attributes = Extension.create({
           state.doc.nodesBetween(from, from, function (node, pos) {
             var type = node.type.name;
 
-            if (attributesTypes.includes(type)) {
+            if (attributeTypes.includes(type)) {
               items.push({
                 pos: pos,
                 type: type,
@@ -595,9 +595,9 @@ var Core = Extension.create({
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "attrsIcon": () => (/* binding */ attrsIcon),
-/* harmony export */   "menuIcon": () => (/* binding */ menuIcon),
-/* harmony export */   "styleToIcon": () => (/* binding */ styleToIcon)
+/* harmony export */   "attributesIcon": () => (/* binding */ attributesIcon),
+/* harmony export */   "styleToIcon": () => (/* binding */ styleToIcon),
+/* harmony export */   "stylesIcon": () => (/* binding */ stylesIcon)
 /* harmony export */ });
 var maskCount = 0;
 var icons = {
@@ -666,8 +666,8 @@ var styleToIcon = function styleToIcon(style, type) {
 
   return icons[icon] ? icons[icon](style) : icon;
 };
-var menuIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n        <text text-anchor=\"middle\" x=\"12\" y=\"15\" style=\"font-family: Times, Times New Roman, serif; font-size: 21px; letter-spacing: -1px;\">Aa</text>\n    </svg>\n";
-var attrsIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"scale(.00893)\"/>\n    </svg>\n";
+var stylesIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"16\" viewBox=\"0 0 24 16\" fill=\"currentColor\" style=\"width: 24px;\">\n        <text text-anchor=\"middle\" x=\"12\" y=\"15\" style=\"font-family: Times, Times New Roman, serif; font-size: 21px; letter-spacing: -1px;\">Aa</text>\n    </svg>\n";
+var attributesIcon = "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"m491 1536 91-91-235-235-91 91v107h128v128h107Zm523-928c0-14.667-7.33-22-22-22-6.667 0-12.333 2.333-17 7l-542 542c-4.667 4.67-7 10.33-7 17 0 14.67 7.333 22 22 22 6.667 0 12.333-2.33 17-7l542-542c4.67-4.667 7-10.333 7-17Zm-54-192 416 416-832 832H128v-416l832-832Zm683 96c0 35.333-12.33 65.333-37 90l-166 166-416-416 166-165c24-25.333 54-38 90-38 35.33 0 65.67 12.667 91 38l235 234c24.67 26 37 56.333 37 91Z\" transform=\"scale(.00893)\"/>\n    </svg>\n";
 
 /***/ }),
 
@@ -932,10 +932,10 @@ var Provider = /*#__PURE__*/function () {
         });
 
         if (bard.buttons.find(function (button) {
-          return button.name === 'btsstyles';
+          return button.name === 'bts_styles';
         })) {
-          var stylesOptions = (bard.config.btsstyles || []).filter(function (option) {
-            return Object.keys(options.menuOptions).includes(option);
+          var stylesOptions = (bard.config.bts_styles || []).filter(function (option) {
+            return Object.keys(options.styleOptions).includes(option);
           });
           bard.buttons.forEach(function (button) {
             if (stylesOptions.includes(button.name)) {
@@ -1002,11 +1002,11 @@ var Provider = /*#__PURE__*/function () {
       }
 
       Statamic.$bard.buttons(function (buttons, button) {
-        buttons.splice(buttons.indexOf('btsstyles'), 0, button({
-          name: 'btsstyles',
+        buttons.splice(buttons.indexOf('bts_styles'), 0, button({
+          name: 'bts_styles',
           text: __('Style'),
           component: _components_StylesButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-          html: _icons__WEBPACK_IMPORTED_MODULE_6__.menuIcon,
+          html: _icons__WEBPACK_IMPORTED_MODULE_6__.stylesIcon,
           btsOptions: options
         }));
       });
@@ -1020,11 +1020,11 @@ var Provider = /*#__PURE__*/function () {
       }
 
       Statamic.$bard.buttons(function (buttons, button) {
-        buttons.splice(buttons.indexOf('btsattributes'), 0, button({
-          name: 'btsattributes',
+        buttons.splice(buttons.indexOf('bts_attributes'), 0, button({
+          name: 'bts_attributes',
           text: __('Attributes'),
           component: _components_AttributesButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-          html: _icons__WEBPACK_IMPORTED_MODULE_6__.attrsIcon,
+          html: _icons__WEBPACK_IMPORTED_MODULE_6__.attributesIcon,
           btsOptions: options
         }));
       });
@@ -1054,7 +1054,7 @@ var Provider = /*#__PURE__*/function () {
         var tag = style.type === 'heading' ? "".concat(type.tag).concat(style.level) : "".concat(type.tag);
         var selector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[options.store], "\"]");
         var badgeSelector = ".bard-fieldtype .ProseMirror ".concat(tag, "[data-bts=\"").concat(style[options.store], "\"]::before");
-        var menuSelector = ".bard-fieldtype .bts-menu-preview[data-bts-match~=\"".concat(key, "\"]");
+        var menuSelector = ".bard-fieldtype .bts-styles-preview[data-bts-match~=\"".concat(key, "\"]");
         css.push.apply(css, _toConsumableArray(_this2.parseCss(selector, style.cp_css || '')));
         css.push.apply(css, _toConsumableArray(_this2.parseMenuCss(menuSelector, style.cp_css || '')));
 
@@ -1132,7 +1132,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: #e4ebf1 solid;\n  border-width: 4px 0;\n  padding: 0.85em 0;\n  margin-top: 0;\n  margin-bottom: 0.85em;\n  border-radius: 4px;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n  margin-top: 1.7em;\n  margin-bottom: 1.7em;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-menu-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-menu-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-menu-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-menu-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-menu-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-menu-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-menu-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-menu-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-arrow {\n  margin-left: -0.3rem;\n  margin-right: 0.3rem;\n}\n.bard-fieldtype .bts-py-1\\.25 {\n  padding-top: 0.6rem;\n  padding-bottom: 0.6rem;\n}\n.bard-fieldtype .bts-gap-0\\.5 {\n  gap: 0.3rem;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bard-fieldtype .ProseMirror div[data-bts] {\n  border: #e4ebf1 solid;\n  border-width: 4px 0;\n  padding: 0.85em 0;\n  margin-top: 0;\n  margin-bottom: 0.85em;\n  border-radius: 4px;\n}\n.bard-fieldtype .ProseMirror [data-bts]::before {\n  display: none;\n}\n.bard-fieldtype .ProseMirror h1[data-bts]::before, .bard-fieldtype .ProseMirror h2[data-bts]::before, .bard-fieldtype .ProseMirror h3[data-bts]::before, .bard-fieldtype .ProseMirror h4[data-bts]::before, .bard-fieldtype .ProseMirror h5[data-bts]::before, .bard-fieldtype .ProseMirror h6[data-bts]::before, .bard-fieldtype .ProseMirror p[data-bts]::before, .bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before, .bard-fieldtype .ProseMirror div[data-bts]::before {\n  background-color: #e4ebf1;\n  border-radius: 2px;\n  color: #1c2e36;\n  font-size: 10px;\n  font-weight: normal;\n  font-family: Inter UI, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;\n  line-height: 1;\n  padding: 4px 6px;\n  display: block;\n  max-width: -webkit-max-content;\n  max-width: -moz-max-content;\n  max-width: max-content;\n  position: relative;\n}\n.bard-fieldtype .ProseMirror ul[data-bts]::before, .bard-fieldtype .ProseMirror ol[data-bts]::before {\n  margin-bottom: 0.85em;\n}\n.bard-fieldtype .ProseMirror div[data-bts] {\n  position: relative;\n  margin-top: 1.7em;\n  margin-bottom: 1.7em;\n}\n.bard-fieldtype .ProseMirror div[data-bts]::before {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.bard-fieldtype .bts-panel {\n  background-color: white;\n  border-radius: 3px;\n  position: absolute;\n  line-height: 1;\n  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.05), 0 2px 5px 0 rgba(49, 49, 93, 0.08), 0 1px 3px 0 rgba(49, 49, 93, 0.15);\n  margin-top: 8px;\n  z-index: 100;\n  top: 100%;\n}\n.bard-fieldtype .bts-panel::before {\n  content: \"\";\n  border: 6px solid transparent;\n  border-bottom-color: white;\n  position: absolute;\n  bottom: 100%;\n  left: 10px;\n}\n.bard-fieldtype .bts-styles-items {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 4px;\n  max-height: 500px;\n  overflow-y: auto;\n}\n.bard-fieldtype .bts-styles-item {\n  white-space: nowrap;\n  padding: 8px 12px;\n  font-size: 1rem;\n  border-radius: 3px;\n  text-align: left;\n}\n.bard-fieldtype .bts-styles-item:hover {\n  background-color: #f5f8fc;\n}\n.bard-fieldtype .bts-styles-item.active {\n  background-color: #eef2f6;\n}\n.bard-fieldtype .bts-styles-preview {\n  margin: 0 !important;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=h1] {\n  font-size: 2em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=h2] {\n  font-size: 1.75em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=h3] {\n  font-size: 1.5em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=h4] {\n  font-size: 1.25em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=h5] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=h6] {\n  font-size: 1em;\n  font-weight: 700;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=bts-span], .bard-fieldtype .bts-styles-preview[data-bts-match~=bts-link] {\n  display: inline;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=unorderedlist], .bard-fieldtype .bts-styles-preview[data-bts-match~=bulletList] {\n  display: list-item;\n  list-style-type: disc;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-styles-preview[data-bts-match~=orderedlist], .bard-fieldtype .bts-styles-preview[data-bts-match~=orderedList] {\n  display: list-item;\n  list-style-type: decimal;\n  margin-left: 17px !important;\n}\n.bard-fieldtype .bts-arrow {\n  margin-left: -0.3rem;\n  margin-right: 0.3rem;\n}\n.bard-fieldtype .bts-py-1\\.25 {\n  padding-top: 0.6rem;\n  padding-bottom: 0.6rem;\n}\n.bard-fieldtype .bts-gap-0\\.5 {\n  gap: 0.3rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1894,7 +1894,7 @@ var render = function () {
             expression: "button.text",
           },
         ],
-        staticClass: "bard-toolbar-button bts-menu-button",
+        staticClass: "bard-toolbar-button",
         attrs: { "aria-label": _vm.button.text },
         domProps: { innerHTML: _vm._s(_vm.button.html) },
         on: { click: _vm.togglePanel },
@@ -2184,7 +2184,7 @@ var render = function () {
             expression: "button.text",
           },
         ],
-        staticClass: "bard-toolbar-button bts-menu-button",
+        staticClass: "bard-toolbar-button",
         attrs: { "aria-label": _vm.button.text },
         domProps: { innerHTML: _vm._s(_vm.button.html) },
         on: { click: _vm.togglePanel },
@@ -2231,7 +2231,7 @@ var render = function () {
     ? _c(
         "button",
         {
-          staticClass: "bts-menu-item",
+          staticClass: "bts-styles-item",
           class: { active: _vm.active },
           on: { click: _vm.click },
         },
@@ -2239,7 +2239,7 @@ var render = function () {
           _c(
             "div",
             {
-              staticClass: "bts-menu-preview",
+              staticClass: "bts-styles-preview",
               attrs: { "data-bts-match": _vm.previewMatch },
             },
             [_vm._v("\n        " + _vm._s(_vm.item.text) + "\n    ")]
@@ -2270,11 +2270,11 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "bts-panel" }, [
+  return _c("div", { staticClass: "bts-panel bts-styles" }, [
     _vm.items.length
       ? _c(
           "div",
-          { staticClass: "bts-menu-items" },
+          { staticClass: "bts-styles-items" },
           _vm._l(_vm.items, function (item) {
             return _c("StylesItem", {
               key: item.name,

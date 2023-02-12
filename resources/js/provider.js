@@ -4,7 +4,7 @@ import Core from './extensions/core'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
-import { styleToIcon, menuIcon, attrsIcon } from './icons';
+import { styleToIcon, stylesIcon, attributesIcon } from './icons';
 const { Extension } = Statamic.$bard.tiptap.core;
 
 class Provider {
@@ -97,9 +97,9 @@ class Provider {
                     button.command = (editor, args) => editor.chain().focus().btsToggleOrderedList(args).run();
                 }
             });
-            if (bard.buttons.find(button => button.name === 'btsstyles')) {
-                const stylesOptions = (bard.config.btsstyles || [])
-                    .filter(option => Object.keys(options.menuOptions).includes(option));
+            if (bard.buttons.find(button => button.name === 'bts_styles')) {
+                const stylesOptions = (bard.config.bts_styles || [])
+                    .filter(option => Object.keys(options.styleOptions).includes(option));
                 bard.buttons.forEach(button => {
                     if (stylesOptions.includes(button.name)) {
                         button.visible = () => false;
@@ -141,11 +141,11 @@ class Provider {
             return this;
         }
         Statamic.$bard.buttons((buttons, button) => {
-            buttons.splice(buttons.indexOf('btsstyles'), 0, button({
-                name: 'btsstyles',
+            buttons.splice(buttons.indexOf('bts_styles'), 0, button({
+                name: 'bts_styles',
                 text: __('Style'),
                 component: StylesButton,
-                html: menuIcon,
+                html: stylesIcon,
                 btsOptions: options,
             }));
         });
@@ -157,11 +157,11 @@ class Provider {
             return this;
         }
         Statamic.$bard.buttons((buttons, button) => {
-            buttons.splice(buttons.indexOf('btsattributes'), 0, button({
-                name: 'btsattributes',
+            buttons.splice(buttons.indexOf('bts_attributes'), 0, button({
+                name: 'bts_attributes',
                 text: __('Attributes'),
                 component: AttributesButton,
-                html: attrsIcon,
+                html: attributesIcon,
                 btsOptions: options,
             }));
         });
@@ -188,7 +188,7 @@ class Provider {
                 : `${type.tag}`;
             const selector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
             const badgeSelector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
-            const menuSelector = `.bard-fieldtype .bts-menu-preview[data-bts-match~="${key}"]`;
+            const menuSelector = `.bard-fieldtype .bts-styles-preview[data-bts-match~="${key}"]`;
             css.push(...this.parseCss(selector, style.cp_css || ''));
             css.push(...this.parseMenuCss(menuSelector, style.cp_css || ''));
             if (style.cp_badge) {

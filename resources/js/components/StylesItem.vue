@@ -1,13 +1,13 @@
 <template>
 
     <button
-        class="bts-menu-item"
+        class="bts-styles-item"
         :class="{ active }"
         v-if="visible"
         @click="click"
     >
         <div
-            class="bts-menu-preview"
+            class="bts-styles-preview"
             :data-bts-match="previewMatch"
         >
             {{ item.text }}

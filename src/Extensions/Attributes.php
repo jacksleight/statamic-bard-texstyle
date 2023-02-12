@@ -4,9 +4,9 @@ namespace JackSleight\StatamicBardTexstyle\Extensions;
 
 use Tiptap\Core\Extension;
 
-class Attrs extends Extension
+class Attributes extends Extension
 {
-    public static $name = 'btsAttrs';
+    public static $name = 'btsAttributes';
 
     public function addOptions()
     {

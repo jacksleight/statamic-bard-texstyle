@@ -2,7 +2,7 @@
 
     <div class="inline-block relative">
         <button
-            class="bard-toolbar-button bts-menu-button"
+            class="bard-toolbar-button"
             v-html="button.html"
             v-tooltip="button.text"
             :aria-label="button.text"
