@@ -9,7 +9,7 @@ order: 3
 
 ---
 
-## Publish the config
+## Publish the Config
 
 The first thing you'll need to do is publish the config file:
 
@@ -19,7 +19,7 @@ php please vendor:publish --tag=statamic-bard-texstyle-config
 
 ---
 
-## Define your styles
+## Define Your Styles
 
 Then open `config/statamic/bard_texstyle.php` and add your styles:
 
@@ -27,22 +27,26 @@ Then open `config/statamic/bard_texstyle.php` and add your styles:
 'styles' => [
 
     'intro' => [
-        'type'   => 'paragraph',
-        'name'   => 'Introduction',
-        'ident'  => 'I',
-        'class'  => 'introduction',
-        'cp_css' => 'font-size: 1.25em',
+        'type'     => 'paragraph',
+        'name'     => 'Introduction',
+        'ident'    => 'I',
+        'icon'     => null,
+        'class'    => 'introduction',
+        'cp_css'   => 'font-size: 1.25em',
+        'cp_badge' => false,
     ],
 
 ],
 ```
 
-Check the [configuration](configuration) page for full details.
+Check the [styles and classes](styles-classes) page for full details.
 
 ---
 
-## Enable the buttons
+## Enable the Buttons
 
 You can enable the buttons in any Bard field, either through the blueprint/fieldset editor or by adding them to the buttons list in the YAML file directly.
 
-When using heading styles the matching `h*` button must also be enabled in the Bard field.
+:::important
+When using heading, unordered list or ordered list styles the associated `h*`, `unorderedlist` or `orderedlist` buttons must also be enabled in the Bard field.
+:::

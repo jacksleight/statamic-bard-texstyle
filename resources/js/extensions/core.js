@@ -6,6 +6,7 @@ const Core = Extension.create({
 
     addOptions() {
         return {
+            bard: {},
             attr: null,
             styleTypes: [],
         }
@@ -38,7 +39,35 @@ const Core = Extension.create({
             btsToggleParagraph: (attributes) => ({ commands }) => {
                 return commands.toggleNode('paragraph', 'paragraph', attributes);
             },
+            btsToggleLink: (attributes) => ({ commands, editor }) => {
+                if (editor.isActive('link', attributes)) {
+                    return commands.resetAttributes('link', 'class');
+                } else {
+                    return commands.updateAttributes('link', attributes);
+                }
+            },
+            btsToggleList: (attributes, type) => ({ commands, editor, chain }) => {
+                if (editor.isActive(type, attributes)) {
+                    return commands.toggleList(type, 'listItem');
+                } else if (editor.isActive(type)) {
+                    return commands.updateAttributes(type, attributes);
+                }
+                return chain()
+                    .toggleList(type, 'listItem')
+                    .updateAttributes(type, attributes)
+                    .run();
+            },
+            btsToggleBulletList: (attributes) => ({ commands }) => {
+                return commands.btsToggleList(attributes, 'bulletList');
+            },
+            btsToggleOrderedList: (attributes) => ({ commands }) => {
+                return commands.btsToggleList(attributes, 'orderedList');
+            },
         }
+    },
+
+    onSelectionUpdate() {
+        this.options.bard.$emit('bts-reselected');
     },
 
 });

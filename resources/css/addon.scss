@@ -1,0 +1,156 @@
+// Bard Texstyle
+
+.bard-fieldtype {
+
+    .ProseMirror {
+
+        div[data-bts] {
+            border: #e4ebf1 solid;
+            border-width: 2px 0;
+            padding: 0.85em 0;
+            margin-top: 1.7em;
+            margin-bottom: 1.7em;
+        }
+
+        [data-bts]::before {
+            display: none;
+        }
+        h1, h2, h3, h4, h5, h6, p, ul, ol, div {
+            &[data-bts] {
+                &::before {
+                    background-color: #e4ebf1;
+                    border-radius: 2px;
+                    color: #1c2e36;
+                    font-size: 10px;
+                    font-weight: normal;
+                    font-family: Inter UI,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
+                    line-height: 1;
+                    padding: 4px 6px;
+                    display: block;
+                    max-width: max-content;
+                    position: relative;
+                }
+            }
+        }
+        ul, ol {
+            &[data-bts] {
+                &::before {
+                    margin-bottom: 0.85em;
+                }
+            }
+        }
+        div {
+            &[data-bts] {
+                position: relative;
+                &::before {
+                    position: absolute;
+                    bottom: 100%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+        }
+
+    }
+
+    .bts-panel {
+        background-color: white;
+        border-radius: 3px;
+        position: absolute;
+        line-height: 1;
+        box-shadow: 0 0 0 1px rgb(49 49 93 / 5%), 0 2px 5px 0 rgb(49 49 93 / 8%), 0 1px 3px 0 rgb(49 49 93 / 15%);
+        margin-top: 8px;
+        z-index: 100;
+        top: 100%;
+        &::before {
+            content: '';
+            border: 6px solid transparent;
+            border-bottom-color: white;
+            position: absolute;
+            bottom: 100%;
+            left: 10px;
+        }
+    }
+
+    .bts-styles {
+        &-items {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 4px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        &-item {
+            white-space: nowrap;
+            padding: 8px 12px;
+            font-size: 1rem;
+            border-radius: 3px;
+            text-align: left;
+            &:hover {
+                background-color: #f5f8fc;
+            }
+            &.active {
+                background-color: #eef2f6;
+            }
+        }
+        &-preview {
+            margin: 0 !important;
+            &[data-bts-match~="h1"] {
+                font-size: 2em;
+                font-weight: 700
+            }
+            &[data-bts-match~="h2"] {
+                font-size: 1.75em;
+                font-weight: 700
+            }
+            &[data-bts-match~="h3"] {
+                font-size: 1.5em;
+                font-weight: 700
+            }
+            &[data-bts-match~="h4"] {
+                font-size: 1.25em;
+                font-weight: 700
+            }
+            &[data-bts-match~="h5"] {
+                font-size: 1em;
+                font-weight: 700
+            }
+            &[data-bts-match~="h6"] {
+                font-size: 1em;
+                font-weight: 700
+            }
+            &[data-bts-match~="bts-span"],
+            &[data-bts-match~="bts-link"] {
+                display: inline;
+            }
+            &[data-bts-match~="unorderedlist"],
+            &[data-bts-match~="bulletList"] {
+                display: list-item;
+                list-style-type: disc;
+                margin-left: 17px !important;
+            }
+            &[data-bts-match~="orderedlist"],
+            &[data-bts-match~="orderedList"] {
+                display: list-item;
+                list-style-type: decimal;
+                margin-left: 17px !important;
+            }
+        }
+    }
+
+    .bts-arrow {
+        margin-left: -0.3rem;
+        margin-right: 0.3rem;
+    }
+
+    .bts-py-1\.25 {
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+    }
+    .bts-gap-0\.5 {
+        gap: 0.3rem;
+    }
+
+}
+

@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.0 ()
+
+- [new] [Pro edition](https://jacksleight.dev/posts/introducing-bard-texstyle-pro-edition) 🚀
+- [new] Style selection menu (Pro)
+- [new] Attribute editor panel (Pro)
+- [new] Container div styles (Pro)
+- [new] Custom unordered and ordered list styles
+- [new] Custom link styles
+- [new] Control panel badges
+- [new] Control panel CSS arrays
+- [fix] Standard buttons activating for custom styles
+
 ## 2.0.1 (2023-01-31)
 
 - [fix] Invalid content error when using span styles with Statamic 3.4.1+

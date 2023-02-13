@@ -1,0 +1,56 @@
+<template>
+
+    <div class="inline-block relative">
+        <button
+            class="bard-toolbar-button"
+            v-html="button.html"
+            v-tooltip="button.text"
+            :aria-label="button.text"
+            @click="togglePanel"
+        />
+        <AttributesPanel
+            v-if="panelActive"
+            :config="config"
+            :bard="bard"
+            :editor="editor"
+            :btsOptions="button.btsOptions"
+            @close="closePanel"
+            @applied="closePanel"
+        />
+    </div>
+
+</template>
+
+<script>
+import AttributesPanel from './AttributesPanel.vue';
+
+export default {
+
+    mixins: [ BardToolbarButton ],
+
+    components: {
+        AttributesPanel,
+    },
+
+    data() {    
+        return {
+            panelActive: false,
+        };
+    },
+
+    methods: {
+        togglePanel() {
+            this.panelActive = ! this.panelActive;
+            if (! this.panelActive) {
+                this.editor.commands.focus();
+            }
+        },
+        closePanel() {
+            if (this.panelActive) {
+                this.togglePanel();
+            }
+        },
+    }
+
+}
+</script>

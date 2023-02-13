@@ -27,53 +27,48 @@ class Core extends Extension
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
         $styleTypes = $this->options['styleTypes'];
-        $allTypes = $this->options['allTypes'];
+        $classTypes = $this->options['classTypes'];
 
-        $attrs = [];
-        foreach ($allTypes as $type) {
-            $attrs[] = [
-                'types' => [$type],
-                'attributes' => [
-                    $attr => [
-                        'parseHTML' => function ($DOMNode) use ($store, $styles, $styleTypes, $type) {
-                            if (in_array($type, $styleTypes)) {
-                                $value = $DOMNode->getAttribute('class');
-                                if ($store === 'key') {
-                                    $style = Arr::first($styles, fn ($style) => $style['type'] === ([
-                                        'btsSpan' => 'span',
-                                    ][$type] ?? $type) &&
-                                        $style['class'] === $value
-                                    );
-                                    $value = $style ? $style['key'] : null;
+        return collect($classTypes)
+            ->map(function ($type) use ($store, $attr, $styles, $styleTypes, $defaults) {
+                return [
+                    'types' => [$type],
+                    'attributes' => [
+                        $attr => [
+                            'parseHTML' => function ($DOMNode) use ($store, $styles, $styleTypes, $type) {
+                                if (in_array($type, $styleTypes)) {
+                                    $value = $DOMNode->getAttribute('class');
+                                    if ($store === 'key') {
+                                        $style = Arr::first($styles, fn ($style) => $style['type'] === $type && $style['class'] === $value);
+                                        $value = $style ? $style['key'] : null;
+                                    }
+                                } else {
+                                    $value = null;
                                 }
-                            } else {
-                                $value = null;
-                            }
 
-                            return $value;
-                        },
-                        'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
-                            if (in_array($type, $styleTypes)) {
-                                $class = $attributes->{$attr} ?? null;
-                                if ($store === 'key') {
-                                    $class = $styles[$class]['class'] ?? null;
+                                return $value;
+                            },
+                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
+                                if (in_array($type, $styleTypes)) {
+                                    $class = $attributes->{$attr} ?? null;
+                                    if ($store === 'key') {
+                                        $class = $styles[$class]['class'] ?? null;
+                                    }
+                                } else {
+                                    $class = null;
                                 }
-                            } else {
-                                $class = null;
-                            }
-                            if (! $class) {
-                                $class = $type === 'heading'
-                                    ? ($defaults[$type][$attributes->level] ?? null)
-                                    : ($defaults[$type] ?? null);
-                            }
+                                if (! $class) {
+                                    $class = $type === 'heading'
+                                        ? ($defaults[$type][$attributes->level] ?? null)
+                                        : ($defaults[$type] ?? null);
+                                }
 
-                            return $class ? ['class' => $class] : [];
-                        },
+                                return $class ? ['class' => $class] : [];
+                            },
+                        ],
                     ],
-                ],
-            ];
-        }
-
-        return $attrs;
+                ];
+            })
+            ->all();
     }
 }
