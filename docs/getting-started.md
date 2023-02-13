@@ -30,6 +30,7 @@ Then open `config/statamic/bard_texstyle.php` and add your styles:
         'type'     => 'paragraph',
         'name'     => 'Introduction',
         'ident'    => 'I',
+        'icon'     => null,
         'class'    => 'introduction',
         'cp_css'   => 'font-size: 1.25em',
         'cp_badge' => false,
