@@ -15,7 +15,7 @@ assignees: ''
 
 
 ## Extra Detail
-<!-- Screenshots, template code, or exception error message/link -->
+<!-- Texstyle config, relevant blueprint, screenshots, template code, or exception error message/link -->
 
 
 
