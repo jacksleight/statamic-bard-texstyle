@@ -107,7 +107,6 @@ class ServiceProvider extends AddonServiceProvider
     protected function resolveOptions()
     {
         $pro = Addon::get('jacksleight/statamic-bard-texstyle')->edition() === 'pro';
-        $pro = config('app.url') === 'http://sandbox-bard.test';
 
         $store = config('statamic.bard_texstyle.store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key';
@@ -311,7 +310,6 @@ class ServiceProvider extends AddonServiceProvider
             'display' => __('Style Menu'),
             'instructions' => __('Which style options should be moved into the style menu'),
             'type' => 'select',
-            // 'default' => [],
             'multiple' => true,
             'options' => $options['styleOptions'],
         ]);
