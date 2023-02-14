@@ -458,14 +458,30 @@ var Attributes = Extension.create({
           var from = state.selection.from;
           var items = [];
           state.doc.nodesBetween(from, from, function (node, pos) {
-            var type = node.type.name;
-
-            if (attributeTypes.includes(type)) {
+            if (attributeTypes.includes(node.type.name)) {
               items.push({
                 pos: pos,
-                type: type,
+                type: node.type.name,
                 attrs: _objectSpread({}, node.attrs)
               });
+            } else if (node.type.name === 'text') {
+              var marks = [];
+              node.marks.forEach(function (mark) {
+                if (attributeTypes.includes(mark.type.name)) {
+                  marks.push({
+                    type: mark.type.name,
+                    attrs: _objectSpread({}, mark.attrs)
+                  });
+                }
+              });
+
+              if (marks.length) {
+                items.push({
+                  pos: pos,
+                  type: node.type.name,
+                  marks: marks
+                });
+              }
             }
           });
           return items;
@@ -475,7 +491,7 @@ var Attributes = Extension.create({
         return function (_ref8) {
           var state = _ref8.state;
           items.forEach(function (item) {
-            state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
+            state.tr.setNodeMarkup(item.pos, undefined, item.attrs, item.marks);
           });
         };
       }

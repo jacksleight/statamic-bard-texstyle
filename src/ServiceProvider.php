@@ -75,6 +75,7 @@ class ServiceProvider extends AddonServiceProvider
             'colwidth',
         ],
         'tableRow' => [],
+        'btsSpan' => [],
     ];
 
     protected $styleTypes = [

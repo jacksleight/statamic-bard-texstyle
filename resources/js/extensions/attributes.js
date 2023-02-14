@@ -35,20 +35,36 @@ const Attributes = Extension.create({
                 const { from } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, from, (node, pos) => {
-                    const type = node.type.name;
-                    if (attributeTypes.includes(type)) {
+                    if (attributeTypes.includes(node.type.name)) {
                         items.push({
                             pos,
-                            type: type,
+                            type: node.type.name,
                             attrs: {...node.attrs},
                         });
+                    } else if (node.type.name === 'text') {
+                        const marks = [];
+                        node.marks.forEach(mark => {
+                            if (attributeTypes.includes(mark.type.name)) {
+                                marks.push({
+                                    type: mark.type.name,
+                                    attrs: {...mark.attrs},
+                                });
+                            }
+                        });
+                        if (marks.length) {
+                            items.push({
+                                pos,
+                                type: node.type.name,
+                                marks: marks,
+                            });
+                        }
                     }
                 });
                 return items;
             },
             btsAttrsApplyItems: (items) => ({ state }) => {
                 items.forEach(item => {
-                    state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
+                    state.tr.setNodeMarkup(item.pos, undefined, item.attrs, item.marks);
                 });
             },
         }
