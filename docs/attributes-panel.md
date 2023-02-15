@@ -58,15 +58,31 @@ The following node types are currently supported. Some nodes have standard attri
 | Type                | Standard Attributes                |
 | ------------------- | ---------------------------------- |
 | blockquote          |                                    |
+| bold                |                                    |
 | bulletList          |                                    |
+| code                |                                    |
 | codeBlock           | language                           |
 | heading             | level                              |
 | horizontalRule      |                                    |
 | image               | src, alt, title                    |
+| italic              |                                    |
+| link                | href, rel, target, title           |
 | listItem            |                                    |
 | orderedList         | start                              |
 | paragraph           |                                    |
+| strike              |                                    |
+| subscript           |                                    |
+| superscript         |                                    |
 | table               |                                    |
 | tableCell           | rowspan, colspan, colwidth         |
 | tableHeader         | rowspan, colspan, colwidth         |
 | tableRow            |                                    |
+| underline           |                                    |
+
+
+
+
+
+
+
+

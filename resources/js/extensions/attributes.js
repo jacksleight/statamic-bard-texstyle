@@ -34,38 +34,37 @@ const Attributes = Extension.create({
             btsAttrsFetchItems: () => ({ state }) => {
                 const { from } = state.selection
                 const items = [];
-                state.doc.nodesBetween(from, from, (node, pos) => {
+                state.doc.nodesBetween(from, from + 1, (node) => {
                     if (attributeTypes.includes(node.type.name)) {
                         items.push({
-                            pos,
+                            kind: 'node',
                             type: node.type.name,
-                            attrs: {...node.attrs},
+                            attrs: { ...node.attrs },
                         });
                     } else if (node.type.name === 'text') {
-                        const marks = [];
                         node.marks.forEach(mark => {
                             if (attributeTypes.includes(mark.type.name)) {
-                                marks.push({
+                                items.push({
+                                    kind: 'mark',
                                     type: mark.type.name,
-                                    attrs: {...mark.attrs},
+                                    attrs: { ...mark.attrs },
                                 });
                             }
                         });
-                        if (marks.length) {
-                            items.push({
-                                pos,
-                                type: node.type.name,
-                                marks: marks,
-                            });
-                        }
                     }
                 });
                 return items;
             },
-            btsAttrsApplyItems: (items) => ({ state }) => {
+            btsAttrsApplyItems: (items) => ({ state, chain }) => {
+                const { from, to } = state.selection
+                let apply = chain().focus();
                 items.forEach(item => {
-                    state.tr.setNodeMarkup(item.pos, undefined, item.attrs, item.marks);
+                    if (item.kind === 'mark') {
+                        apply = apply.extendMarkRange(item.type);
+                    }
+                    apply = apply.updateAttributes(item.type, item.attrs);
                 });
+                return apply.setTextSelection({ from, to }).run();
             },
         }
     },

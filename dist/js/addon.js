@@ -135,21 +135,29 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       activeItem: 0,
-      items: this.editor.commands.btsAttrsFetchItems().reverse(),
+      items: this.editor.commands.btsAttrsFetchItems(),
       titles: {
         blockquote: __('Blockquote'),
+        bold: __('Bold'),
         bulletList: __('Unordered List'),
+        code: __('Code'),
         codeBlock: __('Code Block'),
         heading: __('Heading'),
         horizontalRule: __('Horizontal Rule'),
         image: __('Image'),
+        italic: __('Italic'),
+        link: __('Link'),
         listItem: __('List Item'),
         orderedList: __('Ordered List'),
         paragraph: __('Paragraph'),
+        strike: __('Strike'),
+        subscript: __('Subscript'),
+        superscript: __('Superscript'),
         table: __('Table'),
         tableCell: __('Table Cell'),
         tableHeader: __('Table Header'),
-        tableRow: __('Table Row')
+        tableRow: __('Table Row'),
+        underline: __('Underline')
       }
     };
   },
@@ -457,31 +465,23 @@ var Attributes = Extension.create({
           var state = _ref7.state;
           var from = state.selection.from;
           var items = [];
-          state.doc.nodesBetween(from, from, function (node, pos) {
+          state.doc.nodesBetween(from, from + 1, function (node) {
             if (attributeTypes.includes(node.type.name)) {
               items.push({
-                pos: pos,
+                kind: 'node',
                 type: node.type.name,
                 attrs: _objectSpread({}, node.attrs)
               });
             } else if (node.type.name === 'text') {
-              var marks = [];
               node.marks.forEach(function (mark) {
                 if (attributeTypes.includes(mark.type.name)) {
-                  marks.push({
+                  items.push({
+                    kind: 'mark',
                     type: mark.type.name,
                     attrs: _objectSpread({}, mark.attrs)
                   });
                 }
               });
-
-              if (marks.length) {
-                items.push({
-                  pos: pos,
-                  type: node.type.name,
-                  marks: marks
-                });
-              }
             }
           });
           return items;
@@ -489,10 +489,23 @@ var Attributes = Extension.create({
       },
       btsAttrsApplyItems: function btsAttrsApplyItems(items) {
         return function (_ref8) {
-          var state = _ref8.state;
+          var state = _ref8.state,
+              chain = _ref8.chain;
+          var _state$selection = state.selection,
+              from = _state$selection.from,
+              to = _state$selection.to;
+          var apply = chain().focus();
           items.forEach(function (item) {
-            state.tr.setNodeMarkup(item.pos, undefined, item.attrs, item.marks);
+            if (item.kind === 'mark') {
+              apply = apply.extendMarkRange(item.type);
+            }
+
+            apply = apply.updateAttributes(item.type, item.attrs);
           });
+          return apply.setTextSelection({
+            from: from,
+            to: to
+          }).run();
         };
       }
     };

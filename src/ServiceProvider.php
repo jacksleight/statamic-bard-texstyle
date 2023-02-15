@@ -45,37 +45,26 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $attributeTypes = [
         'blockquote' => [],
+        'bold' => [],
         'bulletList' => [],
-        'codeBlock' => [
-            'language',
-        ],
-        'heading' => [
-            'level',
-        ],
+        'code' => [],
+        'codeBlock' => ['language'],
+        'heading' => ['level'],
         'horizontalRule' => [],
-        'image' => [
-            'src',
-            'alt',
-            'title',
-        ],
+        'image' => ['src', 'alt', 'title'],
+        'italic' => [],
+        'link' => ['href', 'rel', 'target', 'title'],
         'listItem' => [],
-        'orderedList' => [
-            // 'order/start',
-        ],
+        'orderedList' => [/*'start'*/],
         'paragraph' => [],
+        'strike' => [],
+        'subscript' => [],
+        'superscript' => [],
         'table' => [],
-        'tableCell' => [
-            'rowspan',
-            'colspan',
-            'colwidth',
-        ],
-        'tableHeader' => [
-            'rowspan',
-            'colspan',
-            'colwidth',
-        ],
+        'tableCell' => ['rowspan', 'colspan', 'colwidth'],
+        'tableHeader' => ['rowspan', 'colspan', 'colwidth'],
         'tableRow' => [],
-        'btsSpan' => [],
+        'underline' => [],
     ];
 
     protected $styleTypes = [
