@@ -5,7 +5,7 @@ order: 5
 
 # Attributes Panel (Pro)
 
-The attributes panel allows you to edit the underlying node attribute values.
+The attributes panel allows you to edit the underlying node/mark attribute values.
 
 [TOC]
 
@@ -30,7 +30,7 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 ],
 ```
 
-Attributes are grouped by node type and the keys are the attribute names. Attributes can have the following options:
+Attributes are grouped by node/mark type and the keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**  
   The field type. Options are:
@@ -53,7 +53,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node types are supported. Some nodes have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
+The following node/mark types are supported. Some nodes/marks have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
 | Type                | Standard Attributes                |
 | ------------------- | ---------------------------------- |
