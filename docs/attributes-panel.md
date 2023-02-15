@@ -53,7 +53,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node types are currently supported. Some nodes have standard attributes built in, which you can add to the attributes panel, but the `default` and `rendered` options do not apply.
+The following node types are supported. Some nodes have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
 | Type                | Standard Attributes                |
 | ------------------- | ---------------------------------- |
@@ -78,11 +78,3 @@ The following node types are currently supported. Some nodes have standard attri
 | tableHeader         | rowspan, colspan, colwidth         |
 | tableRow            |                                    |
 | underline           |                                    |
-
-
-
-
-
-
-
-

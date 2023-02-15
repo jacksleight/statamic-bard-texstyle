@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1 ()
+
+- [new] Support marks in the attribute panel (Pro)
+
 ## 2.1.0 (2023-02-13)
 
 - [new] [Pro edition](https://jacksleight.dev/posts/introducing-bard-texstyle-pro-edition) 🚀

@@ -31,8 +31,8 @@ const Attributes = Extension.create({
     addCommands() {
         const { attributeTypes } = this.options;
         return {
-            btsAttrsFetchItems: () => ({ state }) => {
-                const { from } = state.selection
+            btsAttributesFetch: () => ({ state }) => {
+                const { from, to } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, from + 1, (node) => {
                     if (attributeTypes.includes(node.type.name)) {
@@ -53,10 +53,16 @@ const Attributes = Extension.create({
                         });
                     }
                 });
-                return items;
+                return {
+                    info: { from, to },
+                    items: items.reverse(),
+                };
             },
-            btsAttrsApplyItems: (items) => ({ state, chain }) => {
-                const { from, to } = state.selection
+            btsAttributesApply: ({ info, items }) => ({ state, chain }) => {
+                const { from, to } = state.selection;
+                if (from !== info.from || to !== info.to) {
+                    return; // This shouldn't be possible, but sanity check just in case
+                }
                 let apply = chain().focus();
                 items.forEach(item => {
                     if (item.kind === 'mark') {

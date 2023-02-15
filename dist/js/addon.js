@@ -133,9 +133,14 @@ __webpack_require__.r(__webpack_exports__);
     btsOptions: {}
   },
   data: function data() {
+    var _this$editor$commands = this.editor.commands.btsAttributesFetch(),
+        info = _this$editor$commands.info,
+        items = _this$editor$commands.items;
+
     return {
       activeItem: 0,
-      items: this.editor.commands.btsAttrsFetchItems(),
+      info: info,
+      items: items,
       titles: {
         blockquote: __('Blockquote'),
         bold: __('Bold'),
@@ -164,19 +169,22 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.bard.$on('bts-reselected', function () {
+    this.bard.$on('bts-update', function () {
       return _this.$emit('close');
     });
   },
   beforeDestroy: function beforeDestroy() {
-    this.bard.$off('bts-reselected');
+    this.bard.$off('bts-update');
   },
   methods: {
     fields: function fields(type) {
       return this.btsOptions.attributes[type];
     },
     apply: function apply() {
-      this.editor.commands.btsAttrsApplyItems(this.items);
+      this.editor.commands.btsAttributesApply({
+        info: this.info,
+        items: this.items
+      });
       this.$emit('applied');
     }
   }
@@ -366,12 +374,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   created: function created() {
     var _this = this;
 
-    this.bard.$on('bts-reselected', function () {
+    this.bard.$on('bts-update', function () {
       return _this.$emit('close');
     });
   },
   beforeDestroy: function beforeDestroy() {
-    this.bard.$off('bts-reselected');
+    this.bard.$off('bts-update');
   },
   computed: {
     items: function items() {
@@ -460,10 +468,12 @@ var Attributes = Extension.create({
   addCommands: function addCommands() {
     var attributeTypes = this.options.attributeTypes;
     return {
-      btsAttrsFetchItems: function btsAttrsFetchItems() {
+      btsAttributesFetch: function btsAttributesFetch() {
         return function (_ref7) {
           var state = _ref7.state;
-          var from = state.selection.from;
+          var _state$selection = state.selection,
+              from = _state$selection.from,
+              to = _state$selection.to;
           var items = [];
           state.doc.nodesBetween(from, from + 1, function (node) {
             if (attributeTypes.includes(node.type.name)) {
@@ -484,16 +494,29 @@ var Attributes = Extension.create({
               });
             }
           });
-          return items;
+          return {
+            info: {
+              from: from,
+              to: to
+            },
+            items: items.reverse()
+          };
         };
       },
-      btsAttrsApplyItems: function btsAttrsApplyItems(items) {
-        return function (_ref8) {
-          var state = _ref8.state,
-              chain = _ref8.chain;
-          var _state$selection = state.selection,
-              from = _state$selection.from,
-              to = _state$selection.to;
+      btsAttributesApply: function btsAttributesApply(_ref8) {
+        var info = _ref8.info,
+            items = _ref8.items;
+        return function (_ref9) {
+          var state = _ref9.state,
+              chain = _ref9.chain;
+          var _state$selection2 = state.selection,
+              from = _state$selection2.from,
+              to = _state$selection2.to;
+
+          if (from !== info.from || to !== info.to) {
+            return; // This shouldn't be possible, but sanity check just in case
+          }
+
           var apply = chain().focus();
           items.forEach(function (item) {
             if (item.kind === 'mark') {
@@ -608,8 +631,11 @@ var Core = Extension.create({
       }
     };
   },
+  onUpdate: function onUpdate() {
+    this.options.bard.$emit('bts-update');
+  },
   onSelectionUpdate: function onSelectionUpdate() {
-    this.options.bard.$emit('bts-reselected');
+    this.options.bard.$emit('bts-update');
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Core);

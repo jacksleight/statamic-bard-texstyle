@@ -40,11 +40,11 @@ export default {
     },
 
     created() {
-        this.bard.$on('bts-reselected', () => this.$emit('close'));
+        this.bard.$on('bts-update', () => this.$emit('close'));
     },
 
     beforeDestroy() {
-        this.bard.$off('bts-reselected');
+        this.bard.$off('bts-update');
     },
 
     computed: {

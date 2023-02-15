@@ -60,9 +60,11 @@ export default {
     },
 
     data() {
+        const { info, items } = this.editor.commands.btsAttributesFetch();
         return {
             activeItem: 0,
-            items: this.editor.commands.btsAttrsFetchItems(),
+            info,
+            items,
             titles: {
                 blockquote: __('Blockquote'),
                 bold: __('Bold'),
@@ -90,11 +92,11 @@ export default {
     },
 
     created() {
-        this.bard.$on('bts-reselected', () => this.$emit('close'));
+        this.bard.$on('bts-update', () => this.$emit('close'));
     },
 
     beforeDestroy() {
-        this.bard.$off('bts-reselected');
+        this.bard.$off('bts-update');
     },
 
     methods: {
@@ -104,7 +106,10 @@ export default {
         },
 
         apply() {
-            this.editor.commands.btsAttrsApplyItems(this.items);
+            this.editor.commands.btsAttributesApply({
+                info: this.info,
+                items: this.items,
+            });
             this.$emit('applied');
         },
 
