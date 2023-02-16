@@ -5,7 +5,7 @@ order: 5
 
 # Attributes Panel (Pro)
 
-The attributes panel allows you to edit the underlying node/mark attribute values.
+The attributes panel allows you to edit the underlying node/mark attribute values. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
 
 [TOC]
 
