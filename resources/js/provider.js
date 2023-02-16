@@ -83,7 +83,7 @@ class Provider {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
                 const type = options.types[style.type];
-                const icon = styleToIcon(style, type);
+                const icon = styleToIcon(style, options.major);
                 const args = style.type === 'heading'
                     ? { [options.attr]: style[options.store], level: style.level }
                     : { [options.attr]: style[options.store] };
@@ -139,7 +139,7 @@ class Provider {
     bootCss(options) {
         const css = [
             ...this.gatherStyleCss(options),
-            ...(options.pro ? this.gatherDivCss() : []),
+            ...(options.pro ? this.gatherDivCss(options) : []),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -166,14 +166,15 @@ class Provider {
         return css;
     }
 
-    gatherDivCss() {
+    gatherDivCss(options) {
         const css = [];
         const selector = [
             '.bard-fieldtype .ProseMirror >',
             '.bard-fieldtype .ProseMirror div[data-bts] >',
         ];
+        const cpFile = options.major >= 4 ? 'statamic/cp/build/assets/tailwind' : 'statamic/cp/css/cp';
         const cpCss = Array.from(document.styleSheets)
-            .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
+            .find(sheet => sheet.href && sheet.href.includes(cpFile));
         Array.from(cpCss.cssRules)
             .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
             .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));

@@ -12,6 +12,7 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
+use Statamic\Support\Str;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -112,6 +113,7 @@ class ServiceProvider extends AddonServiceProvider
         $styleOptions = $this->resolveStyleOptions($pro, $styles);
 
         return [
+            'major' => Statamic::version() !== 'dev-master' ? (int) Str::before(Statamic::version(), '.') : 100,
             'pro' => $pro,
             'store' => $store,
             'attr' => $attr,
