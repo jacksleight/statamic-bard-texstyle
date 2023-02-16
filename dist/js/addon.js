@@ -133,42 +133,58 @@ __webpack_require__.r(__webpack_exports__);
     btsOptions: {}
   },
   data: function data() {
+    var _this$editor$commands = this.editor.commands.btsAttributesFetch(),
+        info = _this$editor$commands.info,
+        items = _this$editor$commands.items;
+
     return {
       activeItem: 0,
-      items: this.editor.commands.btsAttrsFetchItems().reverse(),
+      info: info,
+      items: items,
       titles: {
         blockquote: __('Blockquote'),
+        bold: __('Bold'),
         bulletList: __('Unordered List'),
+        code: __('Code'),
         codeBlock: __('Code Block'),
         heading: __('Heading'),
         horizontalRule: __('Horizontal Rule'),
         image: __('Image'),
+        italic: __('Italic'),
+        link: __('Link'),
         listItem: __('List Item'),
         orderedList: __('Ordered List'),
         paragraph: __('Paragraph'),
+        strike: __('Strike'),
+        subscript: __('Subscript'),
+        superscript: __('Superscript'),
         table: __('Table'),
         tableCell: __('Table Cell'),
         tableHeader: __('Table Header'),
-        tableRow: __('Table Row')
+        tableRow: __('Table Row'),
+        underline: __('Underline')
       }
     };
   },
   created: function created() {
     var _this = this;
 
-    this.bard.$on('bts-reselected', function () {
+    this.bard.$on('bts-update', function () {
       return _this.$emit('close');
     });
   },
   beforeDestroy: function beforeDestroy() {
-    this.bard.$off('bts-reselected');
+    this.bard.$off('bts-update');
   },
   methods: {
     fields: function fields(type) {
       return this.btsOptions.attributes[type];
     },
     apply: function apply() {
-      this.editor.commands.btsAttrsApplyItems(this.items);
+      this.editor.commands.btsAttributesApply({
+        info: this.info,
+        items: this.items
+      });
       this.$emit('applied');
     }
   }
@@ -358,12 +374,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   created: function created() {
     var _this = this;
 
-    this.bard.$on('bts-reselected', function () {
+    this.bard.$on('bts-update', function () {
       return _this.$emit('close');
     });
   },
   beforeDestroy: function beforeDestroy() {
-    this.bard.$off('bts-reselected');
+    this.bard.$off('bts-update');
   },
   computed: {
     items: function items() {
@@ -452,31 +468,67 @@ var Attributes = Extension.create({
   addCommands: function addCommands() {
     var attributeTypes = this.options.attributeTypes;
     return {
-      btsAttrsFetchItems: function btsAttrsFetchItems() {
+      btsAttributesFetch: function btsAttributesFetch() {
         return function (_ref7) {
           var state = _ref7.state;
-          var from = state.selection.from;
+          var _state$selection = state.selection,
+              from = _state$selection.from,
+              to = _state$selection.to;
           var items = [];
-          state.doc.nodesBetween(from, from, function (node, pos) {
-            var type = node.type.name;
-
-            if (attributeTypes.includes(type)) {
+          state.doc.nodesBetween(from, from + 1, function (node) {
+            if (attributeTypes.includes(node.type.name)) {
               items.push({
-                pos: pos,
-                type: type,
+                kind: 'node',
+                type: node.type.name,
                 attrs: _objectSpread({}, node.attrs)
+              });
+            } else if (node.type.name === 'text') {
+              node.marks.forEach(function (mark) {
+                if (attributeTypes.includes(mark.type.name)) {
+                  items.push({
+                    kind: 'mark',
+                    type: mark.type.name,
+                    attrs: _objectSpread({}, mark.attrs)
+                  });
+                }
               });
             }
           });
-          return items;
+          return {
+            info: {
+              from: from,
+              to: to
+            },
+            items: items.reverse()
+          };
         };
       },
-      btsAttrsApplyItems: function btsAttrsApplyItems(items) {
-        return function (_ref8) {
-          var state = _ref8.state;
+      btsAttributesApply: function btsAttributesApply(_ref8) {
+        var info = _ref8.info,
+            items = _ref8.items;
+        return function (_ref9) {
+          var state = _ref9.state,
+              chain = _ref9.chain;
+          var _state$selection2 = state.selection,
+              from = _state$selection2.from,
+              to = _state$selection2.to;
+
+          if (from !== info.from || to !== info.to) {
+            return; // This shouldn't be possible, but sanity check just in case
+          }
+
+          var apply = chain().focus();
           items.forEach(function (item) {
-            state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
+            if (item.kind === 'mark') {
+              apply = apply.extendMarkRange(item.type);
+            }
+
+            apply = apply.updateAttributes(item.type, item.attrs);
           });
+          return apply.setTextSelection({
+            from: from,
+            to: to
+          }).run();
         };
       }
     };
@@ -579,8 +631,11 @@ var Core = Extension.create({
       }
     };
   },
+  onUpdate: function onUpdate() {
+    this.options.bard.$emit('bts-update');
+  },
   onSelectionUpdate: function onSelectionUpdate() {
-    this.options.bard.$emit('bts-reselected');
+    this.options.bard.$emit('bts-update');
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Core);

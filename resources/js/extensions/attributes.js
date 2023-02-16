@@ -31,25 +31,46 @@ const Attributes = Extension.create({
     addCommands() {
         const { attributeTypes } = this.options;
         return {
-            btsAttrsFetchItems: () => ({ state }) => {
-                const { from } = state.selection
+            btsAttributesFetch: () => ({ state }) => {
+                const { from, to } = state.selection
                 const items = [];
-                state.doc.nodesBetween(from, from, (node, pos) => {
-                    const type = node.type.name;
-                    if (attributeTypes.includes(type)) {
+                state.doc.nodesBetween(from, from + 1, (node) => {
+                    if (attributeTypes.includes(node.type.name)) {
                         items.push({
-                            pos,
-                            type: type,
-                            attrs: {...node.attrs},
+                            kind: 'node',
+                            type: node.type.name,
+                            attrs: { ...node.attrs },
+                        });
+                    } else if (node.type.name === 'text') {
+                        node.marks.forEach(mark => {
+                            if (attributeTypes.includes(mark.type.name)) {
+                                items.push({
+                                    kind: 'mark',
+                                    type: mark.type.name,
+                                    attrs: { ...mark.attrs },
+                                });
+                            }
                         });
                     }
                 });
-                return items;
+                return {
+                    info: { from, to },
+                    items: items.reverse(),
+                };
             },
-            btsAttrsApplyItems: (items) => ({ state }) => {
+            btsAttributesApply: ({ info, items }) => ({ state, chain }) => {
+                const { from, to } = state.selection;
+                if (from !== info.from || to !== info.to) {
+                    return; // This shouldn't be possible, but sanity check just in case
+                }
+                let apply = chain().focus();
                 items.forEach(item => {
-                    state.tr.setNodeMarkup(item.pos, undefined, item.attrs);
+                    if (item.kind === 'mark') {
+                        apply = apply.extendMarkRange(item.type);
+                    }
+                    apply = apply.updateAttributes(item.type, item.attrs);
                 });
+                return apply.setTextSelection({ from, to }).run();
             },
         }
     },

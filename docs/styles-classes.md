@@ -160,4 +160,4 @@ You can use the `default_classes` option to apply classes to elements that have 
 ],
 ```
 
-You can add default classes for any node or mark type.
+You can add default classes for any node/mark type.

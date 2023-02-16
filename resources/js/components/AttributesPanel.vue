@@ -60,33 +60,43 @@ export default {
     },
 
     data() {
+        const { info, items } = this.editor.commands.btsAttributesFetch();
         return {
             activeItem: 0,
-            items: this.editor.commands.btsAttrsFetchItems().reverse(),
+            info,
+            items,
             titles: {
                 blockquote: __('Blockquote'),
+                bold: __('Bold'),
                 bulletList: __('Unordered List'),
+                code: __('Code'),
                 codeBlock: __('Code Block'),
                 heading: __('Heading'),
                 horizontalRule: __('Horizontal Rule'),
                 image: __('Image'),
+                italic: __('Italic'),
+                link: __('Link'),
                 listItem: __('List Item'),
                 orderedList: __('Ordered List'),
                 paragraph: __('Paragraph'),
+                strike: __('Strike'),
+                subscript: __('Subscript'),
+                superscript: __('Superscript'),
                 table: __('Table'),
                 tableCell: __('Table Cell'),
                 tableHeader: __('Table Header'),
                 tableRow: __('Table Row'),
+                underline: __('Underline'),
             },
         };
     },
 
     created() {
-        this.bard.$on('bts-reselected', () => this.$emit('close'));
+        this.bard.$on('bts-update', () => this.$emit('close'));
     },
 
     beforeDestroy() {
-        this.bard.$off('bts-reselected');
+        this.bard.$off('bts-update');
     },
 
     methods: {
@@ -96,7 +106,10 @@ export default {
         },
 
         apply() {
-            this.editor.commands.btsAttrsApplyItems(this.items);
+            this.editor.commands.btsAttributesApply({
+                info: this.info,
+                items: this.items,
+            });
             this.$emit('applied');
         },
 

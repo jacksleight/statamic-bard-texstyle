@@ -66,8 +66,12 @@ const Core = Extension.create({
         }
     },
 
+    onUpdate() {
+        this.options.bard.$emit('bts-update');
+    },
+
     onSelectionUpdate() {
-        this.options.bard.$emit('bts-reselected');
+        this.options.bard.$emit('bts-update');
     },
 
 });
