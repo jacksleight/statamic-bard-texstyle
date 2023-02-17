@@ -740,6 +740,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var maskCount = 0;
 var icons = {
+  // @deprecated: Icons for Statamic v3, drop when v3 is dropped
   classic: {
     'letter': function letter(style) {
       var _heading$paragraph$bt;

@@ -1,6 +1,7 @@
 let maskCount = 0;
 
 const icons = {
+    // @deprecated: Icons for Statamic v3, drop when v3 is dropped
     classic: {
         'letter': (style) => {
             const letter = {
