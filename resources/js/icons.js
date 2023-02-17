@@ -1,7 +1,7 @@
 let maskCount = 0;
 
 const icons = {
-    legacy: {
+    classic: {
         'letter': (style) => {
             const letter = {
                 heading: 'H',
@@ -96,7 +96,7 @@ const icons = {
             `;
         },
     },
-    current: {
+    modern: {
         'letter': (style) => {
             const letter = {
                 heading: 'H',

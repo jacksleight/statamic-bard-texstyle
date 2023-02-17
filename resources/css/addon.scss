@@ -154,3 +154,74 @@
 
 }
 
+.bts-tw {
+    $sizes: (
+        0: 0px,
+        0\.5: 0.125rem,
+        1: 0.25rem,
+        1\.5: 0.375rem,
+        2: 0.5rem,
+        2\.5: 0.625rem,
+        3: 0.75rem,
+        3\.5: 0.875rem,
+        4: 1rem,
+        5: 1.25rem,
+        6: 1.5rem,
+        7: 1.75rem,
+        8: 2rem,
+    );
+    $classes: (
+        p: 'padding',
+        px: 'padding-inline',
+        py: 'padding-block',
+        pt: 'padding-top',
+        pr: 'padding-right',
+        pb: 'padding-bottom',
+        pl: 'padding-left',
+        m: 'margin',
+        mx: 'margin-inline',
+        my: 'margin-block',
+        mt: 'margin-top',
+        mr: 'margin-right',
+        mb: 'margin-bottom',
+        ml: 'margin-left',
+        gap: 'gap',
+        gap-x: 'gap-x',
+        gap-y: 'gap-y',
+    );
+    @each $class, $property in $classes {
+        &-#{$class} {
+            @each $size, $value in $sizes {
+                &-#{$size} {
+                    #{$property}: $value;
+                }
+            }
+        }
+    }
+    $grays: (
+        100: #fafcff,
+        200: #f5f8fc,
+        300: #eef2f6,
+        400: #dde3e9,
+        500: #c4ccd4,
+        600: #a7b3be,
+        700: #73808c,
+        800: #1c2e36,
+        900: #19292f,
+        950: #141a1f,
+    );
+    $classes: (
+        text: 'color',
+        bg: 'background-color',
+        border: 'border-color',
+    );
+    @each $class, $property in $classes {
+        &-#{$class} {
+            @each $gray, $value in $grays {
+                &-gray-#{$gray} {
+                    #{$property}: $value;
+                }
+            }
+        }
+    }
+}
