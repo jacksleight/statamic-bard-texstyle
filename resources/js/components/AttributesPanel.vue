@@ -3,7 +3,7 @@
     <div class="bts-panel">
         <div v-if="items.length">
             <div v-for="(item, i) in items">
-                <div class="font-bold bts-tw-px-4 bts-py-1.25 bts-tw-bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
+                <div class="font-bold bts-tw-px-4 bts-tw-py-2.5 bts-tw-bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow bts-tw-text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="bts-tw-p-4 bts-tw-pt-1 border-b" v-if="activeItem === i">
                     <div v-for="(field, name) in fields(item.type)" class="bts-tw-mt-3">
-                        <label v-if="field.type === 'toggle'" class="flex items-baseline bts-gap-0.5 font-normal">
+                        <label v-if="field.type === 'toggle'" class="flex items-baseline bts-tw-gap-1 font-normal">
                             <input
                                 type="checkbox"
                                 v-model="item.attrs[name]"
