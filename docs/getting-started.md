@@ -53,4 +53,4 @@ When using heading, unordered list or ordered list styles the associated `h*`, `
 
 ### Link Style Buttons
 
-Link style buttons are only visible when a link is selected in the Bard field. Links should still be created through the standard link button.
+When using link styles the `link` button must also be enabled in the Bard field. Link style buttons will only be visible when a link is selected, they should still be created through the standard link button.
