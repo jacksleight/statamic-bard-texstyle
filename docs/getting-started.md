@@ -47,6 +47,10 @@ Check the [styles and classes](styles-classes) page for full details.
 
 You can enable the buttons in any Bard field, either through the blueprint/fieldset editor or by adding them to the buttons list in the YAML file directly.
 
-:::important
+### Heading & List Style Buttons
+
 When using heading, unordered list or ordered list styles the associated `h*`, `unorderedlist` or `orderedlist` buttons must also be enabled in the Bard field.
-:::
+
+### Link Style Buttons
+
+Link style buttons are be visible when a link is selected in the Bard field. Links should still be created through the standard link button.
