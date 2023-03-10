@@ -112,7 +112,7 @@ const icons = {
             }[letter];
             const ident = style.ident;
             return `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="width: 24px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16" fill="currentColor" style="width: 20px;">
                     ${letterPath}
                     <text text-anchor="start" x="15" y="15.8" style="font-size: 15px; transform: scaleX(0.8)">${ident}</text>
                 </svg>
