@@ -194,7 +194,7 @@ const icons = {
     },
 };
 
-export const styleToIcon = (style, major) => {
+export const styleToIcon = (style, set) => {
     let icon;
     if (style.icon) {
         icon = style.icon;
@@ -209,9 +209,8 @@ export const styleToIcon = (style, major) => {
     } else {
         icon = 'letter';
     }
-    const set = major >= 4 ? icons.modern : icons.classic;
-    return set[icon]
-        ? set[icon](style)
+    return icons[set][icon]
+        ? icons[set][icon](style)
         : icon;
 }
 

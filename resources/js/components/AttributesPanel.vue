@@ -3,15 +3,15 @@
     <div class="bts-panel">
         <div v-if="items.length">
             <div v-for="(item, i) in items">
-                <div class="font-bold bts-tw-px-4 bts-tw-py-2.5 bts-tw-bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow bts-tw-text-gray-700" :class="{ 'rotate-90': activeItem === i }">
+                <div class="font-bold jsst4-px-4 jsst4-py-2.5 jsst4-bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow jsst4-text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                     {{ titles[item.type] }}
                 </div>
-                <div class="bts-tw-p-4 bts-tw-pt-1 border-b" v-if="activeItem === i">
-                    <div v-for="(field, name) in fields(item.type)" class="bts-tw-mt-3">
-                        <label v-if="field.type === 'toggle'" class="flex items-baseline bts-tw-gap-1 font-normal">
+                <div class="jsst4-p-4 jsst4-pt-1 border-b" v-if="activeItem === i">
+                    <div v-for="(field, name) in fields(item.type)" class="jsst4-mt-3">
+                        <label v-if="field.type === 'toggle'" class="flex items-baseline jsst4-gap-1 font-normal">
                             <input
                                 type="checkbox"
                                 v-model="item.attrs[name]"
@@ -25,13 +25,13 @@
                             <input
                                 type="text"
                                 v-model="item.attrs[name]"
-                                class="input h-8 bts-tw-p-2 border text-sm bts-tw-border-gray-500 rounded bts-tw-mt-2"
+                                class="input h-8 jsst4-p-2 border text-sm jsst4-border-gray-500 rounded jsst4-mt-2"
                             />
                         </label>
                     </div>                    
                 </div>
             </div>
-            <div class="flex items-center justify-end font-normal bts-tw-px-4 bts-tw-py-3">
+            <div class="flex items-center justify-end font-normal jsst4-px-4 jsst4-py-3">
                 <button
                     @click="apply"
                     class="btn btn-sm">
@@ -39,7 +39,7 @@
                 </button>
             </div>
         </div>
-        <div v-else class="bts-tw-p-8 w-40 text-center bts-tw-text-gray-400">
+        <div v-else class="jsst4-p-8 w-40 text-center jsst4-text-gray-400">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>
