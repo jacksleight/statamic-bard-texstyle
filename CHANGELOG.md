@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2 ()
+
+- [new] Statamic 4 support
+
 ## 2.1.1 (2023-02-16)
 
 - [new] Support marks in the attribute panel (Pro)
