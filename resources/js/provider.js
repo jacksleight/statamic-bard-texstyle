@@ -5,7 +5,7 @@ import Overrides from './extensions/overrides'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
-import { styleToIcon, stylesIcon, attributesIcon } from './icons';
+import { styleToIcon, coreIcon } from './icons';
 
 class Provider {
 
@@ -113,7 +113,7 @@ class Provider {
                 name: 'bts_styles',
                 text: __('Style'),
                 component: StylesButton,
-                html: stylesIcon,
+                html: coreIcon('styles', options.major >= 4 ? 'modern' : 'classic'),
                 btsOptions: options,
             }));
         });
@@ -129,7 +129,7 @@ class Provider {
                 name: 'bts_attributes',
                 text: __('Attributes'),
                 component: AttributesButton,
-                html: attributesIcon,
+                html: coreIcon('attributes', options.major >= 4 ? 'modern' : 'classic'),
                 btsOptions: options,
             }));
         });
