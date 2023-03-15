@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2 ()
+## 2.2.0 ()
 
 - [new] Statamic 4 support
 
