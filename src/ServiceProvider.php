@@ -114,10 +114,10 @@ class ServiceProvider extends AddonServiceProvider
     {
         Augmentor::addExtension('btsCore', function ($bard) use ($options) {
             // @deprecated: Rename this to bts_defaults in next major version
-            $defaultsHandle = $bard->config('bts_default_classes', 'standard');
+            $defaultsKey = $bard->config('bts_default_classes', 'standard');
 
             return new Core($options + [
-                'defaultsHandle' => $defaultsHandle,
+                'defaultsKey' => $defaultsKey,
             ]);
         });
         Augmentor::addExtension('btsAttributes', new Attributes($options));

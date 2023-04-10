@@ -263,19 +263,24 @@ it('resolves legacy default_classes flat config', function () {
     ]);
 });
 
-// it('resolves legacy default_classes named config', function () {
-//     $options = (new OptionManager([
-//         'default_classes' => [
-//             'standard' => [
-//                 'heading' => [
-//                     1 => 'heading-1',
-//                 ],
-//                 'paragraph' => 'paragraph',
-//             ],
-//         ],
-//     ], false))->resolve();
+it('resolves legacy default_classes named config', function () {
+    $options = (new OptionManager([
+        'default_classes' => [
+            'standard' => [
+                'heading' => [
+                    1 => 'heading-1',
+                ],
+                'paragraph' => 'paragraph',
+            ],
+        ],
+    ], false))->resolve();
 
-//     expect($options['defaults'])->toEqual([
-
-//     ]);
-// });
+    expect($options['defaults'])->toEqual([
+        'standard' => [
+            'heading' => [
+                1 => 'heading-1',
+            ],
+            'paragraph' => 'paragraph',
+        ],
+    ]);
+});

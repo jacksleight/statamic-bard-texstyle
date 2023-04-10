@@ -170,7 +170,8 @@ class OptionManager
 
     protected function resolveDefaults()
     {
-        $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes', []);
+        // @deprecated: default_classes
+        $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes') ?? [];
         $defaults = $this->normalizeDefaults($defaults);
 
         return $defaults;
@@ -224,6 +225,9 @@ class OptionManager
             ->all();
     }
 
+    /**
+     * @deprecated
+     */
     protected function normalizeDefaults($defaults)
     {
         if (array_key_exists('standard', $defaults)) {
