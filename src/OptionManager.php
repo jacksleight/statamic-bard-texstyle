@@ -124,6 +124,7 @@ class OptionManager
         $types = collect($this->types)
             ->map(fn ($type, $key) => array_merge($type, ['key' => $key]))
             ->filter(fn ($type) => ! $type['pro'] || $this->pro)
+            ->map(fn ($type) => Arr::except($type, 'pro'))
             ->all();
 
         $usedTypes = [];

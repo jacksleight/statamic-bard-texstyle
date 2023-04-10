@@ -13,6 +13,5 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         Version::shouldReceive('get')->andReturn(Composer::create(__DIR__.'/../')->installedVersion(Statamic::PACKAGE));
-        // $this->addToAssertionCount(-1);
     }
 }

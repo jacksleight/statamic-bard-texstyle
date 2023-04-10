@@ -68,7 +68,6 @@ it('resolves free edition config', function () {
         ],
         'types' => [
             'heading' => [
-                'pro' => false,
                 'key' => 'heading',
             ],
         ],
@@ -167,11 +166,9 @@ it('resolves pro edition config', function () {
         ],
         'types' => [
             'heading' => [
-                'pro' => false,
                 'key' => 'heading',
             ],
             'btsDiv' => [
-                'pro' => true,
                 'key' => 'btsDiv',
             ],
         ],
@@ -231,7 +228,7 @@ it('resolves legacy paragraph style config', function () {
                 'cp_css' => 'font-size: 1.25em',
             ],
         ],
-    ], true))->resolve();
+    ], false))->resolve();
 
     expect($options['styles'])->toEqual([
         'introduction' => [
@@ -254,7 +251,7 @@ it('resolves legacy default_classes config', function () {
             ],
             'paragraph' => 'paragraph',
         ],
-    ], true))->resolve();
+    ], false))->resolve();
 
     expect($options['defaultClasses'])->toEqual([
         'standard' => [
