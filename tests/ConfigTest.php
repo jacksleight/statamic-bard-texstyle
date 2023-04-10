@@ -227,6 +227,11 @@ it('resolves legacy paragraph style config', function () {
                 'button' => 'introduction',
                 'cp_css' => 'font-size: 1.25em',
             ],
+            [
+                'name' => 'Lead',
+                'ident' => 'L',
+                'class' => 'lead',
+            ],
         ],
     ], false))->resolve();
 
@@ -239,6 +244,13 @@ it('resolves legacy paragraph style config', function () {
             'cp_css' => 'font-size: 1.25em',
             'type' => 'paragraph',
             'key' => 'introduction',
+        ],
+        'bts_lead' => [
+            'name' => 'Lead',
+            'ident' => 'L',
+            'class' => 'lead',
+            'type' => 'paragraph',
+            'key' => 'bts_lead',
         ],
     ]);
 });
