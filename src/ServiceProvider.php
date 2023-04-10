@@ -113,10 +113,11 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootExtensions($options)
     {
         Augmentor::addExtension('btsCore', function ($bard) use ($options) {
-            $defaultSet = $bard->config('bts_default_classes', 'standard');
+            // @deprecated: Rename this to bts_defaults in next major version
+            $defaultsHandle = $bard->config('bts_default_classes', 'standard');
 
             return new Core($options + [
-                'defaults' => $options['defaultClasses'][$defaultSet] ?? null,
+                'defaultsHandle' => $defaultsHandle,
             ]);
         });
         Augmentor::addExtension('btsAttributes', new Attributes($options));
@@ -139,7 +140,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function bootDefaultClassesField($options)
     {
-        $options = collect($options['defaultClasses'])
+        $options = collect($options['defaults'])
             ->map(fn ($v, $k) => $k)
             ->except('standard')
             ->all();
@@ -147,6 +148,7 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
+        // @deprecated: Rename this to bts_defaults in next major version
         Bard::appendConfigField('bts_default_classes', [
             'display' => __('Default Classes'),
             'instructions' => 'The set of default classes to use. The standard set will be used by default.',

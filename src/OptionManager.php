@@ -83,12 +83,12 @@ class OptionManager
     public function resolve()
     {
         $store = data_get($this->config, 'store', 'class');
-        $attr = $store === 'class' ? 'class' : 'bts_key';
+        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should this be btsKey in next major version?
 
-        $defaultClasses = $this->resolveDefaultClasses();
+        $defaults = $this->resolveDefaults();
         [$styles, $types] = $this->resolveStylesAndTypes();
         $styleTypes = $this->resolveStyleTypes($styles, $types);
-        $classTypes = $this->resolveClassTypes($styleTypes, $defaultClasses);
+        $classTypes = $this->resolveClassTypes($styleTypes, $defaults);
 
         $attributes = $this->resolveAttributes($classTypes);
         $attributeTypes = $this->resolveAttributeTypes($attributes);
@@ -108,10 +108,10 @@ class OptionManager
             'styles' => $styles,
             'types' => $types,
             'attributes' => $attributes,
+            'defaults' => $defaults,
             'styleTypes' => $styleTypes,
             'classTypes' => $classTypes,
             'attributeTypes' => $attributeTypes,
-            'defaultClasses' => $defaultClasses,
             'styleOptions' => $styleOptions,
         ];
     }
@@ -168,12 +168,12 @@ class OptionManager
         return $attributes;
     }
 
-    protected function resolveDefaultClasses()
+    protected function resolveDefaults()
     {
-        $defaultClasses = data_get($this->config, 'default_classes', []);
-        $defaultClasses = $this->normalizeDefaults($defaultClasses);
+        $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes', []);
+        $defaults = $this->normalizeDefaults($defaults);
 
-        return $defaultClasses;
+        return $defaults;
     }
 
     protected function resolveStyleTypes($styles, $types)
@@ -185,10 +185,10 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveClassTypes($styleTypes, $defaultClasses)
+    protected function resolveClassTypes($styleTypes, $defaults)
     {
         return collect($styleTypes)
-            ->merge(collect($defaultClasses)->flatMap(fn ($value) => $value)->keys())
+            ->merge(collect($defaults)->flatMap(fn ($value) => $value)->keys())
             ->unique()
             ->values()
             ->all();

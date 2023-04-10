@@ -17,6 +17,7 @@ class Core extends Extension
             'styles' => [],
             'types' => [],
             'defaults' => [],
+            'defaultsHandle' => null,
         ];
     }
 
@@ -26,8 +27,11 @@ class Core extends Extension
         $attr = $this->options['attr'];
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
+        $defaultsHandle = $this->options['defaultsHandle'];
         $styleTypes = $this->options['styleTypes'];
         $classTypes = $this->options['classTypes'];
+
+        $defaults = $defaults[$defaultsHandle] ?? null;
 
         return collect($classTypes)
             ->map(function ($type) use ($store, $attr, $styles, $styleTypes, $defaults) {

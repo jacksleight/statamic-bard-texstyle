@@ -27,14 +27,6 @@ it('resolves free edition config', function () {
                 'cp_badge' => true,
             ],
         ],
-        'default_classes' => [
-            'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
-                ],
-                'paragraph' => 'paragraph',
-            ],
-        ],
         'attributes' => [
             'heading' => [
                 'id' => [
@@ -43,6 +35,14 @@ it('resolves free edition config', function () {
                     'default' => null,
                     'rendered' => true,
                 ],
+            ],
+        ],
+        'defaults' => [
+            'standard' => [
+                'heading' => [
+                    1 => 'heading-1',
+                ],
+                'paragraph' => 'paragraph',
             ],
         ],
         'store' => 'class',
@@ -72,6 +72,14 @@ it('resolves free edition config', function () {
             ],
         ],
         'attributes' => [],
+        'defaults' => [
+            'standard' => [
+                'heading' => [
+                    1 => 'heading-1',
+                ],
+                'paragraph' => 'paragraph',
+            ],
+        ],
         'styleTypes' => [
             'heading',
         ],
@@ -80,14 +88,6 @@ it('resolves free edition config', function () {
             'paragraph',
         ],
         'attributeTypes' => [],
-        'defaultClasses' => [
-            'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
-                ],
-                'paragraph' => 'paragraph',
-            ],
-        ],
         'styleOptions' => [],
     ]);
 });
@@ -115,14 +115,6 @@ it('resolves pro edition config', function () {
                 'cp_badge' => true,
             ],
         ],
-        'default_classes' => [
-            'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
-                ],
-                'paragraph' => 'paragraph',
-            ],
-        ],
         'attributes' => [
             'heading' => [
                 'id' => [
@@ -131,6 +123,14 @@ it('resolves pro edition config', function () {
                     'default' => null,
                     'rendered' => true,
                 ],
+            ],
+        ],
+        'defaults' => [
+            'standard' => [
+                'heading' => [
+                    1 => 'heading-1',
+                ],
+                'paragraph' => 'paragraph',
             ],
         ],
         'store' => 'class',
@@ -183,6 +183,14 @@ it('resolves pro edition config', function () {
                 ],
             ],
         ],
+        'defaults' => [
+            'standard' => [
+                'heading' => [
+                    1 => 'heading-1',
+                ],
+                'paragraph' => 'paragraph',
+            ],
+        ],
         'styleTypes' => [
             'heading',
             'btsDiv',
@@ -194,14 +202,6 @@ it('resolves pro edition config', function () {
         ],
         'attributeTypes' => [
             'heading',
-        ],
-        'defaultClasses' => [
-            'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
-                ],
-                'paragraph' => 'paragraph',
-            ],
         ],
         'styleOptions' => [
             'h1' => 'Heading 1',
@@ -230,7 +230,7 @@ it('resolves legacy paragraph style config', function () {
         ],
     ], false))->resolve();
 
-    expect($options['styles'])->toEqual([
+    expect($options['styles'] ?? null)->toEqual([
         'introduction' => [
             'name' => 'Introduction',
             'ident' => 'I',
@@ -243,7 +243,7 @@ it('resolves legacy paragraph style config', function () {
     ]);
 });
 
-it('resolves legacy default_classes config', function () {
+it('resolves legacy default_classes flat config', function () {
     $options = (new OptionManager([
         'default_classes' => [
             'heading' => [
@@ -253,7 +253,7 @@ it('resolves legacy default_classes config', function () {
         ],
     ], false))->resolve();
 
-    expect($options['defaultClasses'])->toEqual([
+    expect($options['defaults'] ?? null)->toEqual([
         'standard' => [
             'heading' => [
                 1 => 'heading-1',
@@ -262,3 +262,20 @@ it('resolves legacy default_classes config', function () {
         ],
     ]);
 });
+
+// it('resolves legacy default_classes named config', function () {
+//     $options = (new OptionManager([
+//         'default_classes' => [
+//             'standard' => [
+//                 'heading' => [
+//                     1 => 'heading-1',
+//                 ],
+//                 'paragraph' => 'paragraph',
+//             ],
+//         ],
+//     ], false))->resolve();
+
+//     expect($options['defaults'])->toEqual([
+
+//     ]);
+// });
