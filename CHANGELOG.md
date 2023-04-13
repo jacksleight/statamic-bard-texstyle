@@ -2,9 +2,11 @@
 
 ## 2.3.0 ()
 
-- attribute heading levels
-- new config format and deprecated format
-- cp defaults
+- [new] Add CP CSS and badges to unstyled elements (experimental)
+- [new] Add different attributes to individual heading levels
+- Heading and heading level configurations have been simplified
+- Default classes configuration has been restructured
+- Previous configuration structures are now deprecated
 
 ## 2.2.0 ()
 
