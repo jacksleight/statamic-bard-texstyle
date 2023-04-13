@@ -55,26 +55,30 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 The following node/mark types are supported. Some nodes/marks have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
-| Type                | Standard Attributes                |
-| ------------------- | ---------------------------------- |
-| blockquote          |                                    |
-| bold                |                                    |
-| bulletList          |                                    |
-| code                |                                    |
-| codeBlock           | language                           |
-| heading             | level                              |
-| horizontalRule      |                                    |
-| image               | src, alt, title                    |
-| italic              |                                    |
-| link                | href, rel, target, title           |
-| listItem            |                                    |
-| orderedList         | start                              |
-| paragraph           |                                    |
-| strike              |                                    |
-| subscript           |                                    |
-| superscript         |                                    |
-| table               |                                    |
-| tableCell           | rowspan, colspan, colwidth         |
-| tableHeader         | rowspan, colspan, colwidth         |
-| tableRow            |                                    |
-| underline           |                                    |
+| Type                                  | Standard Attributes                |
+| ------------------------------------- | ---------------------------------- |
+| `blockquote`                          |                                    |
+| `bold`                                |                                    |
+| `bulletList`                          |                                    |
+| `code`                                |                                    |
+| `codeBlock`                           | `language`                         |
+| `heading`<br>`heading[1-6]` (see note) | `level`                            |
+| `horizontalRule`                      |                                    |
+| `image`                               | `src`, `alt`, `title`              |
+| `italic`                              |                                    |
+| `link`                                | `href`, `rel`, `target`, `title`   |
+| `listItem`                            |                                    |
+| `orderedList`                         | `start`                            |
+| `paragraph`                           |                                    |
+| `strike`                              |                                    |
+| `subscript`                           |                                    |
+| `superscript`                         |                                    |
+| ta`b`le                               |                                    |
+| `tableCell`                           | `rowspan`, `colspan`, `colwidth`   |
+| `tableHeader`                         | `rowspan`, `colspan`, `colwidth`   |
+| `tableRow`                            |                                    |
+| `underline`                           |                                    |
+
+:::note
+You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.
+:::

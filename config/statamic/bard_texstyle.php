@@ -13,16 +13,15 @@ return [
 
     'styles' => [
 
-        // 'title' => [
-        //     'type' => 'heading',
-        //     'level' => 1,
-        //     'name' => 'Title',
-        //     'ident' => 'T',
-        //     'icon' => null,
-        //     'class' => 'title',
-        //     'cp_css' => 'text-decoration: underline; text-underline-offset: 0.1em; text-decoration-color: #c5ccd4',
-        //     'cp_badge' => false,
-        // ],
+        'title' => [
+            'type' => 'heading1',
+            'name' => 'Title',
+            'ident' => 'T',
+            'icon' => null,
+            'class' => 'title',
+            'cp_css' => 'text-decoration: underline; text-underline-offset: 0.1em; text-decoration-color: #c5ccd4',
+            'cp_badge' => false,
+        ],
 
         // 'lead' => [
         //     'type' => 'paragraph',
@@ -110,14 +109,14 @@ return [
 
     'attributes' => [
 
-        // 'heading' => [
-        //     'id' => [
-        //         'type' => 'text',
-        //         'display' => 'ID',
-        //         'default' => null,
-        //         'rendered' => true,
-        //     ],
-        // ],
+        'heading1' => [
+            'id' => [
+                'type' => 'text',
+                'display' => 'ID',
+                'default' => null,
+                'rendered' => true,
+            ],
+        ],
 
         // 'orderedList' => [
         //     'start' => [
@@ -148,15 +147,27 @@ return [
 
     'defaults' => [
         'standard' => [
-            // 'heading' => [
-            //     1 => 'heading-1',
-            //     2 => 'heading-2',
-            //     3 => 'heading-3',
-            //     4 => 'heading-4',
-            //     5 => 'heading-5',
-            //     6 => 'heading-6',
-            // ],
-            // 'paragraph' => 'paragraph',
+            'heading1' => [
+                'class' => 'heading-1',
+            ],
+            'heading2' => [
+                'class' => 'heading-2',
+            ],
+            'heading3' => [
+                'class' => 'heading-3',
+            ],
+            'heading4' => [
+                'class' => 'heading-4',
+            ],
+            'heading5' => [
+                'class' => 'heading-5',
+            ],
+            'heading6' => [
+                'class' => 'heading-6',
+            ],
+            'paragraph' => [
+                'class' => 'paragraph',
+            ],
         ],
     ],
 

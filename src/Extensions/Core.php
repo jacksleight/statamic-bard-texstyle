@@ -63,8 +63,8 @@ class Core extends Extension
                                 }
                                 if (! $class) {
                                     $class = $type === 'heading'
-                                        ? ($defaults[$type][$attributes->level] ?? null)
-                                        : ($defaults[$type] ?? null);
+                                        ? ($defaults[$type.$attributes->level]['class'] ?? null)
+                                        : ($defaults[$type]['class'] ?? null);
                                 }
 
                                 return $class ? ['class' => $class] : [];

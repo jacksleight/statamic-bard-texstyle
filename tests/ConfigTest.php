@@ -8,8 +8,7 @@ it('resolves free edition config', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
-                'type' => 'heading',
-                'level' => 1,
+                'type' => 'heading1',
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
@@ -39,45 +38,54 @@ it('resolves free edition config', function () {
         ],
         'defaults' => [
             'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
+                'heading1' => [
+                    'class' => 'heading-1',
                 ],
-                'paragraph' => 'paragraph',
+                'paragraph' => [
+                    'class' => 'paragraph',
+                ],
             ],
         ],
         'store' => 'class',
     ], false))->resolve();
 
     expect($options)->toEqual([
-        'major' => 3,
+        'major' => $this->getStatamicMajor(),
         'pro' => false,
         'store' => 'class',
         'attr' => 'class',
         'styles' => [
             'title' => [
                 'type' => 'heading',
-                'level' => 1,
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
                 'class' => 'title',
-                'cp_css' => 'font-size: 1.5em',
+                'cp_css' => ['&' => 'font-size: 1.5em'],
                 'cp_badge' => false,
+                'args' => ['level' => 1],
+                'kind' => 'heading1',
                 'key' => 'title',
             ],
         ],
         'types' => [
             'heading' => [
-                'key' => 'heading',
+                'type' => 'heading',
             ],
         ],
         'attributes' => [],
         'defaults' => [
             'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
+                'heading1' => [
+                    'class' => 'heading-1',
+                    'type' => 'heading',
+                    'kind' => 'heading1',
                 ],
-                'paragraph' => 'paragraph',
+                'paragraph' => [
+                    'class' => 'paragraph',
+                    'type' => 'paragraph',
+                    'kind' => 'paragraph',
+                ],
             ],
         ],
         'styleTypes' => [
@@ -88,6 +96,10 @@ it('resolves free edition config', function () {
             'paragraph',
         ],
         'attributeTypes' => [],
+        'defaultsTypes' => [
+            'heading',
+            'paragraph',
+        ],
         'styleOptions' => [],
     ]);
 });
@@ -96,8 +108,7 @@ it('resolves pro edition config', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
-                'type' => 'heading',
-                'level' => 1,
+                'type' => 'heading1',
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
@@ -116,7 +127,7 @@ it('resolves pro edition config', function () {
             ],
         ],
         'attributes' => [
-            'heading' => [
+            'heading1' => [
                 'id' => [
                     'type' => 'text',
                     'display' => 'ID',
@@ -127,30 +138,33 @@ it('resolves pro edition config', function () {
         ],
         'defaults' => [
             'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
+                'heading1' => [
+                    'class' => 'heading-1',
                 ],
-                'paragraph' => 'paragraph',
+                'paragraph' => [
+                    'class' => 'paragraph',
+                ],
             ],
         ],
         'store' => 'class',
     ], true))->resolve();
 
     expect($options)->toEqual([
-        'major' => 3,
+        'major' => $this->getStatamicMajor(),
         'pro' => true,
         'store' => 'class',
         'attr' => 'class',
         'styles' => [
             'title' => [
                 'type' => 'heading',
-                'level' => 1,
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
                 'class' => 'title',
-                'cp_css' => 'font-size: 1.5em',
+                'cp_css' => ['&' => 'font-size: 1.5em'],
                 'cp_badge' => false,
+                'args' => ['level' => 1],
+                'kind' => 'heading1',
                 'key' => 'title',
             ],
             'twocolumns' => [
@@ -159,36 +173,48 @@ it('resolves pro edition config', function () {
                 'ident' => '❙ ❙',
                 'icon' => null,
                 'class' => 'two-columns',
-                'cp_css' => 'column-count: 2; column-gap: 16px',
+                'cp_css' => ['&' => 'column-count: 2; column-gap: 16px'],
                 'cp_badge' => true,
+                'args' => [],
+                'kind' => 'div',
                 'key' => 'twocolumns',
             ],
         ],
         'types' => [
             'heading' => [
-                'key' => 'heading',
+                'type' => 'heading',
             ],
             'btsDiv' => [
-                'key' => 'btsDiv',
+                'type' => 'btsDiv',
             ],
         ],
         'attributes' => [
-            'heading' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
+            'heading1' => [
+                'attrs' => [
+                    'id' => [
+                        'type' => 'text',
+                        'display' => 'ID',
+                        'default' => null,
+                        'rendered' => true,
+                        'extra' => true,
+                    ],
                 ],
+                'type' => 'heading',
+                'kind' => 'heading1',
             ],
         ],
         'defaults' => [
             'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
+                'heading1' => [
+                    'class' => 'heading-1',
+                    'type' => 'heading',
+                    'kind' => 'heading1',
                 ],
-                'paragraph' => 'paragraph',
+                'paragraph' => [
+                    'class' => 'paragraph',
+                    'type' => 'paragraph',
+                    'kind' => 'paragraph',
+                ],
             ],
         ],
         'styleTypes' => [
@@ -202,6 +228,10 @@ it('resolves pro edition config', function () {
         ],
         'attributeTypes' => [
             'heading',
+        ],
+        'defaultsTypes' => [
+            'heading',
+            'paragraph',
         ],
         'styleOptions' => [
             'h1' => 'Heading 1',
@@ -217,7 +247,33 @@ it('resolves pro edition config', function () {
     ]);
 });
 
-it('resolves legacy paragraph style config', function () {
+it('normalizes legacy style config', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'title' => [
+                'type' => 'heading',
+                'level' => 1,
+                'name' => 'Title',
+                'ident' => 'T',
+                'class' => 'title',
+            ],
+        ],
+    ], false))->resolve();
+
+    expect($options['styles'] ?? null)->toEqual([
+        'title' => [
+            'type' => 'heading',
+            'name' => 'Title',
+            'ident' => 'T',
+            'class' => 'title',
+            'args' => ['level' => 1],
+            'kind' => 'heading1',
+            'key' => 'title',
+        ],
+    ]);
+});
+
+it('normalizes legacy paragraph style config', function () {
     $options = (new OptionManager([
         'styles' => [
             [
@@ -241,8 +297,10 @@ it('resolves legacy paragraph style config', function () {
             'ident' => 'I',
             'class' => 'intro',
             'button' => 'introduction',
-            'cp_css' => 'font-size: 1.25em',
+            'cp_css' => ['&' => 'font-size: 1.25em'],
             'type' => 'paragraph',
+            'args' => [],
+            'kind' => 'paragraph',
             'key' => 'introduction',
         ],
         'bts_lead' => [
@@ -250,16 +308,19 @@ it('resolves legacy paragraph style config', function () {
             'ident' => 'L',
             'class' => 'lead',
             'type' => 'paragraph',
+            'args' => [],
+            'kind' => 'paragraph',
             'key' => 'bts_lead',
         ],
     ]);
 });
 
-it('resolves legacy default_classes flat config', function () {
+it('normalizes legacy default_classes config', function () {
     $options = (new OptionManager([
         'default_classes' => [
             'heading' => [
                 1 => 'heading-1',
+                2 => 'heading-2',
             ],
             'paragraph' => 'paragraph',
         ],
@@ -267,32 +328,117 @@ it('resolves legacy default_classes flat config', function () {
 
     expect($options['defaults'] ?? null)->toEqual([
         'standard' => [
-            'heading' => [
-                1 => 'heading-1',
+            'heading1' => [
+                'class' => 'heading-1',
+                'type' => 'heading',
+                'kind' => 'heading1',
             ],
-            'paragraph' => 'paragraph',
+            'heading2' => [
+                'class' => 'heading-2',
+                'type' => 'heading',
+                'kind' => 'heading2',
+            ],
+            'paragraph' => [
+                'class' => 'paragraph',
+                'type' => 'paragraph',
+                'kind' => 'paragraph',
+            ],
         ],
     ]);
 });
 
-it('resolves legacy default_classes named config', function () {
+it('expands header attributes config', function () {
     $options = (new OptionManager([
-        'default_classes' => [
-            'standard' => [
-                'heading' => [
-                    1 => 'heading-1',
+        'attributes' => [
+            'heading' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
                 ],
-                'paragraph' => 'paragraph',
             ],
         ],
-    ], false))->resolve();
+    ], true))->resolve();
 
-    expect($options['defaults'])->toEqual([
-        'standard' => [
-            'heading' => [
-                1 => 'heading-1',
+    expect($options['attributes'] ?? null)->toEqual([
+        'heading1' => [
+            'attrs' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
             ],
-            'paragraph' => 'paragraph',
+            'type' => 'heading',
+            'kind' => 'heading1',
+        ],
+        'heading2' => [
+            'attrs' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
+            'type' => 'heading',
+            'kind' => 'heading2',
+        ],
+        'heading3' => [
+            'attrs' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
+            'type' => 'heading',
+            'kind' => 'heading3',
+        ],
+        'heading4' => [
+            'attrs' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
+            'type' => 'heading',
+            'kind' => 'heading4',
+        ],
+        'heading5' => [
+            'attrs' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
+            'type' => 'heading',
+            'kind' => 'heading5',
+        ],
+        'heading6' => [
+            'attrs' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
+            'type' => 'heading',
+            'kind' => 'heading6',
         ],
     ]);
 });

@@ -15,15 +15,13 @@ The style keys are used as the button names. Styles can have the following optio
 
 * **type (string)**  
   The type. Options are:
-    * `heading`
+    * `heading[1-6]`
     * `paragraph`
     * `bulletList`
     * `orderedList`
     * `link`
     * `span`
     * `div` (Pro)
-* **level (string)**  
-  The heading level (only applicable to `heading` styles).
 * **class (string)**  
   The class name that will be applied for this style. Must be unique within the type.
 * **name (string)**  

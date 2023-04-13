@@ -65,9 +65,24 @@ class OptionManager
         'paragraph',
     ];
 
-    protected $aliases = [
+    protected $typeAliases = [
         'span' => 'btsSpan',
         'div' => 'btsDiv',
+        'heading1' => 'heading',
+        'heading2' => 'heading',
+        'heading3' => 'heading',
+        'heading4' => 'heading',
+        'heading5' => 'heading',
+        'heading6' => 'heading',
+    ];
+
+    protected $typeArgs = [
+        'heading1' => ['level' => 1],
+        'heading2' => ['level' => 2],
+        'heading3' => ['level' => 3],
+        'heading4' => ['level' => 4],
+        'heading5' => ['level' => 5],
+        'heading6' => ['level' => 6],
     ];
 
     protected $config;
@@ -86,9 +101,11 @@ class OptionManager
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should this be btsKey in next major version?
 
         $defaults = $this->resolveDefaults();
+        $defaultsTypes = $this->resolveDefaultsTypes($defaults);
+
         [$styles, $types] = $this->resolveStylesAndTypes();
-        $styleTypes = $this->resolveStyleTypes($styles, $types);
-        $classTypes = $this->resolveClassTypes($styleTypes, $defaults);
+        $styleTypes = $this->resolveStyleTypes($styles);
+        $classTypes = $this->resolveClassTypes($styleTypes, $defaultsTypes);
 
         $attributes = $this->resolveAttributes($classTypes);
         $attributeTypes = $this->resolveAttributeTypes($attributes);
@@ -112,6 +129,7 @@ class OptionManager
             'styleTypes' => $styleTypes,
             'classTypes' => $classTypes,
             'attributeTypes' => $attributeTypes,
+            'defaultsTypes' => $defaultsTypes,
             'styleOptions' => $styleOptions,
         ];
     }
@@ -122,18 +140,29 @@ class OptionManager
         $styles = $this->normalizeStyles($styles);
 
         $types = collect($this->types)
-            ->map(fn ($type, $key) => array_merge($type, ['key' => $key]))
+            ->map(fn ($type, $key) => array_merge($type, ['type' => $key]))
             ->filter(fn ($type) => ! $type['pro'] || $this->pro)
             ->map(fn ($type) => Arr::except($type, 'pro'))
             ->all();
 
         $usedTypes = [];
         $styles = collect($styles)
-            ->map(fn ($style, $key) => array_merge($style, ['key' => $key]))
-            ->map(fn ($style) => array_merge($style, ['type' => $this->aliases[$style['type']] ?? $style['type']]))
+            ->map(fn ($style, $key) => array_merge($style, [
+                'type' => $this->typeAliases[$style['type']] ?? $style['type'],
+                'args' => $this->typeArgs[$style['type']] ?? [],
+                'kind' => $style['type'],
+                'key' => $key,
+            ]))
             ->filter(fn ($style) => isset($types[$style['type']]))
             ->each(function ($style) use (&$usedTypes) {
                 $usedTypes[$style['type']] = true;
+            })
+            ->map(function ($style) {
+                if (is_string($style['cp_css'] ?? null)) {
+                    $style['cp_css'] = ['&' => $style['cp_css']];
+                }
+
+                return $style;
             })
             ->all();
 
@@ -151,17 +180,24 @@ class OptionManager
         }
 
         $attributes = data_get($this->config, 'attributes', []);
+        $attributes = $this->expandAttributes($attributes);
 
         $attributes = collect($attributes)
-            ->mapWithKeys(fn ($attrs, $type) => [($this->aliases[$type] ?? $type) => $attrs])
-            ->filter(fn ($attrs, $type) => array_key_exists($type, $this->attributeTypes))
-            ->map(function ($attrs, $type) use ($classTypes) {
-                return collect($attrs)->map(function ($attr, $name) use ($type, $classTypes) {
+            ->map(fn ($attrs, $type) => array_merge([
+                'attrs' => $attrs,
+                'type' => $this->typeAliases[$type] ?? $type,
+                'kind' => $type,
+            ]))
+            ->filter(fn ($group) => array_key_exists($group['type'], $this->attributeTypes))
+            ->map(function ($group, $type) use ($classTypes) {
+                $group['attrs'] = collect($group['attrs'])->map(function ($attr, $name) use ($type, $classTypes) {
                     return array_merge($attr, [
                         'extra' => ! in_array($name, $this->attributeTypes[$type] ?? []) &&
                             ($name !== 'class' || ! in_array($type, $classTypes)),
                     ]);
                 })->all();
+
+                return $group;
             })
             ->all();
 
@@ -174,10 +210,30 @@ class OptionManager
         $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes') ?? [];
         $defaults = $this->normalizeDefaults($defaults);
 
+        $defaults = collect($defaults)
+            ->map(function ($groups) {
+                return collect($groups)
+                    ->map(fn ($group, $type) => array_merge($group, [
+                        'type' => $this->typeAliases[$type] ?? $type,
+                        'kind' => $type,
+                    ]))
+                    ->all();
+            })
+            ->all();
+
         return $defaults;
     }
 
-    protected function resolveStyleTypes($styles, $types)
+    protected function resolveDefaultsTypes($defaults)
+    {
+        return collect($defaults)
+            ->flatMap(fn ($groups) => collect($groups)->pluck('type'))
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    protected function resolveStyleTypes($styles)
     {
         return collect($styles)
             ->pluck('type')
@@ -186,10 +242,10 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveClassTypes($styleTypes, $defaults)
+    protected function resolveClassTypes($styleTypes, $defaultsTypes)
     {
         return collect($styleTypes)
-            ->merge(collect($defaults)->flatMap(fn ($value) => $value)->keys())
+            ->merge($defaultsTypes)
             ->unique()
             ->values()
             ->all();
@@ -198,7 +254,9 @@ class OptionManager
     protected function resolveAttributeTypes($attributes)
     {
         return collect($attributes)
-            ->keys()
+            ->pluck('type')
+            ->unique()
+            ->values()
             ->all();
     }
 
@@ -225,18 +283,55 @@ class OptionManager
             ->all();
     }
 
+    protected function expandAttributes($attributes)
+    {
+        if (array_key_exists('heading', $attributes)) {
+            for ($i = 1; $i <= 6; $i++) {
+                $attributes['heading'.$i] = array_merge(
+                    $attributes['heading'],
+                    $attributes['heading'.$i] ?? []
+                );
+            }
+            unset($attributes['heading']);
+        }
+
+        return $attributes;
+    }
+
     /**
      * @deprecated
      */
     protected function normalizeDefaults($defaults)
     {
-        if (array_key_exists('standard', $defaults)) {
-            return $defaults;
+        if (! array_key_exists('standard', $defaults)) {
+            $defaults = [
+                'standard' => $defaults,
+            ];
         }
 
-        return [
-            'standard' => $defaults,
-        ];
+        return collect($defaults)
+            ->map(function ($groups) {
+                if (array_key_exists('heading', $groups)) {
+                    foreach ($groups['heading'] as $level => $class) {
+                        $groups['heading'.$level] = $class;
+                    }
+                    unset($groups['heading']);
+                }
+
+                return $groups;
+            })
+            ->map(function ($groups) {
+                return collect($groups)
+                    ->map(function ($group) {
+                        if (is_string($group)) {
+                            $group = ['class' => $group];
+                        }
+
+                        return $group;
+                    })
+                    ->all();
+            })
+            ->all();
     }
 
     /**
@@ -244,10 +339,29 @@ class OptionManager
      */
     protected function normalizeStyles($styles)
     {
-        if (Arr::isAssoc($styles)) {
-            return $styles;
+        if (! Arr::isAssoc($styles)) {
+            $styles = $this->normalizeParagraphStyleStyles($styles);
         }
 
+        return collect($styles)
+            ->map(function ($style) {
+                if ($style['type'] === 'heading') {
+                    $style['type'] = 'heading'.$style['level'];
+                    unset($style['level']);
+                }
+
+                return $style;
+            })
+            ->all();
+
+        return $styles;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function normalizeParagraphStyleStyles($styles)
+    {
         $normal = [];
 
         foreach ($styles as $style) {

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.0 ()
+
+- attribute heading levels
+- new config format and deprecated format
+- cp defaults
+
 ## 2.2.0 ()
 
 - [new] Statamic 4 support and updated button icons

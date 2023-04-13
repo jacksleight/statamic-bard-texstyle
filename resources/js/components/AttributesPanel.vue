@@ -7,10 +7,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow jstw-text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                    {{ titles[item.type] }}
+                    {{ title(item) }}
                 </div>
                 <div class="jstw-p-4 jstw-pt-1 border-b" v-if="activeItem === i">
-                    <div v-for="(field, name) in fields(item.type)" class="jstw-mt-3">
+                    <div v-for="(field, name) in fields(item)" class="jstw-mt-3">
                         <label v-if="field.type === 'toggle'" class="flex items-baseline jstw-gap-1 font-normal">
                             <input
                                 type="checkbox"
@@ -71,7 +71,12 @@ export default {
                 bulletList: __('Unordered List'),
                 code: __('Code'),
                 codeBlock: __('Code Block'),
-                heading: __('Heading'),
+                heading1: __('Heading 1'),
+                heading2: __('Heading 2'),
+                heading3: __('Heading 3'),
+                heading4: __('Heading 4'),
+                heading5: __('Heading 5'),
+                heading5: __('Heading 6'),
                 horizontalRule: __('Horizontal Rule'),
                 image: __('Image'),
                 italic: __('Italic'),
@@ -101,8 +106,18 @@ export default {
 
     methods: {
 
-        fields(type) {
-            return this.btsOptions.attributes[type];
+        kind(item) {
+            return item.type === 'heading'
+                ? `${item.type}${item.attrs.level}`
+                : `${item.type}`;
+        },
+
+        title(item) {
+            return this.titles[this.kind(item)];
+        },
+
+        fields(item) {
+            return this.btsOptions.attributes[this.kind(item)].attrs;
         },
 
         apply() {

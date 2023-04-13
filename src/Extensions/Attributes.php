@@ -20,10 +20,10 @@ class Attributes extends Extension
         $attributes = $this->options['attributes'];
 
         return collect($attributes)
-            ->map(function ($attrs, $type) {
+            ->map(function ($group) {
                 return [
-                    'types' => [$type],
-                    'attributes' => collect($attrs)
+                    'types' => [$group['type']],
+                    'attributes' => collect($group['attrs'])
                         ->filter(fn ($attr) => $attr['extra'])
                         ->map(function ($attr) {
                             return [

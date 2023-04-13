@@ -84,17 +84,14 @@ class Provider {
             Object.entries(options.styles).forEach(([key, style]) => {
                 const type = options.types[style.type];
                 const icon = styleToIcon(style, options.major >= 4 ? 'modern' : 'classic');
-                const args = style.type === 'heading'
-                    ? { [options.attr]: style[options.store], level: style.level }
-                    : { [options.attr]: style[options.store] };
                 const data = {
                     name: key,
                     text: style.name,
-                    args: args,
+                    args: { [options.attr]: style[options.store], ...style.args },
                     html: icon,
-                    active: (editor, args) => editor.isActive(type.key, args),
-                    visible: type.toggleVisibility ? (editor) => editor.isActive(type.key) : () => true,
-                    btsMenuVisible: type.toggleVisibility ? (editor) => editor.isActive(type.key) : () => true,
+                    active: (editor, args) => editor.isActive(type.type, args),
+                    visible: type.toggleVisibility ? (editor) => editor.isActive(type.type) : () => true,
+                    btsMenuVisible: type.toggleVisibility ? (editor) => editor.isActive(type.type) : () => true,
                     command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
                 };
@@ -152,7 +149,7 @@ class Provider {
         Object.entries(options.styles).forEach(([key, style]) => {
             const type = options.types[style.type];
             const tag = style.type === 'heading'
-                ? `${type.tag}${style.level}`
+                ? `${type.tag}${style.args.level}`
                 : `${type.tag}`;
             const selector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
             const badgeSelector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
@@ -184,9 +181,6 @@ class Provider {
     }
 
     parseCss(prefix, data) {
-        if (typeof data === 'string') {
-            return [`${prefix} { ${data} }`];
-        }
         return Object.entries(data).map(([selector, properties]) => {
             const prefixed = selector.includes('&')
                 ? selector.replace('&', prefix)

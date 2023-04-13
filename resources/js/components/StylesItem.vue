@@ -47,7 +47,7 @@ export default {
             return (this.item.btsStyle ? [
                 this.item.name,
                 this.item.btsStyle.type,
-                this.item.btsStyle.level ? `h${this.item.btsStyle.level}` : null,
+                this.item.btsStyle.type === 'heading' ? `h${this.item.btsStyle.args.level}` : null,
             ] : [
                 this.item.name,
             ]).join(' ');

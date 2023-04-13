@@ -13,10 +13,10 @@ const Attributes = Extension.create({
 
     addGlobalAttributes() {
         const { attributes } = this.options;
-        return Object.entries(attributes).map(([type, attrs]) => {
+        return Object.entries(attributes).map(([type, group]) => {
             return {
-                types: [type],
-                attributes: Object.fromEntries(Object.entries(attrs)
+                types: [group.type],
+                attributes: Object.fromEntries(Object.entries(group.attrs)
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
                         return [name, {
