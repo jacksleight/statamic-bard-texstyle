@@ -7,7 +7,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow jstw-text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                    {{ title(item) }}
+                    {{ __(title(item)) }}
                 </div>
                 <div class="jstw-p-4 jstw-pt-1 border-b" v-if="activeItem === i">
                     <div v-for="(field, name) in fields(item)" class="jstw-mt-3">
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import titles from '../titles';
 
 export default {
 
@@ -65,34 +66,6 @@ export default {
             activeItem: 0,
             info,
             items,
-            titles: {
-                blockquote: __('Blockquote'),
-                bold: __('Bold'),
-                bulletList: __('Unordered List'),
-                code: __('Code'),
-                codeBlock: __('Code Block'),
-                heading1: __('Heading 1'),
-                heading2: __('Heading 2'),
-                heading3: __('Heading 3'),
-                heading4: __('Heading 4'),
-                heading5: __('Heading 5'),
-                heading5: __('Heading 6'),
-                horizontalRule: __('Horizontal Rule'),
-                image: __('Image'),
-                italic: __('Italic'),
-                link: __('Link'),
-                listItem: __('List Item'),
-                orderedList: __('Ordered List'),
-                paragraph: __('Paragraph'),
-                strike: __('Strike'),
-                subscript: __('Subscript'),
-                superscript: __('Superscript'),
-                table: __('Table'),
-                tableCell: __('Table Cell'),
-                tableHeader: __('Table Header'),
-                tableRow: __('Table Row'),
-                underline: __('Underline'),
-            },
         };
     },
 
@@ -113,7 +86,7 @@ export default {
         },
 
         title(item) {
-            return this.titles[this.kind(item)];
+            return titles[this.kind(item)];
         },
 
         fields(item) {

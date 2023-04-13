@@ -6,6 +6,7 @@ import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import { styleToIcon, coreIcon } from './icons';
+import titles from './titles';
 
 class Provider {
 
@@ -136,6 +137,7 @@ class Provider {
     bootCss(options) {
         const css = [
             ...this.gatherStyleCss(options),
+            ...this.gatherDefaultsCss(options),
             ...(options.pro ? this.gatherDivCss(options) : []),
         ];
         const el = document.createElement('style');
@@ -146,16 +148,18 @@ class Provider {
 
     gatherStyleCss(options) {
         const css = [];
+        const baseSelector = '.bard-fieldtype .ProseMirror';
+        const baseMenuSelector = '.bard-fieldtype-wrapper .bts-styles-preview';
         Object.entries(options.styles).forEach(([key, style]) => {
             const type = options.types[style.type];
             const tag = style.type === 'heading'
                 ? `${type.tag}${style.args.level}`
                 : `${type.tag}`;
-            const selector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
-            const badgeSelector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
-            const menuSelector = `.bard-fieldtype-wrapper .bts-styles-preview[data-bts-match~="${key}"]`;
-            css.push(...this.parseCss(selector, style.cp_css || ''));
-            css.push(...this.parseMenuCss(menuSelector, style.cp_css || ''));
+            const selector = `${baseSelector} ${tag}[data-bts="${style[options.store]}"]`;
+            const badgeSelector = `${baseSelector} ${tag}[data-bts="${style[options.store]}"]::before`;
+            const menuSelector = `${baseMenuSelector}[data-bts-match~="${key}"]`;
+            css.push(...this.parseCss(selector, style.cp_css));
+            css.push(...this.parseCss(menuSelector, style.cp_css));
             if (style.cp_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
@@ -163,25 +167,53 @@ class Provider {
         return css;
     }
 
+    gatherDefaultsCss(options) {
+        const css = [];
+        const baseSelector = '.bard-fieldtype .ProseMirror';
+        const notSelector = ':not([data-bts])';
+        const tagSelectors = {
+            heading1: 'h1',
+            heading2: 'h2',
+            heading3: 'h3',
+            heading4: 'h4',
+            heading5: 'h5',
+            heading6: 'h6',
+            paragraph: 'p',
+            bulletList: 'ul',
+            orderedList: 'ol',
+        };
+        Object.entries(options.defaults.standard).forEach(([kind, dflt]) => {
+            const tag = tagSelectors[dflt.kind];
+            if (!tag) {
+                return;
+            }
+            const selector = `${baseSelector} > ${tag}${notSelector}`;
+            const badgeSelector = `${baseSelector} > ${tag}${notSelector}::before`;
+            css.push(...this.parseCss(selector, dflt.cp_css));
+            if (dflt.cp_badge) {
+                css.push(`${badgeSelector} { content: "${__(titles[dflt.kind])}"; }`);
+            }
+        });
+        return css;
+    }
+
     gatherDivCss(options) {
         const css = [];
-        const selector = [
-            '.bard-fieldtype .ProseMirror >',
-            '.bard-fieldtype .ProseMirror div[data-bts] >',
-        ];
+        const searchSelector = '.bard-fieldtype .ProseMirror >';
+        const replaceSelector = '.bard-fieldtype .ProseMirror div[data-bts] >';
         const cpFile = options.major >= 4 ? 'statamic/cp/build/assets/tailwind' : 'statamic/cp/css/cp';
         const cpCss = Array.from(document.styleSheets)
             .find(sheet => sheet.href && sheet.href.includes(cpFile));
         if (cpCss) {
             Array.from(cpCss.cssRules)
-                .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
-                .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
+                .filter(rule => rule.selectorText && rule.selectorText.startsWith(searchSelector))
+                .forEach(rule => css.push(rule.cssText.replaceAll(searchSelector, replaceSelector)));
         }
         return css;
     }
 
     parseCss(prefix, data) {
-        return Object.entries(data).map(([selector, properties]) => {
+        return Object.entries(data || []).map(([selector, properties]) => {
             const prefixed = selector.includes('&')
                 ? selector.replace('&', prefix)
                 : `${prefix} ${selector}`;
@@ -191,10 +223,6 @@ class Provider {
                 }).join('') : properties;
             return `${prefixed} { ${string} }`
         });
-    }
-
-    parseMenuCss(prefix, data) {
-        return this.parseCss(prefix, typeof data === 'string' ? data : (data['&'] || ''));
     }
 
 }

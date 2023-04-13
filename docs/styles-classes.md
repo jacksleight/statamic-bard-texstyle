@@ -138,19 +138,25 @@ To enable the style selection menu toggle the button in the Bard field's button 
 
 ---
 
-## Default Classes
+## Defaults
 
-You can use the `default_classes` option to apply classes to elements that have no style set. Multiple sets of classes are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
+You can use the `defaults` option to apply classes, control panel CSS and control panel badges to elements that have no style set. Multiple sets are supported and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
 
 ```php
-'default_classes' => [
+'defaults' => [
     'standard' => [
-        'heading' => [
-            1 => 'head-1',
-            2 => 'head-2',
-            // ...
+        'heading1' => [
+            'class' => 'head-1',
+            'cp_css' => 'text-decoration: underline',
+            'cp_badge' => true,
         ],
-        'paragraph' => 'para',
+        'heading2' => [
+            'class' => 'head-2',
+            'cp_badge' => true,
+        ],
+        'paragraph' => [
+            'class' => 'para',
+        ],
     ],
     'article' => [
         // ...
@@ -158,4 +164,8 @@ You can use the `default_classes` option to apply classes to elements that have 
 ],
 ```
 
-You can add default classes for any node/mark type.
+:::warning
+Default control panel CSS and badges are currently an experimental feature.
+:::
+
+You can add default classes for any node/mark type. You can add control panel CSS and badges for headings, paragraphs and lists.

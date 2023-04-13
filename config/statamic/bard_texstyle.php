@@ -147,27 +147,29 @@ return [
 
     'defaults' => [
         'standard' => [
-            'heading1' => [
-                'class' => 'heading-1',
-            ],
-            'heading2' => [
-                'class' => 'heading-2',
-            ],
-            'heading3' => [
-                'class' => 'heading-3',
-            ],
-            'heading4' => [
-                'class' => 'heading-4',
-            ],
-            'heading5' => [
-                'class' => 'heading-5',
-            ],
-            'heading6' => [
-                'class' => 'heading-6',
-            ],
-            'paragraph' => [
-                'class' => 'paragraph',
-            ],
+            // 'heading1' => [
+            //     'class' => 'heading-1',
+            //     'cp_css' => 'text-decoration: underline',
+            //     'cp_badge' => true,
+            // ],
+            // 'heading2' => [
+            //     'class' => 'heading-2',
+            // ],
+            // 'heading3' => [
+            //     'class' => 'heading-3',
+            // ],
+            // 'heading4' => [
+            //     'class' => 'heading-4',
+            // ],
+            // 'heading5' => [
+            //     'class' => 'heading-5',
+            // ],
+            // 'heading6' => [
+            //     'class' => 'heading-6',
+            // ],
+            // 'paragraph' => [
+            //     'class' => 'paragraph',
+            // ],
         ],
     ],
 

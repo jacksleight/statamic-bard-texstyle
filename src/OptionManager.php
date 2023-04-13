@@ -183,10 +183,10 @@ class OptionManager
         $attributes = $this->expandAttributes($attributes);
 
         $attributes = collect($attributes)
-            ->map(fn ($attrs, $type) => array_merge([
+            ->map(fn ($attrs, $kind) => array_merge([
                 'attrs' => $attrs,
-                'type' => $this->typeAliases[$type] ?? $type,
-                'kind' => $type,
+                'type' => $this->typeAliases[$kind] ?? $kind,
+                'kind' => $kind,
             ]))
             ->filter(fn ($group) => array_key_exists($group['type'], $this->attributeTypes))
             ->map(function ($group, $type) use ($classTypes) {
@@ -213,10 +213,17 @@ class OptionManager
         $defaults = collect($defaults)
             ->map(function ($groups) {
                 return collect($groups)
-                    ->map(fn ($group, $type) => array_merge($group, [
-                        'type' => $this->typeAliases[$type] ?? $type,
-                        'kind' => $type,
+                    ->map(fn ($group, $kind) => array_merge($group, [
+                        'type' => $this->typeAliases[$kind] ?? $kind,
+                        'kind' => $kind,
                     ]))
+                    ->map(function ($style) {
+                        if (is_string($style['cp_css'] ?? null)) {
+                            $style['cp_css'] = ['&' => $style['cp_css']];
+                        }
+
+                        return $style;
+                    })
                     ->all();
             })
             ->all();
