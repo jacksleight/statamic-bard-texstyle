@@ -23,7 +23,7 @@ This Statamic addon allows you to add custom element styles to the Bard fieldtyp
 | Custom Link Styles       | ●    | ●     |
 | Custom Span Styles       | ●    | ●     |
 | Container Div Styles     |      | ●     |
-| Default Classes          | ●    | ●     |
+| Unstyled Defaults        | ●    | ●     |
 | Style Selector Menu      |      | ●     |
 | Attribute Editor Panel   |      | ●     |
 

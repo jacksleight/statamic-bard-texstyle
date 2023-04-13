@@ -138,7 +138,7 @@ To enable the style selection menu toggle the button in the Bard field's button 
 
 ---
 
-## Defaults
+## Unstyled Defaults
 
 You can use the `defaults` option to apply classes, control panel CSS and control panel badges to elements that have no style set. Multiple sets are supported and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
 
