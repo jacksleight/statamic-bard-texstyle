@@ -156,7 +156,7 @@ class Provider {
                 ? `${type.tag}${style.args.level}`
                 : `${type.tag}`;
             const selector = `${baseSelector} ${tag}[data-bts="${style[options.store]}"]`;
-            const badgeSelector = `${baseSelector} ${tag}[data-bts="${style[options.store]}"]::before`;
+            const badgeSelector = `${baseSelector} ${tag}[data-bts="${style[options.store]}"]:not(.is-editor-empty)::before`;
             const menuSelector = `${baseMenuSelector}[data-bts-match~="${key}"]`;
             css.push(...this.parseCss(selector, style.cp_css));
             css.push(...this.parseCss(menuSelector, style.cp_css));
@@ -188,7 +188,7 @@ class Provider {
                 return;
             }
             const selector = `${baseSelector} > ${tag}${notSelector}`;
-            const badgeSelector = `${baseSelector} > ${tag}${notSelector}::before`;
+            const badgeSelector = `${baseSelector} > ${tag}${notSelector}:not(.is-editor-empty)::before`;
             css.push(...this.parseCss(selector, dflt.cp_css));
             if (dflt.cp_badge) {
                 css.push(`${badgeSelector} { content: "${__(titles[dflt.kind])}"; }`);
