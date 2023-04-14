@@ -169,7 +169,7 @@ class Provider {
 
     gatherDefaultsCss(options) {
         const css = [];
-        const baseSelector = '.bard-fieldtype .ProseMirror';
+        const baseSelector = '.bard-fieldtype[data-bts-defaults="%"] .ProseMirror';
         const notSelector = ':not([data-bts])';
         const tagSelectors = {
             heading1: 'h1',
@@ -182,17 +182,19 @@ class Provider {
             bulletList: 'ul',
             orderedList: 'ol',
         };
-        Object.entries(options.defaults.standard).forEach(([kind, dflt]) => {
-            const tag = tagSelectors[dflt.kind];
-            if (!tag) {
-                return;
-            }
-            const selector = `${baseSelector} > ${tag}${notSelector}`;
-            const badgeSelector = `${baseSelector} > ${tag}${notSelector}:not(.is-editor-empty)::before`;
-            css.push(...this.parseCss(selector, dflt.cp_css));
-            if (dflt.cp_badge) {
-                css.push(`${badgeSelector} { content: "${__(titles[dflt.kind])}"; }`);
-            }
+        Object.entries(options.defaults).forEach(([key, group]) => {
+            Object.entries(group).forEach(([kind, dflt]) => {
+                const tag = tagSelectors[dflt.kind];
+                if (!tag) {
+                    return;
+                }
+                const selector = `${baseSelector.replace('%', key)} > ${tag}${notSelector}`;
+                const badgeSelector = `${baseSelector} > ${tag}${notSelector}:not(.is-editor-empty)::before`;
+                css.push(...this.parseCss(selector, dflt.cp_css));
+                if (dflt.cp_badge) {
+                    css.push(`${badgeSelector} { content: "${__(titles[dflt.kind])}"; }`);
+                }
+            });
         });
         return css;
     }
