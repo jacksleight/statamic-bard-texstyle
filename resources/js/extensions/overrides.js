@@ -14,9 +14,7 @@ const Overrides = Extension.create({
 
     onCreate() {
         const { bard, styleTypes, styleOptions } = this.options;
-
-        bard.$el.parentNode.dataset.btsDefaults = bard.config.bts_default_classes || 'standard';
-
+        
         const blanks = [
             ...(styleTypes.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
             ...(styleTypes.includes('bulletList')) ? ['unorderedlist'] : [],

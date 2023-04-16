@@ -40,6 +40,7 @@ it('resolves free edition config', function () {
             'standard' => [
                 'heading1' => [
                     'class' => 'heading-1',
+                    'cp_badge' => true,
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
@@ -80,6 +81,7 @@ it('resolves free edition config', function () {
                     'class' => 'heading-1',
                     'type' => 'heading',
                     'kind' => 'heading1',
+                    'cp_badge' => true,
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
@@ -99,6 +101,9 @@ it('resolves free edition config', function () {
         'defaultsTypes' => [
             'heading',
             'paragraph',
+        ],
+        'defaultsCps' => [
+            'standard',
         ],
         'styleOptions' => [],
     ]);
@@ -140,6 +145,7 @@ it('resolves pro edition config', function () {
             'standard' => [
                 'heading1' => [
                     'class' => 'heading-1',
+                    'cp_badge' => true,
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
@@ -209,6 +215,7 @@ it('resolves pro edition config', function () {
                     'class' => 'heading-1',
                     'type' => 'heading',
                     'kind' => 'heading1',
+                    'cp_badge' => true,
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
@@ -232,6 +239,9 @@ it('resolves pro edition config', function () {
         'defaultsTypes' => [
             'heading',
             'paragraph',
+        ],
+        'defaultsCps' => [
+            'standard',
         ],
         'styleOptions' => [
             'h1' => 'Heading 1',

@@ -2,6 +2,7 @@ import Span from './marks/span'
 import Div from './nodes/div'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
+import Defaults from './extensions/defaults'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
@@ -14,37 +15,44 @@ class Provider {
         heading: {
             tag: 'h',
             command: 'btsToggleHeading',
-            toggleVisibility: false,
+            toggle_visibility: false,
+            render_badge: true,
         },
         paragraph: {
             tag: 'p',
             command: 'btsToggleParagraph',
-            toggleVisibility: false,
+            toggle_visibility: false,
+            render_badge: true,
         },
         btsSpan: {
             tag: 'span',
             command: 'btsToggleSpan',
-            toggleVisibility: false,
+            toggle_visibility: false,
+            render_badge: false,
         },
         link: {
             tag: 'a',
             command: 'btsToggleLink',
-            toggleVisibility: true,
+            toggle_visibility: true,
+            render_badge: false,
         },
         bulletList: {
             tag: 'ul',
             command: 'btsToggleBulletList',
-            toggleVisibility: false,
+            toggle_visibility: false,
+            render_badge: true,
         },
         orderedList: {
             tag: 'ol',
             command: 'btsToggleOrderedList',
-            toggleVisibility: false,
+            toggle_visibility: false,
+            render_badge: true,
         },
         btsDiv: {
             tag: 'div',
             command: 'btsToggleDiv',
-            toggleVisibility: false,
+            toggle_visibility: false,
+            render_badge: true,
         },
     }
 
@@ -72,6 +80,7 @@ class Provider {
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
         Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
+        Statamic.$bard.addExtension(({ bard }) => Defaults.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
@@ -91,8 +100,8 @@ class Provider {
                     args: { [options.attr]: style[options.store], ...style.args },
                     html: icon,
                     active: (editor, args) => editor.isActive(type.type, args),
-                    visible: type.toggleVisibility ? (editor) => editor.isActive(type.type) : () => true,
-                    btsMenuVisible: type.toggleVisibility ? (editor) => editor.isActive(type.type) : () => true,
+                    visible: type.toggle_visibility ? (editor) => editor.isActive(type.type) : () => true,
+                    btsMenuVisible: type.toggle_visibility ? (editor) => editor.isActive(type.type) : () => true,
                     command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
                 };
@@ -135,10 +144,13 @@ class Provider {
     }
 
     bootCss(options) {
+        const styleCss = this.gatherStyleCss(options);
+        const defaultsCss = this.gatherDefaultsCss(options);
+        const divCss = options.pro ? this.gatherDivCss(options, defaultsCss) : [];
         const css = [
-            ...this.gatherStyleCss(options),
-            ...this.gatherDefaultsCss(options),
-            ...(options.pro ? this.gatherDivCss(options) : []),
+            ...styleCss,
+            ...defaultsCss,
+            ...divCss,
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -149,7 +161,7 @@ class Provider {
     gatherStyleCss(options) {
         const css = [];
         const baseSelector = '.bard-fieldtype .ProseMirror';
-        const baseMenuSelector = '.bard-fieldtype-wrapper .bts-styles-preview';
+        const baseMenuSelector = '.bard-fieldtype .bts-styles-preview';
         Object.entries(options.styles).forEach(([key, style]) => {
             const type = options.types[style.type];
             const tag = style.type === 'heading'
@@ -160,7 +172,7 @@ class Provider {
             const menuSelector = `${baseMenuSelector}[data-bts-match~="${key}"]`;
             css.push(...this.parseCss(selector, style.cp_css));
             css.push(...this.parseCss(menuSelector, style.cp_css));
-            if (style.cp_badge) {
+            if (style.cp_badge && type.render_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
         });
@@ -169,7 +181,7 @@ class Provider {
 
     gatherDefaultsCss(options) {
         const css = [];
-        const baseSelector = '.bard-fieldtype[data-bts-defaults="%"] .ProseMirror';
+        const baseSelector = '.bard-fieldtype .ProseMirror[data-bts-defaults="%"]';
         const notSelector = ':not([data-bts])';
         const tagSelectors = {
             heading1: 'h1',
@@ -184,14 +196,15 @@ class Provider {
         };
         Object.entries(options.defaults).forEach(([key, group]) => {
             Object.entries(group).forEach(([kind, dflt]) => {
+                const type = options.types[dflt.type];
                 const tag = tagSelectors[dflt.kind];
                 if (!tag) {
                     return;
                 }
                 const selector = `${baseSelector.replace('%', key)} > ${tag}${notSelector}`;
-                const badgeSelector = `${baseSelector} > ${tag}${notSelector}:not(.is-editor-empty)::before`;
+                const badgeSelector = `${baseSelector.replace('%', key)} > ${tag}${notSelector}:not(.is-editor-empty)::before`;
                 css.push(...this.parseCss(selector, dflt.cp_css));
-                if (dflt.cp_badge) {
+                if (dflt.cp_badge && type.render_badge) {
                     css.push(`${badgeSelector} { content: "${__(titles[dflt.kind])}"; }`);
                 }
             });
@@ -199,17 +212,18 @@ class Provider {
         return css;
     }
 
-    gatherDivCss(options) {
+    gatherDivCss(options, extraRules = []) {
         const css = [];
-        const searchSelector = '.bard-fieldtype .ProseMirror >';
-        const replaceSelector = '.bard-fieldtype .ProseMirror div[data-bts] >';
+        const baseSelector = '.bard-fieldtype .ProseMirror >';
         const cpFile = options.major >= 4 ? 'statamic/cp/build/assets/tailwind' : 'statamic/cp/css/cp';
         const cpCss = Array.from(document.styleSheets)
             .find(sheet => sheet.href && sheet.href.includes(cpFile));
         if (cpCss) {
             Array.from(cpCss.cssRules)
-                .filter(rule => rule.selectorText && rule.selectorText.startsWith(searchSelector))
-                .forEach(rule => css.push(rule.cssText.replaceAll(searchSelector, replaceSelector)));
+                .filter(rule => rule.selectorText && rule.selectorText.startsWith(baseSelector))
+                .map(rule => rule.cssText)
+                .concat(extraRules)
+                .forEach(rule => css.push(rule.replaceAll(' > ', ' div[data-bts] > ')));
         }
         return css;
     }

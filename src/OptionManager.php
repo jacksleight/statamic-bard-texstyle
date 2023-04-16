@@ -102,6 +102,7 @@ class OptionManager
 
         $defaults = $this->resolveDefaults();
         $defaultsTypes = $this->resolveDefaultsTypes($defaults);
+        $defaultsCps = $this->resolveDefaultsCps($defaults);
 
         [$styles, $types] = $this->resolveStylesAndTypes();
         $styleTypes = $this->resolveStyleTypes($styles);
@@ -130,6 +131,7 @@ class OptionManager
             'classTypes' => $classTypes,
             'attributeTypes' => $attributeTypes,
             'defaultsTypes' => $defaultsTypes,
+            'defaultsCps' => $defaultsCps,
             'styleOptions' => $styleOptions,
         ];
     }
@@ -211,9 +213,9 @@ class OptionManager
         $defaults = $this->normalizeDefaults($defaults);
 
         $defaults = collect($defaults)
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->map(fn ($group, $kind) => array_merge($group, [
+            ->map(function ($group) {
+                return collect($group)
+                    ->map(fn ($default, $kind) => array_merge($default, [
                         'type' => $this->typeAliases[$kind] ?? $kind,
                         'kind' => $kind,
                     ]))
@@ -237,6 +239,17 @@ class OptionManager
             ->flatMap(fn ($groups) => collect($groups)->pluck('type'))
             ->unique()
             ->values()
+            ->all();
+    }
+
+    protected function resolveDefaultsCps($defaults)
+    {
+        return collect($defaults)
+            ->filter(function ($group) {
+                return collect($group)
+                    ->first(fn ($default) => ($default['cp_css'] ?? null) || ($default['cp_badge'] ?? false));
+            })
+            ->keys()
             ->all();
     }
 
@@ -317,24 +330,24 @@ class OptionManager
         }
 
         return collect($defaults)
-            ->map(function ($groups) {
-                if (array_key_exists('heading', $groups)) {
-                    foreach ($groups['heading'] as $level => $class) {
-                        $groups['heading'.$level] = $class;
+            ->map(function ($group) {
+                if (array_key_exists('heading', $group)) {
+                    foreach ($group['heading'] as $level => $class) {
+                        $group['heading'.$level] = $class;
                     }
-                    unset($groups['heading']);
+                    unset($group['heading']);
                 }
 
-                return $groups;
+                return $group;
             })
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->map(function ($group) {
-                        if (is_string($group)) {
-                            $group = ['class' => $group];
+            ->map(function ($group) {
+                return collect($group)
+                    ->map(function ($default) {
+                        if (is_string($default)) {
+                            $default = ['class' => $default];
                         }
 
-                        return $group;
+                        return $default;
                     })
                     ->all();
             })

@@ -4,6 +4,7 @@
 
 - [new] Add CP CSS and badges to unstyled elements (experimental)
 - [new] Add different attributes to individual heading levels
+- [fix] CP badges not showing inside container divs
 - Heading and heading level configurations have been simplified
 - Default classes configuration has been restructured
 - Previous configuration structures are now deprecated
