@@ -70,6 +70,19 @@
         }
     }
 
+    .bts-styles-button {
+        &-text {
+            border: 1px solid #e4ebf1;
+            padding-inline: 6px;
+            width: 5.5rem;
+            font-size: 0.875rem;
+            margin-right: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+    }
     .bts-styles {
         &-items {
             display: flex;

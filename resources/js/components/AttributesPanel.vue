@@ -92,11 +92,11 @@ export default {
     },
 
     created() {
-        this.bard.$on('bts-update', () => this.$emit('close'));
+        this.bard.$on('bts-update', this.close);
     },
 
     beforeDestroy() {
-        this.bard.$off('bts-update');
+        this.bard.$off('bts-update', this.close);
     },
 
     methods: {
@@ -111,6 +111,10 @@ export default {
                 items: this.items,
             });
             this.$emit('applied');
+        },
+
+        close() {
+            this.$emit('close');
         },
 
     },
