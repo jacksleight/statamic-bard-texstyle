@@ -3,6 +3,7 @@
 ## 2.2.0 ()
 
 - [new] Statamic 4 support and updated button icons
+- [new] Option to show the style name in style selection menu button 
 
 ## 2.1.1 (2023-02-16)
 
