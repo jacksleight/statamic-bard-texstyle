@@ -14,7 +14,6 @@
                         <label v-if="field.type === 'select'" class="font-normal">
                             <div class="text-sm leading-none">{{ field.display || name }}</div>
                             <select v-model="item.attrs[name]" class="input h-8 jstw-px-1 border text-sm jstw-border-gray-500 rounded jstw-mt-2 bg-white w-full">
-                                <option value="">–</option>
                                 <option v-for="display, value in field.options" :value="value">{{ display }}</option>
                             </select>
                         </label>
