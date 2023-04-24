@@ -13,6 +13,25 @@ const Attributes = Extension.create({
 
     addGlobalAttributes() {
         const { attributes } = this.options;
+
+        const renders = {
+            true: (name, attr) => ({
+                rendered: true,
+            }),
+            false: (name, attr) => ({
+                parseHTML: element => element.getAttribute(`data-bts-${name}`),
+                renderHTML: attributes => ({ [`data-bts-${name}`]: attributes[name] }),
+            }),
+            class: (name, attr) => ({
+                parseHTML: element => element.getAttribute(`data-bts-${name}`),
+                renderHTML: attributes => ({ [`data-bts-${name}`]: attributes[name] }),
+            }),
+            style: (name, attr) => ({
+                parseHTML: element => element.style[name],
+                renderHTML: attributes => ({ style: `${name}: ${attributes[name]}` }),
+            }),
+        };
+
         return Object.entries(attributes).map(([type, attrs]) => {
             return {
                 types: [type],
@@ -20,8 +39,12 @@ const Attributes = Extension.create({
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
                         return [name, {
-                            default: typeof attr.default !== 'undefined' ? attr.default : null,
-                            rendered: typeof attr.rendered !== 'undefined' ? attr.rendered : true,
+                            default: typeof attr.default !== 'undefined'
+                                ? attr.default
+                                : null,
+                            ...(typeof attr.rendered !== 'undefined'
+                                ? renders[attr.rendered.toString()](name, attr)
+                                : renders.true()),
                         }];
                     })),
             };

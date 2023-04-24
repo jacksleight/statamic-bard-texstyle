@@ -153,7 +153,7 @@ return [
         //     'reversed' => [
         //         'type' => 'toggle',
         //         'display' => 'Reversed',
-        //         'default' => null,
+        //         'default' => false,
         //         'rendered' => true,
         //     ],
         // ],

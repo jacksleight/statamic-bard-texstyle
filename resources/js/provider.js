@@ -156,9 +156,9 @@ class Provider {
                 : `${type.tag}`;
             const selector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
             const badgeSelector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
-            const menuSelector = `.bard-fieldtype-wrapper .bts-styles-preview[data-bts-match~="${key}"]`;
+            const previewSelector = `.bard-fieldtype-wrapper .bts-preview-${key}`;
             css.push(...this.parseCss(selector, style.cp_css || ''));
-            css.push(...this.parseMenuCss(menuSelector, style.cp_css || ''));
+            css.push(...this.parseMenuCss(previewSelector, style.cp_css || ''));
             if (style.cp_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
