@@ -36,6 +36,7 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
   The field type. Options are:
     * `text`
     * `toggle` (checkbox)
+    * `select`
 * **display (string)**  
   The display name of the attribute.
 * **default (string)**  
