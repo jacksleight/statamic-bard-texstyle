@@ -5,7 +5,7 @@
 - [new] Statamic 4 support (with updated button icons)
 - [new] Option to show current style in the style selection button
 - [new] Toggle attribute true/false values can now be configured
-- [new] Select added as an attribute type
+- [new] Select added as an attribute field type
 - [new] Automatic mapping of class/style based attributes
 - Default non-rendered toggle attribute values are now `true`/`false` instead of `true`/`null`
 
