@@ -6,8 +6,8 @@
   "resources/js/addon.js": {
     "css": [
       "assets/addon-68829a82.css"
-    ],
-    "file": "assets/addon-c58599ad.js",
+    
+    "file": "assets/addon-b89cb00e.js",
     "isEntry": true,
     "src": "resources/js/addon.js"
   }

@@ -2,14 +2,15 @@
 
 ## 2.2.0 ()
 
-- [new] Statamic 4 support (plus updated button icons)
+- [new] Statamic 4 support and updated button icons
+- [new] Toggle attribute values can now be configured
 - []
 - []
 - []
 - []
 - []
 - []
-- []
+- Non-rendered toggle attributes are now `true`/`false` 
 
 ## 2.1.1 (2023-02-16)
 
