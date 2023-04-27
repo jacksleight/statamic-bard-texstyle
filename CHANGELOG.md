@@ -2,7 +2,8 @@
 
 ## 2.2.0 ()
 
-- [new] Statamic 4 support and updated button icons
+- [new] Statamic 4 support (with updated button icons)
+- [new] Option to show style name in the style selection button
 - [new] Toggle attribute values can now be configured
 - [new] Select type for attributes
 - []
