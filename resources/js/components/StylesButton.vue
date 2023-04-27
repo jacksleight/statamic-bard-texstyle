@@ -3,17 +3,23 @@
     <div class="inline-block relative">
         <button
             class="bard-toolbar-button"
-            v-html="button.html"
-            v-tooltip="button.text"
+            :class="{
+                'bts-styles-button-icon': type === 'icon',
+                'bts-styles-button-text': type === 'text',
+            }"
+            v-tooltip="type === 'icon' ? button.text : undefined"
             :aria-label="button.text"
-            @click="togglePanel"
-        />
+            @click="togglePanel">
+            <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
+            <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
+        </button>
         <StylesMenu
             v-if="panelActive"
             :config="config"
             :bard="bard"
             :editor="editor"
             :btsOptions="button.btsOptions"
+            :items="items"
             @close="closePanel"
             @picked="closePanel"
         />
@@ -35,7 +41,35 @@ export default {
     data() {    
         return {
             panelActive: false,
+            activeItem: null,
         };
+    },
+
+    created() {
+        if (this.type === 'text') {
+            this.updateActiveItem();
+            this.bard.$on('bts-update', this.updateActiveItem);
+        }
+    },
+
+    beforeDestroy() {
+        if (this.type === 'text') {
+            this.bard.$off('bts-update', this.updateActiveItem);
+        }
+    },
+
+    computed: {
+        items() {
+            const buttons = this.bard.buttons;
+            const menu = (this.config.bts_styles || [])
+                .filter(option => Object.keys(this.button.btsOptions.styleOptions).includes(option));
+            return buttons.filter(button => {
+                return typeof button === 'object' && menu.includes(button.name);
+            });    
+        },
+        type() {
+            return this.config.bts_styles_button;
+        },
     },
 
     methods: {
@@ -49,6 +83,16 @@ export default {
             if (this.panelActive) {
                 this.togglePanel();
             }
+        },
+        updateActiveItem() {
+            this.activeItem = this.items.find(item => {
+                if (item.hasOwnProperty('active')) {
+                    return item.active(this.editor, item.args);
+                }
+                const nameProperty = item.hasOwnProperty('activeName') ? 'activeName' : 'name';
+                const name = item[nameProperty];
+                return this.editor.isActive(name, item.args);
+            });
         },
     }
 

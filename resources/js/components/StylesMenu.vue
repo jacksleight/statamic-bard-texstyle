@@ -37,27 +37,21 @@ export default {
         bard: {},
         editor: {},
         btsOptions: {},
+        items: [],
     },
 
     created() {
-        this.bard.$on('bts-update', () => this.$emit('close'));
+        this.bard.$on('bts-update', this.close);
     },
 
     beforeDestroy() {
-        this.bard.$off('bts-update');
+        this.bard.$off('bts-update', this.close);
     },
 
-    computed: {
-
-        items() {
-            const buttons = this.bard.buttons;
-            const menu = (this.config.bts_styles || [])
-                .filter(option => Object.keys(this.btsOptions.styleOptions).includes(option));
-            return buttons.filter(button => {
-                return typeof button === 'object' && menu.includes(button.name);
-            });    
-        },
-
+    methods: {
+        close() {
+            this.$emit('close');
+        }
     },
 
 }
