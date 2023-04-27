@@ -138,8 +138,8 @@ class Provider {
 
     bootCss(options) {
         const css = [
-            ...this.gatherStyleCss(options),
-            ...(options.pro ? this.gatherDivCss(options) : []),
+            ...this.gatherStylesCss(options),
+            ...this.gatherContentCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -147,7 +147,7 @@ class Provider {
         return this;
     }
 
-    gatherStyleCss(options) {
+    gatherStylesCss(options) {
         const css = [];
         Object.entries(options.styles).forEach(([key, style]) => {
             const type = options.types[style.type];
@@ -166,13 +166,17 @@ class Provider {
         return css;
     }
 
-    gatherDivCss(options) {
+    // @deprecated
+    gatherContentCss(options) {
+        if (!options.pro || options.major >= 4) {
+            return [];
+        }
         const css = [];
         const selector = [
             '.bard-fieldtype .ProseMirror >',
             '.bard-fieldtype .ProseMirror div[data-bts] >',
         ];
-        const cpFile = options.major >= 4 ? 'statamic/cp/build/assets/tailwind' : 'statamic/cp/css/cp';
+        const cpFile = 'statamic/cp/css/cp';
         const cpCss = Array.from(document.styleSheets)
             .find(sheet => sheet.href && sheet.href.includes(cpFile));
         if (cpCss) {
