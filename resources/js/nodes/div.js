@@ -17,7 +17,7 @@ const Div = Node.create({
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['div', HTMLAttributes, 0]
+        return ['div', { class: 'bard-content', ...HTMLAttributes }, 0]
     },
 
     addCommands() {

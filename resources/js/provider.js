@@ -5,7 +5,7 @@ import Overrides from './extensions/overrides'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
-import { styleToIcon, stylesIcon, attributesIcon } from './icons';
+import { styleToIcon, coreIcon } from './icons';
 
 class Provider {
 
@@ -83,7 +83,7 @@ class Provider {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
                 const type = options.types[style.type];
-                const icon = styleToIcon(style, type);
+                const icon = styleToIcon(style, options.major >= 4 ? 'modern' : 'classic');
                 const args = style.type === 'heading'
                     ? { [options.attr]: style[options.store], level: style.level }
                     : { [options.attr]: style[options.store] };
@@ -113,7 +113,7 @@ class Provider {
                 name: 'bts_styles',
                 text: __('Style'),
                 component: StylesButton,
-                html: stylesIcon,
+                html: coreIcon('styles', options.major >= 4 ? 'modern' : 'classic'),
                 btsOptions: options,
             }));
         });
@@ -129,7 +129,7 @@ class Provider {
                 name: 'bts_attributes',
                 text: __('Attributes'),
                 component: AttributesButton,
-                html: attributesIcon,
+                html: coreIcon('attributes', options.major >= 4 ? 'modern' : 'classic'),
                 btsOptions: options,
             }));
         });
@@ -138,8 +138,8 @@ class Provider {
 
     bootCss(options) {
         const css = [
-            ...this.gatherStyleCss(options),
-            ...(options.pro ? this.gatherDivCss() : []),
+            ...this.gatherStylesCss(options),
+            ...this.gatherContentCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -147,16 +147,16 @@ class Provider {
         return this;
     }
 
-    gatherStyleCss(options) {
+    gatherStylesCss(options) {
         const css = [];
         Object.entries(options.styles).forEach(([key, style]) => {
             const type = options.types[style.type];
             const tag = style.type === 'heading'
                 ? `${type.tag}${style.level}`
                 : `${type.tag}`;
-            const selector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
-            const badgeSelector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
-            const menuSelector = `.bard-fieldtype .bts-styles-preview[data-bts-match~="${key}"]`;
+            const selector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
+            const badgeSelector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
+            const menuSelector = `.bard-fieldtype-wrapper .bts-styles-preview[data-bts-match~="${key}"]`;
             css.push(...this.parseCss(selector, style.cp_css || ''));
             css.push(...this.parseMenuCss(menuSelector, style.cp_css || ''));
             if (style.cp_badge) {
@@ -166,17 +166,24 @@ class Provider {
         return css;
     }
 
-    gatherDivCss() {
+    // @deprecated
+    gatherContentCss(options) {
+        if (!options.pro || options.major >= 4) {
+            return [];
+        }
         const css = [];
         const selector = [
             '.bard-fieldtype .ProseMirror >',
             '.bard-fieldtype .ProseMirror div[data-bts] >',
         ];
+        const cpFile = 'statamic/cp/css/cp';
         const cpCss = Array.from(document.styleSheets)
-            .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
-        Array.from(cpCss.cssRules)
-            .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
-            .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
+            .find(sheet => sheet.href && sheet.href.includes(cpFile));
+        if (cpCss) {
+            Array.from(cpCss.cssRules)
+                .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
+                .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
+        }
         return css;
     }
 

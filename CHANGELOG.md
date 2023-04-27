@@ -2,7 +2,7 @@
 
 ## 2.2.0 ()
 
-- []
+- [new] Statamic 4 support (plus updated button icons)
 - []
 - []
 - []

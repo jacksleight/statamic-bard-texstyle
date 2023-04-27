@@ -12,11 +12,16 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
+use Statamic\Support\Str;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    protected $scripts = [
-        __DIR__.'/../dist/js/addon.js',
+    protected $vite = [
+        'hotFile' => __DIR__.'/../vite.hot',
+        'publicDirectory' => 'dist',
+        'input' => [
+            'resources/js/addon.js',
+        ],
     ];
 
     protected $types = [
@@ -111,7 +116,13 @@ class ServiceProvider extends AddonServiceProvider
 
         $styleOptions = $this->resolveStyleOptions($pro, $styles);
 
+        $version = Statamic::version();
+        $major = $version !== 'dev-master'
+            ? (int) Str::before($version, '.')
+            : 100;
+
         return [
+            'major' => $major,
             'pro' => $pro,
             'store' => $store,
             'attr' => $attr,
