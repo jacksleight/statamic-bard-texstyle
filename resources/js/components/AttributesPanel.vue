@@ -1,6 +1,6 @@
 <template>
 
-    <div class="bts-panel">
+    <div class="bts-panel bts-attributes">
         <div v-if="items.length">
             <div v-for="(item, i) in items">
                 <div class="font-bold jstw-px-4 jstw-py-2.5 jstw-bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
@@ -11,12 +11,18 @@
                 </div>
                 <div class="jstw-p-4 jstw-pt-1 border-b" v-if="activeItem === i">
                     <div v-for="(field, name) in fields(item.type)" class="jstw-mt-3">
-                        <label v-if="field.type === 'toggle'" class="flex items-baseline jstw-gap-1 font-normal">
+                        <label v-if="field.type === 'select'" class="font-normal">
+                            <div class="text-sm leading-none">{{ field.display || name }}</div>
+                            <select v-model="item.attrs[name]" class="input h-8 jstw-px-1 border text-sm jstw-border-gray-500 rounded jstw-mt-2 bg-white w-full">
+                                <option v-for="display, value in field.options" :value="value">{{ display }}</option>
+                            </select>
+                        </label>
+                        <label v-else-if="field.type === 'toggle'" class="flex items-baseline jstw-gap-1 font-normal">
                             <input
                                 type="checkbox"
                                 v-model="item.attrs[name]"
-                                :true-value="true"
-                                :false-value="null"
+                                :true-value="toggleTrueValue(field)"
+                                :false-value="toggleFalseValue(field)"
                             />
                             <div class="text-sm">{{ field.display || name }}</div>
                         </label>
@@ -25,7 +31,7 @@
                             <input
                                 type="text"
                                 v-model="item.attrs[name]"
-                                class="input h-8 jstw-p-2 border text-sm jstw-border-gray-500 rounded jstw-mt-2"
+                                class="input h-8 jstw-p-2 border text-sm jstw-border-gray-500 rounded jstw-mt-2 w-full"
                             />
                         </label>
                     </div>                    
@@ -39,7 +45,7 @@
                 </button>
             </div>
         </div>
-        <div v-else class="jstw-p-8 w-40 text-center jstw-text-gray-400">
+        <div v-else class="jstw-p-8 text-center jstw-text-gray-400">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>
@@ -111,6 +117,20 @@ export default {
                 items: this.items,
             });
             this.$emit('applied');
+        },
+
+        toggleTrueValue(field) {
+            if (typeof field.true_value !== 'undefined') {
+                return field.true_value;
+            }
+            return true;
+        },
+
+        toggleFalseValue(field) {
+            if (typeof field.false_value !== 'undefined') {
+                return field.false_value;
+            }
+            return field.rendered ? null : false;
         },
 
     },

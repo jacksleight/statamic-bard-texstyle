@@ -3,6 +3,13 @@
 ## 2.2.0 ()
 
 - [new] Statamic 4 support and updated button icons
+- [new] Toggle attribute values can now be configured
+- [new] Select type for attributes
+- [new] Automatic merging of multiple class/style based attributes
+- []
+- []
+- []
+- Non-rendered toggle attribute values are now `true`/`false` 
 
 ## 2.1.1 (2023-02-16)
 

@@ -36,12 +36,15 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
   The field type. Options are:
     * `text`
     * `toggle` (checkbox)
+    * `select`
 * **display (string)**  
   The display name of the attribute.
 * **default (string)**  
   The default value for the attribute.
 * **rendered (boolean)**  
   Whether to include this attribute in the HTML tag. Non-rendered attributes are stored in the data and can be used with the [bard modifiers](https://statamic.dev/modifiers/bard_items) or [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator).
+* **true_value / false_value (mixed)**  
+  The true/false values to set (only applicable to toggle attributes). The default values for rendered toggle attributes are `true` / `null`. For non-rendered toggle attributes they're `true` / `false`.
 
 ---
 

@@ -138,6 +138,10 @@
         }
     }
 
+    .bts-attributes {
+        width: 220px;
+    }
+
     .bts-arrow {
         margin-left: -0.3rem;
         margin-right: 0.3rem;
