@@ -21,26 +21,25 @@ class Attributes extends Extension
         $attributes = $this->options['attributes'];
 
         $renders = [
-            '1' => function ($name, $attr) {
+            'true' => function ($name, $attr) {
                 return [
                     'rendered' => true,
                 ];
             },
-            '' => function ($name, $attr) {
+            'false' => function ($name, $attr) {
                 return [
                     'rendered' => false,
                 ];
             },
             'class' => function ($name, $attr) {
                 return [
-                    // 'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, $name),
                     'renderHTML' => fn ($attributes) => ['class' => $attributes->{$name}],
                 ];
             },
             'style' => function ($name, $attr) {
                 return [
                     'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, $name),
-                    'renderHTML' => fn ($attributes) => ['style' => "{$name}: {$attributes->{$name}}"],
+                    'renderHTML' => fn ($attributes) => ['style' => str($name)->replace('_', '-')->kebab().": {$attributes->{$name}}"],
                 ];
             },
         ];
@@ -52,9 +51,13 @@ class Attributes extends Extension
                     'attributes' => collect($attrs)
                         ->filter(fn ($attr) => $attr['extra'])
                         ->map(function ($attr, $name) use ($renders) {
+                            $key = is_bool($attr['rendered'])
+                                ? ($attr['rendered'] ? 'true' : 'false')
+                                : $attr['rendered'];
+
                             return array_merge([
                                 'default' => $attr['default'] ?? null,
-                            ], $renders[(string) $attr['rendered']]($name, $attr) ?? $attr['rendered']['1']($name, $attr));
+                            ], $renders[$key]($name, $attr) ?? $attr['rendered']['true']($name, $attr));
                         })
                         ->all(),
                 ];

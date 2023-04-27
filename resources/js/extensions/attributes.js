@@ -28,7 +28,7 @@ const Attributes = Extension.create({
             }),
             style: (name, attr) => ({
                 parseHTML: element => element.style[name],
-                renderHTML: attributes => ({ style: `${name}: ${attributes[name]}` }),
+                renderHTML: attributes => ({ style: `${name.replace('_', '-').replace(/(.)(?=[A-Z])/, '$1-').toLowerCase()}: ${attributes[name]}` }),
             }),
         };
 

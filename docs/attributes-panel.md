@@ -32,18 +32,22 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 
 Attributes are grouped by node/mark type and the keys are the attribute names. Attributes can have the following options:
 
-* **type (string)**  
+* **type (string)**
   The field type. Options are:
     * `text`
     * `toggle` (checkbox)
     * `select`
-* **display (string)**  
+* **display (string)**
   The display name of the attribute.
-* **default (string)**  
+* **default (string)**
   The default value for the attribute.
-* **rendered (boolean)**  
-  Whether to include this attribute in the HTML tag. Non-rendered attributes are stored in the data and can be used with the [bard modifiers](https://statamic.dev/modifiers/bard_items) or [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator).
-* **true_value / false_value (mixed)**  
+* **rendered (boolean|string)**
+  Whether to include this attribute in the HTML tag. Options are:
+    * `true` - Render this attribute directly
+    * `false` - Do not render this attribute, could be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
+    * `class` - Render this as part of the class attribute
+    * `style` - Render this as part of the style attribute
+* **true_value / false_value (mixed)**
   The true/false values to set (only applicable to toggle attributes). The default values for rendered toggle attributes are `true` / `null`. For non-rendered toggle attributes they're `true` / `false`.
 
 ---
@@ -65,14 +69,14 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 | bulletList          |                                    |
 | code                |                                    |
 | codeBlock           | language                           |
-| heading             | level                              |
+| heading             | level, textAlign                   |
 | horizontalRule      |                                    |
 | image               | src, alt, title                    |
 | italic              |                                    |
 | link                | href, rel, target, title           |
 | listItem            |                                    |
 | orderedList         | start                              |
-| paragraph           |                                    |
+| paragraph           | textAlign                          |
 | strike              |                                    |
 | subscript           |                                    |
 | superscript         |                                    |
