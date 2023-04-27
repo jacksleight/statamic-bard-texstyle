@@ -6,8 +6,7 @@
 - [new] Option to show style name in the style selection button
 - [new] Toggle attribute values can now be configured
 - [new] Select type for attributes
-- []
-- []
+- [new] Automatic merging of multiple class/style based attributes
 - []
 - []
 - []

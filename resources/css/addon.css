@@ -109,48 +109,49 @@
                 background-color: #eef2f6;
             }
         }
-        &-preview {
-            margin: 0 !important;
-            &[data-bts-match~="h1"] {
-                font-size: 2em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h2"] {
-                font-size: 1.75em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h3"] {
-                font-size: 1.5em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h4"] {
-                font-size: 1.25em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h5"] {
-                font-size: 1em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h6"] {
-                font-size: 1em;
-                font-weight: 700
-            }
-            &[data-bts-match~="bts-span"],
-            &[data-bts-match~="bts-link"] {
-                display: inline;
-            }
-            &[data-bts-match~="unorderedlist"],
-            &[data-bts-match~="bulletList"] {
-                display: list-item;
-                list-style-type: disc;
-                margin-left: 17px !important;
-            }
-            &[data-bts-match~="orderedlist"],
-            &[data-bts-match~="orderedList"] {
-                display: list-item;
-                list-style-type: decimal;
-                margin-left: 17px !important;
-            }
+    }
+
+    .bts-preview {
+        margin: 0 !important;
+        &-h1 {
+            font-size: 2em;
+            font-weight: 700;
+        }
+        &-h2 {
+            font-size: 1.75em;
+            font-weight: 700;
+        }
+        &-h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        &-h4 {
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+        &-h5 {
+            font-size: 1em;
+            font-weight: 700;
+        }
+        &-h6 {
+            font-size: 1em;
+            font-weight: 700;
+        }
+        &-bts-span,
+        &-bts-link {
+            display: inline;
+        }
+        &-unorderedlist,
+        &-bulletList {
+            display: list-item;
+            list-style-type: disc;
+            margin-left: 17px !important;
+        }
+        &-orderedlist,
+        &-orderedList {
+            display: list-item;
+            list-style-type: decimal;
+            margin-left: 17px !important;
         }
     }
 

@@ -4,7 +4,7 @@ module.exports = {
         require('postcss-preset-env'),
         require('@fullhuman/postcss-purgecss')({
             content: ['./resources/**/*.{html,js,vue,blade.php}'],
-            safelist: ['jstw-py-2.5'],
+            safelist: ['jstw-py-2.5', /^bts-/],
         }),
     ],
 };
