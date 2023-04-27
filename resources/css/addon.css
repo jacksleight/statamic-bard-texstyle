@@ -74,13 +74,16 @@
         &-text {
             border: 1px solid #e4ebf1;
             padding-inline: 6px;
-            width: 5.5rem;
+            width: 6rem;
             font-size: 0.875rem;
             margin-right: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
+            svg {
+                width: 0.5rem;
+            }
         }
     }
     .bts-styles {

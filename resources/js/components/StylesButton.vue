@@ -4,14 +4,14 @@
         <button
             class="bard-toolbar-button"
             :class="{
-                'bts-styles-button-icon': buttonType === 'icon',
-                'bts-styles-button-text': buttonType === 'text',
+                'bts-styles-button-icon': type === 'icon',
+                'bts-styles-button-text': type === 'text',
             }"
-            v-tooltip="button.text"
+            v-tooltip="type === 'icon' ? button.text : undefined"
             :aria-label="button.text"
             @click="togglePanel">
-            <div class="flex items-center" v-html="button.html" v-if="buttonType === 'icon'"></div>
-            <span v-if="buttonType === 'text'">{{ activeItem ? activeItem.text : 'Style' }}</span>
+            <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
+            <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
         </button>
         <StylesMenu
             v-if="panelActive"
@@ -40,21 +40,20 @@ export default {
 
     data() {    
         return {
-            buttonType: 'text',
             panelActive: false,
             activeItem: null,
         };
     },
 
     created() {
-        if (this.buttonType === 'text') {
+        if (this.type === 'text') {
             this.updateActiveItem();
             this.bard.$on('bts-update', this.updateActiveItem);
         }
     },
 
     beforeDestroy() {
-        if (this.buttonType === 'text') {
+        if (this.type === 'text') {
             this.bard.$off('bts-update', this.updateActiveItem);
         }
     },
@@ -67,6 +66,9 @@ export default {
             return buttons.filter(button => {
                 return typeof button === 'object' && menu.includes(button.name);
             });    
+        },
+        type() {
+            return this.config.bts_styles_button;
         },
     },
 
@@ -83,7 +85,7 @@ export default {
             }
         },
         updateActiveItem() {
-            let item = this.items.find(item => {
+            this.activeItem = this.items.find(item => {
                 if (item.hasOwnProperty('active')) {
                     return item.active(this.editor, item.args);
                 }
@@ -91,12 +93,6 @@ export default {
                 const name = item[nameProperty];
                 return this.editor.isActive(name, item.args);
             });
-
-            if (!item && this.editor.isActive('paragraph')) {
-                item = { text: 'Paragraph' };
-            }
-
-            this.activeItem = item;
         },
     }
 
