@@ -23,7 +23,7 @@ The default non-rendered toggle attribute values are now `true`/`false` instead 
 
 ### Bard Paragraph Style config format removed (Low Impact)
 
-Support for the legacy Bard Paragraph Style configuration format has been removed.
+Support for the Bard Paragraph Style configuration format has been removed.
 
 ## Deprecated
 
