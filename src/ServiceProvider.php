@@ -11,7 +11,6 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
-use Statamic\Support\Str;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -114,8 +113,7 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootExtensions($options)
     {
         Augmentor::addExtension('btsCore', function ($bard) use ($options) {
-            // @deprecated: Rename this to bts_defaults in next major version
-            $defaultsKey = $bard->config('bts_default_classes', 'standard');
+            $defaultsKey = $bard->config('bts_defaults', 'standard');
 
             return new Core($options + [
                 'defaultsKey' => $defaultsKey,
@@ -149,10 +147,9 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
-        // @deprecated: Rename this to bts_defaults in next major version
-        Bard::appendConfigField('bts_default_classes', [
-            'display' => __('Default Classes'),
-            'instructions' => 'The set of default classes to use. The standard set will be used by default.',
+        Bard::appendConfigField('bts_defaults', [
+            'display' => __('Defaults'),
+            'instructions' => 'The set of defaults to use. The standard set will be used by default.',
             'type' => 'select',
             'clearable' => true,
             'options' => $options,
