@@ -141,6 +141,16 @@ return [
         //         'default' => null,
         //         'rendered' => true,
         //     ],
+        //     'hero' => [
+        //         'type' => 'toggle',
+        //         'display' => 'Hero',
+        //         'default' => null,
+        //         'rendered' => 'class',
+        //         'values' => [
+        //             'true' => 'hero',
+        //             'false' => null,
+        //         ],
+        //     ],
         // ],
 
         // 'orderedList' => [

@@ -17,7 +17,7 @@
                                 <option v-for="display, value in field.options" :value="value">{{ display }}</option>
                             </select>
                         </label>
-                        <label v-else-if="field.type === 'toggle'" class="flex items-baseline gap-1 font-normal">
+                        <label v-else-if="field.type === 'toggle'" class="flex items-baseline bts-gap-1 font-normal">
                             <input
                                 type="checkbox"
                                 v-model="item.attrs[name]"
@@ -124,15 +124,15 @@ export default {
         },
 
         toggleTrueValue(field) {
-            if (typeof field.true_value !== 'undefined') {
-                return field.true_value;
+            if (typeof field.values !== 'undefined' && typeof field.values.true !== 'undefined') {
+                return field.values.true;
             }
             return true;
         },
 
         toggleFalseValue(field) {
-            if (typeof field.false_value !== 'undefined') {
-                return field.false_value;
+            if (typeof field.values !== 'undefined' && typeof field.values.false !== 'undefined') {
+                return field.values.false;
             }
             return field.rendered ? null : false;
         },

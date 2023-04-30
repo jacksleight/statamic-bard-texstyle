@@ -47,8 +47,8 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
     * `class` - Render this as part of the class attribute (not compatible with `save_html`)
     * `style` - Render this as part of the style attribute
-* **true_value / false_value (mixed)**
-  The true/false values to set (only applicable to toggle attributes). The default values for rendered toggle attributes are `true` / `null`. For non-rendered toggle attributes they're `true` / `false`.
+* **values (array)**
+  The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
 
 ---
 
