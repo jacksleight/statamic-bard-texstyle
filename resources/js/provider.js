@@ -150,9 +150,9 @@ class Provider {
             const tag = style.type === 'heading'
                 ? `${type.tag}${style.args.level}`
                 : `${type.tag}`;
-            const selector = `.bard-fieldtype-wrapper .bard-content ${tag}[data-btss="${style[options.store]}"]`;
-            const badgeSelector = `.bard-fieldtype-wrapper .bard-content ${tag}[data-btss="${style[options.store]}"]::before`;
-            const previewSelector = `.bard-fieldtype-wrapper .bts-preview-${key}`;
+            const selector = `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]`;
+            const badgeSelector = `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]::before`;
+            const previewSelector = `.bard-fieldtype-wrapper .bts-preview[data-bts-preview~="${key}"]`;
             css.push(...this.parseCss(selector, style.cp_css || ''));
             css.push(...this.parseCss(previewSelector, style.cp_css || ''));
             if (style.cp_badge) {

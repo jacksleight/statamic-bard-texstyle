@@ -19,8 +19,8 @@ const Core = Extension.create({
                 types: styleTypes,
                 attributes: {
                     [attr]: {
-                        parseHTML: element => element.getAttribute('data-btss'),
-                        renderHTML: attributes => ({ ['data-btss']: attributes[attr] }),
+                        parseHTML: element => element.getAttribute('data-bts-style'),
+                        renderHTML: attributes => ({ ['data-bts-style']: attributes[attr] }),
                     },
                 },
             },

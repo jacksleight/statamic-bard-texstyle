@@ -6,7 +6,7 @@
         v-if="visible"
         @click="click"
     >
-        <div :class="previewClasses">
+        <div class="bts-preview" :data-bts-preview="previewNames">
             {{ item.text }}
         </div>
     </button>
@@ -40,14 +40,24 @@ export default {
             }
             return true;
         },
-        previewClasses() {
-            return (this.item.btsStyle ? [
+        previewNames() {
+            console.log(this.item.btsStyle)
+            const kindMap = {
+                heading1: 'h1',
+                heading2: 'h2',
+                heading3: 'h3',
+                heading4: 'h4',
+                heading5: 'h5',
+                heading6: 'h6',
+                span: 'span',
+                link: 'link',
+                bulletList: 'unorderedlist',
+                orderedList: 'orderedlist',
+            };
+            return ([
+                kindMap[this.item.btsStyle?.kind],
                 this.item.name,
-                this.item.btsStyle.type,
-                this.item.btsStyle.type === 'heading' ? `h${this.item.btsStyle.args.level}` : null,
-            ] : [
-                this.item.name,
-            ]).map(className => `bts-preview-${className}`).concat(['bts-preview']).join(' ');
+            ]).filter(name => name !== undefined).join(' ');
         },
 
     },

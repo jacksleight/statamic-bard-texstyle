@@ -20,12 +20,12 @@ const Attributes = Extension.create({
                 rendered: true,
             }),
             false: (name, attr) => ({
-                parseHTML: element => element.getAttribute(`data-btsa-${kebab(name)}`),
-                renderHTML: attributes => ({ [`data-btsa-${kebab(name)}`]: attributes[name] }),
+                parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
+                renderHTML: attributes => ({ [`data-bts-attribute-${kebab(name)}`]: attributes[name] }),
             }),
             class: (name, attr) => ({
-                parseHTML: element => element.getAttribute(`data-btsa-${kebab(name)}`),
-                renderHTML: attributes => ({ [`data-btsa-${kebab(name)}`]: attributes[name] }),
+                parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
+                renderHTML: attributes => ({ [`data-bts-attribute-${kebab(name)}`]: attributes[name] }),
             }),
             style: (name, attr) => ({
                 parseHTML: element => element.style[name],
