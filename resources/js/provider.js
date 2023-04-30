@@ -153,8 +153,8 @@ class Provider {
             const tag = style.type === 'heading'
                 ? `${type.tag}${style.level}`
                 : `${type.tag}`;
-            const selector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
-            const badgeSelector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
+            const selector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-btss="${style[options.store]}"]`;
+            const badgeSelector = `.bard-fieldtype-wrapper .ProseMirror ${tag}[data-btss="${style[options.store]}"]::before`;
             const previewSelector = `.bard-fieldtype-wrapper .bts-preview-${key}`;
             css.push(...this.parseCss(selector, style.cp_css || ''));
             css.push(...this.parseMenuCss(previewSelector, style.cp_css || ''));

@@ -1,3 +1,4 @@
+import { kebab } from '../helpers'
 const { Extension, getNodeAttributes } = Statamic.$bard.tiptap.core;
 
 const Attributes = Extension.create({
@@ -19,16 +20,16 @@ const Attributes = Extension.create({
                 rendered: true,
             }),
             false: (name, attr) => ({
-                parseHTML: element => element.getAttribute(`data-bts-${name}`),
-                renderHTML: attributes => ({ [`data-bts-${name}`]: attributes[name] }),
+                parseHTML: element => element.getAttribute(`data-btsa-${kebab(name)}`),
+                renderHTML: attributes => ({ [`data-btsa-${kebab(name)}`]: attributes[name] }),
             }),
             class: (name, attr) => ({
-                parseHTML: element => element.getAttribute(`data-bts-${name}`),
-                renderHTML: attributes => ({ [`data-bts-${name}`]: attributes[name] }),
+                parseHTML: element => element.getAttribute(`data-btsa-${kebab(name)}`),
+                renderHTML: attributes => ({ [`data-btsa-${kebab(name)}`]: attributes[name] }),
             }),
             style: (name, attr) => ({
                 parseHTML: element => element.style[name],
-                renderHTML: attributes => ({ style: `${name.replace('_', '-').replace(/(.)(?=[A-Z])/, '$1-').toLowerCase()}: ${attributes[name]}` }),
+                renderHTML: attributes => ({ style: `${kebab(name)}: ${attributes[name]}` }),
             }),
         };
 

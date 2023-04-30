@@ -2,19 +2,19 @@
 
     .ProseMirror {
 
-        div[data-bts] {
+        div[data-btss] {
             border: #e4ebf1 solid;
-            border-width: 2px 0;
+            border-width: 1px 0;
             padding: 0.85em 0;
             margin-top: 1.7em;
             margin-bottom: 1.7em;
         }
 
-        [data-bts]::before {
+        [data-btss]::before {
             display: none;
         }
         h1, h2, h3, h4, h5, h6, p, ul, ol, div {
-            &[data-bts] {
+            &[data-btss] {
                 &::before {
                     background-color: #e4ebf1;
                     border-radius: 2px;
@@ -31,14 +31,14 @@
             }
         }
         ul, ol {
-            &[data-bts] {
+            &[data-btss] {
                 &::before {
                     margin-bottom: 0.85em;
                 }
             }
         }
         div {
-            &[data-bts] {
+            &[data-btss] {
                 position: relative;
                 &::before {
                     position: absolute;

@@ -12,7 +12,7 @@ const Div = Node.create({
 
     parseHTML() {
         return [
-            { tag: 'div[data-bts]' },
+            { tag: 'div[data-btss]' },
         ]
     },
 
