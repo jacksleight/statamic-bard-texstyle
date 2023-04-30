@@ -12,13 +12,13 @@ class Attributes extends Extension
     public function addOptions()
     {
         return [
-            'attributes' => null,
+            'attributeGroups' => null,
         ];
     }
 
     public function addGlobalAttributes()
     {
-        $attributes = $this->options['attributes'];
+        $attributeGroups = $this->options['attributeGroups'];
 
         $renders = [
             'true' => function ($name, $attr) {
@@ -39,16 +39,18 @@ class Attributes extends Extension
             'style' => function ($name, $attr) {
                 return [
                     'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, $name),
-                    'renderHTML' => fn ($attributes) => ['style' => str($name)->replace('_', '-')->kebab().": {$attributes->{$name}}"],
+                    'renderHTML' => fn ($attributes) => $attributes->{$name} !== null
+                        ? ['style' => str($name)->replace('_', '-')->kebab().": {$attributes->{$name}}"]
+                        : null,
                 ];
             },
         ];
 
-        return collect($attributes)
-            ->map(function ($group) use ($renders) {
+        return collect($attributeGroups)
+            ->map(function ($attrs, $type) use ($renders) {
                 return [
-                    'types' => [$group['type']],
-                    'attributes' => collect($group['attrs'])
+                    'types' => [$type],
+                    'attributes' => collect($attrs)
                         ->filter(fn ($attr) => $attr['extra'])
                         ->map(function ($attr, $name) use ($renders) {
                             $key = is_bool($attr['rendered'])

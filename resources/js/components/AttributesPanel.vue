@@ -21,8 +21,8 @@
                             <input
                                 type="checkbox"
                                 v-model="item.attrs[name]"
-                                :true-value="toggleTrueValue(field)"
-                                :false-value="toggleFalseValue(field)"
+                                :true-value="trueValue(field)"
+                                :false-value="falseValue(field)"
                             />
                             <div class="text-sm">{{ field.display || name }}</div>
                         </label>
@@ -138,15 +138,15 @@ export default {
             this.$emit('close');
         },
 
-        toggleTrueValue(field) {
-            if (typeof field.values !== 'undefined' && typeof field.values.true !== 'undefined') {
+        trueValue(field) {
+            if (field.values?.true !== undefined) {
                 return field.values.true;
             }
             return true;
         },
 
-        toggleFalseValue(field) {
-            if (typeof field.values !== 'undefined' && typeof field.values.false !== 'undefined') {
+        falseValue(field) {
+            if (field.values?.false !== undefined) {
                 return field.values.false;
             }
             return field.rendered ? null : false;

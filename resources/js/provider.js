@@ -163,6 +163,9 @@ class Provider {
     }
 
     parseCss(prefix, data) {
+        if (typeof data === 'string') {
+            data = {'&': data};
+        }
         return Object.entries(data).map(([selector, properties]) => {
             const prefixed = selector.includes('&')
                 ? selector.replace('&', prefix)

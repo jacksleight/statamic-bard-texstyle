@@ -1,9 +1,9 @@
 ---
-title: Upgrade 2.0 to 3.0
+title: Upgrade v2 to v3
 order: 109
 ---
 
-# Upgrade from 2.0 to 3.0
+# Upgrade from v2 to v3
 
 [TOC]
 

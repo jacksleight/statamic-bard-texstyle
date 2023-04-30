@@ -107,6 +107,7 @@ class OptionManager
 
         $attributes = $this->resolveAttributes($classTypes);
         $attributeTypes = $this->resolveAttributeTypes($attributes);
+        $attributeGroups = $this->resolveAttributeGroups($attributes);
 
         $styleOptions = $this->resolveStyleOptions($styles);
 
@@ -121,6 +122,7 @@ class OptionManager
             'styleTypes' => $styleTypes,
             'classTypes' => $classTypes,
             'attributeTypes' => $attributeTypes,
+            'attributeGroups' => $attributeGroups,
             'defaultsTypes' => $defaultsTypes,
             'styleOptions' => $styleOptions,
         ];
@@ -148,13 +150,6 @@ class OptionManager
             ->filter(fn ($style) => isset($types[$style['type']]))
             ->each(function ($style) use (&$usedTypes) {
                 $usedTypes[$style['type']] = true;
-            })
-            ->map(function ($style) {
-                if (is_string($style['cp_css'] ?? null)) {
-                    $style['cp_css'] = ['&' => $style['cp_css']];
-                }
-
-                return $style;
             })
             ->all();
 
@@ -240,6 +235,14 @@ class OptionManager
             ->merge($defaultsTypes)
             ->unique()
             ->values()
+            ->all();
+    }
+
+    protected function resolveAttributeGroups($attributes)
+    {
+        return collect($attributes)
+            ->groupBy('type')
+            ->map(fn ($group) => $group->flatMap(fn ($item) => $item['attrs'])->all())
             ->all();
     }
 

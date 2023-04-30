@@ -7,13 +7,13 @@ const Attributes = Extension.create({
 
     addOptions() {
         return {
-            attributes: {},
             attributeTypes: {},
+            attributeGroups: {},
         }
     },
 
     addGlobalAttributes() {
-        const { attributes } = this.options;
+        const { attributeGroups } = this.options;
 
         const renders = {
             true: (name, attr) => ({
@@ -29,14 +29,16 @@ const Attributes = Extension.create({
             }),
             style: (name, attr) => ({
                 parseHTML: element => element.style[name],
-                renderHTML: attributes => ({ style: `${kebab(name)}: ${attributes[name]}` }),
+                renderHTML: attributes => (attributes[name] !== null
+                    ? { style: `${kebab(name)}: ${attributes[name]}` }
+                    : null),
             }),
         };
 
-        return Object.entries(attributes).map(([type, group]) => {
+        return Object.entries(attributeGroups).map(([type, attrs]) => {
             return {
-                types: [group.type],
-                attributes: Object.fromEntries(Object.entries(group.attrs)
+                types: [type],
+                attributes: Object.fromEntries(Object.entries(attrs)
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
                         return [name, {
