@@ -5,7 +5,7 @@ order: 50
 
 # Attributes (Pro)
 
-The attributes feature allows you to edit the underlying node/mark attribute values through a customisable panel. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
+The attributes feature allows you to add custom attributes to nodes/marks and edit them through a panel within the Bard editor. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
 
 [TOC]
 
@@ -47,6 +47,8 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
     * `class` - Render this as part of the class attribute (not compatible with `save_html`)
     * `style` - Render this as part of the style attribute
+* **options (array)**
+  The options to use for select attributes.
 * **values (array)**
   The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
 
