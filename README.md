@@ -34,7 +34,7 @@ This Statamic addon allows you to add custom element styles to the Bard fieldtyp
 
 ## Licencing
 
-Bard Texstyle Pro is not free software. You will need to purchase a license via the [Statamic Marketplace](https://statamic.com/addons/jacksleight/memberbox) to use it in production.
+Bard Texstyle Pro is not free software. You will need to purchase a license via the [Statamic Marketplace](https://statamic.com/addons/jacksleight/bard-texstyle) to use it in production.
 
 ## Contributing
 

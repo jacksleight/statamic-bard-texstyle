@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle\Extensions;
 
 use Tiptap\Core\Extension;
+use Tiptap\Utils\InlineStyle;
 
 class Attributes extends Extension
 {
@@ -19,17 +20,44 @@ class Attributes extends Extension
     {
         $attributes = $this->options['attributes'];
 
+        $renders = [
+            'true' => function ($name, $attr) {
+                return [
+                    'rendered' => true,
+                ];
+            },
+            'false' => function ($name, $attr) {
+                return [
+                    'rendered' => false,
+                ];
+            },
+            'class' => function ($name, $attr) {
+                return [
+                    'renderHTML' => fn ($attributes) => ['class' => $attributes->{$name}],
+                ];
+            },
+            'style' => function ($name, $attr) {
+                return [
+                    'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, $name),
+                    'renderHTML' => fn ($attributes) => ['style' => str($name)->replace('_', '-')->kebab().": {$attributes->{$name}}"],
+                ];
+            },
+        ];
+
         return collect($attributes)
             ->map(function ($group) {
                 return [
                     'types' => [$group['type']],
                     'attributes' => collect($group['attrs'])
                         ->filter(fn ($attr) => $attr['extra'])
-                        ->map(function ($attr) {
-                            return [
+                        ->map(function ($attr, $name) use ($renders) {
+                            $key = is_bool($attr['rendered'])
+                                ? ($attr['rendered'] ? 'true' : 'false')
+                                : $attr['rendered'];
+
+                            return array_merge([
                                 'default' => $attr['default'] ?? null,
-                                'rendered' => $attr['rendered'] ?? true,
-                            ];
+                            ], $renders[$key]($name, $attr) ?? $attr['rendered']['true']($name, $attr));
                         })
                         ->all(),
                 ];

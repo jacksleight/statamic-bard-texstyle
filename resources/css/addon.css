@@ -1,20 +1,19 @@
 .bard-fieldtype-wrapper {
 
     .ProseMirror {
-
-        div[data-bts] {
+        div[data-btss] {
             border: #e4ebf1 solid;
-            border-width: 2px 0;
+            border-width: 1px 0;
             padding: 0.85em 0;
             margin-top: 1.7em;
             margin-bottom: 1.7em;
         }
 
-        [data-bts]::before {
+        [data-btss]::before {
             display: none;
         }
         h1, h2, h3, h4, h5, h6, p, ul, ol, div {
-            &[data-bts] {
+            &[data-btss] {
                 &::before {
                     background-color: #e4ebf1;
                     border-radius: 2px;
@@ -31,14 +30,14 @@
             }
         }
         ul, ol {
-            &[data-bts] {
+            &[data-btss] {
                 &::before {
                     margin-bottom: 0.85em;
                 }
             }
         }
         div {
-            &[data-bts] {
+            &[data-btss] {
                 position: relative;
                 &::before {
                     position: absolute;
@@ -70,6 +69,23 @@
         }
     }
 
+    .bts-styles-button {
+        &-text {
+            border: 1px solid #e4ebf1;
+            padding-inline: 6px;
+            width: 6rem;
+            font-size: 0.875rem;
+            margin-right: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            svg {
+                width: 0.5rem;
+            }
+        }
+    }
+
     .bts-styles {
         &-items {
             display: flex;
@@ -92,54 +108,69 @@
                 background-color: #eef2f6;
             }
         }
-        &-preview {
-            margin: 0 !important;
-            &[data-bts-match~="h1"] {
-                font-size: 2em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h2"] {
-                font-size: 1.75em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h3"] {
-                font-size: 1.5em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h4"] {
-                font-size: 1.25em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h5"] {
-                font-size: 1em;
-                font-weight: 700
-            }
-            &[data-bts-match~="h6"] {
-                font-size: 1em;
-                font-weight: 700
-            }
-            &[data-bts-match~="bts-span"],
-            &[data-bts-match~="bts-link"] {
-                display: inline;
-            }
-            &[data-bts-match~="unorderedlist"],
-            &[data-bts-match~="bulletList"] {
-                display: list-item;
-                list-style-type: disc;
-                margin-left: 17px !important;
-            }
-            &[data-bts-match~="orderedlist"],
-            &[data-bts-match~="orderedList"] {
-                display: list-item;
-                list-style-type: decimal;
-                margin-left: 17px !important;
-            }
+    }
+
+    .bts-preview {
+        margin: 0 !important;
+        &-h1 {
+            font-size: 2em;
+            font-weight: 700;
         }
+        &-h2 {
+            font-size: 1.75em;
+            font-weight: 700;
+        }
+        &-h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        &-h4 {
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+        &-h5 {
+            font-size: 1em;
+            font-weight: 700;
+        }
+        &-h6 {
+            font-size: 1em;
+            font-weight: 700;
+        }
+        &-bts-span,
+        &-bts-link {
+            display: inline;
+        }
+        &-unorderedlist,
+        &-bulletList {
+            display: list-item;
+            list-style-type: disc;
+            margin-left: 17px !important;
+        }
+        &-orderedlist,
+        &-orderedList {
+            display: list-item;
+            list-style-type: decimal;
+            margin-left: 17px !important;
+        }
+    }
+
+    .bts-attributes {
+        width: 220px;
+        max-height: 500px;
+        overflow-y: auto;
     }
 
     .bts-arrow {
         margin-left: -0.3rem;
         margin-right: 0.3rem;
     }
-
+    
+    .bts-py-2\.5 {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+    .bts-gap-1 {
+        gap: 0.25rem;
+    }
+    
 }

@@ -11,6 +11,7 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
+use Statamic\Support\Str;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -167,12 +168,26 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
-        Bard::appendConfigField('bts_styles', [
-            'display' => __('Style Menu'),
-            'instructions' => __('Which style options should be moved into the style menu'),
-            'type' => 'select',
-            'multiple' => true,
-            'options' => $options['styleOptions'],
+        Bard::appendConfigFields([
+            'bts_styles' => [
+                'display' => __('Style Menu Options'),
+                'instructions' => __('Which style options should be moved into the style menu'),
+                'type' => 'select',
+                'multiple' => true,
+                'options' => $options['styleOptions'],
+                'width' => 66,
+            ],
+            'bts_styles_button' => [
+                'display' => __('Style Menu Button'),
+                'instructions' => __('Display an icon or text with name of the current style'),
+                'type' => 'select',
+                'default' => 'icon',
+                'options' => [
+                    'icon' => 'Icon',
+                    'text' => 'Text',
+                ],
+                'width' => 33,
+            ],
         ]);
 
         return $this;

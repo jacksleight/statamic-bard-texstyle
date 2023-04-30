@@ -1,0 +1,1 @@
+export const kebab = (value) => value.replace('_', '-').replace(/(.)(?=[A-Z])/, '$1-').toLowerCase();

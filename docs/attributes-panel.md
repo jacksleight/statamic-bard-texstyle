@@ -32,16 +32,23 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 
 Attributes are grouped by node/mark type and the keys are the attribute names. Attributes can have the following options:
 
-* **type (string)**  
+* **type (string)**
   The field type. Options are:
     * `text`
     * `toggle` (checkbox)
-* **display (string)**  
+    * `select`
+* **display (string)**
   The display name of the attribute.
-* **default (string)**  
+* **default (string)**
   The default value for the attribute.
-* **rendered (boolean)**  
-  Whether to include this attribute in the HTML tag. Non-rendered attributes are stored in the data and can be used with the [bard modifiers](https://statamic.dev/modifiers/bard_items) or [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator).
+* **rendered (boolean|string)**
+  Whether to include this attribute in the HTML tag. Options are:
+    * `true` - Render this attribute directly
+    * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
+    * `class` - Render this as part of the class attribute (not compatible with `save_html`)
+    * `style` - Render this as part of the style attribute
+* **values (array)**
+  The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
 
 ---
 
@@ -62,18 +69,18 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 | `bulletList`                          |                                    |
 | `code`                                |                                    |
 | `codeBlock`                           | `language`                         |
-| `heading`<br>`heading[1-6]` (see note) | `level`                            |
+| `heading`<br>`heading[1-6]`.          | `level`, `textAlign`.              |
 | `horizontalRule`                      |                                    |
 | `image`                               | `src`, `alt`, `title`              |
 | `italic`                              |                                    |
 | `link`                                | `href`, `rel`, `target`, `title`   |
 | `listItem`                            |                                    |
 | `orderedList`                         | `start`                            |
-| `paragraph`                           |                                    |
+| `paragraph`                           | `textAlign`                        |
 | `strike`                              |                                    |
 | `subscript`                           |                                    |
 | `superscript`                         |                                    |
-| ta`b`le                               |                                    |
+| `table`                               |                                    |
 | `tableCell`                           | `rowspan`, `colspan`, `colwidth`   |
 | `tableHeader`                         | `rowspan`, `colspan`, `colwidth`   |
 | `tableRow`                            |                                    |

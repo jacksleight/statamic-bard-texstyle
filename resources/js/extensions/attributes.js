@@ -1,3 +1,4 @@
+import { kebab } from '../helpers'
 const { Extension, getNodeAttributes } = Statamic.$bard.tiptap.core;
 
 const Attributes = Extension.create({
@@ -13,15 +14,38 @@ const Attributes = Extension.create({
 
     addGlobalAttributes() {
         const { attributes } = this.options;
-        return Object.entries(attributes).map(([type, group]) => {
+
+        const renders = {
+            true: (name, attr) => ({
+                rendered: true,
+            }),
+            false: (name, attr) => ({
+                parseHTML: element => element.getAttribute(`data-btsa-${kebab(name)}`),
+                renderHTML: attributes => ({ [`data-btsa-${kebab(name)}`]: attributes[name] }),
+            }),
+            class: (name, attr) => ({
+                parseHTML: element => element.getAttribute(`data-btsa-${kebab(name)}`),
+                renderHTML: attributes => ({ [`data-btsa-${kebab(name)}`]: attributes[name] }),
+            }),
+            style: (name, attr) => ({
+                parseHTML: element => element.style[name],
+                renderHTML: attributes => ({ style: `${kebab(name)}: ${attributes[name]}` }),
+            }),
+        };
+
+        return Object.entries(attributes).map(([type, attrs]) => {
             return {
                 types: [group.type],
                 attributes: Object.fromEntries(Object.entries(group.attrs)
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
                         return [name, {
-                            default: typeof attr.default !== 'undefined' ? attr.default : null,
-                            rendered: typeof attr.rendered !== 'undefined' ? attr.rendered : true,
+                            default: typeof attr.default !== 'undefined'
+                                ? attr.default
+                                : null,
+                            ...(typeof attr.rendered !== 'undefined'
+                                ? renders[attr.rendered.toString()](name, attr)
+                                : renders.true()),
                         }];
                     })),
             };

@@ -6,10 +6,7 @@
         v-if="visible"
         @click="click"
     >
-        <div
-            class="bts-styles-preview"
-            :data-bts-match="previewMatch"
-        >
+        <div :class="previewClasses">
             {{ item.text }}
         </div>
     </button>
@@ -43,14 +40,14 @@ export default {
             }
             return true;
         },
-        previewMatch() {
+        previewClasses() {
             return (this.item.btsStyle ? [
                 this.item.name,
                 this.item.btsStyle.type,
                 this.item.btsStyle.type === 'heading' ? `h${this.item.btsStyle.args.level}` : null,
             ] : [
                 this.item.name,
-            ]).join(' ');
+            ]).map(className => `bts-preview-${className}`).concat(['bts-preview']).join(' ');
         },
 
     },
