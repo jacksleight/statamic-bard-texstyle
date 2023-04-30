@@ -3,21 +3,21 @@
     <div class="bts-panel bts-attributes">
         <div v-if="items.length">
             <div v-for="(item, i) in items">
-                <div class="font-bold jstw-px-4 jstw-py-2.5 jstw-bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow jstw-text-gray-700" :class="{ 'rotate-90': activeItem === i }">
+                <div class="font-bold px-4 bts-py-2.5 bg-gray-100 title-case border-b flex items-center cursor-pointer" @click="activeItem = i">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-arrow text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                     {{ titles[item.type] }}
                 </div>
-                <div class="jstw-p-4 jstw-pt-1 border-b" v-if="activeItem === i">
-                    <div v-for="(field, name) in fields(item.type)" class="jstw-mt-3">
+                <div class="p-4 pt-1 border-b" v-if="activeItem === i">
+                    <div v-for="(field, name) in fields(item.type)" class="mt-3">
                         <label v-if="field.type === 'select'" class="font-normal">
                             <div class="text-sm leading-none">{{ field.display || name }}</div>
-                            <select v-model="item.attrs[name]" class="input h-8 jstw-px-1 border text-sm jstw-border-gray-500 rounded jstw-mt-2 bg-white w-full">
+                            <select v-model="item.attrs[name]" class="input h-8 px-1 border text-sm border-gray-500 rounded mt-2 bg-white w-full">
                                 <option v-for="display, value in field.options" :value="value">{{ display }}</option>
                             </select>
                         </label>
-                        <label v-else-if="field.type === 'toggle'" class="flex items-baseline jstw-gap-1 font-normal">
+                        <label v-else-if="field.type === 'toggle'" class="flex items-baseline gap-1 font-normal">
                             <input
                                 type="checkbox"
                                 v-model="item.attrs[name]"
@@ -31,13 +31,13 @@
                             <input
                                 type="text"
                                 v-model="item.attrs[name]"
-                                class="input h-8 jstw-p-2 border text-sm jstw-border-gray-500 rounded jstw-mt-2 w-full"
+                                class="input h-8 p-2 border text-sm border-gray-500 rounded mt-2 w-full"
                             />
                         </label>
                     </div>                    
                 </div>
             </div>
-            <div class="flex items-center justify-end font-normal jstw-px-4 jstw-py-3">
+            <div class="flex items-center justify-end font-normal px-4 py-3">
                 <button
                     @click="apply"
                     class="btn btn-sm">
@@ -45,7 +45,7 @@
                 </button>
             </div>
         </div>
-        <div v-else class="jstw-p-8 text-center jstw-text-gray-400">
+        <div v-else class="p-8 text-center text-gray-400">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>

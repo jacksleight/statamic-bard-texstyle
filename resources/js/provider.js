@@ -83,7 +83,7 @@ class Provider {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
                 const type = options.types[style.type];
-                const icon = styleToIcon(style, options.major >= 4 ? 'modern' : 'classic');
+                const icon = styleToIcon(style);
                 const args = style.type === 'heading'
                     ? { [options.attr]: style[options.store], level: style.level }
                     : { [options.attr]: style[options.store] };
@@ -113,7 +113,7 @@ class Provider {
                 name: 'bts_styles',
                 text: __('Style'),
                 component: StylesButton,
-                html: coreIcon('styles', options.major >= 4 ? 'modern' : 'classic'),
+                html: coreIcon('styles'),
                 btsOptions: options,
             }));
         });
@@ -129,7 +129,7 @@ class Provider {
                 name: 'bts_attributes',
                 text: __('Attributes'),
                 component: AttributesButton,
-                html: coreIcon('attributes', options.major >= 4 ? 'modern' : 'classic'),
+                html: coreIcon('attributes'),
                 btsOptions: options,
             }));
         });
@@ -139,7 +139,6 @@ class Provider {
     bootCss(options) {
         const css = [
             ...this.gatherStylesCss(options),
-            ...this.gatherContentCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -163,27 +162,6 @@ class Provider {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
         });
-        return css;
-    }
-
-    // @deprecated
-    gatherContentCss(options) {
-        if (!options.pro || options.major >= 4) {
-            return [];
-        }
-        const css = [];
-        const selector = [
-            '.bard-fieldtype .ProseMirror >',
-            '.bard-fieldtype .ProseMirror div[data-bts] >',
-        ];
-        const cpFile = 'statamic/cp/css/cp';
-        const cpCss = Array.from(document.styleSheets)
-            .find(sheet => sheet.href && sheet.href.includes(cpFile));
-        if (cpCss) {
-            Array.from(cpCss.cssRules)
-                .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
-                .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
-        }
         return css;
     }
 
