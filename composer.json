@@ -5,6 +5,11 @@
             "JackSleight\\StatamicBardTexstyle\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
     "extra": {
         "statamic": {
             "name": "Bard Texstyle",
@@ -20,9 +25,16 @@
     "require": {
         "statamic/cms": "^4.0"
     },
+    "require-dev": {
+        "nunomaduro/collision": "^7.4",
+        "orchestra/testbench": "^8.3",
+        "pestphp/pest": "^2.4",
+        "pestphp/pest-plugin-watch": "^2.0"
+    },
     "config": {
         "allow-plugins": {
-            "pixelfear/composer-dist-plugin": true
+            "pixelfear/composer-dist-plugin": true,
+            "pestphp/pest-plugin": true
         }
     }
 }

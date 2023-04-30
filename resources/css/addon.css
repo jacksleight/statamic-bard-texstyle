@@ -1,7 +1,6 @@
 .bard-fieldtype-wrapper {
 
-    .ProseMirror {
-
+    .bard-content {
         div[data-btss] {
             border: #e4ebf1 solid;
             border-width: 1px 0;
@@ -165,7 +164,7 @@
         margin-left: -0.3rem;
         margin-right: 0.3rem;
     }
-
+    
     .bts-py-2\.5 {
         padding-top: 0.625rem;
         padding-bottom: 0.625rem;
@@ -173,5 +172,5 @@
     .bts-gap-1 {
         gap: 0.25rem;
     }
-
+    
 }

@@ -13,16 +13,15 @@ return [
 
     'styles' => [
 
-        // 'title' => [
-        //     'type' => 'heading',
-        //     'level' => 1,
-        //     'name' => 'Title',
-        //     'ident' => 'T',
-        //     'icon' => null,
-        //     'class' => 'title',
-        //     'cp_css' => 'text-decoration: underline; text-underline-offset: 0.1em; text-decoration-color: #c5ccd4',
-        //     'cp_badge' => false,
-        // ],
+        'title' => [
+            'type' => 'heading1',
+            'name' => 'Title',
+            'ident' => 'T',
+            'icon' => null,
+            'class' => 'title',
+            'cp_css' => 'text-decoration: underline; text-underline-offset: 0.1em; text-decoration-color: #c5ccd4',
+            'cp_badge' => false,
+        ],
 
         // 'lead' => [
         //     'type' => 'paragraph',
@@ -101,30 +100,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Classes
-    |--------------------------------------------------------------------------
-    |
-    | Default classes that will be applied to elements with no style set. The
-    | standard set will be used if no set is selected in the field config.
-    |
-    */
-
-    'default_classes' => [
-        'standard' => [
-            // 'heading' => [
-            //     1 => 'heading-1',
-            //     2 => 'heading-2',
-            //     3 => 'heading-3',
-            //     4 => 'heading-4',
-            //     5 => 'heading-5',
-            //     6 => 'heading-6',
-            // ],
-            // 'paragraph' => 'paragraph',
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Attributes (pro only)
     |--------------------------------------------------------------------------
     |
@@ -134,7 +109,7 @@ return [
 
     'attributes' => [
 
-        // 'heading' => [
+        // 'heading1' => [
         //     'id' => [
         //         'type' => 'text',
         //         'display' => 'ID',
@@ -168,6 +143,42 @@ return [
         //     ],
         // ],
 
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Defaults
+    |--------------------------------------------------------------------------
+    |
+    | Default styles that will be applied to elements with no style set. The
+    | standard set will be used if no set is selected in the field config.
+    |
+    */
+
+    'defaults' => [
+        'standard' => [
+            'heading1' => [
+                'class' => 'heading-1',
+            ],
+            'heading2' => [
+                'class' => 'heading-2',
+            ],
+            'heading3' => [
+                'class' => 'heading-3',
+            ],
+            'heading4' => [
+                'class' => 'heading-4',
+            ],
+            'heading5' => [
+                'class' => 'heading-5',
+            ],
+            'heading6' => [
+                'class' => 'heading-6',
+            ],
+            'paragraph' => [
+                'class' => 'paragraph',
+            ],
+        ],
     ],
 
     /*

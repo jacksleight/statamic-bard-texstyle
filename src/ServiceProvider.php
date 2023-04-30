@@ -2,7 +2,6 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
-use Illuminate\Support\Arr;
 use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
@@ -12,7 +11,6 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
-use Statamic\Support\Str;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -88,7 +86,11 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
-        $options = $this->resolveOptions();
+        $config = config('statamic.bard_texstyle', []);
+        $pro = Addon::get('jacksleight/statamic-bard-texstyle')->edition() === 'pro';
+
+        $options = (new OptionManager($config, $pro))->resolve();
+
         $this
             ->bootConfig()
             ->bootExtensions($options)
@@ -97,150 +99,6 @@ class ServiceProvider extends AddonServiceProvider
             ->bootMenuField($options);
 
         return $this;
-    }
-
-    protected function resolveOptions()
-    {
-        $pro = Addon::get('jacksleight/statamic-bard-texstyle')->edition() === 'pro';
-
-        $store = config('statamic.bard_texstyle.store', 'class');
-        $attr = $store === 'class' ? 'class' : 'bts_key';
-
-        $defaultClasses = $this->resolveDefaultClasses();
-        [$styles, $types] = $this->resolveStylesAndTypes($pro);
-        $styleTypes = $this->resolveStyleTypes($styles, $types);
-        $classTypes = $this->resolveClassTypes($styleTypes, $defaultClasses);
-
-        $attributes = $this->resolveAttributes($pro, $classTypes);
-        $attributeTypes = $this->resolveAttributeTypes($attributes);
-
-        $styleOptions = $this->resolveStyleOptions($pro, $styles);
-
-        $version = Statamic::version();
-        $major = $version !== 'dev-master'
-            ? (int) Str::before($version, '.')
-            : 100;
-
-        return [
-            'major' => $major,
-            'pro' => $pro,
-            'store' => $store,
-            'attr' => $attr,
-            'styles' => $styles,
-            'types' => $types,
-            'attributes' => $attributes,
-            'styleTypes' => $styleTypes,
-            'classTypes' => $classTypes,
-            'attributeTypes' => $attributeTypes,
-            'defaultClasses' => $defaultClasses,
-            'styleOptions' => $styleOptions,
-        ];
-    }
-
-    protected function resolveStylesAndTypes($pro)
-    {
-        $styles = config('statamic.bard_texstyle.styles', []);
-        $styles = $this->normalizeStyles($styles);
-
-        $types = collect($this->types)
-            ->map(fn ($type, $key) => array_merge($type, ['key' => $key]))
-            ->filter(fn ($type) => ! $type['pro'] || $pro)
-            ->all();
-
-        $usedTypes = [];
-        $styles = collect($styles)
-            ->map(fn ($style, $key) => array_merge($style, ['key' => $key]))
-            ->map(fn ($style) => array_merge($style, ['type' => $this->aliases[$style['type']] ?? $style['type']]))
-            ->filter(fn ($style) => isset($types[$style['type']]))
-            ->each(function ($style) use (&$usedTypes) {
-                $usedTypes[$style['type']] = true;
-            })
-            ->all();
-
-        $types = collect($types)
-            ->filter(fn ($type, $key) => isset($usedTypes[$key]))
-            ->all();
-
-        return [$styles, $types];
-    }
-
-    protected function resolveAttributes($pro, $classTypes)
-    {
-        if (! $pro) {
-            return [];
-        }
-
-        $attributes = config('statamic.bard_texstyle.attributes', []);
-
-        $attributes = collect($attributes)
-            ->mapWithKeys(fn ($attrs, $type) => [($this->aliases[$type] ?? $type) => $attrs])
-            ->filter(fn ($attrs, $type) => array_key_exists($type, $this->attributeTypes))
-            ->map(function ($attrs, $type) use ($classTypes) {
-                return collect($attrs)->map(function ($attr, $name) use ($type, $classTypes) {
-                    return array_merge($attr, [
-                        'extra' => ! in_array($name, $this->attributeTypes[$type] ?? []) &&
-                            ($name !== 'class' || ! in_array($type, $classTypes)),
-                    ]);
-                })->all();
-            })
-            ->all();
-
-        return $attributes;
-    }
-
-    protected function resolveDefaultClasses()
-    {
-        $defaultClasses = config('statamic.bard_texstyle.default_classes', []);
-        $defaultClasses = $this->normalizeDefaults($defaultClasses);
-
-        return $defaultClasses;
-    }
-
-    protected function resolveStyleTypes($styles, $types)
-    {
-        return collect($styles)
-            ->pluck('type')
-            ->unique()
-            ->values()
-            ->all();
-    }
-
-    protected function resolveClassTypes($styleTypes, $defaultClasses)
-    {
-        return collect($styleTypes)
-            ->merge(collect($defaultClasses)->flatMap(fn ($value) => $value)->keys())
-            ->unique()
-            ->values()
-            ->all();
-    }
-
-    protected function resolveAttributeTypes($attributes)
-    {
-        return collect($attributes)
-            ->keys()
-            ->all();
-    }
-
-    protected function resolveStyleOptions($pro, $styles)
-    {
-        if (! $pro) {
-            return [];
-        }
-
-        return collect($styles)
-            ->filter(fn ($style) => in_array($style['type'], $this->styleTypes))
-            ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
-            ->merge([
-                'h1' => 'Heading 1',
-                'h2' => 'Heading 2',
-                'h3' => 'Heading 3',
-                'h4' => 'Heading 4',
-                'h5' => 'Heading 5',
-                'h6' => 'Heading 6',
-                'unorderedlist' => 'Unordered List',
-                'orderedlist' => 'Ordered List',
-            ])
-            ->sort();
     }
 
     protected function bootConfig()
@@ -255,10 +113,10 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootExtensions($options)
     {
         Augmentor::addExtension('btsCore', function ($bard) use ($options) {
-            $defaultSet = $bard->config('bts_default_classes', 'standard');
+            $defaultsKey = $bard->config('bts_defaults', 'standard');
 
             return new Core($options + [
-                'defaults' => $options['defaultClasses'][$defaultSet] ?? null,
+                'defaultsKey' => $defaultsKey,
             ]);
         });
         Augmentor::addExtension('btsAttributes', new Attributes($options));
@@ -281,7 +139,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function bootDefaultClassesField($options)
     {
-        $options = collect($options['defaultClasses'])
+        $options = collect($options['defaults'])
             ->map(fn ($v, $k) => $k)
             ->except('standard')
             ->all();
@@ -289,9 +147,9 @@ class ServiceProvider extends AddonServiceProvider
             return $this;
         }
 
-        Bard::appendConfigField('bts_default_classes', [
-            'display' => __('Default Classes'),
-            'instructions' => 'The set of default classes to use. The standard set will be used by default.',
+        Bard::appendConfigField('bts_defaults', [
+            'display' => __('Defaults'),
+            'instructions' => 'The set of defaults to use. The standard set will be used by default.',
             'type' => 'select',
             'clearable' => true,
             'options' => $options,
@@ -330,38 +188,5 @@ class ServiceProvider extends AddonServiceProvider
         ]);
 
         return $this;
-    }
-
-    protected function normalizeDefaults($defaults)
-    {
-        if (array_key_exists('standard', $defaults)) {
-            return $defaults;
-        }
-
-        return [
-            'standard' => $defaults,
-        ];
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeStyles($styles)
-    {
-        if (Arr::isAssoc($styles)) {
-            return $styles;
-        }
-
-        $normal = [];
-
-        foreach ($styles as $style) {
-            $key = isset($style['button'])
-                ? $style['button']
-                : ('bts_'.preg_replace('/[^\w-]/i', '_', $style['class']));
-            $style['type'] = 'paragraph';
-            $normal[$key] = $style;
-        }
-
-        return $normal;
     }
 }
