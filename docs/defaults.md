@@ -17,6 +17,7 @@ Open `config/statamic/bard_texstyle.php` to add your defaults:
 
 ```php
 'defaults' => [
+
     'standard' => [
         'heading1' => [
             'class' => 'head-1',
@@ -25,9 +26,11 @@ Open `config/statamic/bard_texstyle.php` to add your defaults:
             'class' => 'para',
         ],
     ],
+    
     'article' => [
         // ...
     ],
+
 ],
 ```
 

@@ -156,6 +156,7 @@ return [
     */
 
     'defaults' => [
+
         'standard' => [
             'heading1' => [
                 'class' => 'heading-1',
@@ -179,6 +180,7 @@ return [
                 'class' => 'paragraph',
             ],
         ],
+
     ],
 
     /*
