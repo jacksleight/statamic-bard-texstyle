@@ -45,7 +45,7 @@ class Attributes extends Extension
         ];
 
         return collect($attributes)
-            ->map(function ($group) {
+            ->map(function ($group) use ($renders) {
                 return [
                     'types' => [$group['type']],
                     'attributes' => collect($group['attrs'])
