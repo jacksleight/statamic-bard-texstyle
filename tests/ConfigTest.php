@@ -223,48 +223,6 @@ it('normalizes legacy style config', function () {
     ]);
 });
 
-it('normalizes legacy paragraph style config', function () {
-    $options = (new OptionManager([
-        'styles' => [
-            [
-                'name' => 'Introduction',
-                'ident' => 'I',
-                'class' => 'intro',
-                'button' => 'introduction',
-                'cp_css' => 'font-size: 1.25em',
-            ],
-            [
-                'name' => 'Lead',
-                'ident' => 'L',
-                'class' => 'lead',
-            ],
-        ],
-    ], false))->resolve();
-
-    expect($options['styles'] ?? null)->toEqual([
-        'introduction' => [
-            'name' => 'Introduction',
-            'ident' => 'I',
-            'class' => 'intro',
-            'button' => 'introduction',
-            'cp_css' => ['&' => 'font-size: 1.25em'],
-            'type' => 'paragraph',
-            'args' => [],
-            'kind' => 'paragraph',
-            'key' => 'introduction',
-        ],
-        'bts_lead' => [
-            'name' => 'Lead',
-            'ident' => 'L',
-            'class' => 'lead',
-            'type' => 'paragraph',
-            'args' => [],
-            'kind' => 'paragraph',
-            'key' => 'bts_lead',
-        ],
-    ]);
-});
-
 it('normalizes legacy default_classes config', function () {
     $options = (new OptionManager([
         'default_classes' => [

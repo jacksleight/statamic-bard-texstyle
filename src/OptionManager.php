@@ -331,10 +331,6 @@ class OptionManager
      */
     protected function normalizeStyles($styles)
     {
-        if (! Arr::isAssoc($styles)) {
-            $styles = $this->normalizeParagraphStyleStyles($styles);
-        }
-
         return collect($styles)
             ->map(function ($style) {
                 if ($style['type'] === 'heading') {
@@ -347,23 +343,5 @@ class OptionManager
             ->all();
 
         return $styles;
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeParagraphStyleStyles($styles)
-    {
-        $normal = [];
-
-        foreach ($styles as $style) {
-            $key = isset($style['button'])
-                ? $style['button']
-                : ('bts_'.preg_replace('/[^\w-]/i', '_', $style['class']));
-            $style['type'] = 'paragraph';
-            $normal[$key] = $style;
-        }
-
-        return $normal;
     }
 }

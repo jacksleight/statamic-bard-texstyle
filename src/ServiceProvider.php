@@ -143,13 +143,10 @@ class ServiceProvider extends AddonServiceProvider
             ->map(fn ($v, $k) => $k)
             ->except('standard')
             ->all();
-        if (! count($options)) {
-            return $this;
-        }
 
         Bard::appendConfigField('bts_defaults', [
-            'display' => __('Defaults'),
-            'instructions' => 'The set of defaults to use. The standard set will be used by default.',
+            'display' => __('Texstyle Defaults'),
+            'instructions' => 'Which set of defaults to use, the standard set will be used by default.',
             'type' => 'select',
             'clearable' => true,
             'options' => $options,
@@ -167,16 +164,16 @@ class ServiceProvider extends AddonServiceProvider
 
         Bard::appendConfigFields([
             'bts_styles' => [
-                'display' => __('Style Menu Options'),
-                'instructions' => __('Which style options should be moved into the style menu'),
+                'display' => __('Texstyle Style Menu Options'),
+                'instructions' => __('Which style options should be moved into the style menu.'),
                 'type' => 'select',
                 'multiple' => true,
                 'options' => $options['styleOptions'],
                 'width' => 66,
             ],
             'bts_styles_button' => [
-                'display' => __('Style Menu Button'),
-                'instructions' => __('Display an icon or text with name of the current style'),
+                'display' => __('Texstyle Style Menu Button'),
+                'instructions' => __('Whether to display an icon or text with name of the current style.'),
                 'type' => 'select',
                 'default' => 'icon',
                 'options' => [

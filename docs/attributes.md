@@ -1,17 +1,17 @@
 ---
-title: Attributes Panel
-order: 5
+title: Attributes
+order: 50
 ---
 
-# Attributes Panel (Pro)
+# Attributes (Pro)
 
-The attributes panel allows you to edit the underlying node/mark attribute values. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
+The attributes feature allows you to edit the underlying node/mark attribute values through a customisable panel. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
 
 [TOC]
 
 ---
 
-## Define Your Attributes
+## Defining Attributes
 
 To get started open `config/statamic/bard_texstyle.php` and add the attributes you want to edit. This isn't just limited to built-in attributes, you can add your own rendered or non-rendered attributes as well:
 
@@ -52,7 +52,7 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
 
 ---
 
-## Enable the Button
+## Enabling the Button
 
 To enable the attribute panel toggle the button in the Bard field's button selector.
 
@@ -69,7 +69,7 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 | `bulletList`                          |                                    |
 | `code`                                |                                    |
 | `codeBlock`                           | `language`                         |
-| `heading`<br>`heading[1-6]`.          | `level`, `textAlign`.              |
+| `heading`<br>`heading[1-6]`           | `level`, `textAlign`               |
 | `horizontalRule`                      |                                    |
 | `image`                               | `src`, `alt`, `title`              |
 | `italic`                              |                                    |

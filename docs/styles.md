@@ -1,11 +1,49 @@
 ---
-title: Styles & Classes
-order: 4
+title: Styles
+order: 40
 ---
 
-# Styles & Classes
+# Styles
+
+The styles feature allows you to add custom heading, paragraph, list, link, span and container div styles to the Bard editor, each with their own dedicated toggle buttons.
 
 [TOC]
+
+---
+
+## Defining Styles
+
+Open `config/statamic/bard_texstyle.php` to add your styles:
+
+```php
+'styles' => [
+
+    'intro' => [
+        'type'     => 'paragraph',
+        'name'     => 'Introduction',
+        'ident'    => 'I',
+        'icon'     => null,
+        'class'    => 'introduction',
+        'cp_css'   => 'font-size: 1.25em',
+        'cp_badge' => false,
+    ],
+
+],
+```
+
+---
+
+## Enabling the Buttons
+
+You can enable the buttons in any Bard field, either through the blueprint/fieldset editor or by adding them to the buttons list in the YAML file directly.
+
+### Heading & List Style Buttons
+
+When using heading, unordered list or ordered list styles the associated `h*`, `unorderedlist` or `orderedlist` buttons must also be enabled in the Bard field.
+
+### Link Style Buttons
+
+When using link styles the `link` button must also be enabled in the Bard field. Link style buttons will only be visible when a link is selected, they should still be created through the standard link button.
 
 ---
 
@@ -134,28 +172,8 @@ All of the built-in icons consist of basic shapes that are filled with the speci
 
 ## Style Selection Menu (Pro)
 
+The style selection menu allows you to collapse all of those custom styles—and some of the standard ones—into a new dropdown menu, cleaning up the toolbar and providing a preview of each style at the same time.
+
 To enable the style selection menu toggle the button in the Bard field's button selector. You can then choose which options are moved into the menu by selecting them in the Style Menu field. Styles *must* be enabled in the standard button selector to appear in the style menu. The button selector is also where you should define the order the styles appear in.
 
----
-
-## Default Classes
-
-You can use the `default_classes` option to apply classes to elements that have no style set. Multiple sets of classes are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
-
-```php
-'default_classes' => [
-    'standard' => [
-        'heading' => [
-            1 => 'head-1',
-            2 => 'head-2',
-            // ...
-        ],
-        'paragraph' => 'para',
-    ],
-    'article' => [
-        // ...
-    ],
-],
-```
-
-You can add default classes for any node/mark type.
+You can also choose to display the name of the currently selected style in the button instead of the icon.
