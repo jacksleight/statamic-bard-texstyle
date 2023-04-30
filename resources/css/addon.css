@@ -157,6 +157,8 @@
 
     .bts-attributes {
         width: 220px;
+        max-height: 500px;
+        overflow-y: auto;
     }
 
     .bts-arrow {
