@@ -53,7 +53,7 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'squarelist' => [
+        // 'square_list' => [
         //     'type' => 'bulletList',
         //     'name' => 'Square List',
         //     'ident' => '■',
@@ -63,7 +63,7 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'romanlist' => [
+        // 'roman_list' => [
         //     'type' => 'orderedList',
         //     'name' => 'Roman List',
         //     'ident' => 'IV',
@@ -76,7 +76,7 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'twocolumns' => [
+        // 'two_columns' => [
         //     'type' => 'div',
         //     'name' => 'Two Columns',
         //     'ident' => '❙ ❙',
@@ -86,7 +86,7 @@ return [
         //     'cp_badge' => true,
         // ],
 
-        // 'threecolumns' => [
+        // 'three_columns' => [
         //     'type' => 'div',
         //     'name' => 'Three Columns',
         //     'ident' => '❙❙❙',

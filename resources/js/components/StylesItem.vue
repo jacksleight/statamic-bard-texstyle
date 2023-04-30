@@ -41,7 +41,6 @@ export default {
             return true;
         },
         previewNames() {
-            console.log(this.item.btsStyle)
             const kindMap = {
                 heading1: 'h1',
                 heading2: 'h2',
