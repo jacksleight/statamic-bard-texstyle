@@ -2,7 +2,7 @@
 
     .bard-content {
         div[data-btss] {
-            border: #e4ebf1 solid;
+            border: #d1d5db solid;
             border-width: 1px 0;
             padding: 0.85em 0;
             margin-top: 1.7em;
@@ -41,7 +41,7 @@
                 position: relative;
                 &::before {
                     position: absolute;
-                    bottom: 100%;
+                    bottom: calc(100% + 1px);
                     left: 50%;
                     transform: translateX(-50%);
                 }
