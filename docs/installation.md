@@ -17,7 +17,6 @@ Then publish the config file:
 php please vendor:publish --tag=statamic-bard-texstyle-config
 ```
 
-
 ## Enable Pro Edition
 
 If you're using the Pro edition you can enable it by opening `config/statamic/editions.php` and adding it to the addons list:

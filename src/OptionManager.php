@@ -96,7 +96,7 @@ class OptionManager
     public function resolve()
     {
         $store = data_get($this->config, 'store', 'class');
-        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should this be btsKey in next major version?
+        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
         $defaults = $this->resolveDefaults();
         $defaultsTypes = $this->resolveDefaultsTypes($defaults);
