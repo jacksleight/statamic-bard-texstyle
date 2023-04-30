@@ -117,8 +117,8 @@ export const styleToIcon = (style) => {
     } else {
         icon = 'letter';
     }
-    return icons[set][icon]
-        ? icons[set][icon](style)
+    return icons[icon]
+        ? icons[icon](style)
         : icon;
 }
 

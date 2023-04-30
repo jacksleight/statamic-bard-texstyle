@@ -33,7 +33,7 @@ const Attributes = Extension.create({
             }),
         };
 
-        return Object.entries(attributes).map(([type, attrs]) => {
+        return Object.entries(attributes).map(([type, group]) => {
             return {
                 types: [group.type],
                 attributes: Object.fromEntries(Object.entries(group.attrs)

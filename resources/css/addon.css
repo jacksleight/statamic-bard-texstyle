@@ -1,6 +1,6 @@
 .bard-fieldtype-wrapper {
 
-    .ProseMirror {
+    .bard-content {
         div[data-btss] {
             border: #e4ebf1 solid;
             border-width: 1px 0;

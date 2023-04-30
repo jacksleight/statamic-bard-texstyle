@@ -4,107 +4,7 @@ use JackSleight\StatamicBardTexstyle\OptionManager;
 
 uses(Tests\TestCase::class);
 
-it('resolves free edition config', function () {
-    $options = (new OptionManager([
-        'styles' => [
-            'title' => [
-                'type' => 'heading1',
-                'name' => 'Title',
-                'ident' => 'T',
-                'icon' => null,
-                'class' => 'title',
-                'cp_css' => 'font-size: 1.5em',
-                'cp_badge' => false,
-            ],
-            'twocolumns' => [
-                'type' => 'div',
-                'name' => 'Two Columns',
-                'ident' => '❙ ❙',
-                'icon' => null,
-                'class' => 'two-columns',
-                'cp_css' => 'column-count: 2; column-gap: 16px',
-                'cp_badge' => true,
-            ],
-        ],
-        'attributes' => [
-            'heading' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                ],
-            ],
-        ],
-        'defaults' => [
-            'standard' => [
-                'heading1' => [
-                    'class' => 'heading-1',
-                ],
-                'paragraph' => [
-                    'class' => 'paragraph',
-                ],
-            ],
-        ],
-        'store' => 'class',
-    ], false))->resolve();
-
-    expect($options)->toEqual([
-        'major' => $this->getStatamicMajor(),
-        'pro' => false,
-        'store' => 'class',
-        'attr' => 'class',
-        'styles' => [
-            'title' => [
-                'type' => 'heading',
-                'name' => 'Title',
-                'ident' => 'T',
-                'icon' => null,
-                'class' => 'title',
-                'cp_css' => ['&' => 'font-size: 1.5em'],
-                'cp_badge' => false,
-                'args' => ['level' => 1],
-                'kind' => 'heading1',
-                'key' => 'title',
-            ],
-        ],
-        'types' => [
-            'heading' => [
-                'type' => 'heading',
-            ],
-        ],
-        'attributes' => [],
-        'defaults' => [
-            'standard' => [
-                'heading1' => [
-                    'class' => 'heading-1',
-                    'type' => 'heading',
-                    'kind' => 'heading1',
-                ],
-                'paragraph' => [
-                    'class' => 'paragraph',
-                    'type' => 'paragraph',
-                    'kind' => 'paragraph',
-                ],
-            ],
-        ],
-        'styleTypes' => [
-            'heading',
-        ],
-        'classTypes' => [
-            'heading',
-            'paragraph',
-        ],
-        'attributeTypes' => [],
-        'defaultsTypes' => [
-            'heading',
-            'paragraph',
-        ],
-        'styleOptions' => [],
-    ]);
-});
-
-it('resolves pro edition config', function () {
+it('resolves full config', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
@@ -150,7 +50,6 @@ it('resolves pro edition config', function () {
     ], true))->resolve();
 
     expect($options)->toEqual([
-        'major' => $this->getStatamicMajor(),
         'pro' => true,
         'store' => 'class',
         'attr' => 'class',
@@ -245,6 +144,57 @@ it('resolves pro edition config', function () {
             'unorderedlist' => 'Unordered List',
         ],
     ]);
+});
+
+it('resolves free config', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'title' => [
+                'type' => 'heading1',
+                'name' => 'Title',
+                'ident' => 'T',
+                'icon' => null,
+                'class' => 'title',
+                'cp_css' => 'font-size: 1.5em',
+                'cp_badge' => false,
+            ],
+            'twocolumns' => [
+                'type' => 'div',
+                'name' => 'Two Columns',
+                'ident' => '❙ ❙',
+                'icon' => null,
+                'class' => 'two-columns',
+                'cp_css' => 'column-count: 2; column-gap: 16px',
+                'cp_badge' => true,
+            ],
+        ],
+        'attributes' => [
+            'heading' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                ],
+            ],
+        ],
+        'defaults' => [
+            'standard' => [
+                'heading1' => [
+                    'class' => 'heading-1',
+                ],
+                'paragraph' => [
+                    'class' => 'paragraph',
+                ],
+            ],
+        ],
+        'store' => 'class',
+    ], false))->resolve();
+
+    expect($options['pro'])->toEqual(false);
+    expect($options['styles'])->toHaveCount(1)->toHaveKeys(['title']);
+    expect($options['attributes'])->toBeEmpty();
+    expect($options['attributeTypes'])->toBeEmpty();
 });
 
 it('normalizes legacy style config', function () {

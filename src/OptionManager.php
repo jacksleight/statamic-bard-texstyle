@@ -2,9 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
-use Statamic\Statamic;
 use Statamic\Support\Arr;
-use Statamic\Support\Str;
 
 class OptionManager
 {
@@ -112,13 +110,7 @@ class OptionManager
 
         $styleOptions = $this->resolveStyleOptions($styles);
 
-        $version = Statamic::version();
-        $major = $version !== 'dev-master'
-            ? (int) Str::before($version, '.')
-            : 100;
-
         return [
-            'major' => $major,
             'pro' => $this->pro,
             'store' => $store,
             'attr' => $attr,

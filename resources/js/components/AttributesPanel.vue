@@ -10,7 +10,7 @@
                     {{ title(item) }}
                 </div>
                 <div class="p-4 pt-1 border-b" v-if="activeItem === i">
-                    <div v-for="(field, name) in fields(item.type)" class="mt-3">
+                    <div v-for="(field, name) in fields(item)" class="mt-3">
                         <label v-if="field.type === 'select'" class="font-normal">
                             <div class="text-sm leading-none">{{ field.display || name }}</div>
                             <select v-model="item.attrs[name]" class="input h-8 px-1 border text-sm border-gray-500 rounded mt-2 bg-white w-full">
