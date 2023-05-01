@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { snake } from '../helpers'
 
 export default {
 
@@ -74,30 +75,30 @@ export default {
             titles: {
                 blockquote: __('Blockquote'),
                 bold: __('Bold'),
-                bulletList: __('Unordered List'),
+                code_block: __('Code Block'),
                 code: __('Code'),
-                codeBlock: __('Code Block'),
-                heading1: __('Heading 1'),
-                heading2: __('Heading 2'),
-                heading3: __('Heading 3'),
-                heading4: __('Heading 4'),
-                heading5: __('Heading 5'),
-                heading5: __('Heading 6'),
-                horizontalRule: __('Horizontal Rule'),
+                heading_1: __('Heading 1'),
+                heading_2: __('Heading 2'),
+                heading_3: __('Heading 3'),
+                heading_4: __('Heading 4'),
+                heading_5: __('Heading 5'),
+                heading_5: __('Heading 6'),
+                horizontal_rule: __('Horizontal Rule'),
                 image: __('Image'),
                 italic: __('Italic'),
                 link: __('Link'),
-                listItem: __('List Item'),
-                orderedList: __('Ordered List'),
+                list_item: __('List Item'),
+                ordered_list: __('Ordered List'),
                 paragraph: __('Paragraph'),
                 strike: __('Strike'),
                 subscript: __('Subscript'),
                 superscript: __('Superscript'),
+                table_cell: __('Table Cell'),
+                table_header: __('Table Header'),
+                table_row: __('Table Row'),
                 table: __('Table'),
-                tableCell: __('Table Cell'),
-                tableHeader: __('Table Header'),
-                tableRow: __('Table Row'),
                 underline: __('Underline'),
+                unordered_list: __('Unordered List'),
             },
         };
     },
@@ -113,9 +114,14 @@ export default {
     methods: {
 
         kind(item) {
+            const typeMap = {
+                btsSpan: 'span',
+                btsDiv: 'div',
+                bulletList: 'unordered_list',
+            };
             return item.type === 'heading'
-                ? `${item.type}${item.attrs.level}`
-                : `${item.type}`;
+                ? `${item.type}_${item.attrs.level}`
+                : (typeMap[item.type] || snake(item.type));
         },
 
         title(item) {
