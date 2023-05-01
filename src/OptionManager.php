@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Statamic\Support\Arr;
+use Statamic\Support\Str;
 
 class OptionManager
 {
@@ -63,24 +64,30 @@ class OptionManager
         'paragraph',
     ];
 
-    protected $typeAliases = [
+    // @deprecated
+    protected $legacyAliases = [
+        'bulletList' => 'unordered_list',
+    ];
+
+    protected $extNames = [
         'span' => 'btsSpan',
         'div' => 'btsDiv',
-        'heading1' => 'heading',
-        'heading2' => 'heading',
-        'heading3' => 'heading',
-        'heading4' => 'heading',
-        'heading5' => 'heading',
-        'heading6' => 'heading',
+        'unordered_list' => 'bulletList',
+        'heading_1' => 'heading',
+        'heading_2' => 'heading',
+        'heading_3' => 'heading',
+        'heading_4' => 'heading',
+        'heading_5' => 'heading',
+        'heading_6' => 'heading',
     ];
 
     protected $typeArgs = [
-        'heading1' => ['level' => 1],
-        'heading2' => ['level' => 2],
-        'heading3' => ['level' => 3],
-        'heading4' => ['level' => 4],
-        'heading5' => ['level' => 5],
-        'heading6' => ['level' => 6],
+        'heading_1' => ['level' => 1],
+        'heading_2' => ['level' => 2],
+        'heading_3' => ['level' => 3],
+        'heading_4' => ['level' => 4],
+        'heading_5' => ['level' => 5],
+        'heading_6' => ['level' => 6],
     ];
 
     protected $config;
@@ -140,7 +147,7 @@ class OptionManager
         $usedTypes = [];
         $styles = collect($styles)
             ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->typeAliases[$style['type']] ?? $style['type'],
+                'type' => $this->extNames[$style['type']] ?? Str::camel($style['type']),
                 'args' => $this->typeArgs[$style['type']] ?? [],
                 'kind' => $style['type'],
                 'key' => $key,
@@ -165,12 +172,13 @@ class OptionManager
         }
 
         $attributes = data_get($this->config, 'attributes', []);
+        $attributes = $this->normalizeAttributes($attributes);
         $attributes = $this->expandAttributes($attributes);
 
         $attributes = collect($attributes)
             ->map(fn ($attrs, $type) => array_merge([
                 'attrs' => $attrs,
-                'type' => $this->typeAliases[$type] ?? $type,
+                'type' => $this->extNames[$type] ?? Str::camel($type),
                 'kind' => $type,
             ]))
             ->filter(fn ($group) => array_key_exists($group['type'], $this->attributeTypes))
@@ -199,7 +207,7 @@ class OptionManager
             ->map(function ($groups) {
                 return collect($groups)
                     ->map(fn ($group, $type) => array_merge($group, [
-                        'type' => $this->typeAliases[$type] ?? $type,
+                        'type' => $this->extNames[$type] ?? Str::camel($type),
                         'kind' => $type,
                     ]))
                     ->all();
@@ -272,9 +280,9 @@ class OptionManager
     {
         if (array_key_exists('heading', $attributes)) {
             for ($i = 1; $i <= 6; $i++) {
-                $attributes['heading'.$i] = array_merge(
+                $attributes['heading_'.$i] = array_merge(
                     $attributes['heading'],
-                    $attributes['heading'.$i] ?? []
+                    $attributes['heading_'.$i] ?? []
                 );
             }
             unset($attributes['heading']);
@@ -296,9 +304,16 @@ class OptionManager
 
         return collect($defaults)
             ->map(function ($groups) {
+                return collect($groups)
+                    ->mapWithKeys(fn ($group, $type) => [
+                        $this->legacyAliases[$type] ?? Str::snake($type) => $group,
+                    ])
+                    ->all();
+            })
+            ->map(function ($groups) {
                 if (array_key_exists('heading', $groups)) {
                     foreach ($groups['heading'] as $level => $class) {
-                        $groups['heading'.$level] = $class;
+                        $groups['heading_'.$level] = $class;
                     }
                     unset($groups['heading']);
                 }
@@ -325,16 +340,29 @@ class OptionManager
     protected function normalizeStyles($styles)
     {
         return collect($styles)
+            ->map(fn ($style, $key) => array_merge($style, [
+                'type' => $this->legacyAliases[$style['type']] ?? Str::snake($style['type']),
+            ]))
             ->map(function ($style) {
                 if ($style['type'] === 'heading') {
-                    $style['type'] = 'heading'.$style['level'];
+                    $style['type'] = 'heading_'.$style['level'];
                     unset($style['level']);
                 }
 
                 return $style;
             })
             ->all();
+    }
 
-        return $styles;
+    /**
+     * @deprecated
+     */
+    protected function normalizeAttributes($attributes)
+    {
+        return collect($attributes)
+            ->mapWithKeys(fn ($group, $type) => [
+                $this->legacyAliases[$type] ?? Str::snake($type) => $group,
+            ])
+            ->all();
     }
 }

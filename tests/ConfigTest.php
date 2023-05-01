@@ -8,7 +8,7 @@ it('resolves full config', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
-                'type' => 'heading1',
+                'type' => 'heading_1',
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
@@ -27,7 +27,7 @@ it('resolves full config', function () {
             ],
         ],
         'attributes' => [
-            'heading1' => [
+            'heading_1' => [
                 'id' => [
                     'type' => 'text',
                     'display' => 'ID',
@@ -38,7 +38,7 @@ it('resolves full config', function () {
         ],
         'defaults' => [
             'standard' => [
-                'heading1' => [
+                'heading_1' => [
                     'class' => 'heading-1',
                 ],
                 'paragraph' => [
@@ -63,7 +63,7 @@ it('resolves full config', function () {
                 'cp_css' => 'font-size: 1.5em',
                 'cp_badge' => false,
                 'args' => ['level' => 1],
-                'kind' => 'heading1',
+                'kind' => 'heading_1',
                 'key' => 'title',
             ],
             'twocolumns' => [
@@ -88,7 +88,7 @@ it('resolves full config', function () {
             ],
         ],
         'attributes' => [
-            'heading1' => [
+            'heading_1' => [
                 'attrs' => [
                     'id' => [
                         'type' => 'text',
@@ -99,15 +99,15 @@ it('resolves full config', function () {
                     ],
                 ],
                 'type' => 'heading',
-                'kind' => 'heading1',
+                'kind' => 'heading_1',
             ],
         ],
         'defaults' => [
             'standard' => [
-                'heading1' => [
+                'heading_1' => [
                     'class' => 'heading-1',
                     'type' => 'heading',
-                    'kind' => 'heading1',
+                    'kind' => 'heading_1',
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
@@ -150,7 +150,7 @@ it('resolves free config', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
-                'type' => 'heading1',
+                'type' => 'heading_1',
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
@@ -180,7 +180,7 @@ it('resolves free config', function () {
         ],
         'defaults' => [
             'standard' => [
-                'heading1' => [
+                'heading_1' => [
                     'class' => 'heading-1',
                 ],
                 'paragraph' => [
@@ -207,6 +207,12 @@ it('normalizes legacy style config', function () {
                 'ident' => 'T',
                 'class' => 'title',
             ],
+            'square_list' => [
+                'type' => 'bulletList',
+                'name' => 'Square List',
+                'ident' => 'S',
+                'class' => 'square-list',
+            ],
         ],
     ], false))->resolve();
 
@@ -217,13 +223,22 @@ it('normalizes legacy style config', function () {
             'ident' => 'T',
             'class' => 'title',
             'args' => ['level' => 1],
-            'kind' => 'heading1',
+            'kind' => 'heading_1',
             'key' => 'title',
+        ],
+        'square_list' => [
+            'type' => 'bulletList',
+            'name' => 'Square List',
+            'ident' => 'S',
+            'class' => 'square-list',
+            'args' => [],
+            'kind' => 'unordered_list',
+            'key' => 'square_list',
         ],
     ]);
 });
 
-it('normalizes legacy default_classes config', function () {
+it('normalizes legacy defaults config', function () {
     $options = (new OptionManager([
         'default_classes' => [
             'heading' => [
@@ -231,26 +246,63 @@ it('normalizes legacy default_classes config', function () {
                 2 => 'heading-2',
             ],
             'paragraph' => 'paragraph',
+            'tableCell' => 'cell',
         ],
     ], false))->resolve();
 
     expect($options['defaults'] ?? null)->toEqual([
         'standard' => [
-            'heading1' => [
+            'heading_1' => [
                 'class' => 'heading-1',
                 'type' => 'heading',
-                'kind' => 'heading1',
+                'kind' => 'heading_1',
             ],
-            'heading2' => [
+            'heading_2' => [
                 'class' => 'heading-2',
                 'type' => 'heading',
-                'kind' => 'heading2',
+                'kind' => 'heading_2',
             ],
             'paragraph' => [
                 'class' => 'paragraph',
                 'type' => 'paragraph',
                 'kind' => 'paragraph',
             ],
+            'table_cell' => [
+                'class' => 'cell',
+                'type' => 'tableCell',
+                'kind' => 'table_cell',
+            ],
+        ],
+    ]);
+});
+
+it('normalizes legacy attributes config', function () {
+    $options = (new OptionManager([
+        'attributes' => [
+            'tableCell' => [
+                'rowspan' => [
+                    'type' => 'text',
+                    'display' => 'Rowspan',
+                    'default' => null,
+                    'rendered' => true,
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['attributes'] ?? null)->toEqual([
+        'table_cell' => [
+            'attrs' => [
+                'rowspan' => [
+                    'type' => 'text',
+                    'display' => 'Rowspan',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
+            'type' => 'tableCell',
+            'kind' => 'table_cell',
         ],
     ]);
 });
@@ -270,7 +322,7 @@ it('expands header attributes config', function () {
     ], true))->resolve();
 
     expect($options['attributes'] ?? null)->toEqual([
-        'heading1' => [
+        'heading_1' => [
             'attrs' => [
                 'id' => [
                     'type' => 'text',
@@ -281,9 +333,9 @@ it('expands header attributes config', function () {
                 ],
             ],
             'type' => 'heading',
-            'kind' => 'heading1',
+            'kind' => 'heading_1',
         ],
-        'heading2' => [
+        'heading_2' => [
             'attrs' => [
                 'id' => [
                     'type' => 'text',
@@ -294,9 +346,9 @@ it('expands header attributes config', function () {
                 ],
             ],
             'type' => 'heading',
-            'kind' => 'heading2',
+            'kind' => 'heading_2',
         ],
-        'heading3' => [
+        'heading_3' => [
             'attrs' => [
                 'id' => [
                     'type' => 'text',
@@ -307,9 +359,9 @@ it('expands header attributes config', function () {
                 ],
             ],
             'type' => 'heading',
-            'kind' => 'heading3',
+            'kind' => 'heading_3',
         ],
-        'heading4' => [
+        'heading_4' => [
             'attrs' => [
                 'id' => [
                     'type' => 'text',
@@ -320,9 +372,9 @@ it('expands header attributes config', function () {
                 ],
             ],
             'type' => 'heading',
-            'kind' => 'heading4',
+            'kind' => 'heading_4',
         ],
-        'heading5' => [
+        'heading_5' => [
             'attrs' => [
                 'id' => [
                     'type' => 'text',
@@ -333,9 +385,9 @@ it('expands header attributes config', function () {
                 ],
             ],
             'type' => 'heading',
-            'kind' => 'heading5',
+            'kind' => 'heading_5',
         ],
-        'heading6' => [
+        'heading_6' => [
             'attrs' => [
                 'id' => [
                     'type' => 'text',
@@ -346,7 +398,7 @@ it('expands header attributes config', function () {
                 ],
             ],
             'type' => 'heading',
-            'kind' => 'heading6',
+            'kind' => 'heading_6',
         ],
     ]);
 });
