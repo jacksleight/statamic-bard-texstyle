@@ -43,10 +43,10 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
   The default value for the attribute.
 * **rendered (boolean|string)**
   Whether to include this attribute in the HTML tag. Options are:
-    * `true` - Render this attribute directly
-    * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
+    * `true` - Render this as its own attribue
     * `class` - Render this as part of the class attribute (not compatible with `save_html`)
     * `style` - Render this as part of the style attribute
+    * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
 * **options (array)**
   The options to use for select attributes.
 * **values (array)**
