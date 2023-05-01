@@ -6,7 +6,9 @@
         v-if="visible"
         @click="click"
     >
-        <div class="bts-preview" :data-bts-preview="previewNames">
+        <div class="bts-preview"
+            :data-bts-preview="previewTag"
+            :data-bts-style="previewStyle">
             {{ item.text }}
         </div>
     </button>
@@ -40,23 +42,34 @@ export default {
             }
             return true;
         },
-        previewNames() {
-            const kindMap = {
-                heading1: 'h1',
-                heading2: 'h2',
-                heading3: 'h3',
-                heading4: 'h4',
-                heading5: 'h5',
-                heading6: 'h6',
-                span: 'span',
-                link: 'link',
-                bulletList: 'unorderedlist',
-                orderedList: 'orderedlist',
+        previewTag() {
+            const nameMap = {
+                h1: 'h1',
+                h2: 'h2',
+                h3: 'h3',
+                h4: 'h4',
+                h5: 'h5',
+                h6: 'h6',
+                unorderedlist: 'ul',
+                orderedlist: 'ol',
             };
-            return ([
-                kindMap[this.item.btsStyle?.kind],
-                this.item.name,
-            ]).filter(name => name !== undefined).join(' ');
+            const kindMap = {
+                heading_1: 'h1',
+                heading_2: 'h2',
+                heading_3: 'h3',
+                heading_4: 'h4',
+                heading_5: 'h5',
+                heading_6: 'h6',
+                span: 'span',
+                unordered_list: 'ul',
+                link: 'link',
+                ordered_list: 'ol',
+                paragraph: 'p',
+            };
+            return kindMap[this.item.btsStyle?.kind] || nameMap[this.item.name];
+        },
+        previewStyle() {
+            return this.item.btsStyle?.[this.btsOptions.store];
         },
 
     },

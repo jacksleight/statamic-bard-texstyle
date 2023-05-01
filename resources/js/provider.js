@@ -11,37 +11,30 @@ class Provider {
 
     types = {
         heading: {
-            tag: 'h',
             command: 'btsToggleHeading',
             toggleVisibility: false,
         },
         paragraph: {
-            tag: 'p',
             command: 'btsToggleParagraph',
             toggleVisibility: false,
         },
         btsSpan: {
-            tag: 'span',
             command: 'btsToggleSpan',
             toggleVisibility: false,
         },
         link: {
-            tag: 'a',
             command: 'btsToggleLink',
             toggleVisibility: true,
         },
         bulletList: {
-            tag: 'ul',
             command: 'btsToggleBulletList',
             toggleVisibility: false,
         },
         orderedList: {
-            tag: 'ol',
             command: 'btsToggleOrderedList',
             toggleVisibility: false,
         },
         btsDiv: {
-            tag: 'div',
             command: 'btsToggleDiv',
             toggleVisibility: false,
         },
@@ -146,15 +139,14 @@ class Provider {
     gatherStylesCss(options) {
         const css = [];
         Object.entries(options.styles).forEach(([key, style]) => {
-            const type = options.types[style.type];
-            const tag = style.type === 'heading'
-                ? `${type.tag}${style.args.level}`
-                : `${type.tag}`;
-            const selector = `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]`;
-            const badgeSelector = `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]::before`;
-            const previewSelector = `.bard-fieldtype-wrapper .bts-preview[data-bts-preview~="${key}"]`;
+            const selector = `
+                .bard-fieldtype-wrapper .bts-preview[data-bts-style="${style[options.store]}"],
+                .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]
+            `;
+            const badgeSelector = `
+                .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]::before
+            `;
             css.push(...this.parseCss(selector, style.cp_css || ''));
-            css.push(...this.parseCss(previewSelector, style.cp_css || ''));
             if (style.cp_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
