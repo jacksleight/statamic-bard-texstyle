@@ -12,13 +12,13 @@ class Attributes extends Extension
     public function addOptions()
     {
         return [
-            'attributeGroups' => null,
+            'attributes' => null,
         ];
     }
 
     public function addGlobalAttributes()
     {
-        $attributeGroups = $this->options['attributeGroups'];
+        $attributes = $this->options['attributes'];
 
         $renders = [
             'true' => function ($name, $attr) {
@@ -46,7 +46,12 @@ class Attributes extends Extension
             },
         ];
 
-        return collect($attributeGroups)
+        $merged = collect($attributes)
+            ->groupBy('type')
+            ->map(fn ($group) => $group->flatMap(fn ($item) => $item['attrs'])->all())
+            ->all();
+
+        return collect($merged)
             ->map(function ($attrs, $type) use ($renders) {
                 return [
                     'types' => [$type],

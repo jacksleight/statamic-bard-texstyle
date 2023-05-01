@@ -107,7 +107,6 @@ class OptionManager
 
         $attributes = $this->resolveAttributes($classTypes);
         $attributeTypes = $this->resolveAttributeTypes($attributes);
-        $attributeGroups = $this->resolveAttributeGroups($attributes);
 
         $styleOptions = $this->resolveStyleOptions($styles);
 
@@ -122,7 +121,6 @@ class OptionManager
             'styleTypes' => $styleTypes,
             'classTypes' => $classTypes,
             'attributeTypes' => $attributeTypes,
-            'attributeGroups' => $attributeGroups,
             'defaultsTypes' => $defaultsTypes,
             'styleOptions' => $styleOptions,
         ];
@@ -235,14 +233,6 @@ class OptionManager
             ->merge($defaultsTypes)
             ->unique()
             ->values()
-            ->all();
-    }
-
-    protected function resolveAttributeGroups($attributes)
-    {
-        return collect($attributes)
-            ->groupBy('type')
-            ->map(fn ($group) => $group->flatMap(fn ($item) => $item['attrs'])->all())
             ->all();
     }
 

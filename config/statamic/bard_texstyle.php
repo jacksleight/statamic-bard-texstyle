@@ -123,7 +123,6 @@ return [
         //         'rendered' => 'class',
         //         'values' => [
         //             'true' => 'hero',
-        //             'false' => null,
         //         ],
         //     ],
         // ],

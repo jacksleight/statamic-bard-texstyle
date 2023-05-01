@@ -8,20 +8,19 @@ const Attributes = Extension.create({
     addOptions() {
         return {
             attributeTypes: {},
-            attributeGroups: {},
+            attributes: {},
         }
     },
 
     addGlobalAttributes() {
-        const { attributeGroups } = this.options;
+        const { attributes } = this.options;
 
         const renders = {
             true: (name, attr) => ({
                 rendered: true,
             }),
             false: (name, attr) => ({
-                parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
-                renderHTML: attributes => ({ [`data-bts-attribute-${kebab(name)}`]: attributes[name] }),
+                rendered: false,
             }),
             class: (name, attr) => ({
                 parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
@@ -35,7 +34,14 @@ const Attributes = Extension.create({
             }),
         };
 
-        return Object.entries(attributeGroups).map(([type, attrs]) => {
+        const merged = Object.entries(attributes)
+            .reduce((stack, [kind, group]) => {
+                const type = group.type;
+                stack[type] = {...stack[type] || {}, ...group.attrs};
+                return stack;
+            }, {});
+
+        return Object.entries(merged).map(([type, attrs]) => {
             return {
                 types: [type],
                 attributes: Object.fromEntries(Object.entries(attrs)
