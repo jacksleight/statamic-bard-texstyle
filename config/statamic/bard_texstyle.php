@@ -14,7 +14,7 @@ return [
     'styles' => [
 
         // 'title' => [
-        //     'type' => 'heading1',
+        //     'type' => 'heading_1',
         //     'name' => 'Title',
         //     'ident' => 'T',
         //     'icon' => null,
@@ -54,7 +54,7 @@ return [
         // ],
 
         // 'square_list' => [
-        //     'type' => 'bulletList',
+        //     'type' => 'unordered_list',
         //     'name' => 'Square List',
         //     'ident' => '■',
         //     'icon' => null,
@@ -64,7 +64,7 @@ return [
         // ],
 
         // 'roman_list' => [
-        //     'type' => 'orderedList',
+        //     'type' => 'ordered_list',
         //     'name' => 'Roman List',
         //     'ident' => 'IV',
         //     'icon' => null,
@@ -109,7 +109,7 @@ return [
 
     'attributes' => [
 
-        // 'heading1' => [
+        // 'heading_1' => [
         //     'id' => [
         //         'type' => 'text',
         //         'display' => 'ID',
@@ -127,7 +127,7 @@ return [
         //     ],
         // ],
 
-        // 'orderedList' => [
+        // 'ordered_list' => [
         //     'start' => [
         //         'type' => 'text',
         //         'display' => 'Start',
@@ -157,22 +157,22 @@ return [
     'defaults' => [
 
         // 'standard' => [
-        //     'heading1' => [
+        //     'heading_1' => [
         //         'class' => 'heading-1',
         //     ],
-        //     'heading2' => [
+        //     'heading_2' => [
         //         'class' => 'heading-2',
         //     ],
-        //     'heading3' => [
+        //     'heading_3' => [
         //         'class' => 'heading-3',
         //     ],
-        //     'heading4' => [
+        //     'heading_4' => [
         //         'class' => 'heading-4',
         //     ],
-        //     'heading5' => [
+        //     'heading_5' => [
         //         'class' => 'heading-5',
         //     ],
-        //     'heading6' => [
+        //     'heading_6' => [
         //         'class' => 'heading-6',
         //     ],
         //     'paragraph' => [

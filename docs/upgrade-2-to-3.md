@@ -9,7 +9,7 @@ order: 109
 
 ---
 
-Bard Texstyle 3 contains a few medium/low impact breaking changes, and the way heading styles and default classes are configured has changed. The old formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
+Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a "configuration housekeeping" release, with the goal of making the configuration simpler, more consistent, better match Statamic conventions, and more flexible for future development. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
 
 ## Breaking Changes
 
@@ -42,7 +42,7 @@ The heading style `level` option has been removed in favour of specifying one of
 ```
 ```php
 'title' => [
-    'type' => 'heading1',
+    'type' => 'heading_1',
     // ...
 ],
 ```
@@ -62,7 +62,7 @@ The `default_classes` option has been renamed to `defaults`, heading types are n
 ```php
 'defaults' => [
     'standard' => [
-        'heading1' => [
+        'heading_1' => [
             'class' => 'head-1',
         ],
         'paragraph' => [
@@ -71,3 +71,5 @@ The `default_classes` option has been renamed to `defaults`, heading types are n
     ],
 ],
 ```
+
+Finally, all types are now snake case instead of camel case, and the `bulletList` type has been renamed to `unordered_list`.

@@ -53,10 +53,10 @@ The style keys are used as the button names. Styles can have the following optio
 
 * **type (string)**  
   The type. Options are:
-    * `heading[1-6]`
+    * `heading_[1-6]`
     * `paragraph`
-    * `bulletList`
-    * `orderedList`
+    * `unordered_list`
+    * `ordered_list`
     * `link`
     * `span`
     * `div` (Pro)

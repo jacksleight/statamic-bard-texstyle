@@ -68,24 +68,24 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 | ------------------------------------- | ---------------------------------- |
 | `blockquote`                          |                                    |
 | `bold`                                |                                    |
-| `bulletList`                          |                                    |
+| `unordered_list`                      |                                    |
 | `code`                                |                                    |
-| `codeBlock`                           | `language`                         |
-| `heading`<br>`heading[1-6]`           | `level`, `textAlign`               |
-| `horizontalRule`                      |                                    |
+| `code_block`                          | `language`                         |
+| `heading`<br>`heading_[1-6]`          | `level`                            |
+| `horizontal_rule`                     |                                    |
 | `image`                               | `src`, `alt`, `title`              |
 | `italic`                              |                                    |
 | `link`                                | `href`, `rel`, `target`, `title`   |
-| `listItem`                            |                                    |
-| `orderedList`                         | `start`                            |
-| `paragraph`                           | `textAlign`                        |
+| `list_item`                           |                                    |
+| `ordered_list`                        | `start`                            |
+| `paragraph`                           |                                    |
 | `strike`                              |                                    |
 | `subscript`                           |                                    |
 | `superscript`                         |                                    |
 | `table`                               |                                    |
-| `tableCell`                           | `rowspan`, `colspan`, `colwidth`   |
-| `tableHeader`                         | `rowspan`, `colspan`, `colwidth`   |
-| `tableRow`                            |                                    |
+| `table_cell`                          | `rowspan`, `colspan`, `colwidth`   |
+| `table_header`                        | `rowspan`, `colspan`, `colwidth`   |
+| `table_row`                           |                                    |
 | `underline`                           |                                    |
 
 :::note
