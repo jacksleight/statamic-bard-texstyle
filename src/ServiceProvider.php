@@ -22,68 +22,6 @@ class ServiceProvider extends AddonServiceProvider
         ],
     ];
 
-    protected $types = [
-        'heading' => [
-            'pro' => false,
-        ],
-        'paragraph' => [
-            'pro' => false,
-        ],
-        'btsSpan' => [
-            'pro' => false,
-        ],
-        'link' => [
-            'pro' => false,
-        ],
-        'bulletList' => [
-            'pro' => false,
-        ],
-        'orderedList' => [
-            'pro' => false,
-        ],
-        'btsDiv' => [
-            'pro' => true,
-        ],
-    ];
-
-    protected $attributeTypes = [
-        'blockquote' => [],
-        'bold' => [],
-        'bulletList' => [],
-        'code' => [],
-        'codeBlock' => ['language'],
-        'heading' => ['level', 'textAlign'],
-        'horizontalRule' => [],
-        'image' => ['src', 'alt', 'title'],
-        'italic' => [],
-        'link' => ['href', 'rel', 'target', 'title'],
-        'listItem' => [],
-        'orderedList' => [/*'start'*/],
-        'paragraph' => ['textAlign'],
-        'strike' => [],
-        'subscript' => [],
-        'superscript' => [],
-        'table' => [],
-        'tableCell' => ['rowspan', 'colspan', 'colwidth'],
-        'tableHeader' => ['rowspan', 'colspan', 'colwidth'],
-        'tableRow' => [],
-        'underline' => [],
-    ];
-
-    protected $styleTypes = [
-        'btsSpan',
-        'bulletList',
-        'heading',
-        'link',
-        'orderedList',
-        'paragraph',
-    ];
-
-    protected $aliases = [
-        'span' => 'btsSpan',
-        'div' => 'btsDiv',
-    ];
-
     public function bootAddon()
     {
         $config = config('statamic.bard_texstyle', []);

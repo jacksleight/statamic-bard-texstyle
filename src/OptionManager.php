@@ -7,7 +7,7 @@ use Statamic\Support\Str;
 
 class OptionManager
 {
-    protected $types = [
+    protected $exts = [
         'heading' => [
             'pro' => false,
         ],
@@ -31,7 +31,7 @@ class OptionManager
         ],
     ];
 
-    protected $attributeTypes = [
+    protected $attributeExts = [
         'blockquote' => [],
         'bold' => [],
         'bulletList' => [],
@@ -55,7 +55,7 @@ class OptionManager
         'underline' => [],
     ];
 
-    protected $styleTypes = [
+    protected $styleExts = [
         'btsSpan',
         'bulletList',
         'heading',
@@ -65,11 +65,11 @@ class OptionManager
     ];
 
     // @deprecated
-    protected $legacyAliases = [
+    protected $extTypes = [
         'bulletList' => 'unordered_list',
     ];
 
-    protected $extNames = [
+    protected $typeExts = [
         'span' => 'btsSpan',
         'div' => 'btsDiv',
         'unordered_list' => 'bulletList',
@@ -106,14 +106,14 @@ class OptionManager
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
         $defaults = $this->resolveDefaults();
-        $defaultsTypes = $this->resolveDefaultsTypes($defaults);
+        $defaultsExts = $this->resolveDefaultsExts($defaults);
 
-        [$styles, $types] = $this->resolveStylesAndTypes();
-        $styleTypes = $this->resolveStyleTypes($styles);
-        $classTypes = $this->resolveClassTypes($styleTypes, $defaultsTypes);
+        [$styles, $exts] = $this->resolveStylesAndExts();
+        $styleExts = $this->resolveStyleExts($styles);
+        $classExts = $this->resolveClassExts($styleExts, $defaultsExts);
 
-        $attributes = $this->resolveAttributes($classTypes);
-        $attributeTypes = $this->resolveAttributeTypes($attributes);
+        $attributes = $this->resolveAttributes($classExts);
+        $attributeExts = $this->resolveAttributeExts($attributes);
 
         $styleOptions = $this->resolveStyleOptions($styles);
 
@@ -122,50 +122,49 @@ class OptionManager
             'store' => $store,
             'attr' => $attr,
             'styles' => $styles,
-            'types' => $types,
+            'exts' => $exts,
             'attributes' => $attributes,
             'defaults' => $defaults,
-            'styleTypes' => $styleTypes,
-            'classTypes' => $classTypes,
-            'attributeTypes' => $attributeTypes,
-            'defaultsTypes' => $defaultsTypes,
+            'styleExts' => $styleExts,
+            'classExts' => $classExts,
+            'attributeExts' => $attributeExts,
+            'defaultsExts' => $defaultsExts,
             'styleOptions' => $styleOptions,
         ];
     }
 
-    protected function resolveStylesAndTypes()
+    protected function resolveStylesAndExts()
     {
         $styles = data_get($this->config, 'styles', []);
         $styles = $this->normalizeStyles($styles);
 
-        $types = collect($this->types)
-            ->map(fn ($type, $key) => array_merge($type, ['type' => $key]))
-            ->filter(fn ($type) => ! $type['pro'] || $this->pro)
-            ->map(fn ($type) => Arr::except($type, 'pro'))
+        $exts = collect($this->exts)
+            ->map(fn ($ext, $key) => array_merge($ext, ['ext' => $key]))
+            ->filter(fn ($ext) => ! $ext['pro'] || $this->pro)
+            ->map(fn ($ext) => Arr::except($ext, 'pro'))
             ->all();
 
-        $usedTypes = [];
+        $usedExts = [];
         $styles = collect($styles)
             ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->extNames[$style['type']] ?? Str::camel($style['type']),
+                'ext' => $this->typeExts[$style['type']] ?? Str::camel($style['type']),
                 'args' => $this->typeArgs[$style['type']] ?? [],
-                'kind' => $style['type'],
                 'key' => $key,
             ]))
-            ->filter(fn ($style) => isset($types[$style['type']]))
-            ->each(function ($style) use (&$usedTypes) {
-                $usedTypes[$style['type']] = true;
+            ->filter(fn ($style) => isset($exts[$style['ext']]))
+            ->each(function ($style) use (&$usedExts) {
+                $usedExts[$style['ext']] = true;
             })
             ->all();
 
-        $types = collect($types)
-            ->filter(fn ($type, $key) => isset($usedTypes[$key]))
+        $exts = collect($exts)
+            ->filter(fn ($ext, $key) => isset($usedExts[$key]))
             ->all();
 
-        return [$styles, $types];
+        return [$styles, $exts];
     }
 
-    protected function resolveAttributes($classTypes)
+    protected function resolveAttributes($classExts)
     {
         if (! $this->pro) {
             return [];
@@ -178,15 +177,15 @@ class OptionManager
         $attributes = collect($attributes)
             ->map(fn ($attrs, $type) => array_merge([
                 'attrs' => $attrs,
-                'type' => $this->extNames[$type] ?? Str::camel($type),
-                'kind' => $type,
+                'type' => $type,
+                'ext' => $this->typeExts[$type] ?? Str::camel($type),
             ]))
-            ->filter(fn ($group) => array_key_exists($group['type'], $this->attributeTypes))
-            ->map(function ($group, $type) use ($classTypes) {
-                $group['attrs'] = collect($group['attrs'])->map(function ($attr, $name) use ($type, $classTypes) {
+            ->filter(fn ($group) => array_key_exists($group['ext'], $this->attributeExts))
+            ->map(function ($group, $type) use ($classExts) {
+                $group['attrs'] = collect($group['attrs'])->map(function ($attr, $name) use ($type, $classExts) {
                     return array_merge($attr, [
-                        'extra' => ! in_array($name, $this->attributeTypes[$type] ?? []) &&
-                            ($name !== 'class' || ! in_array($type, $classTypes)),
+                        'extra' => ! in_array($name, $this->attributeExts[$type] ?? []) &&
+                            ($name !== 'class' || ! in_array($type, $classExts)),
                     ]);
                 })->all();
 
@@ -207,8 +206,8 @@ class OptionManager
             ->map(function ($groups) {
                 return collect($groups)
                     ->map(fn ($group, $type) => array_merge($group, [
-                        'type' => $this->extNames[$type] ?? Str::camel($type),
-                        'kind' => $type,
+                        'type' => $type,
+                        'ext' => $this->typeExts[$type] ?? Str::camel($type),
                     ]))
                     ->all();
             })
@@ -217,37 +216,37 @@ class OptionManager
         return $defaults;
     }
 
-    protected function resolveDefaultsTypes($defaults)
+    protected function resolveDefaultsExts($defaults)
     {
         return collect($defaults)
-            ->flatMap(fn ($groups) => collect($groups)->pluck('type'))
+            ->flatMap(fn ($groups) => collect($groups)->pluck('ext'))
             ->unique()
             ->values()
             ->all();
     }
 
-    protected function resolveStyleTypes($styles)
+    protected function resolveStyleExts($styles)
     {
         return collect($styles)
-            ->pluck('type')
+            ->pluck('ext')
             ->unique()
             ->values()
             ->all();
     }
 
-    protected function resolveClassTypes($styleTypes, $defaultsTypes)
+    protected function resolveClassExts($styleExts, $defaultsExts)
     {
-        return collect($styleTypes)
-            ->merge($defaultsTypes)
+        return collect($styleExts)
+            ->merge($defaultsExts)
             ->unique()
             ->values()
             ->all();
     }
 
-    protected function resolveAttributeTypes($attributes)
+    protected function resolveAttributeExts($attributes)
     {
         return collect($attributes)
-            ->pluck('type')
+            ->pluck('ext')
             ->unique()
             ->values()
             ->all();
@@ -260,7 +259,7 @@ class OptionManager
         }
 
         return collect($styles)
-            ->filter(fn ($style) => in_array($style['type'], $this->styleTypes))
+            ->filter(fn ($style) => in_array($style['ext'], $this->styleExts))
             ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
             ->merge([
                 'h1' => 'Heading 1',
@@ -305,8 +304,8 @@ class OptionManager
         return collect($defaults)
             ->map(function ($groups) {
                 return collect($groups)
-                    ->mapWithKeys(fn ($group, $type) => [
-                        $this->legacyAliases[$type] ?? Str::snake($type) => $group,
+                    ->mapWithKeys(fn ($group, $ext) => [
+                        $this->extTypes[$ext] ?? Str::snake($ext) => $group,
                     ])
                     ->all();
             })
@@ -341,7 +340,7 @@ class OptionManager
     {
         return collect($styles)
             ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->legacyAliases[$style['type']] ?? Str::snake($style['type']),
+                'type' => $this->extTypes[$style['type']] ?? Str::snake($style['type']),
             ]))
             ->map(function ($style) {
                 if ($style['type'] === 'heading') {
@@ -360,8 +359,8 @@ class OptionManager
     protected function normalizeAttributes($attributes)
     {
         return collect($attributes)
-            ->mapWithKeys(fn ($group, $type) => [
-                $this->legacyAliases[$type] ?? Str::snake($type) => $group,
+            ->mapWithKeys(fn ($group, $ext) => [
+                $this->extTypes[$ext] ?? Str::snake($ext) => $group,
             ])
             ->all();
     }

@@ -49,14 +49,14 @@ class Attributes extends Extension
         ];
 
         $merged = collect($attributes)
-            ->groupBy('type')
+            ->groupBy('ext')
             ->map(fn ($group) => $group->flatMap(fn ($item) => $item['attrs'])->all())
             ->all();
 
         return collect($merged)
-            ->map(function ($attrs, $type) use ($renders) {
+            ->map(function ($attrs, $ext) use ($renders) {
                 return [
-                    'types' => [$type],
+                    'types' => [$ext],
                     'attributes' => collect($attrs)
                         ->filter(fn ($attr) => $attr['extra'])
                         ->map(function ($attr, $name) use ($renders) {

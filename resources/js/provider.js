@@ -9,7 +9,7 @@ import { styleToIcon, coreIcon } from './icons';
 
 class Provider {
 
-    types = {
+    exts = {
         heading: {
             command: 'btsToggleHeading',
             toggleVisibility: false,
@@ -44,7 +44,7 @@ class Provider {
 
         options = {
             ...options,
-            types: this.mergeTypeData(options.types),
+            types: this.mergeExtData(options.exts),
         };
 
         this
@@ -55,9 +55,9 @@ class Provider {
             .bootCss(options);
     }
 
-    mergeTypeData(types) {
-        return Object.fromEntries(Object.entries(types).map(([ key, type ]) => {
-            return [ key, {...type, ...this.types[key]} ];
+    mergeExtData(exts) {
+        return Object.fromEntries(Object.entries(exts).map(([ key, ext ]) => {
+            return [ key, {...ext, ...this.exts[key]} ];
         }));
     }
 
@@ -75,17 +75,17 @@ class Provider {
     bootStyleButtons(options) {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
-                const type = options.types[style.type];
+                const ext = options.exts[style.ext];
                 const icon = styleToIcon(style);
                 const data = {
                     name: key,
                     text: style.name,
                     args: { [options.attr]: style[options.store], ...style.args },
                     html: icon,
-                    active: (editor, args) => editor.isActive(type.type, args),
-                    visible: type.toggleVisibility ? (editor) => editor.isActive(type.type) : () => true,
-                    btsMenuVisible: type.toggleVisibility ? (editor) => editor.isActive(type.type) : () => true,
-                    command: (editor, args) => editor.chain().focus()[type.command](args).run(),
+                    active: (editor, args) => editor.isActive(ext.ext, args),
+                    visible: ext.toggleVisibility ? (editor) => editor.isActive(ext.ext) : () => true,
+                    btsMenuVisible: ext.toggleVisibility ? (editor) => editor.isActive(ext.ext) : () => true,
+                    command: (editor, args) => editor.chain().focus()[ext.command](args).run(),
                     btsStyle: style,
                 };
                 buttons.splice(buttons.indexOf(key), 0, button(data));

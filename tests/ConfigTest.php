@@ -55,7 +55,7 @@ it('resolves full config', function () {
         'attr' => 'class',
         'styles' => [
             'title' => [
-                'type' => 'heading',
+                'ext' => 'heading',
                 'name' => 'Title',
                 'ident' => 'T',
                 'icon' => null,
@@ -63,11 +63,11 @@ it('resolves full config', function () {
                 'cp_css' => 'font-size: 1.5em',
                 'cp_badge' => false,
                 'args' => ['level' => 1],
-                'kind' => 'heading_1',
+                'type' => 'heading_1',
                 'key' => 'title',
             ],
             'twocolumns' => [
-                'type' => 'btsDiv',
+                'ext' => 'btsDiv',
                 'name' => 'Two Columns',
                 'ident' => '❙ ❙',
                 'icon' => null,
@@ -75,16 +75,16 @@ it('resolves full config', function () {
                 'cp_css' => 'column-count: 2; column-gap: 16px',
                 'cp_badge' => true,
                 'args' => [],
-                'kind' => 'div',
+                'type' => 'div',
                 'key' => 'twocolumns',
             ],
         ],
-        'types' => [
+        'exts' => [
             'heading' => [
-                'type' => 'heading',
+                'ext' => 'heading',
             ],
             'btsDiv' => [
-                'type' => 'btsDiv',
+                'ext' => 'btsDiv',
             ],
         ],
         'attributes' => [
@@ -98,37 +98,37 @@ it('resolves full config', function () {
                         'extra' => true,
                     ],
                 ],
-                'type' => 'heading',
-                'kind' => 'heading_1',
+                'ext' => 'heading',
+                'type' => 'heading_1',
             ],
         ],
         'defaults' => [
             'standard' => [
                 'heading_1' => [
                     'class' => 'heading-1',
-                    'type' => 'heading',
-                    'kind' => 'heading_1',
+                    'ext' => 'heading',
+                    'type' => 'heading_1',
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
+                    'ext' => 'paragraph',
                     'type' => 'paragraph',
-                    'kind' => 'paragraph',
                 ],
             ],
         ],
-        'styleTypes' => [
+        'styleExts' => [
             'heading',
             'btsDiv',
         ],
-        'classTypes' => [
+        'classExts' => [
             'heading',
             'btsDiv',
             'paragraph',
         ],
-        'attributeTypes' => [
+        'attributeExts' => [
             'heading',
         ],
-        'defaultsTypes' => [
+        'defaultsExts' => [
             'heading',
             'paragraph',
         ],
@@ -194,7 +194,7 @@ it('resolves free config', function () {
     expect($options['pro'])->toEqual(false);
     expect($options['styles'])->toHaveCount(1)->toHaveKeys(['title']);
     expect($options['attributes'])->toBeEmpty();
-    expect($options['attributeTypes'])->toBeEmpty();
+    expect($options['attributeExts'])->toBeEmpty();
 });
 
 it('normalizes legacy style config', function () {
@@ -218,21 +218,21 @@ it('normalizes legacy style config', function () {
 
     expect($options['styles'] ?? null)->toEqual([
         'title' => [
-            'type' => 'heading',
+            'ext' => 'heading',
             'name' => 'Title',
             'ident' => 'T',
             'class' => 'title',
             'args' => ['level' => 1],
-            'kind' => 'heading_1',
+            'type' => 'heading_1',
             'key' => 'title',
         ],
         'square_list' => [
-            'type' => 'bulletList',
+            'ext' => 'bulletList',
             'name' => 'Square List',
             'ident' => 'S',
             'class' => 'square-list',
             'args' => [],
-            'kind' => 'unordered_list',
+            'type' => 'unordered_list',
             'key' => 'square_list',
         ],
     ]);
@@ -254,23 +254,23 @@ it('normalizes legacy defaults config', function () {
         'standard' => [
             'heading_1' => [
                 'class' => 'heading-1',
-                'type' => 'heading',
-                'kind' => 'heading_1',
+                'ext' => 'heading',
+                'type' => 'heading_1',
             ],
             'heading_2' => [
                 'class' => 'heading-2',
-                'type' => 'heading',
-                'kind' => 'heading_2',
+                'ext' => 'heading',
+                'type' => 'heading_2',
             ],
             'paragraph' => [
                 'class' => 'paragraph',
+                'ext' => 'paragraph',
                 'type' => 'paragraph',
-                'kind' => 'paragraph',
             ],
             'table_cell' => [
                 'class' => 'cell',
-                'type' => 'tableCell',
-                'kind' => 'table_cell',
+                'ext' => 'tableCell',
+                'type' => 'table_cell',
             ],
         ],
     ]);
@@ -301,8 +301,8 @@ it('normalizes legacy attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'tableCell',
-            'kind' => 'table_cell',
+            'ext' => 'tableCell',
+            'type' => 'table_cell',
         ],
     ]);
 });
@@ -332,8 +332,8 @@ it('expands header attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'heading',
-            'kind' => 'heading_1',
+            'ext' => 'heading',
+            'type' => 'heading_1',
         ],
         'heading_2' => [
             'attrs' => [
@@ -345,8 +345,8 @@ it('expands header attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'heading',
-            'kind' => 'heading_2',
+            'ext' => 'heading',
+            'type' => 'heading_2',
         ],
         'heading_3' => [
             'attrs' => [
@@ -358,8 +358,8 @@ it('expands header attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'heading',
-            'kind' => 'heading_3',
+            'ext' => 'heading',
+            'type' => 'heading_3',
         ],
         'heading_4' => [
             'attrs' => [
@@ -371,8 +371,8 @@ it('expands header attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'heading',
-            'kind' => 'heading_4',
+            'ext' => 'heading',
+            'type' => 'heading_4',
         ],
         'heading_5' => [
             'attrs' => [
@@ -384,8 +384,8 @@ it('expands header attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'heading',
-            'kind' => 'heading_5',
+            'ext' => 'heading',
+            'type' => 'heading_5',
         ],
         'heading_6' => [
             'attrs' => [
@@ -397,8 +397,8 @@ it('expands header attributes config', function () {
                     'extra' => true,
                 ],
             ],
-            'type' => 'heading',
-            'kind' => 'heading_6',
+            'ext' => 'heading',
+            'type' => 'heading_6',
         ],
     ]);
 });

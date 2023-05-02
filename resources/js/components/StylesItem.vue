@@ -43,7 +43,7 @@ export default {
             return true;
         },
         previewTag() {
-            const nameMap = {
+            const nameTags = {
                 h1: 'h1',
                 h2: 'h2',
                 h3: 'h3',
@@ -53,7 +53,7 @@ export default {
                 unorderedlist: 'ul',
                 orderedlist: 'ol',
             };
-            const kindMap = {
+            const typeTags = {
                 heading_1: 'h1',
                 heading_2: 'h2',
                 heading_3: 'h3',
@@ -66,7 +66,7 @@ export default {
                 ordered_list: 'ol',
                 paragraph: 'p',
             };
-            return kindMap[this.item.btsStyle?.kind] || nameMap[this.item.name];
+            return typeTags[this.item.btsStyle?.type] || nameTags[this.item.name];
         },
         previewStyle() {
             return this.item.btsStyle?.[this.btsOptions.store];

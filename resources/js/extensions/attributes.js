@@ -7,7 +7,7 @@ const Attributes = Extension.create({
 
     addOptions() {
         return {
-            attributeTypes: {},
+            attributeExts: {},
             attributes: {},
         }
     },
@@ -37,15 +37,15 @@ const Attributes = Extension.create({
         };
 
         const merged = Object.entries(attributes)
-            .reduce((stack, [kind, group]) => {
-                const type = group.type;
+            .reduce((stack, [ext, group]) => {
+                const type = group.ext;
                 stack[type] = {...stack[type] || {}, ...group.attrs};
                 return stack;
             }, {});
 
-        return Object.entries(merged).map(([type, attrs]) => {
+        return Object.entries(merged).map(([ext, attrs]) => {
             return {
-                types: [type],
+                types: [ext],
                 attributes: Object.fromEntries(Object.entries(attrs)
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
@@ -63,13 +63,13 @@ const Attributes = Extension.create({
     },
 
     addCommands() {
-        const { attributeTypes } = this.options;
+        const { attributeExts } = this.options;
         return {
             btsAttributesFetch: () => ({ state }) => {
                 const { from, to } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, from + 1, (node) => {
-                    if (attributeTypes.includes(node.type.name)) {
+                    if (attributeExts.includes(node.type.name)) {
                         items.push({
                             kind: 'node',
                             type: node.type.name,
@@ -77,7 +77,7 @@ const Attributes = Extension.create({
                         });
                     } else if (node.type.name === 'text') {
                         node.marks.forEach(mark => {
-                            if (attributeTypes.includes(mark.type.name)) {
+                            if (attributeExts.includes(mark.type.name)) {
                                 items.push({
                                     kind: 'mark',
                                     type: mark.type.name,

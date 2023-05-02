@@ -113,7 +113,7 @@ export default {
 
     methods: {
 
-        kind(item) {
+        resolveType(item) {
             const typeMap = {
                 btsSpan: 'span',
                 btsDiv: 'div',
@@ -125,11 +125,11 @@ export default {
         },
 
         title(item) {
-            return this.titles[this.kind(item)];
+            return this.titles[this.resolveType(item)];
         },
 
         fields(item) {
-            return this.btsOptions.attributes[this.kind(item)].attrs;
+            return this.btsOptions.attributes[this.resolveType(item)].attrs;
         },
 
         apply() {
