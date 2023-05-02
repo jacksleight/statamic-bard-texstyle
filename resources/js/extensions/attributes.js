@@ -24,13 +24,15 @@ const Attributes = Extension.create({
             }),
             class: (name, attr) => ({
                 parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
-                renderHTML: attributes => ({ [`data-bts-attribute-${kebab(name)}`]: attributes[name] }),
+                renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
+                    ? { [`data-bts-attribute-${kebab(name)}`]: attributes[name] }
+                    : null,
             }),
             style: (name, attr) => ({
                 parseHTML: element => element.style[name],
-                renderHTML: attributes => (attributes[name] !== null
+                renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
                     ? { style: `${kebab(name)}: ${attributes[name]}` }
-                    : null),
+                    : null,
             }),
         };
 

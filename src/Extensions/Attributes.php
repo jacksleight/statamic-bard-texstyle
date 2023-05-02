@@ -33,13 +33,15 @@ class Attributes extends Extension
             },
             'class' => function ($name, $attr) {
                 return [
-                    'renderHTML' => fn ($attributes) => ['class' => $attributes->{$name}],
+                    'renderHTML' => fn ($attributes) => isset($attributes->{$name})
+                        ? ['class' => $attributes->{$name}]
+                        : null,
                 ];
             },
             'style' => function ($name, $attr) {
                 return [
                     'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, $name),
-                    'renderHTML' => fn ($attributes) => $attributes->{$name} !== null
+                    'renderHTML' => fn ($attributes) => isset($attributes->{$name})
                         ? ['style' => str($name)->replace('_', '-')->kebab().": {$attributes->{$name}}"]
                         : null,
                 ];
