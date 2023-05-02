@@ -8,6 +8,7 @@
 - [new] Select added as an attribute field type
 - [new] Automatic rendering of custom class/style based attributes
 - [new] Different attributes can be added per heading level
+- [fix] Blank attribute values saving as empty strings
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-0-to-3-0) for more information
 - Dropped support for Statamic 3
 

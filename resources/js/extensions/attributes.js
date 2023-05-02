@@ -102,7 +102,8 @@ const Attributes = Extension.create({
                     if (item.kind === 'mark') {
                         apply = apply.extendMarkRange(item.type);
                     }
-                    apply = apply.updateAttributes(item.type, item.attrs);
+                    // @todo Empty string check should happen in vue component
+                    apply = apply.updateAttributes(item.type, Object.fromEntries(Object.entries(item.attrs).map(([name, value]) => [name, value === '' ? null : value])));
                 });
                 return apply.setTextSelection({ from, to }).run();
             },
