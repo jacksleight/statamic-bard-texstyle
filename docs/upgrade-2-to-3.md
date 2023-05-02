@@ -9,13 +9,13 @@ order: 109
 
 ---
 
-Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a "configuration housekeeping" release, with the goal of making the configuration simpler, more consistent, better match Statamic conventions, and more flexible for future development. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
+Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent, and better match Statamic conventions. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
 
 ## Breaking Changes
 
-### Defaults configuration field handle (Medium Impact)
+### Defaults configuration field (Medium Impact)
 
-The Bard field configuration handle `bts_default_classes` has been renamed to `bts_defaults`. If you were using this option you can either go into the relevant fields through the blueprint editor and re-set the values, or do a find and replace.
+The defaults configuration field `bts_default_classes` has been renamed to `bts_defaults`. If you were using this option you can either update the relevant fields through the blueprint editor, or do a find and replace accross your yaml files.
 
 ### Non-rendered toggle attribute values (Low Impact)
 
@@ -29,7 +29,7 @@ Support for the Bard Paragraph Style configuration format has been removed.
 
 ### Legacy configuration format
 
-The following changes have been made to the Bard Texstyle config. The old formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
+The following changes have been made to the Bard Texstyle config. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
 
 The heading style `level` option has been removed in favour of specifying one of six heading types in the `type` option instead:
 
