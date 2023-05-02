@@ -132,7 +132,7 @@ class Provider {
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
-        document.head.appendChild(el);
+        document.body.appendChild(el);
         return this;
     }
 
