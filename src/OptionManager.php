@@ -139,7 +139,7 @@ class OptionManager
         $styles = $this->normalizeStyles($styles);
 
         $exts = collect($this->exts)
-            ->map(fn ($ext, $key) => array_merge($ext, ['ext' => $key]))
+            ->map(fn ($ext, $name) => array_merge($ext, ['name' => $name]))
             ->filter(fn ($ext) => ! $ext['pro'] || $this->pro)
             ->map(fn ($ext) => Arr::except($ext, 'pro'))
             ->all();

@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle\Extensions;
 
+use JackSleight\StatamicBardTexstyle\Support\Helpers;
 use Statamic\Support\Arr;
 use Tiptap\Core\Extension;
 
@@ -62,9 +63,10 @@ class Core extends Extension
                                     $class = null;
                                 }
                                 if (! $class) {
-                                    $class = $ext === 'heading'
-                                        ? ($defaults[$ext.$attributes->level]['class'] ?? null)
-                                        : ($defaults[$ext]['class'] ?? null);
+                                    $class = $defaults[Helpers::itemToType([
+                                        'type' => $ext,
+                                        'attrs' => $attributes,
+                                    ])]['class'] ?? null;
                                 }
 
                                 return $class ? ['class' => $class] : [];

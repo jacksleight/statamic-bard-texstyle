@@ -68,9 +68,8 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 | ------------------------------------- | ---------------------------------- |
 | `blockquote`                          |                                    |
 | `bold`                                |                                    |
-| `unordered_list`                      |                                    |
-| `code`                                |                                    |
 | `code_block`                          | `language`                         |
+| `code`                                |                                    |
 | `heading`<br>`heading_[1-6]`          | `level`                            |
 | `horizontal_rule`                     |                                    |
 | `image`                               | `src`, `alt`, `title`              |
@@ -82,11 +81,12 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 | `strike`                              |                                    |
 | `subscript`                           |                                    |
 | `superscript`                         |                                    |
-| `table`                               |                                    |
 | `table_cell`                          | `rowspan`, `colspan`, `colwidth`   |
 | `table_header`                        | `rowspan`, `colspan`, `colwidth`   |
 | `table_row`                           |                                    |
+| `table`                               |                                    |
 | `underline`                           |                                    |
+| `unordered_list`                      |                                    |
 
 :::note
 You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.

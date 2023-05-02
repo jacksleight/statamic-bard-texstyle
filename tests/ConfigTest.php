@@ -81,10 +81,10 @@ it('resolves full config', function () {
         ],
         'exts' => [
             'heading' => [
-                'ext' => 'heading',
+                'name' => 'heading',
             ],
             'btsDiv' => [
-                'ext' => 'btsDiv',
+                'name' => 'btsDiv',
             ],
         ],
         'attributes' => [

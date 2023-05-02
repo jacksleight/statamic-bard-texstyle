@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { snake } from '../helpers'
+import { itemToType } from '../helpers'
 
 export default {
 
@@ -113,23 +113,12 @@ export default {
 
     methods: {
 
-        resolveType(item) {
-            const typeMap = {
-                btsSpan: 'span',
-                btsDiv: 'div',
-                bulletList: 'unordered_list',
-            };
-            return item.type === 'heading'
-                ? `${item.type}_${item.attrs.level}`
-                : (typeMap[item.type] || snake(item.type));
-        },
-
         title(item) {
-            return this.titles[this.resolveType(item)];
+            return this.titles[itemToType(item)];
         },
 
         fields(item) {
-            return this.btsOptions.attributes[this.resolveType(item)].attrs;
+            return this.btsOptions.attributes[itemToType(item)].attrs;
         },
 
         apply() {

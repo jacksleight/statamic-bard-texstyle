@@ -44,7 +44,7 @@ class Provider {
 
         options = {
             ...options,
-            types: this.mergeExtData(options.exts),
+            exts: this.mergeExtData(options.exts),
         };
 
         this
@@ -56,8 +56,8 @@ class Provider {
     }
 
     mergeExtData(exts) {
-        return Object.fromEntries(Object.entries(exts).map(([ key, ext ]) => {
-            return [ key, {...ext, ...this.exts[key]} ];
+        return Object.fromEntries(Object.entries(exts).map(([ name, ext ]) => {
+            return [ name, {...ext, ...this.exts[name]} ];
         }));
     }
 
@@ -82,9 +82,9 @@ class Provider {
                     text: style.name,
                     args: { [options.attr]: style[options.store], ...style.args },
                     html: icon,
-                    active: (editor, args) => editor.isActive(ext.ext, args),
-                    visible: ext.toggleVisibility ? (editor) => editor.isActive(ext.ext) : () => true,
-                    btsMenuVisible: ext.toggleVisibility ? (editor) => editor.isActive(ext.ext) : () => true,
+                    active: (editor, args) => editor.isActive(ext.name, args),
+                    visible: ext.toggleVisibility ? (editor) => editor.isActive(ext.name) : () => true,
+                    btsMenuVisible: ext.toggleVisibility ? (editor) => editor.isActive(ext.name) : () => true,
                     command: (editor, args) => editor.chain().focus()[ext.command](args).run(),
                     btsStyle: style,
                 };
