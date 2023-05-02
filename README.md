@@ -7,7 +7,7 @@
 This Statamic addon allows you to add custom element styles and attributes to the Bard fieldtype. Features include:
 
 * Add custom heading, paragraph, list, link and span styles
-* Add custom attributes to elements like IDs, code languages or extra classes
+* Add custom attributes like IDs, code languages or additional styling
 * Add container div styles for things like multi-column text and hints
 * A style selection menu with previews of each style
 * Multiple sets of default classes for unstyled elements
