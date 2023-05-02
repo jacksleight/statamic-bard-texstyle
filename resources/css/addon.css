@@ -4,7 +4,8 @@
         div[data-bts-style] {
             border: #d1d5db solid;
             border-width: 1px 0;
-            padding: 0.85em 0;
+            padding-top: 0.85em;
+            padding-bottom: 0.85em;
             margin-top: 1.7em;
             margin-bottom: 1.7em;
         }
