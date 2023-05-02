@@ -10,6 +10,7 @@
 - [new] Different attributes can be added per heading level
 - [fix] Blank attribute values saving as empty strings
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-0-to-3-0) for more information
+- Simpler and more consistent configuration format
 - Dropped support for Statamic 3
 
 ## 2.1.1 (2023-02-16)
