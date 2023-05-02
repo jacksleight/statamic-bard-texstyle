@@ -61,6 +61,7 @@ export default {
                 heading_5: 'h5',
                 heading_6: 'h6',
                 span: 'span',
+                div: 'div',
                 unordered_list: 'ul',
                 link: 'link',
                 ordered_list: 'ol',
