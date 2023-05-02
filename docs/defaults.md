@@ -1,6 +1,6 @@
 ---
 title: Defaults
-order: 45
+order: 50
 ---
 
 # Defaults
@@ -34,4 +34,4 @@ Open `config/statamic/bard_texstyle.php` to add your defaults:
 ],
 ```
 
-You can add defaults for any node/mark type.
+You can add defaults for any element type.

@@ -1,6 +1,6 @@
 ---
 title: Attributes
-order: 50
+order: 40
 ---
 
 # Attributes (Pro)
@@ -30,7 +30,7 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 ],
 ```
 
-Attributes are grouped by node/mark type and the keys are the attribute names. Attributes can have the following options:
+Attributes are grouped by element type and the keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**
   The field type. Options are:
@@ -62,7 +62,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node/mark types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
+The following element types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
 | Type                                  | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |

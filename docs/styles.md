@@ -1,6 +1,6 @@
 ---
 title: Styles
-order: 40
+order: 30
 ---
 
 # Styles

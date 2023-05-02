@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 (03-05-2023)
+## 3.0.0 (2023-05-03)
 
 - [new] Statamic 4 support (with updated button icons)
 - [new] Option to show current style in the style menu button
