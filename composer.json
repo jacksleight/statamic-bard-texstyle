@@ -13,7 +13,7 @@
     "extra": {
         "statamic": {
             "name": "Bard Texstyle",
-            "description": "This Statamic addon allows you to add custom element styles to the Bard fieldtype and edit element attributes.",
+            "description": "This Statamic addon allows you to add custom element styles and attributes to the Bard fieldtype.",
             "editions": ["free", "pro"]
         },
         "laravel": {

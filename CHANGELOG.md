@@ -1,15 +1,15 @@
 # Changelog
 
-## 3.0.0 ()
+## 3.0.0 (03-05-2023)
 
 - [new] Statamic 4 support (with updated button icons)
 - [new] Option to show current style in the style menu button
 - [new] Toggle attribute true/false values can now be configured
-- [new] Select added as an attribute field type
 - [new] Automatic rendering of custom class/style based attributes
 - [new] Different attributes can be added per heading level
+- [new] Select added as an attribute field type
 - [fix] Blank attribute values saving as empty strings
-- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-0-to-3-0) for more information
+- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-to-3) for more information
 - Simpler and more consistent configuration format
 - Dropped support for Statamic 3
 
