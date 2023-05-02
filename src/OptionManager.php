@@ -106,11 +106,11 @@ class OptionManager
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
         $defaults = $this->resolveDefaults();
-        $defaultsExts = $this->resolveDefaultsExts($defaults);
+        $defaultExts = $this->resolveDefaultExts($defaults);
 
         [$styles, $exts] = $this->resolveStylesAndExts();
         $styleExts = $this->resolveStyleExts($styles);
-        $classExts = $this->resolveClassExts($styleExts, $defaultsExts);
+        $classExts = $this->resolveClassExts($styleExts, $defaultExts);
 
         $attributes = $this->resolveAttributes($classExts);
         $attributeExts = $this->resolveAttributeExts($attributes);
@@ -128,7 +128,7 @@ class OptionManager
             'styleExts' => $styleExts,
             'classExts' => $classExts,
             'attributeExts' => $attributeExts,
-            'defaultsExts' => $defaultsExts,
+            'defaultExts' => $defaultExts,
             'styleOptions' => $styleOptions,
         ];
     }
@@ -204,6 +204,7 @@ class OptionManager
 
         $defaults = collect($defaults)
             ->map(function ($groups) {
+                // @todo This should expand out to include the key in the root array
                 return collect($groups)
                     ->map(fn ($group, $type) => array_merge($group, [
                         'type' => $type,
@@ -216,7 +217,7 @@ class OptionManager
         return $defaults;
     }
 
-    protected function resolveDefaultsExts($defaults)
+    protected function resolveDefaultExts($defaults)
     {
         return collect($defaults)
             ->flatMap(fn ($groups) => collect($groups)->pluck('ext'))
@@ -234,10 +235,10 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveClassExts($styleExts, $defaultsExts)
+    protected function resolveClassExts($styleExts, $defaultExts)
     {
         return collect($styleExts)
-            ->merge($defaultsExts)
+            ->merge($defaultExts)
             ->unique()
             ->values()
             ->all();

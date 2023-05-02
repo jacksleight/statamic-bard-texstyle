@@ -2,6 +2,7 @@ import Span from './marks/span'
 import Div from './nodes/div'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
+import Defaults from './extensions/defaults'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
@@ -63,6 +64,7 @@ class Provider {
 
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
+        Statamic.$bard.addExtension(({ bard }) => Defaults.configure({ ...options, bard }));
         Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         if (options.pro) {
@@ -128,12 +130,35 @@ class Provider {
 
     bootCss(options) {
         const css = [
+            ...this.gatherDefaultsCss(options),
             ...this.gatherStylesCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
         document.head.appendChild(el);
         return this;
+    }
+
+    gatherDefaultsCss(options) {
+        const css = [];
+        Object.entries(options.defaults).forEach(([key, group]) => {
+            Object.entries(group).forEach(([type, dflt]) => {
+                const selector = `
+                    .bard-fieldtype-wrapper .bts-preview[data-bts-default="${key}:${dflt.type}"],
+                    .bard-fieldtype-wrapper .bard-content [data-bts-default="${key}:${dflt.type}"]
+                `;
+                // const badgeSelector = `
+                //     .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]::before
+                // `;
+                if (dflt.cp_css) {
+                    css.push(...this.parseCss(selector, dflt.cp_css));
+                }
+                // if (dflt.cp_badge) {
+                //     css.push(`${badgeSelector} { content: "${style.name}"; }`);
+                // }
+            });
+        });
+        return css;
     }
 
     gatherStylesCss(options) {
@@ -146,7 +171,7 @@ class Provider {
             const badgeSelector = `
                 .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]::before
             `;
-            css.push(...this.parseCss(selector, style.cp_css || ''));
+            css.push(...this.parseCss(selector, style.cp_css));
             if (style.cp_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
@@ -155,6 +180,9 @@ class Provider {
     }
 
     parseCss(prefix, data) {
+        if (data === undefined) {
+            return [];
+        }
         if (typeof data === 'string') {
             data = {'&': data};
         }

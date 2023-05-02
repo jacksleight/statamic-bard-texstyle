@@ -128,7 +128,7 @@ it('resolves full config', function () {
         'attributeExts' => [
             'heading',
         ],
-        'defaultsExts' => [
+        'defaultExts' => [
             'heading',
             'paragraph',
         ],
