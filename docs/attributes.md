@@ -5,7 +5,7 @@ order: 50
 
 # Attributes (Pro)
 
-The attributes feature allows you to add custom attributes to nodes/marks and edit them through a panel within the Bard editor. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
+The attributes feature allows you to add custom attributes to elements and edit them through a panel within the Bard editor. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
 
 [TOC]
 
@@ -62,7 +62,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node/mark types are supported. Some nodes/marks have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
+The following node/mark types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
 | Type                                  | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |
