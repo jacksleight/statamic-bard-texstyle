@@ -9,7 +9,7 @@ order: 100
 
 ---
 
-Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent with Statamic conventions, and add flexilbity for future features. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can (see below).
+Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent with Statamic conventions, and add flexibility for future features. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can (see below).
 
 ## Breaking Changes
 
