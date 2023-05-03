@@ -43,6 +43,9 @@ class Core extends Extension
                             'parseHTML' => function ($DOMNode) use ($store, $styles, $styleExts, $ext) {
                                 if (in_array($ext, $styleExts)) {
                                     $value = $DOMNode->getAttribute('class');
+                                    if ($value === '') {
+                                        $value = null;
+                                    }
                                     if ($store === 'key') {
                                         $style = Arr::first($styles, fn ($style) => $style['type'] === $ext && $style['class'] === $value);
                                         $value = $style ? $style['key'] : null;

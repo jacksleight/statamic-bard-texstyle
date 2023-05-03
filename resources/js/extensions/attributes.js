@@ -24,9 +24,7 @@ const Attributes = Extension.create({
             }),
             class: (name, attr) => ({
                 parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
-                renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
-                    ? { [`data-bts-attribute-${kebab(name)}`]: attributes[name] }
-                    : null,
+                renderHTML: attributes => ({ [`data-bts-attribute-${kebab(name)}`]: attributes[name] }),
             }),
             style: (name, attr) => ({
                 parseHTML: element => element.style[kebab(name)],
