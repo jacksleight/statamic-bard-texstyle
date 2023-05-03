@@ -43,7 +43,7 @@ Attributes are grouped by element type and the keys are the attribute names. Att
   The default value for the attribute.
 * **rendered (boolean|string)**
   Whether to include this attribute in the HTML tag. Options are:
-    * `true` - Render this as its own attribue
+    * `true` - Render this as its own attribute
     * `class` - Render this as part of the class attribute (not compatible with `save_html`)
     * `style` - Render this as part of the style attribute
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
