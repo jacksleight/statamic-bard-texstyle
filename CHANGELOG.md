@@ -2,7 +2,7 @@
 
 ## 3.0.1 (2023-05-03)
 
-- [fix] Unrelaible parsing of style attributes with Bard's `save_html` option
+- [fix] Parsing style attributes with Bard's `save_html` option
 
 ## 3.0.0 (2023-05-03)
 
