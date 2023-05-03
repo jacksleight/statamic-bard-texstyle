@@ -9,7 +9,7 @@ order: 100
 
 ---
 
-Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent with Statamic conventions, and add flexilbity for future features. The old configuration formats will still work but support may be removed in the future, so it would be best to [update your config](#legacy-configuration-formats) as soon as you can.
+Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent with Statamic conventions, and add flexilbity for future features. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can (see below).
 
 ## Breaking Changes
 
@@ -29,7 +29,7 @@ Support for the Bard Paragraph Style configuration format has been removed.
 
 ### Legacy configuration formats
 
-The following changes have been made to the Bard Texstyle config. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
+The following changes have been made to the Bard Texstyle config. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can.
 
 The heading style `level` option has been removed in favour of specifying one of six heading types in the `type` option instead:
 
