@@ -29,7 +29,7 @@ const Attributes = Extension.create({
                     : null,
             }),
             style: (name, attr) => ({
-                parseHTML: element => element.style[name],
+                parseHTML: element => element.style[kebab(name)],
                 renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
                     ? { style: `${kebab(name)}: ${attributes[name]}` }
                     : null,

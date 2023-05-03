@@ -40,7 +40,7 @@ class Attributes extends Extension
             },
             'style' => function ($name, $attr) {
                 return [
-                    'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, $name),
+                    'parseHTML' => fn ($DOMNode) => InlineStyle::getAttribute($DOMNode, (string) str($name)->replace('_', '-')->kebab()),
                     'renderHTML' => fn ($attributes) => isset($attributes->{$name})
                         ? ['style' => str($name)->replace('_', '-')->kebab().": {$attributes->{$name}}"]
                         : null,
