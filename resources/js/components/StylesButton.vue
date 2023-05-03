@@ -1,29 +1,33 @@
 <template>
 
-    <div class="inline-block relative">
-        <button
-            class="bard-toolbar-button"
-            :class="{
-                'bts-styles-button-icon': type === 'icon',
-                'bts-styles-button-text': type === 'text',
-            }"
-            v-tooltip="type === 'icon' ? button.text : undefined"
-            :aria-label="button.text"
-            @click="togglePanel">
-            <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
-            <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
-        </button>
-        <StylesMenu
-            v-if="panelActive"
-            :config="config"
-            :bard="bard"
-            :editor="editor"
-            :btsOptions="button.btsOptions"
-            :items="items"
-            @close="closePanel"
-            @picked="closePanel"
-        />
-    </div>
+    <popover ref="popover" placement="bottom-start" @closed="closePanel" :clickaway="true">
+        <template #trigger>
+            <button
+                class="bard-toolbar-button"
+                :class="{
+                    'bts-styles-button-icon': type === 'icon',
+                    'bts-styles-button-text': type === 'text',
+                }"
+                v-tooltip="type === 'icon' ? button.text : undefined"
+                :aria-label="button.text"
+                @click="togglePanel">
+                <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
+                <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
+            </button>
+        </template>
+        <template #default>
+            <StylesMenu
+                v-if="panelActive"
+                :config="config"
+                :bard="bard"
+                :editor="editor"
+                :btsOptions="button.btsOptions"
+                :items="items"
+                @close="closePanel"
+                @picked="closePanel"
+            />
+        </template>
+    </popover>
 
 </template>
 
@@ -82,6 +86,7 @@ export default {
         closePanel() {
             if (this.panelActive) {
                 this.togglePanel();
+                this.$refs.popover.close();
             }
         },
         updateActiveItem() {

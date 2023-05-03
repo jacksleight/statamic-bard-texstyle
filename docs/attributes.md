@@ -47,10 +47,12 @@ Attributes are grouped by element type and the keys are the attribute names. Att
     * `class` - Render this as part of the class attribute (not compatible with `save_html`)
     * `style` - Render this as part of the style attribute
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
-* **options (array)**
-  The options to use for select attributes.
 * **values (array)**
   The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
+* **options (array)**
+  The options to use for select attributes.
+* **clearable (boolean)**
+  Whether select attributes can be cleared.
 
 ---
 

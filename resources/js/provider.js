@@ -155,7 +155,7 @@ class Provider {
         Object.entries(options.styles).forEach(([key, style]) => {
             const tag = typeTags[style.type];
             const selector = `
-                .bard-fieldtype-wrapper .bts-preview[data-bts-style="${style[options.store]}"],
+                .bts-preview[data-bts-style="${style[options.store]}"],
                 .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]
             `;
             const badgeSelector = `

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="bts-panel bts-styles">
+    <div class="bts-styles">
         <div v-if="items.length" class="bts-styles-items">
             <StylesItem
                 v-for="item in items"

@@ -1,23 +1,27 @@
 <template>
 
-    <div class="inline-block relative">
-        <button
-            class="bard-toolbar-button"
-            v-html="button.html"
-            v-tooltip="button.text"
-            :aria-label="button.text"
-            @click="togglePanel"
-        />
-        <AttributesPanel
-            v-if="panelActive"
-            :config="config"
-            :bard="bard"
-            :editor="editor"
-            :btsOptions="button.btsOptions"
-            @close="closePanel"
-            @applied="closePanel"
-        />
-    </div>
+    <popover ref="popover" placement="bottom-start" @closed="closePanel" :clickaway="true">
+        <template #trigger>
+            <button
+                class="bard-toolbar-button"
+                v-html="button.html"
+                v-tooltip="button.text"
+                :aria-label="button.text"
+                @click="togglePanel"
+            />
+        </template>
+        <template #default>
+            <AttributesPanel
+                v-if="panelActive"
+                :config="config"
+                :bard="bard"
+                :editor="editor"
+                :btsOptions="button.btsOptions"
+                @applied="closePanel"
+                @close="closePanel"
+            />
+        </template>
+    </popover>
 
 </template>
 
@@ -48,6 +52,7 @@ export default {
         closePanel() {
             if (this.panelActive) {
                 this.togglePanel();
+                this.$refs.popover.close();
             }
         },
     }

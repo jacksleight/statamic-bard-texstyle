@@ -149,35 +149,22 @@ return [
     | Defaults
     |--------------------------------------------------------------------------
     |
-    | Default styles that will be applied to elements with no style set. The
-    | standard set will be used if no set is selected in the field config.
+    | Default styles that will be applied to elements with no style set. It's
+    | also possible configure multiple sets of defaults to use with different
+    | Bard fields, refer to the docs for more info.
     |
     */
 
     'defaults' => [
 
-        // 'standard' => [
-        //     'heading_1' => [
-        //         'class' => 'heading-1',
-        //     ],
-        //     'heading_2' => [
-        //         'class' => 'heading-2',
-        //     ],
-        //     'heading_3' => [
-        //         'class' => 'heading-3',
-        //     ],
-        //     'heading_4' => [
-        //         'class' => 'heading-4',
-        //     ],
-        //     'heading_5' => [
-        //         'class' => 'heading-5',
-        //     ],
-        //     'heading_6' => [
-        //         'class' => 'heading-6',
-        //     ],
-        //     'paragraph' => [
-        //         'class' => 'paragraph',
-        //     ],
+        // 'heading_1' => [
+        //     'class' => 'heading-1',
+        // ],
+        // 'heading_2' => [
+        //     'class' => 'heading-2',
+        // ],
+        // 'paragraph' => [
+        //     'class' => 'paragraph',
         // ],
 
     ],
