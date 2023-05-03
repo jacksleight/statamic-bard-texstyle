@@ -20,7 +20,9 @@ const Core = Extension.create({
                 attributes: {
                     [attr]: {
                         parseHTML: element => element.getAttribute('data-bts-style'),
-                        renderHTML: attributes => ({ ['data-bts-style']: attributes[attr] }),
+                        renderHTML: attributes => (attributes[attr] !== undefined && attributes[attr] !== null)
+                            ? { ['data-bts-style']: attributes[attr] }
+                            : null,
                     },
                 },
             },
