@@ -8,23 +8,19 @@ const Core = Extension.create({
         return {
             bard: {},
             attr: null,
-            styleTypes: [],
+            styleExts: [],
         }
     },
 
     addGlobalAttributes() {
-        const { attr, styleTypes } = this.options;
+        const { attr, styleExts } = this.options;
         return [
             {
-                types: styleTypes,
+                types: styleExts,
                 attributes: {
                     [attr]: {
-                        parseHTML: element => element.getAttribute('data-bts'),
-                        renderHTML: attributes => {
-                            return {
-                                ['data-bts']: attributes[attr],
-                            };
-                        },
+                        parseHTML: element => element.getAttribute('data-bts-style'),
+                        renderHTML: attributes => ({ ['data-bts-style']: attributes[attr] }),
                     },
                 },
             },

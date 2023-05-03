@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle\Extensions;
 
+use JackSleight\StatamicBardTexstyle\Support\Helpers;
 use Statamic\Support\Arr;
 use Tiptap\Core\Extension;
 
@@ -17,6 +18,7 @@ class Core extends Extension
             'styles' => [],
             'types' => [],
             'defaults' => [],
+            'defaultsKey' => null,
         ];
     }
 
@@ -26,20 +28,23 @@ class Core extends Extension
         $attr = $this->options['attr'];
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
-        $styleTypes = $this->options['styleTypes'];
-        $classTypes = $this->options['classTypes'];
+        $defaultsKey = $this->options['defaultsKey'];
+        $styleExts = $this->options['styleExts'];
+        $classExts = $this->options['classExts'];
 
-        return collect($classTypes)
-            ->map(function ($type) use ($store, $attr, $styles, $styleTypes, $defaults) {
+        $defaults = $defaults[$defaultsKey] ?? null;
+
+        return collect($classExts)
+            ->map(function ($ext) use ($store, $attr, $styles, $styleExts, $defaults) {
                 return [
-                    'types' => [$type],
+                    'types' => [$ext],
                     'attributes' => [
                         $attr => [
-                            'parseHTML' => function ($DOMNode) use ($store, $styles, $styleTypes, $type) {
-                                if (in_array($type, $styleTypes)) {
+                            'parseHTML' => function ($DOMNode) use ($store, $styles, $styleExts, $ext) {
+                                if (in_array($ext, $styleExts)) {
                                     $value = $DOMNode->getAttribute('class');
                                     if ($store === 'key') {
-                                        $style = Arr::first($styles, fn ($style) => $style['type'] === $type && $style['class'] === $value);
+                                        $style = Arr::first($styles, fn ($style) => $style['type'] === $ext && $style['class'] === $value);
                                         $value = $style ? $style['key'] : null;
                                     }
                                 } else {
@@ -48,8 +53,8 @@ class Core extends Extension
 
                                 return $value;
                             },
-                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleTypes, $type) {
-                                if (in_array($type, $styleTypes)) {
+                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleExts, $ext) {
+                                if (in_array($ext, $styleExts)) {
                                     $class = $attributes->{$attr} ?? null;
                                     if ($store === 'key') {
                                         $class = $styles[$class]['class'] ?? null;
@@ -58,9 +63,10 @@ class Core extends Extension
                                     $class = null;
                                 }
                                 if (! $class) {
-                                    $class = $type === 'heading'
-                                        ? ($defaults[$type][$attributes->level] ?? null)
-                                        : ($defaults[$type] ?? null);
+                                    $class = $defaults[Helpers::itemToType([
+                                        'type' => $ext,
+                                        'attrs' => $attributes,
+                                    ])]['class'] ?? null;
                                 }
 
                                 return $class ? ['class' => $class] : [];

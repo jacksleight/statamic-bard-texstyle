@@ -5,43 +5,36 @@ import Overrides from './extensions/overrides'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
-import { styleToIcon, stylesIcon, attributesIcon } from './icons';
+import { styleToIcon, coreIcon } from './icons';
 
 class Provider {
 
-    types = {
+    exts = {
         heading: {
-            tag: 'h',
             command: 'btsToggleHeading',
             toggleVisibility: false,
         },
         paragraph: {
-            tag: 'p',
             command: 'btsToggleParagraph',
             toggleVisibility: false,
         },
         btsSpan: {
-            tag: 'span',
             command: 'btsToggleSpan',
             toggleVisibility: false,
         },
         link: {
-            tag: 'a',
             command: 'btsToggleLink',
             toggleVisibility: true,
         },
         bulletList: {
-            tag: 'ul',
             command: 'btsToggleBulletList',
             toggleVisibility: false,
         },
         orderedList: {
-            tag: 'ol',
             command: 'btsToggleOrderedList',
             toggleVisibility: false,
         },
         btsDiv: {
-            tag: 'div',
             command: 'btsToggleDiv',
             toggleVisibility: false,
         },
@@ -51,7 +44,7 @@ class Provider {
 
         options = {
             ...options,
-            types: this.mergeTypeData(options.types),
+            exts: this.mergeExtData(options.exts),
         };
 
         this
@@ -62,9 +55,9 @@ class Provider {
             .bootCss(options);
     }
 
-    mergeTypeData(types) {
-        return Object.fromEntries(Object.entries(types).map(([ key, type ]) => {
-            return [ key, {...type, ...this.types[key]} ];
+    mergeExtData(exts) {
+        return Object.fromEntries(Object.entries(exts).map(([ name, ext ]) => {
+            return [ name, {...ext, ...this.exts[name]} ];
         }));
     }
 
@@ -82,20 +75,17 @@ class Provider {
     bootStyleButtons(options) {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
-                const type = options.types[style.type];
-                const icon = styleToIcon(style, type);
-                const args = style.type === 'heading'
-                    ? { [options.attr]: style[options.store], level: style.level }
-                    : { [options.attr]: style[options.store] };
+                const ext = options.exts[style.ext];
+                const icon = styleToIcon(style);
                 const data = {
                     name: key,
                     text: style.name,
-                    args: args,
+                    args: { [options.attr]: style[options.store], ...style.args },
                     html: icon,
-                    active: (editor, args) => editor.isActive(type.key, args),
-                    visible: type.toggleVisibility ? (editor) => editor.isActive(type.key) : () => true,
-                    btsMenuVisible: type.toggleVisibility ? (editor) => editor.isActive(type.key) : () => true,
-                    command: (editor, args) => editor.chain().focus()[type.command](args).run(),
+                    active: (editor, args) => editor.isActive(ext.name, args),
+                    visible: ext.toggleVisibility ? (editor) => editor.isActive(ext.name) : () => true,
+                    btsMenuVisible: ext.toggleVisibility ? (editor) => editor.isActive(ext.name) : () => true,
+                    command: (editor, args) => editor.chain().focus()[ext.command](args).run(),
                     btsStyle: style,
                 };
                 buttons.splice(buttons.indexOf(key), 0, button(data));
@@ -113,7 +103,7 @@ class Provider {
                 name: 'bts_styles',
                 text: __('Style'),
                 component: StylesButton,
-                html: stylesIcon,
+                html: coreIcon('styles'),
                 btsOptions: options,
             }));
         });
@@ -129,7 +119,7 @@ class Provider {
                 name: 'bts_attributes',
                 text: __('Attributes'),
                 component: AttributesButton,
-                html: attributesIcon,
+                html: coreIcon('attributes'),
                 btsOptions: options,
             }));
         });
@@ -138,27 +128,40 @@ class Provider {
 
     bootCss(options) {
         const css = [
-            ...this.gatherStyleCss(options),
-            ...(options.pro ? this.gatherDivCss() : []),
+            ...this.gatherStylesCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
-        document.head.appendChild(el);
+        document.body.appendChild(el);
         return this;
     }
 
-    gatherStyleCss(options) {
+    gatherStylesCss(options) {
         const css = [];
+        const typeTags = {
+            heading_1: 'h1',
+            heading_2: 'h2',
+            heading_3: 'h3',
+            heading_4: 'h4',
+            heading_5: 'h5',
+            heading_6: 'h6',
+            span: 'span',
+            div: 'div',
+            unordered_list: 'ul',
+            link: 'link',
+            ordered_list: 'ol',
+            paragraph: 'p',
+        };
         Object.entries(options.styles).forEach(([key, style]) => {
-            const type = options.types[style.type];
-            const tag = style.type === 'heading'
-                ? `${type.tag}${style.level}`
-                : `${type.tag}`;
-            const selector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]`;
-            const badgeSelector = `.bard-fieldtype .ProseMirror ${tag}[data-bts="${style[options.store]}"]::before`;
-            const menuSelector = `.bard-fieldtype .bts-styles-preview[data-bts-match~="${key}"]`;
+            const tag = typeTags[style.type];
+            const selector = `
+                .bts-preview[data-bts-style="${style[options.store]}"],
+                .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]
+            `;
+            const badgeSelector = `
+                .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]::before
+            `;
             css.push(...this.parseCss(selector, style.cp_css || ''));
-            css.push(...this.parseMenuCss(menuSelector, style.cp_css || ''));
             if (style.cp_badge) {
                 css.push(`${badgeSelector} { content: "${style.name}"; }`);
             }
@@ -166,23 +169,9 @@ class Provider {
         return css;
     }
 
-    gatherDivCss() {
-        const css = [];
-        const selector = [
-            '.bard-fieldtype .ProseMirror >',
-            '.bard-fieldtype .ProseMirror div[data-bts] >',
-        ];
-        const cpCss = Array.from(document.styleSheets)
-            .find(sheet => sheet.href && sheet.href.includes('statamic/cp/css/cp.css'));
-        Array.from(cpCss.cssRules)
-            .filter(rule => rule.selectorText && rule.selectorText.startsWith(selector[0]))
-            .forEach(rule => css.push(rule.cssText.replaceAll(selector[0], selector[1])));
-        return css;
-    }
-
     parseCss(prefix, data) {
         if (typeof data === 'string') {
-            return [`${prefix} { ${data} }`];
+            data = {'&': data};
         }
         return Object.entries(data).map(([selector, properties]) => {
             const prefixed = selector.includes('&')
@@ -194,10 +183,6 @@ class Provider {
                 }).join('') : properties;
             return `${prefixed} { ${string} }`
         });
-    }
-
-    parseMenuCss(prefix, data) {
-        return this.parseCss(prefix, typeof data === 'string' ? data : (data['&'] || ''));
     }
 
 }

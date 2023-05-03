@@ -6,7 +6,7 @@ const Span = Mark.create({
 
     parseHTML() {
         return [
-            { tag: 'span[data-bts]' },
+            { tag: 'span[data-bts-style]' },
         ]
     },
 

@@ -1,4 +1,4 @@
-import '../css/addon.scss';
+import '../css/addon.css';
 
 import Provider from './provider'
 

@@ -1,6 +1,6 @@
 ---
 title: Installation
-order: 2
+order: 20
 ---
 
 # Installation
@@ -9,6 +9,12 @@ You can search for this addon in the `Tools > Addons` section of the Statamic co
 
 ```bash
 composer require jacksleight/statamic-bard-texstyle
+```
+
+Then publish the config file:
+
+```bash
+php please vendor:publish --tag=statamic-bard-texstyle-config
 ```
 
 ## Enable Pro Edition

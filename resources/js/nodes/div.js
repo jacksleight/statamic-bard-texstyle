@@ -12,12 +12,12 @@ const Div = Node.create({
 
     parseHTML() {
         return [
-            { tag: 'div[data-bts]' },
+            { tag: 'div[data-bts-style]' },
         ]
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['div', HTMLAttributes, 0]
+        return ['div', { class: 'bard-content', ...HTMLAttributes }, 0]
     },
 
     addCommands() {

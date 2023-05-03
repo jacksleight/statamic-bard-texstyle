@@ -14,8 +14,7 @@ return [
     'styles' => [
 
         // 'title' => [
-        //     'type' => 'heading',
-        //     'level' => 1,
+        //     'type' => 'heading_1',
         //     'name' => 'Title',
         //     'ident' => 'T',
         //     'icon' => null,
@@ -54,8 +53,8 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'squarelist' => [
-        //     'type' => 'bulletList',
+        // 'square_list' => [
+        //     'type' => 'unordered_list',
         //     'name' => 'Square List',
         //     'ident' => '■',
         //     'icon' => null,
@@ -64,8 +63,8 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'romanlist' => [
-        //     'type' => 'orderedList',
+        // 'roman_list' => [
+        //     'type' => 'ordered_list',
         //     'name' => 'Roman List',
         //     'ident' => 'IV',
         //     'icon' => null,
@@ -77,7 +76,7 @@ return [
         //     'cp_badge' => false,
         // ],
 
-        // 'twocolumns' => [
+        // 'two_columns' => [
         //     'type' => 'div',
         //     'name' => 'Two Columns',
         //     'ident' => '❙ ❙',
@@ -87,7 +86,7 @@ return [
         //     'cp_badge' => true,
         // ],
 
-        // 'threecolumns' => [
+        // 'three_columns' => [
         //     'type' => 'div',
         //     'name' => 'Three Columns',
         //     'ident' => '❙❙❙',
@@ -101,30 +100,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Classes
-    |--------------------------------------------------------------------------
-    |
-    | Default classes that will be applied to elements with no style set. The
-    | standard set will be used if no set is selected in the field config.
-    |
-    */
-
-    'default_classes' => [
-        'standard' => [
-            // 'heading' => [
-            //     1 => 'heading-1',
-            //     2 => 'heading-2',
-            //     3 => 'heading-3',
-            //     4 => 'heading-4',
-            //     5 => 'heading-5',
-            //     6 => 'heading-6',
-            // ],
-            // 'paragraph' => 'paragraph',
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Attributes (pro only)
     |--------------------------------------------------------------------------
     |
@@ -134,16 +109,25 @@ return [
 
     'attributes' => [
 
-        // 'heading' => [
+        // 'heading_1' => [
         //     'id' => [
         //         'type' => 'text',
         //         'display' => 'ID',
         //         'default' => null,
         //         'rendered' => true,
         //     ],
+        //     'hero' => [
+        //         'type' => 'toggle',
+        //         'display' => 'Hero',
+        //         'default' => null,
+        //         'rendered' => 'class',
+        //         'values' => [
+        //             'true' => 'hero',
+        //         ],
+        //     ],
         // ],
 
-        // 'orderedList' => [
+        // 'ordered_list' => [
         //     'start' => [
         //         'type' => 'text',
         //         'display' => 'Start',
@@ -153,9 +137,34 @@ return [
         //     'reversed' => [
         //         'type' => 'toggle',
         //         'display' => 'Reversed',
-        //         'default' => null,
+        //         'default' => false,
         //         'rendered' => true,
         //     ],
+        // ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Defaults
+    |--------------------------------------------------------------------------
+    |
+    | Default styles that will be applied to elements with no style set. It's
+    | also possible configure multiple sets of defaults to use with different
+    | Bard fields, refer to the docs for more info.
+    |
+    */
+
+    'defaults' => [
+
+        // 'heading_1' => [
+        //     'class' => 'heading-1',
+        // ],
+        // 'heading_2' => [
+        //     'class' => 'heading-2',
+        // ],
+        // 'paragraph' => [
+        //     'class' => 'paragraph',
         // ],
 
     ],

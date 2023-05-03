@@ -1,8 +1,21 @@
 # Changelog
 
+## 3.0.0 (2023-05-03)
+
+- [new] Statamic 4 support (with updated button icons)
+- [new] Option to show current style in the style menu button
+- [new] Toggle attribute true/false values can now be configured
+- [new] Automatic rendering of custom class/style based attributes
+- [new] Different attributes can be added per heading level
+- [new] Select added as an attribute field type
+- [fix] Blank attribute values saving as empty strings
+- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-to-3) for more information
+- Simpler and more consistent configuration format
+- Dropped support for Statamic 3
+
 ## 2.1.1 (2023-02-16)
 
-- [new] Support marks in the attribute panel (Pro)
+- [new] Support marks in the attribute panel
 
 ## 2.1.0 (2023-02-13)
 
@@ -29,6 +42,7 @@
 - [new] Brand new [documentation](https://jacksleight.dev/docs/bard-texstyle) 
 - The Bard Paragraph Style config format is [deprecated](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md)
 - Bard Mutator is no longer a dependency
+- Dropped support for Statamic 3.3 and lower
 
 ## 1.0.3 (2022-06-21)
 

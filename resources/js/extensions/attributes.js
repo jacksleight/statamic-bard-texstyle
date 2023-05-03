@@ -1,3 +1,4 @@
+import { kebab } from '../helpers'
 const { Extension, getNodeAttributes } = Statamic.$bard.tiptap.core;
 
 const Attributes = Extension.create({
@@ -6,22 +7,55 @@ const Attributes = Extension.create({
 
     addOptions() {
         return {
+            attributeExts: {},
             attributes: {},
-            attributeTypes: {},
         }
     },
 
     addGlobalAttributes() {
         const { attributes } = this.options;
-        return Object.entries(attributes).map(([type, attrs]) => {
+
+        const renders = {
+            true: (name, attr) => ({
+                rendered: true,
+            }),
+            false: (name, attr) => ({
+                rendered: false,
+            }),
+            class: (name, attr) => ({
+                parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
+                renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
+                    ? { [`data-bts-attribute-${kebab(name)}`]: attributes[name] }
+                    : null,
+            }),
+            style: (name, attr) => ({
+                parseHTML: element => element.style[name],
+                renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
+                    ? { style: `${kebab(name)}: ${attributes[name]}` }
+                    : null,
+            }),
+        };
+
+        const merged = Object.entries(attributes)
+            .reduce((stack, [ext, group]) => {
+                const type = group.ext;
+                stack[type] = {...stack[type] || {}, ...group.attrs};
+                return stack;
+            }, {});
+
+        return Object.entries(merged).map(([ext, attrs]) => {
             return {
-                types: [type],
+                types: [ext],
                 attributes: Object.fromEntries(Object.entries(attrs)
                     .filter(([name, attr]) => attr.extra)
                     .map(([name, attr]) => {
                         return [name, {
-                            default: typeof attr.default !== 'undefined' ? attr.default : null,
-                            rendered: typeof attr.rendered !== 'undefined' ? attr.rendered : true,
+                            default: typeof attr.default !== 'undefined'
+                                ? attr.default
+                                : null,
+                            ...(typeof attr.rendered !== 'undefined'
+                                ? renders[attr.rendered.toString()](name, attr)
+                                : renders.true()),
                         }];
                     })),
             };
@@ -29,13 +63,13 @@ const Attributes = Extension.create({
     },
 
     addCommands() {
-        const { attributeTypes } = this.options;
+        const { attributeExts } = this.options;
         return {
             btsAttributesFetch: () => ({ state }) => {
                 const { from, to } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, from + 1, (node) => {
-                    if (attributeTypes.includes(node.type.name)) {
+                    if (attributeExts.includes(node.type.name)) {
                         items.push({
                             kind: 'node',
                             type: node.type.name,
@@ -43,7 +77,7 @@ const Attributes = Extension.create({
                         });
                     } else if (node.type.name === 'text') {
                         node.marks.forEach(mark => {
-                            if (attributeTypes.includes(mark.type.name)) {
+                            if (attributeExts.includes(mark.type.name)) {
                                 items.push({
                                     kind: 'mark',
                                     type: mark.type.name,
