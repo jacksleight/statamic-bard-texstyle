@@ -137,7 +137,7 @@ return [
         //     'reversed' => [
         //         'type' => 'toggle',
         //         'display' => 'Reversed',
-        //         'default' => false,
+        //         'default' => null,
         //         'rendered' => true,
         //     ],
         // ],
