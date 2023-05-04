@@ -93,3 +93,7 @@ The following element types are supported. Some elements have standard attribute
 :::note
 You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.
 :::
+
+## Compatibility
+
+Rendered class attributes are not compatible with Bard's `save_html` option and may cause unexpected results.
