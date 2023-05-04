@@ -44,7 +44,7 @@ Attributes are grouped by element type and the keys are the attribute names. Att
 * **rendered (boolean|string)**
   Whether to include this attribute in the HTML tag. Options are:
     * `true` - Render this as its own attribute
-    * `class` - Render this as part of the class attribute (not compatible with Bard's `save_html` option)
+    * `class` - Render this as part of the class attribute
     * `style` - Render this as part of the style attribute
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
 * **values (array)**
