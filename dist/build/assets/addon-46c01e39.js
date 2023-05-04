@@ -5,7 +5,7 @@ var y=Object.defineProperty;var w=(s,t,e)=>t in s?y(s,t,{enumerable:!0,configura
             </svg>
         `},square:s=>`
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <rect width="15" height="15" x="0.5" y="0.5" rx="2" stroke-width="1" stroke="currentColor" fill="none" />
+                <rect width="15" height="15" x="0.5" y="0.5" rx="3" stroke-width="1" stroke="currentColor" fill="none" />
                 <text text-anchor="middle" x="8" y="12" style="font-size: 11px;">${s.ident}</text>
             </svg>
         `,"square-solid":s=>{const t=s.ident,e=`bts-mask-${C++}`;return`
@@ -14,7 +14,7 @@ var y=Object.defineProperty;var w=(s,t,e)=>t in s?y(s,t,{enumerable:!0,configura
                     <rect width="16" height="16" fill="white" />
                     <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" fill="black">${t}</text>
                 </mask>
-                <rect width="15" height="15" x="0.5" y="0.5" rx="2" stroke-width="1" stroke="currentColor" mask="url(#${e})" />
+                <rect width="15" height="15" x="0.5" y="0.5" rx="3" stroke-width="1" stroke="currentColor" mask="url(#${e})" />
             </svg>
         `},circle:s=>`
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
