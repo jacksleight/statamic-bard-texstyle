@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.2 (2023-05-04)
+
+- [fix] CP rendering of multi-word style attribute names
+- Tweak square icon radius
+
 ## 3.0.1 (2023-05-03)
 
 - [fix] Parsing style attributes with Bard's `save_html` option
