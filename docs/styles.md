@@ -182,7 +182,7 @@ You can also choose to display the name of the currently selected style in the b
 
 ## Feature Support
 
-The following options are supported for each style type.
+The following options are supported for each element type.
 
 | Type                                  | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |

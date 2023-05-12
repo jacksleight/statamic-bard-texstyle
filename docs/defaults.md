@@ -80,20 +80,24 @@ Defaults can have the following options:
 
 The following options are supported for each element type.
 
-| Type                                  | `class` | `cp_css` | `cp_badge` |
+| Core Types                            | `class` | `cp_css` | `cp_badge` |
+| ------------------------------------- | :-----: | :------: | :--------: |
+| `heading_[1-6]`                       | ●       | ●        | ●          |
+| `paragraph`                           | ●       | ●        | ●          |
+| `unordered_list`                      | ●       | ●        | ●          |
+| `ordered_list`                        | ●       | ●        | ●          |
+| `link`                                | ●       |          |            |
+
+| Other Types                           | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |
 | `blockquote`                          | ●       | ●        |            |
 | `bold`                                | ●       |          |            |
 | `code_block`                          | ●       | ●        |            |
 | `code`                                | ●       |          |            |
-| `heading_[1-6]`                       | ●       | ●        | ●          |
 | `horizontal_rule`                     | ●       | ●        |            |
 | `image`                               | ●       |          |            |
 | `italic`                              | ●       |          |            |
-| `link`                                | ●       |          |            |
 | `list_item`                           | ●       | ●        |            |
-| `ordered_list`                        | ●       | ●        | ●          |
-| `paragraph`                           | ●       | ●        | ●          |
 | `strike`                              | ●       |          |            |
 | `subscript`                           | ●       |          |            |
 | `superscript`                         | ●       |          |            |
@@ -102,7 +106,6 @@ The following options are supported for each element type.
 | `table_row`                           | ●       |          |            |
 | `table`                               | ●       |          |            |
 | `underline`                           | ●       |          |            |
-| `unordered_list`                      | ●       | ●        | ●          |
 
 ---
 
