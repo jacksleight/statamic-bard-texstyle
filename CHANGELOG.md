@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.0 ()
+
+- Tweak styles button style
+
 ## 3.0.2 (2023-05-04)
 
 - [fix] CP rendering of multi-word style attribute names
