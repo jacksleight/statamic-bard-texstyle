@@ -53,18 +53,16 @@
 
     .bts-styles-button {
         &-text {
-            border: 1px solid #e4ebf1;
+            border: 1px solid #d1d5db;
             padding-inline: 6px;
             width: 6rem;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             margin-right: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            line-height: 1;
             display: block;
-            svg {
-                width: 0.5rem;
-            }
         }
     }
     
