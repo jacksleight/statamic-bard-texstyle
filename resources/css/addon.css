@@ -10,11 +10,15 @@
             margin-bottom: 1.7em;
         }
 
-        [data-bts-style]::before {
-            display: none;
+        [data-bts-style],
+        [data-bts-default] {
+            &::before {
+                display: none;
+            }
         }
         h1, h2, h3, h4, h5, h6, p, ul, ol, div {
-            &[data-bts-style] {
+            &[data-bts-style],
+            &[data-bts-default] {
                 &::before {
                     background-color: #e4ebf1;
                     border-radius: 2px;
@@ -31,14 +35,16 @@
             }
         }
         ul, ol {
-            &[data-bts-style] {
+            &[data-bts-style],
+            &[data-bts-default] {
                 &::before {
                     margin-bottom: 0.85em;
                 }
             }
         }
         div {
-            &[data-bts-style] {
+            &[data-bts-style],
+            &[data-bts-default] {
                 position: relative;
                 &::before {
                     position: absolute;

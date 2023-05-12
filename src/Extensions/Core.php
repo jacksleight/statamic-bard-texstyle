@@ -32,10 +32,10 @@ class Core extends Extension
         $styleExts = $this->options['styleExts'];
         $classExts = $this->options['classExts'];
 
-        $defaults = $defaults[$defaultsKey] ?? null;
+        $insDefaults = $defaults[$defaultsKey] ?? null;
 
         return collect($classExts)
-            ->map(function ($ext) use ($store, $attr, $styles, $styleExts, $defaults) {
+            ->map(function ($ext) use ($store, $attr, $styles, $styleExts, $insDefaults) {
                 return [
                     'types' => [$ext],
                     'attributes' => [
@@ -56,7 +56,7 @@ class Core extends Extension
 
                                 return $value;
                             },
-                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleExts, $ext) {
+                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $insDefaults, $styleExts, $ext) {
                                 if (in_array($ext, $styleExts)) {
                                     $class = $attributes->{$attr} ?? null;
                                     if ($store === 'key') {
@@ -66,7 +66,7 @@ class Core extends Extension
                                     $class = null;
                                 }
                                 if (! $class) {
-                                    $class = $defaults[Helpers::itemToType([
+                                    $class = $insDefaults[Helpers::itemToType([
                                         'type' => $ext,
                                         'attrs' => $attributes,
                                     ])]['class'] ?? null;

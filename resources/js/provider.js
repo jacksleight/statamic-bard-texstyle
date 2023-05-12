@@ -7,6 +7,7 @@ import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import { styleToIcon, coreIcon } from './icons';
+import titles from './titles'
 
 class Provider {
 
@@ -141,21 +142,36 @@ class Provider {
 
     gatherDefaultsCss(options) {
         const css = [];
+        const typeTags = {
+            heading_1: 'h1',
+            heading_2: 'h2',
+            heading_3: 'h3',
+            heading_4: 'h4',
+            heading_5: 'h5',
+            heading_6: 'h6',
+            span: 'span',
+            div: 'div',
+            unordered_list: 'ul',
+            link: 'link',
+            ordered_list: 'ol',
+            paragraph: 'p',
+        };
         Object.entries(options.defaults).forEach(([key, group]) => {
             Object.entries(group).forEach(([type, dflt]) => {
-                const selector = `
-                    .bard-fieldtype-wrapper .bts-preview[data-bts-default="${key}:${dflt.type}"],
-                    .bard-fieldtype-wrapper .bard-content [data-bts-default="${key}:${dflt.type}"]
-                `;
-                // const badgeSelector = `
-                //     .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]::before
-                // `;
+                const tag = typeTags[dflt.type];
+                const selectors = [
+                    `.bard-fieldtype-wrapper .bts-preview[data-bts-default="${key}:${dflt.type}"]`,
+                    `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-default="${key}:${dflt.type}"]`,
+                ];
                 if (dflt.cp_css) {
-                    css.push(...this.parseCss(selector, dflt.cp_css));
+                    css.push(...this.parseCss(selectors, dflt.cp_css));
                 }
-                // if (dflt.cp_badge) {
-                //     css.push(`${badgeSelector} { content: "${style.name}"; }`);
-                // }
+                if (dflt.cp_badge) {
+                    const badgeSelectors = [
+                        `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-default="${key}:${dflt.type}"]::before`,
+                    ];
+                    css.push(`${badgeSelectors} { content: "${titles[dflt.type]}"; }`);
+                }
             });
         });
         return css;
@@ -179,32 +195,34 @@ class Provider {
         };
         Object.entries(options.styles).forEach(([key, style]) => {
             const tag = typeTags[style.type];
-            const selector = `
-                .bts-preview[data-bts-style="${style[options.store]}"],
-                .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]
-            `;
-            const badgeSelector = `
-                .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]::before
-            `;
-            css.push(...this.parseCss(selector, style.cp_css));
+            const selectors = [
+                `.bts-preview[data-bts-style="${style[options.store]}"]`,
+                `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]`,
+            ];
+            css.push(...this.parseCss(selectors, style.cp_css));
             if (style.cp_badge) {
-                css.push(`${badgeSelector} { content: "${style.name}"; }`);
+                const badgeSelectors = [
+                    `.bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]::before`,
+                ];
+                css.push(`${badgeSelectors} { content: "${style.name}"; }`);
             }
         });
         return css;
     }
 
-    parseCss(prefix, data) {
+    parseCss(selectors, data) {
         if (data === undefined) {
             return [];
         }
         if (typeof data === 'string') {
             data = {'&': data};
         }
-        return Object.entries(data).map(([selector, properties]) => {
-            const prefixed = selector.includes('&')
-                ? selector.replace('&', prefix)
-                : `${prefix} ${selector}`;
+        return Object.entries(data).map(([pointer, properties]) => {
+            const prefixed = selectors.map((selector) => {
+                return pointer.includes('&')
+                    ? pointer.replace('&', selector)
+                    : `${selector} ${pointer}`
+            }).join(', ');
             const string = typeof properties === 'object'
                 ? Object.entries(properties).map(([name, value]) => {
                     return `${name}: ${value};`

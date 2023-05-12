@@ -7,7 +7,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-attributes-arrow text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                    {{ title(item) }}
+                    {{ __(title(item)) }}
                 </div>
                 <div class="p-4 pt-1 border-b" v-if="activeItem === i">
                     <div v-for="(field, name) in fields(item)" class="mt-3">
@@ -62,6 +62,7 @@
 
 <script>
 import { itemToType } from '../helpers'
+import titles from '../titles'
 import TextInput from './TextInput.vue'
 
 export default {
@@ -83,34 +84,6 @@ export default {
             activeItem: 0,
             info,
             items,
-            titles: {
-                blockquote: __('Blockquote'),
-                bold: __('Bold'),
-                code_block: __('Code Block'),
-                code: __('Code'),
-                heading_1: __('Heading 1'),
-                heading_2: __('Heading 2'),
-                heading_3: __('Heading 3'),
-                heading_4: __('Heading 4'),
-                heading_5: __('Heading 5'),
-                heading_5: __('Heading 6'),
-                horizontal_rule: __('Horizontal Rule'),
-                image: __('Image'),
-                italic: __('Italic'),
-                link: __('Link'),
-                list_item: __('List Item'),
-                ordered_list: __('Ordered List'),
-                paragraph: __('Paragraph'),
-                strike: __('Strike'),
-                subscript: __('Subscript'),
-                superscript: __('Superscript'),
-                table_cell: __('Table Cell'),
-                table_header: __('Table Header'),
-                table_row: __('Table Row'),
-                table: __('Table'),
-                underline: __('Underline'),
-                unordered_list: __('Unordered List'),
-            },
         };
     },
 
@@ -125,7 +98,7 @@ export default {
     methods: {
 
         title(item) {
-            return this.titles[itemToType(item)];
+            return titles[itemToType(item)];
         },
 
         fields(item) {
