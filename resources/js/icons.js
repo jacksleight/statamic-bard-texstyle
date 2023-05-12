@@ -17,7 +17,7 @@ const icons = {
         return `
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="bts-icon-letter">
                 ${letterPath}
-                <text text-anchor="middle" x="12.75" y="15" style="font-size: 10px; stroke-width: 1px; stroke: currentColor">${ident}</text>
+                <text text-anchor="middle" x="12.75" y="14.5" style="font-size: 10px; stroke-width: 1px; stroke: currentColor">${ident}</text>
             </svg>
         `;
     },
@@ -25,7 +25,7 @@ const icons = {
         const ident = style.ident;
         return `
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <rect width="15" height="15" x="0.5" y="0.5" rx="2" stroke-width="1" stroke="currentColor" fill="none" />
+                <rect width="15" height="15" x="0.5" y="0.5" rx="3" stroke-width="1" stroke="currentColor" fill="none" />
                 <text text-anchor="middle" x="8" y="12" style="font-size: 11px;">${ident}</text>
             </svg>
         `;
@@ -39,7 +39,7 @@ const icons = {
                     <rect width="16" height="16" fill="white" />
                     <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" fill="black">${ident}</text>
                 </mask>
-                <rect width="15" height="15" x="0.5" y="0.5" rx="2" stroke-width="1" stroke="currentColor" mask="url(#${maskId})" />
+                <rect width="15" height="15" x="0.5" y="0.5" rx="3" stroke-width="1" stroke="currentColor" mask="url(#${maskId})" />
             </svg>
         `;
     },

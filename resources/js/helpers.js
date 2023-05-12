@@ -1,6 +1,6 @@
-export const kebab = (value) => value.replace('_', '-').replace(/(.)(?=[A-Z])/, '$1-').toLowerCase();
+export const kebab = (value) => value.replaceAll('_', '-').replaceAll(/(.)(?=[A-Z])/g, '$1-').toLowerCase();
 
-export const snake = (value) => value.replace('-', '_').replace(/(.)(?=[A-Z])/, '$1_').toLowerCase();
+export const snake = (value) => value.replaceAll('-', '_').replaceAll(/(.)(?=[A-Z])/g, '$1_').toLowerCase();
 
 export const itemToType = (item) => {
     const typeMap = {

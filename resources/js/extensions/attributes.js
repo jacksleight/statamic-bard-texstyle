@@ -24,12 +24,10 @@ const Attributes = Extension.create({
             }),
             class: (name, attr) => ({
                 parseHTML: element => element.getAttribute(`data-bts-attribute-${kebab(name)}`),
-                renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
-                    ? { [`data-bts-attribute-${kebab(name)}`]: attributes[name] }
-                    : null,
+                renderHTML: attributes => ({ [`data-bts-attribute-${kebab(name)}`]: attributes[name] }),
             }),
             style: (name, attr) => ({
-                parseHTML: element => element.style[name],
+                parseHTML: element => element.style[kebab(name)],
                 renderHTML: attributes => (attributes[name] !== undefined && attributes[name] !== null)
                     ? { style: `${kebab(name)}: ${attributes[name]}` }
                     : null,
@@ -102,8 +100,7 @@ const Attributes = Extension.create({
                     if (item.kind === 'mark') {
                         apply = apply.extendMarkRange(item.type);
                     }
-                    // @todo Empty string check should happen in vue component
-                    apply = apply.updateAttributes(item.type, Object.fromEntries(Object.entries(item.attrs).map(([name, value]) => [name, value === '' ? null : value])));
+                    apply = apply.updateAttributes(item.type, item.attrs);
                 });
                 return apply.setTextSelection({ from, to }).run();
             },

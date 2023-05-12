@@ -135,7 +135,7 @@ class Provider {
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
-        document.head.appendChild(el);
+        document.body.appendChild(el);
         return this;
     }
 
@@ -163,13 +163,28 @@ class Provider {
 
     gatherStylesCss(options) {
         const css = [];
+        const typeTags = {
+            heading_1: 'h1',
+            heading_2: 'h2',
+            heading_3: 'h3',
+            heading_4: 'h4',
+            heading_5: 'h5',
+            heading_6: 'h6',
+            span: 'span',
+            div: 'div',
+            unordered_list: 'ul',
+            link: 'link',
+            ordered_list: 'ol',
+            paragraph: 'p',
+        };
         Object.entries(options.styles).forEach(([key, style]) => {
+            const tag = typeTags[style.type];
             const selector = `
-                .bard-fieldtype-wrapper .bts-preview[data-bts-style="${style[options.store]}"],
-                .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]
+                .bts-preview[data-bts-style="${style[options.store]}"],
+                .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]
             `;
             const badgeSelector = `
-                .bard-fieldtype-wrapper .bard-content [data-bts-style="${style[options.store]}"]::before
+                .bard-fieldtype-wrapper .bard-content ${tag}[data-bts-style="${style[options.store]}"]::before
             `;
             css.push(...this.parseCss(selector, style.cp_css));
             if (style.cp_badge) {

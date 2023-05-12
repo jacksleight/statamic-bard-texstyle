@@ -1,11 +1,11 @@
 ---
 title: Attributes
-order: 50
+order: 40
 ---
 
 # Attributes (Pro)
 
-The attributes feature allows you to add custom attributes to nodes/marks and edit them through a panel within the Bard editor. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
+The attributes feature allows you to add custom attributes to elements and edit them through a panel within the Bard editor. This is useful for adding things like heading IDs, code block languages, or any other standard HTML or custom attributes.
 
 [TOC]
 
@@ -30,7 +30,7 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 ],
 ```
 
-Attributes are grouped by node/mark type and the keys are the attribute names. Attributes can have the following options:
+Attributes are grouped by element type and the keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**
   The field type. Options are:
@@ -43,14 +43,16 @@ Attributes are grouped by node/mark type and the keys are the attribute names. A
   The default value for the attribute.
 * **rendered (boolean|string)**
   Whether to include this attribute in the HTML tag. Options are:
-    * `true` - Render this as its own attribue
-    * `class` - Render this as part of the class attribute (not compatible with `save_html`)
+    * `true` - Render this as its own attribute
+    * `class` - Render this as part of the class attribute
     * `style` - Render this as part of the style attribute
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
-* **options (array)**
-  The options to use for select attributes.
 * **values (array)**
   The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
+* **options (array)**
+  The options to use for select attributes.
+* **clearable (boolean)**
+  Whether select attributes can be cleared.
 
 ---
 
@@ -62,7 +64,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ## Supported Types
 
-The following node/mark types are supported. Some nodes/marks have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
+The following element types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
 | Type                                  | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |
@@ -91,3 +93,7 @@ The following node/mark types are supported. Some nodes/marks have standard attr
 :::note
 You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.
 :::
+
+## Compatibility
+
+Rendered class attributes are not compatible with Bard's `save_html` option and may cause unexpected results.

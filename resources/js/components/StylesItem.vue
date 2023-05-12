@@ -6,11 +6,14 @@
         v-if="visible"
         @click="click"
     >
-        <div class="bts-preview"
-            :data-bts-preview="previewTag"
-            :data-bts-style="previewStyle">
-            {{ item.text }}
-        </div>
+        <!-- @todo remove this weirdness -->
+        <component :is="previewTag === 'ol' ? 'ol' : 'div'">
+            <div class="bts-preview"
+                :data-bts-preview="previewTag"
+                :data-bts-style="previewStyle">
+                {{ item.text }}
+            </div>
+        </component>
     </button>
 
 </template>
@@ -61,6 +64,7 @@ export default {
                 heading_5: 'h5',
                 heading_6: 'h6',
                 span: 'span',
+                div: 'div',
                 unordered_list: 'ul',
                 link: 'link',
                 ordered_list: 'ol',

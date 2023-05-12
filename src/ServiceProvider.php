@@ -33,8 +33,8 @@ class ServiceProvider extends AddonServiceProvider
             ->bootConfig()
             ->bootExtensions($options)
             ->bootProvideToScripts($options)
-            ->bootDefaultClassesField($options)
-            ->bootMenuField($options);
+            ->bootMenuFields($options)
+            ->bootDefaultClassesField($options);
 
         return $this;
     }
@@ -81,6 +81,9 @@ class ServiceProvider extends AddonServiceProvider
             ->map(fn ($v, $k) => $k)
             ->except('standard')
             ->all();
+        if (! count($options)) {
+            return $this;
+        }
 
         Bard::appendConfigField('bts_defaults', [
             'display' => __('Texstyle Defaults'),
@@ -94,7 +97,7 @@ class ServiceProvider extends AddonServiceProvider
         return $this;
     }
 
-    protected function bootMenuField($options)
+    protected function bootMenuFields($options)
     {
         if (! $options['pro']) {
             return $this;

@@ -200,6 +200,13 @@ class OptionManager
     {
         // @deprecated: default_classes
         $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes') ?? [];
+
+        if (! array_key_exists('standard', $defaults)) {
+            $defaults = [
+                'standard' => $defaults,
+            ];
+        }
+
         $defaults = $this->normalizeDefaults($defaults);
 
         $defaults = collect($defaults)
@@ -296,12 +303,6 @@ class OptionManager
      */
     protected function normalizeDefaults($defaults)
     {
-        if (! array_key_exists('standard', $defaults)) {
-            $defaults = [
-                'standard' => $defaults,
-            ];
-        }
-
         return collect($defaults)
             ->map(function ($groups) {
                 return collect($groups)

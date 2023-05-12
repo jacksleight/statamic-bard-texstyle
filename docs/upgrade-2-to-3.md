@@ -1,6 +1,6 @@
 ---
 title: Upgrade v2 to v3
-order: 109
+order: 100
 ---
 
 # Upgrade from v2 to v3
@@ -9,7 +9,7 @@ order: 109
 
 ---
 
-Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent, and better match Statamic conventions. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
+Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent with Statamic conventions, and add flexibility for future features. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can (see below).
 
 ## Breaking Changes
 
@@ -27,9 +27,9 @@ Support for the Bard Paragraph Style configuration format has been removed.
 
 ## Deprecated
 
-### Legacy configuration format
+### Legacy configuration formats
 
-The following changes have been made to the Bard Texstyle config. The old configuration formats will still work but support may be removed in the future, so it would be best to update your config as soon as you can.
+The following changes have been made to the Bard Texstyle config. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can.
 
 The heading style `level` option has been removed in favour of specifying one of six heading types in the `type` option instead:
 
@@ -50,25 +50,17 @@ The heading style `level` option has been removed in favour of specifying one of
 The `default_classes` option has been renamed to `defaults`, heading types are no longer nested inside a single `heading` key, and each class is now an array with a `class` option:
 
 ```php
-'default_classes' => [
-    'standard' => [
-        'heading' => [
-            1 => 'head-1',
-        ],
-        'paragraph' => 'para',
-    ],
+'heading' => [
+    1 => 'head-1',
 ],
+'paragraph' => 'para',
 ```
 ```php
-'defaults' => [
-    'standard' => [
-        'heading_1' => [
-            'class' => 'head-1',
-        ],
-        'paragraph' => [
-            'class' => 'para',
-        ],
-    ],
+'heading_1' => [
+    'class' => 'head-1',
+],
+'paragraph' => [
+    'class' => 'para',
 ],
 ```
 
