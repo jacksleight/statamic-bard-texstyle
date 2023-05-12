@@ -143,18 +143,22 @@ class Provider {
     gatherDefaultsCss(options) {
         const css = [];
         const typeTags = {
+            blockquote: 'blockquote',
+            code_block: 'pre',
+            div: 'div',
             heading_1: 'h1',
             heading_2: 'h2',
             heading_3: 'h3',
             heading_4: 'h4',
             heading_5: 'h5',
             heading_6: 'h6',
-            span: 'span',
-            div: 'div',
-            unordered_list: 'ul',
+            horizontal_rule: 'hr',
             link: 'link',
+            list_item: 'li',
             ordered_list: 'ol',
             paragraph: 'p',
+            span: 'span',
+            unordered_list: 'ul',
         };
         Object.entries(options.defaults).forEach(([key, group]) => {
             Object.entries(group).forEach(([type, dflt]) => {
@@ -180,18 +184,22 @@ class Provider {
     gatherStylesCss(options) {
         const css = [];
         const typeTags = {
+            blockquote: 'blockquote',
+            code_block: 'pre',
+            div: 'div',
             heading_1: 'h1',
             heading_2: 'h2',
             heading_3: 'h3',
             heading_4: 'h4',
             heading_5: 'h5',
             heading_6: 'h6',
-            span: 'span',
-            div: 'div',
-            unordered_list: 'ul',
+            horizontal_rule: 'hr',
             link: 'link',
+            list_item: 'list_item',
             ordered_list: 'ol',
             paragraph: 'p',
+            span: 'span',
+            unordered_list: 'ul',
         };
         Object.entries(options.styles).forEach(([key, style]) => {
             const tag = typeTags[style.type];

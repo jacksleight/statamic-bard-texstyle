@@ -30,6 +30,10 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 ],
 ```
 
+---
+
+## Options
+
 Attributes are grouped by element type and the keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**
@@ -62,7 +66,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ---
 
-## Supported Types
+## Feature Support
 
 The following element types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
@@ -93,6 +97,8 @@ The following element types are supported. Some elements have standard attribute
 :::note
 You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.
 :::
+
+---
 
 ## Compatibility
 

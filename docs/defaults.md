@@ -5,7 +5,7 @@ order: 50
 
 # Defaults
 
-The defaults feature allows you to apply classes to elements that have no style set. Multiple sets of styles are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
+The defaults feature allows you to apply classes to elements that have no custom style set. Multiple sets of styles are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
 
 [TOC]
 
@@ -19,16 +19,18 @@ Open `config/statamic/bard_texstyle.php` to add your defaults:
 'defaults' => [
 
     'heading_1' => [
-        'class' => 'head-1',
+        'class'    => 'head-1',
+        'cp_css'   => null,
+        'cp_badge' => true,
     ],
     'paragraph' => [
-        'class' => 'para',
+        'class'    => 'para',
+        'cp_css'   => 'color: darkgray',
+        'cp_badge' => false,
     ],
 
 ],
 ```
-
-You can add defaults for any element type.
 
 ### Multiple Default Groups
 
@@ -39,10 +41,14 @@ It's possible configure multiple groups of defaults to use with different Bard f
 
     'standard' => [
         'heading_1' => [
-            'class' => 'head-1',
+            'class'    => 'head-1',
+            'cp_css'   => null,
+            'cp_badge' => true,
         ],
         'paragraph' => [
-            'class' => 'para',
+            'class'    => 'para',
+            'cp_css'   => 'color: darkgray',
+            'cp_badge' => false,
         ],
     ],
     
@@ -54,6 +60,51 @@ It's possible configure multiple groups of defaults to use with different Bard f
 ```
 
 Once configured a new Texstyle Defaults field will appear in the Bard field configuration where you can select one of your additional groups.
+
+---
+
+## Options
+
+Defaults can have the following options:
+
+* **class (string)**  
+  The default class name that will be applied for this type.
+* **cp_css (string, array)**  
+  The default CSS properties that will be added to the control panel for this type. Can either be a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the type's root selector.
+* **cp_badge (boolean)**  
+  Whether to display a bage next to default elements of this type.
+
+---
+
+## Feature Support
+
+The following options are supported for each element type.
+
+| Type                                  | `class` | `cp_css` | `cp_badge` |
+| ------------------------------------- | :-----: | :------: | :--------: |
+| `blockquote`                          | ●       | ●        |            |
+| `bold`                                | ●       |          |            |
+| `code_block`                          | ●       | ●        |            |
+| `code`                                | ●       |          |            |
+| `heading_[1-6]`                       | ●       | ●        | ●          |
+| `horizontal_rule`                     | ●       | ●        |            |
+| `image`                               | ●       |          |            |
+| `italic`                              | ●       |          |            |
+| `link`                                | ●       |          |            |
+| `list_item`                           | ●       | ●        |            |
+| `ordered_list`                        | ●       | ●        | ●          |
+| `paragraph`                           | ●       | ●        | ●          |
+| `strike`                              | ●       |          |            |
+| `subscript`                           | ●       |          |            |
+| `superscript`                         | ●       |          |            |
+| `table_cell`                          | ●       |          |            |
+| `table_header`                        | ●       |          |            |
+| `table_row`                           | ●       |          |            |
+| `table`                               | ●       |          |            |
+| `underline`                           | ●       |          |            |
+| `unordered_list`                      | ●       | ●        | ●          |
+
+---
 
 ## Compatibility
 

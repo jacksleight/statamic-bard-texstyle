@@ -89,8 +89,12 @@ class OptionManager
     ];
 
     protected $defaultCpExts = [
+        'blockquote',
         'bulletList',
+        'codeBlock',
         'heading',
+        'horizontalRule',
+        'listItem',
         'orderedList',
         'paragraph',
     ];
