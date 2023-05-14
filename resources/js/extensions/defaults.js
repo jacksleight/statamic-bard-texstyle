@@ -1,5 +1,3 @@
-import { itemToType } from '../helpers';
-
 const { Plugin, PluginKey } = Statamic.$bard.tiptap.pm.state;
 const { Decoration, DecorationSet } = Statamic.$bard.tiptap.pm.view;
 const { Extension } = Statamic.$bard.tiptap.core;
@@ -17,7 +15,7 @@ const Defaults = Extension.create({
     },
 
     addProseMirrorPlugins() {
-        const { bard, store, defaultCpExts } = this.options;
+        const { bard, defaultCpExts } = this.options;
         const defaultsKey = bard.config.bts_defaults || 'standard';
 
         const insDefaultCpExts = defaultCpExts[defaultsKey] ?? null;

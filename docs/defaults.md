@@ -5,7 +5,7 @@ order: 50
 
 # Defaults
 
-The defaults feature allows you to apply classes to elements that have no custom style set. Multiple sets of styles are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
+The defaults feature allows you to apply classes and control panel CSS/badges to elements that have no custom style set. Multiple sets of styles are supported, and you can select the one you want to use per Bard field in the field configuration. The standard set will be used by default.
 
 [TOC]
 
@@ -80,7 +80,7 @@ Defaults can have the following options:
 
 The following options are supported for each element type.
 
-| Core Types                            | `class` | `cp_css` | `cp_badge` |
+| Styles Types                          | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |
 | `heading_[1-6]`                       | ●       | ●        | ●          |
 | `paragraph`                           | ●       | ●        | ●          |

@@ -188,7 +188,7 @@ class Provider {
                 if (dflt.cp_badge) {
                     css.push(...this.parseCss([
                         ...pointers.map(tag => `${base}[data-bts-defaults="${key}"] > ${tag}:not([data-bts-style])::before`),
-                    ], {'&': {content: `"${titles[dflt.type]}"`}}));
+                    ], {'&': {content: `"${__(titles[dflt.type])}"`}}));
                 }
             });
         });

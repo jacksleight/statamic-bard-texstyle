@@ -184,7 +184,7 @@ You can also choose to display the name of the currently selected style in the b
 
 The following options are supported for each element type.
 
-| Type                                  | `class` | `cp_css` | `cp_badge` |
+| Types                                 | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |
 | `heading_[1-6]`                       | ●       | ●        | ●          |
 | `paragraph`                           | ●       | ●        | ●          |

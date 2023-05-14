@@ -70,7 +70,7 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 The following element types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
-| Core Types                            | Standard Attributes                |
+| Styles Types                          | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |
 | `heading`<br>`heading_[1-6]`          | `level`                            |
 | `paragraph`                           |                                    |
