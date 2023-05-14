@@ -2,7 +2,8 @@
 
 ## 3.1.0 ()
 
-- Tweak styles button style
+- Tweak styles button text size and style
+- Undeprecate legacy type names and [clarify change](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-to-3#type-names) in upgrade guide
 
 ## 3.0.2 (2023-05-04)
 
