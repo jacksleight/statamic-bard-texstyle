@@ -29,19 +29,15 @@ const Defaults = Extension.create({
             new Plugin({
                 key: new PluginKey('btsDefaults'),
                 props: {
+                    attributes: { 'data-bts-defaults': defaultsKey },
                     decorations(state) {
                         const decorations = [];
                         state.doc.descendants((node, pos) => {
-                            if (!insDefaultCpExts.includes(node.type.name)) {
-                                return;
+                            if (node.type.name === 'btsDiv') {
+                                decorations.push(Decoration.node(pos, pos + node.nodeSize, {
+                                    'data-bts-defaults': defaultsKey,
+                                }));
                             }
-                            if (node.attrs[store] !== undefined && node.attrs[store] !== null) {
-                                return;                                
-                            }
-                            const type = itemToType({ type: node.type.name, attrs: node.attrs });
-                            decorations.push(Decoration.node(pos, pos + node.nodeSize, {
-                                'data-bts-default': `${defaultsKey}:${type}`,
-                            }));
                         });
                         return DecorationSet.create(state.doc, decorations);
                     }

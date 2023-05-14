@@ -101,10 +101,10 @@ The following options are supported for each element type.
 | `strike`                              | ●       |          |            |
 | `subscript`                           | ●       |          |            |
 | `superscript`                         | ●       |          |            |
-| `table_cell`                          | ●       |          |            |
-| `table_header`                        | ●       |          |            |
-| `table_row`                           | ●       |          |            |
-| `table`                               | ●       |          |            |
+| `table_cell`                          | ●       | ●        |            |
+| `table_header`                        | ●       | ●        |            |
+| `table_row`                           | ●       | ●        |            |
+| `table`                               | ●       | ●        |            |
 | `underline`                           | ●       |          |            |
 
 ---

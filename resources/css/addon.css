@@ -1,6 +1,7 @@
 .bard-fieldtype-wrapper {
 
     .bard-content {
+
         div[data-bts-style] {
             border: #d1d5db solid;
             border-width: 1px 0;
@@ -10,48 +11,37 @@
             margin-bottom: 1.7em;
         }
 
-        [data-bts-style],
-        [data-bts-default] {
+        :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div)[data-bts-style],
+        &[data-bts-defaults] > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div):not([data-bts-style]) {
             &::before {
-                display: none;
-            }
-        }
-        h1, h2, h3, h4, h5, h6, p, ul, ol, div {
-            &[data-bts-style],
-            &[data-bts-default] {
-                &::before {
-                    background-color: #e4ebf1;
-                    border-radius: 2px;
-                    color: #1c2e36;
-                    font-size: 10px;
-                    font-weight: normal;
-                    font-family: Inter UI,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
-                    line-height: 1;
-                    padding: 4px 6px;
-                    display: block;
-                    max-width: max-content;
-                    position: relative;
-                }
-            }
-        }
-        ul, ol {
-            &[data-bts-style],
-            &[data-bts-default] {
-                &::before {
-                    margin-bottom: 0.85em;
-                }
-            }
-        }
-        div {
-            &[data-bts-style],
-            &[data-bts-default] {
+                background-color: #e4ebf1;
+                border-radius: 2px;
+                color: #1c2e36;
+                font-size: 10px;
+                font-weight: normal;
+                font-family: Inter UI,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
+                line-height: 1;
+                padding: 4px 6px;
+                display: block;
+                max-width: max-content;
                 position: relative;
-                &::before {
-                    position: absolute;
-                    bottom: calc(100% + 1px);
-                    left: 50%;
-                    transform: translateX(-50%);
-                }
+            }
+        }
+
+        :is(ul, ol)[data-bts-style],
+        &[data-bts-defaults] > :is(ul, ol):not([data-bts-style]) {
+            &::before {
+                margin-bottom: 0.85em;
+            }
+        }
+
+        :is(div)[data-bts-style] {
+            position: relative;
+            &::before {
+                position: absolute;
+                bottom: calc(100% + 1px);
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
 

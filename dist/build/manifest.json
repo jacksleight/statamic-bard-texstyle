@@ -1,13 +1,13 @@
 {
   "resources/js/addon.css": {
-    "file": "assets/addon-ad7d9865.css",
+    "file": "assets/addon-eda69c03.css",
     "src": "resources/js/addon.css"
   },
   "resources/js/addon.js": {
     "css": [
-      "assets/addon-ad7d9865.css"
+      "assets/addon-eda69c03.css"
     ],
-    "file": "assets/addon-ceae00df.js",
+    "file": "assets/addon-a500a2fa.js",
     "isEntry": true,
     "src": "resources/js/addon.js"
   }

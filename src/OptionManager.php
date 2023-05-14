@@ -97,6 +97,10 @@ class OptionManager
         'listItem',
         'orderedList',
         'paragraph',
+        'table',
+        'tableCell',
+        'tableHeader',
+        'tableRow',
     ];
 
     protected $typeAliases = [
