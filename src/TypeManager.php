@@ -6,6 +6,8 @@ use Statamic\Support\Str;
 
 class TypeManager
 {
+    protected $pro;
+
     protected $types = [
         'blockquote' => [
             'display' => 'Blockquote',
@@ -296,8 +298,10 @@ class TypeManager
 
     protected $aliases = [];
 
-    public function __construct()
+    public function __construct($pro = false)
     {
+        $this->pro = $pro;
+
         $this->types = collect($this->types)
             ->map(fn ($type, $name) => $type + [
                 'name' => $name,
@@ -326,12 +330,11 @@ class TypeManager
                     ->mapWithKeys(fn ($alias) => [$alias => $type])
                     ->all();
             });
+    }
 
-        dump($this->find('heading_1'));
-        dump($this->findByItem(['type' => 'heading', 'attrs' => ['level' => 1]]));
-        dump($this->findByStylesCpBadge());
-
-        exit;
+    public function all()
+    {
+        return $this->types;
     }
 
     public function find($name)
@@ -341,7 +344,7 @@ class TypeManager
 
     public function findByItem($item)
     {
-        return $this->types->first(fn ($type) => $type['extension'] === $item['type'] && $type['arguments'] === $item['attrs']);
+        return $this->types->first(fn ($type) => $type['extension'] === $item['type'] && $type['arguments'] === ($item['attrs'] ?? []));
     }
 
     public function __call($method, $args)

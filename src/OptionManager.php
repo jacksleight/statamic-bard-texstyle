@@ -162,7 +162,7 @@ class OptionManager
 
     protected $pro;
 
-    public function __construct($config, $pro)
+    public function __construct($config, $pro = false)
     {
         $this->config = $config;
         $this->pro = $pro;
@@ -170,6 +170,8 @@ class OptionManager
 
     public function resolve()
     {
+        $types = new TypeManager($this->pro);
+
         $store = data_get($this->config, 'store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
@@ -186,6 +188,7 @@ class OptionManager
         $stylesMenuOptions = $this->resolveStylesMenuOptions($styles);
 
         return [
+            'types' => $types->all()->all(),
             'pro' => $this->pro,
             'store' => $store,
             'attr' => $attr,

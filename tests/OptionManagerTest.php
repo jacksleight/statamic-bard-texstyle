@@ -56,6 +56,7 @@ it('resolves full options', function () {
         'store' => 'class',
     ], true))->resolve();
 
+    expect($options['types'])->toBeArray();
     expect($options['pro'])->toEqual(true);
     expect($options['store'])->toEqual('class');
     expect($options['attr'])->toEqual('class');
