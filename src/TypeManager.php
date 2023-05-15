@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Statamic\Support\Arr;
 use Statamic\Support\Str;
 
 class TypeManager
@@ -342,6 +343,11 @@ class TypeManager
         return $this->types[$this->aliases[$name] ?? $name];
     }
 
+    public function findByConfig($config)
+    {
+        return $this->find($config['type']);
+    }
+
     public function findByItem($item)
     {
         return $this->types->first(fn ($type) => $type['extension'] === $item['type'] && $type['arguments'] === ($item['attrs'] ?? []));
@@ -350,5 +356,82 @@ class TypeManager
     public function __call($method, $args)
     {
         return $this->types->where(Str::snake(Str::after($method, 'findBy')), $args[0] ?? true);
+    }
+
+    public function supports($config, $features)
+    {
+        $type = $this->findByConfig($config);
+        foreach (Arr::wrap($features) as $feature) {
+            if ($type[$feature]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function validateStyle($style)
+    {
+        $style = $style + [
+            'type' => null,
+            'class' => null,
+            'name' => null,
+            'ident' => null,
+            'icon' => null,
+            'cp_css' => null,
+            'cp_badge' => false,
+        ];
+
+        if (! $this->supports($style, 'styles_class')) {
+            return;
+        }
+
+        if ($style['cp_badge'] && ! $this->supports($style, 'styles_cp_badge')) {
+            $style['cp_badge'] = false;
+        }
+
+        return $style;
+    }
+
+    public function validateAttribute($attribute)
+    {
+        $attribute = $attribute + [
+            'type' => null,
+            'display' => null,
+            'default' => null,
+            'rendered' => true,
+            'values' => [],
+            'options' => [],
+            'clearable' => false,
+        ];
+
+        if (! $this->supports($attribute, 'attributes_panel')) {
+            return;
+        }
+
+        return $attribute;
+    }
+
+    public function validateDefault($default)
+    {
+        $default = $default + [
+            'class' => null,
+            'cp_css' => null,
+            'cp_badge' => false,
+        ];
+
+        if (! $this->supports($default, ['defaults_class', 'defaults_cp_css', 'defaults_cp_badge'])) {
+            return;
+        }
+
+        if ($default['cp_css'] && ! $this->supports($default, 'defaults_cp_css')) {
+            $default['cp_css'] = null;
+        }
+
+        if ($default['cp_badge'] && ! $this->supports($default, 'defaults_cp_badge')) {
+            $default['cp_badge'] = false;
+        }
+
+        return $default;
     }
 }
