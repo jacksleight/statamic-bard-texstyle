@@ -55,13 +55,67 @@ class OptionManager
         'underline' => [],
     ];
 
-    protected $styleExts = [
+    protected $stylesMenuExts = [
         'btsSpan',
         'bulletList',
         'heading',
         'link',
         'orderedList',
         'paragraph',
+    ];
+
+    protected $cpBadgeExts = [
+        'heading',
+        'paragraph',
+        'unordered_list',
+        'ordered_list',
+        'btsDiv',
+    ];
+
+    protected $defaultClassExts = [
+        'blockquote',
+        'bold',
+        'bulletList',
+        'code',
+        'codeBlock',
+        'heading',
+        'horizontalRule',
+        'image',
+        'italic',
+        'link',
+        'listItem',
+        'orderedList',
+        'paragraph',
+        'strike',
+        'subscript',
+        'superscript',
+        'table',
+        'tableCell',
+        'tableHeader',
+        'tableRow',
+        'underline',
+    ];
+
+    protected $defaultCpCssExts = [
+        'blockquote',
+        'bulletList',
+        'codeBlock',
+        'heading',
+        'horizontalRule',
+        'listItem',
+        'orderedList',
+        'paragraph',
+        'table',
+        'tableCell',
+        'tableHeader',
+        'tableRow',
+    ];
+
+    protected $defaultCpBadgeExts = [
+        'heading',
+        'paragraph',
+        'unordered_list',
+        'ordered_list',
     ];
 
     protected $typeAliases = [
@@ -120,16 +174,16 @@ class OptionManager
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
         $defaults = $this->resolveDefaults();
-        $defaultsExts = $this->resolveDefaultsExts($defaults);
+        [$defaultClassExts, $defaultCpExts] = $this->resolveDefaultExts($defaults);
 
         [$styles, $exts] = $this->resolveStylesAndExts();
         $styleExts = $this->resolveStyleExts($styles);
-        $classExts = $this->resolveClassExts($styleExts, $defaultsExts);
+        $classExts = $this->resolveClassExts($styleExts, collect($defaultClassExts)->flatten()->unique()->all());
 
         $attributes = $this->resolveAttributes($classExts);
         $attributeExts = $this->resolveAttributeExts($attributes);
 
-        $styleOptions = $this->resolveStyleOptions($styles);
+        $stylesMenuOptions = $this->resolveStylesMenuOptions($styles);
 
         return [
             'pro' => $this->pro,
@@ -142,8 +196,9 @@ class OptionManager
             'styleExts' => $styleExts,
             'classExts' => $classExts,
             'attributeExts' => $attributeExts,
-            'defaultsExts' => $defaultsExts,
-            'styleOptions' => $styleOptions,
+            'defaultClassExts' => $defaultClassExts,
+            'defaultCpExts' => $defaultCpExts,
+            'stylesMenuOptions' => $stylesMenuOptions,
         ];
     }
 
@@ -166,6 +221,13 @@ class OptionManager
                 'key' => $key,
             ]))
             ->filter(fn ($style) => isset($exts[$style['ext']]))
+            ->map(function ($style, $type) {
+                if (isset($style['cp_badge']) && ! in_array($style['ext'], $this->cpBadgeExts)) {
+                    $style['cp_badge'] = false;
+                }
+
+                return $style;
+            })
             ->each(function ($style) use (&$usedExts) {
                 $usedExts[$style['ext']] = true;
             })
@@ -224,12 +286,23 @@ class OptionManager
         $defaults = $this->normalizeDefaults($defaults);
 
         $defaults = collect($defaults)
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->map(fn ($group, $type) => array_merge($group, [
+            ->map(function ($group) {
+                // @todo This should expand out to include the key in the root array
+                return collect($group)
+                    ->map(fn ($dflt, $type) => array_merge($dflt, [
                         'type' => $type,
                         'ext' => $this->typeExts[$type] ?? $type,
                     ]))
+                    ->map(function ($dflt, $type) {
+                        if (isset($dflt['cp_css']) && ! in_array($dflt['ext'], $this->defaultCpCssExts)) {
+                            $dflt['cp_css'] = null;
+                        }
+                        if (isset($dflt['cp_badge']) && ! in_array($dflt['ext'], $this->defaultCpBadgeExts)) {
+                            $dflt['cp_badge'] = false;
+                        }
+
+                        return $dflt;
+                    })
                     ->all();
             })
             ->all();
@@ -237,13 +310,33 @@ class OptionManager
         return $defaults;
     }
 
-    protected function resolveDefaultsExts($defaults)
+    protected function resolveDefaultExts($defaults)
     {
-        return collect($defaults)
-            ->flatMap(fn ($groups) => collect($groups)->pluck('ext'))
-            ->unique()
-            ->values()
+        $classExts = collect($defaults)
+            ->map(function ($group) {
+                return collect($group)
+                    ->filter(fn ($dflt) => in_array($dflt['ext'], $this->defaultClassExts))
+                    ->filter(fn ($dflt) => $dflt['class'] ?? null)
+                    ->pluck('ext')
+                    ->unique()
+                    ->values()
+                    ->all();
+            })
             ->all();
+
+        $cpExts = collect($defaults)
+            ->map(function ($group) {
+                return collect($group)
+                    ->filter(fn ($dflt) => in_array($dflt['ext'], $this->defaultCpCssExts) || in_array($dflt['ext'], $this->cpBadgeExts))
+                    ->filter(fn ($dflt) => ($dflt['cp_css'] ?? null) || ($dflt['cp_badge'] ?? false))
+                    ->pluck('ext')
+                    ->unique()
+                    ->values()
+                    ->all();
+            })
+            ->all();
+
+        return [$classExts, $cpExts];
     }
 
     protected function resolveStyleExts($styles)
@@ -255,10 +348,10 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveClassExts($styleExts, $defaultsExts)
+    protected function resolveClassExts($styleExts, $defaultExts)
     {
         return collect($styleExts)
-            ->merge($defaultsExts)
+            ->merge($defaultExts)
             ->unique()
             ->values()
             ->all();
@@ -273,14 +366,14 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveStyleOptions($styles)
+    protected function resolveStylesMenuOptions($styles)
     {
         if (! $this->pro) {
             return [];
         }
 
         return collect($styles)
-            ->filter(fn ($style) => in_array($style['ext'], $this->styleExts))
+            ->filter(fn ($style) => in_array($style['ext'], $this->stylesMenuExts))
             ->mapWithKeys(fn ($style, $key) => [$key => $style['name']])
             ->merge([
                 'h1' => 'Heading 1',

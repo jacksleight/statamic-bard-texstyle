@@ -9,7 +9,7 @@
         <!-- @todo remove this weirdness -->
         <component :is="previewTag === 'ol' ? 'ol' : 'div'">
             <div class="bts-preview"
-                :data-bts-preview="previewTag"
+                :data-bts-tag="previewTag"
                 :data-bts-style="previewStyle">
                 {{ item.text }}
             </div>
@@ -64,9 +64,8 @@ export default {
                 heading_5: 'h5',
                 heading_6: 'h6',
                 span: 'span',
-                div: 'div',
                 unordered_list: 'ul',
-                link: 'link',
+                link: 'a',
                 ordered_list: 'ol',
                 paragraph: 'p',
             };

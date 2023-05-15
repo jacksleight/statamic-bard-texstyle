@@ -2,6 +2,9 @@
 
 ## 3.1.0 ()
 
+- [new] Default control panel CSS and badges for unstyled elements
+- [fix] Glitchy styles menu and attribute panel scrolling
+- [fix] Link type control panel CSS
 - Tweak styles button text size and style
 - Undeprecate legacy type names and [clarify change](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-to-3#type-names) in upgrade guide
 

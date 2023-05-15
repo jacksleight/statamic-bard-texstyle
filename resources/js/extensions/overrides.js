@@ -8,12 +8,12 @@ const Overrides = Extension.create({
         return {
             bard: {},
             styleExts: [],
-            styleOptions: {},
+            stylesMenuOptions: {},
         }
     },
 
     onCreate() {
-        const { bard, styleExts, styleOptions } = this.options;
+        const { bard, styleExts, stylesMenuOptions } = this.options;
         const blanks = [
             ...(styleExts.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
             ...(styleExts.includes('bulletList')) ? ['unorderedlist'] : [],
@@ -32,7 +32,7 @@ const Overrides = Extension.create({
         });
         if (bard.buttons.find(button => button.name === 'bts_styles')) {
             const movedOptions = (bard.config.bts_styles || [])
-                .filter(option => Object.keys(styleOptions).includes(option));
+                .filter(option => Object.keys(stylesMenuOptions).includes(option));
             bard.buttons.forEach(button => {
                 if (movedOptions.includes(button.name)) {
                     button.visible = () => false;

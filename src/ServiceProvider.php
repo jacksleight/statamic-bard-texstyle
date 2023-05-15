@@ -109,7 +109,7 @@ class ServiceProvider extends AddonServiceProvider
                 'instructions' => __('Which style options should be moved into the style menu.'),
                 'type' => 'select',
                 'multiple' => true,
-                'options' => $options['styleOptions'],
+                'options' => $options['stylesMenuOptions'],
                 'width' => 66,
             ],
             'bts_styles_button' => [

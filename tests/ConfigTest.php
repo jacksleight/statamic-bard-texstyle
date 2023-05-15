@@ -40,9 +40,16 @@ it('resolves full config', function () {
             'standard' => [
                 'heading_1' => [
                     'class' => 'heading-1',
+                    'cp_badge' => true,
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
+                    'cp_css' => 'color: red',
+                ],
+            ],
+            'article' => [
+                'heading_1' => [
+                    'class' => 'heading-1',
                 ],
             ],
         ],
@@ -106,13 +113,22 @@ it('resolves full config', function () {
             'standard' => [
                 'heading_1' => [
                     'class' => 'heading-1',
+                    'cp_badge' => true,
                     'ext' => 'heading',
                     'type' => 'heading_1',
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
+                    'cp_css' => 'color: red',
                     'ext' => 'paragraph',
                     'type' => 'paragraph',
+                ],
+            ],
+            'article' => [
+                'heading_1' => [
+                    'class' => 'heading-1',
+                    'ext' => 'heading',
+                    'type' => 'heading_1',
                 ],
             ],
         ],
@@ -128,11 +144,23 @@ it('resolves full config', function () {
         'attributeExts' => [
             'heading',
         ],
-        'defaultsExts' => [
-            'heading',
-            'paragraph',
+        'defaultClassExts' => [
+            'standard' => [
+                'heading',
+                'paragraph',
+            ],
+            'article' => [
+                'heading',
+            ],
         ],
-        'styleOptions' => [
+        'defaultCpExts' => [
+            'standard' => [
+                'heading',
+                'paragraph',
+            ],
+            'article' => [],
+        ],
+        'stylesMenuOptions' => [
             'h1' => 'Heading 1',
             'h2' => 'Heading 2',
             'h3' => 'Heading 3',
