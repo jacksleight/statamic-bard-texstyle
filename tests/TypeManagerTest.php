@@ -5,7 +5,7 @@ use JackSleight\StatamicBardTexstyle\TypeManager;
 uses(Tests\TestCase::class);
 
 it('fetches type by name', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->find('paragraph'))
         ->toMatchArray(['name' => 'paragraph'])
         ->toHaveKeys([
@@ -30,7 +30,7 @@ it('fetches type by name', function () {
 });
 
 it('fetches type by alias', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->find('bullet_list'))
         ->toMatchArray(['name' => 'unordered_list']);
     expect($types->find('bulletList'))
@@ -38,13 +38,13 @@ it('fetches type by alias', function () {
 });
 
 it('fetches type by config', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->findByConfig(['type' => 'bullet_list']))
         ->toMatchArray(['name' => 'unordered_list']);
 });
 
 it('fetches type by item', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->findByItem(['type' => 'paragraph']))
         ->toMatchArray(['name' => 'paragraph']);
     expect($types->findByItem(['type' => 'heading', 'attrs' => ['level' => 1]]))
@@ -52,13 +52,13 @@ it('fetches type by item', function () {
 });
 
 it('fetches type by extension', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->findByExtension('btsDiv')->first())
         ->toMatchArray(['name' => 'div']);
 });
 
 it('fetches type by feature', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->findByStylesCpBadge()->pluck('name')->all())
         ->toEqual([
             'div',
@@ -75,7 +75,8 @@ it('fetches type by feature', function () {
 });
 
 it('validates styles', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
+    $typesPro = new TypeManager(true);
     expect($types->validateStyle(['type' => 'heading_1']))
         ->toBeArray()
         ->toHaveKeys([
@@ -91,10 +92,14 @@ it('validates styles', function () {
         ->toBeNull();
     expect($types->validateStyle(['type' => 'link', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
+    expect($types->validateStyle(['type' => 'div']))
+        ->toBeNull();
+    expect($typesPro->validateStyle(['type' => 'div']))
+        ->toBeArray();
 });
 
 it('validates attributes', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->validateAttribute(['type' => 'heading_1']))
         ->toBeArray()
         ->toHaveKeys([
@@ -111,7 +116,7 @@ it('validates attributes', function () {
 });
 
 it('validates defaults', function () {
-    $types = new TypeManager();
+    $types = new TypeManager(false);
     expect($types->validateDefault(['type' => 'heading_1']))
         ->toBeArray()
         ->toHaveKeys([

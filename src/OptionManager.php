@@ -162,7 +162,7 @@ class OptionManager
 
     protected $pro;
 
-    public function __construct($config, $pro = false)
+    public function __construct($config, $pro)
     {
         $this->config = $config;
         $this->pro = $pro;

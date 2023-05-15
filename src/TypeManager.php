@@ -299,7 +299,7 @@ class TypeManager
 
     protected $aliases = [];
 
-    public function __construct($pro = false)
+    public function __construct($pro)
     {
         $this->pro = $pro;
 
@@ -370,6 +370,13 @@ class TypeManager
         return false;
     }
 
+    public function pro($config)
+    {
+        $type = $this->findByConfig($config);
+
+        return $type['pro'];
+    }
+
     public function validateStyle($style)
     {
         $style = $style + [
@@ -381,6 +388,10 @@ class TypeManager
             'cp_css' => null,
             'cp_badge' => false,
         ];
+
+        if (! $this->pro && $this->pro($style)) {
+            return;
+        }
 
         if (! $this->supports($style, 'styles_class')) {
             return;
