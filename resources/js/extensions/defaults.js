@@ -18,8 +18,8 @@ const Defaults = Extension.create({
         const { bard, defaultCpExts } = this.options;
         const defaultsKey = bard.config.bts_defaults || 'standard';
 
-        const insDefaultCpExts = defaultCpExts[defaultsKey] ?? null;
-        if (!insDefaultCpExts.length) {
+        const insDefaultCpExts = defaultCpExts[defaultsKey];
+        if (insDefaultCpExts === undefined || !insDefaultCpExts.length) {
             return [];
         }
 

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="bts-styles">
+    <div class="bts-styles" :data-bts-defaults="previewDefaults">
         <div v-if="items.length" class="bts-styles-items">
             <StylesItem
                 v-for="item in items"
@@ -52,6 +52,12 @@ export default {
         close() {
             this.$emit('close');
         }
+    },
+
+    computed: {
+        previewDefaults() {
+            return this.bard.config.bts_defaults || 'standard';
+        },
     },
 
 }

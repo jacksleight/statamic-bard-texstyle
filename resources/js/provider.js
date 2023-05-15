@@ -150,8 +150,9 @@ class Provider {
             heading_5: 'h5',
             heading_6: 'h6',
             span: 'span',
+            div: 'div',
             unordered_list: 'ul',
-            link: 'link',
+            link: 'a',
             ordered_list: 'ol',
             paragraph: 'p',
         };
@@ -181,7 +182,7 @@ class Provider {
                 const pointers = typePointers[dflt.type];
                 if (dflt.cp_css) {
                     css.push(...this.parseCss([
-                        `.bts-preview[data-bts-preview="${tag}"][data-bts-defaults="${key}"]:not([data-bts-style])`,
+                        `.bts-styles[data-bts-defaults="${key}"] .bts-preview[data-bts-tag="${tag}"]:not([data-bts-style])`,
                         ...pointers.map(tag => `${base}[data-bts-defaults="${key}"] > ${tag}:not([data-bts-style])`),
                     ], dflt.cp_css));
                 }
@@ -198,22 +199,18 @@ class Provider {
     gatherStylesCss(options) {
         const css = [];
         const typeTags = {
-            blockquote: 'blockquote',
-            code_block: 'pre',
-            div: 'div',
             heading_1: 'h1',
             heading_2: 'h2',
             heading_3: 'h3',
             heading_4: 'h4',
             heading_5: 'h5',
             heading_6: 'h6',
-            horizontal_rule: 'hr',
-            link: 'link',
-            list_item: 'list_item',
+            span: 'span',
+            div: 'div',
+            unordered_list: 'ul',
+            link: 'a',
             ordered_list: 'ol',
             paragraph: 'p',
-            span: 'span',
-            unordered_list: 'ul',
         };
         const base = `.bard-fieldtype-wrapper .bard-content`;
         Object.entries(options.styles).forEach(([key, style]) => {

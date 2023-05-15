@@ -64,6 +64,14 @@ class OptionManager
         'paragraph',
     ];
 
+    protected $cpBadgeExts = [
+        'heading',
+        'paragraph',
+        'unordered_list',
+        'ordered_list',
+        'btsDiv',
+    ];
+
     protected $defaultClassExts = [
         'blockquote',
         'bold',
@@ -88,7 +96,7 @@ class OptionManager
         'underline',
     ];
 
-    protected $defaultCpExts = [
+    protected $defaultCpCssExts = [
         'blockquote',
         'bulletList',
         'codeBlock',
@@ -101,6 +109,13 @@ class OptionManager
         'tableCell',
         'tableHeader',
         'tableRow',
+    ];
+
+    protected $defaultCpBadgeExts = [
+        'heading',
+        'paragraph',
+        'unordered_list',
+        'ordered_list',
     ];
 
     protected $typeAliases = [
@@ -206,6 +221,13 @@ class OptionManager
                 'key' => $key,
             ]))
             ->filter(fn ($style) => isset($exts[$style['ext']]))
+            ->map(function ($style, $type) {
+                if (isset($style['cp_badge']) && ! in_array($style['ext'], $this->cpBadgeExts)) {
+                    $style['cp_badge'] = false;
+                }
+
+                return $style;
+            })
             ->each(function ($style) use (&$usedExts) {
                 $usedExts[$style['ext']] = true;
             })
@@ -271,6 +293,16 @@ class OptionManager
                         'type' => $type,
                         'ext' => $this->typeExts[$type] ?? $type,
                     ]))
+                    ->map(function ($dflt, $type) {
+                        if (isset($dflt['cp_css']) && ! in_array($dflt['ext'], $this->defaultCpCssExts)) {
+                            $dflt['cp_css'] = null;
+                        }
+                        if (isset($dflt['cp_badge']) && ! in_array($dflt['ext'], $this->defaultCpBadgeExts)) {
+                            $dflt['cp_badge'] = false;
+                        }
+
+                        return $dflt;
+                    })
                     ->all();
             })
             ->all();
@@ -295,7 +327,7 @@ class OptionManager
         $cpExts = collect($defaults)
             ->map(function ($group) {
                 return collect($group)
-                    ->filter(fn ($dflt) => in_array($dflt['ext'], $this->defaultCpExts))
+                    ->filter(fn ($dflt) => in_array($dflt['ext'], $this->defaultCpCssExts) || in_array($dflt['ext'], $this->cpBadgeExts))
                     ->filter(fn ($dflt) => ($dflt['cp_css'] ?? null) || ($dflt['cp_badge'] ?? false))
                     ->pluck('ext')
                     ->unique()

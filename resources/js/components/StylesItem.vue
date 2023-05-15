@@ -9,9 +9,8 @@
         <!-- @todo remove this weirdness -->
         <component :is="previewTag === 'ol' ? 'ol' : 'div'">
             <div class="bts-preview"
-                :data-bts-preview="previewTag"
-                :data-bts-style="previewStyle"
-                :data-bts-defaults="previewDefaults">
+                :data-bts-tag="previewTag"
+                :data-bts-style="previewStyle">
                 {{ item.text }}
             </div>
         </component>
@@ -66,7 +65,7 @@ export default {
                 heading_6: 'h6',
                 span: 'span',
                 unordered_list: 'ul',
-                link: 'link',
+                link: 'a',
                 ordered_list: 'ol',
                 paragraph: 'p',
             };
@@ -74,9 +73,6 @@ export default {
         },
         previewStyle() {
             return this.item.btsStyle?.[this.btsOptions.store];
-        },
-        previewDefaults() {
-            return this.bard.config.bts_defaults || 'standard';
         },
 
     },
