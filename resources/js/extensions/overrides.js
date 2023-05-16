@@ -7,26 +7,26 @@ const Overrides = Extension.create({
     addOptions() {
         return {
             bard: {},
-            styleExts: [],
+            stylesExts: [],
             stylesMenuOptions: {},
         }
     },
 
     onCreate() {
-        const { bard, styleExts, stylesMenuOptions } = this.options;
+        const { bard, stylesExts, stylesMenuOptions } = this.options;
         const blanks = [
-            ...(styleExts.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
-            ...(styleExts.includes('bulletList')) ? ['unorderedlist'] : [],
-            ...(styleExts.includes('orderedList')) ? ['orderedlist'] : [],
+            ...(stylesExts.includes('heading')) ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] : [],
+            ...(stylesExts.includes('bulletList')) ? ['unorderedlist'] : [],
+            ...(stylesExts.includes('orderedList')) ? ['orderedlist'] : [],
         ];
         bard.buttons.forEach(button => {
             if (blanks.includes(button.name)) {
                 button.args = { ...(button.args || {}), class: null };
             }
-            if (button.name === 'unorderedlist' && styleExts.includes('bulletList')) {
+            if (button.name === 'unorderedlist' && stylesExts.includes('bulletList')) {
                 button.command = (editor, args) => editor.chain().focus().btsToggleBulletList(args).run();
             }
-            if (button.name === 'orderedlist' && styleExts.includes('orderedList')) {
+            if (button.name === 'orderedlist' && stylesExts.includes('orderedList')) {
                 button.command = (editor, args) => editor.chain().focus().btsToggleOrderedList(args).run();
             }
         });

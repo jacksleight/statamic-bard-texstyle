@@ -24,17 +24,16 @@ class OptionManager
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
         $styles = $this->resolveStyles();
-        $styleExts = $this->resolveStyleExts($styles);
+        $stylesExts = $this->resolveStylesExts($styles);
+        $stylesMenuOptions = $this->resolveStylesMenuOptions($styles);
 
         $attributes = $this->resolveAttributes();
-        $attributeExts = $this->resolveAttributeExts($attributes);
+        $attributesExts = $this->resolveAttributesExts($attributes);
 
         $defaults = $this->resolveDefaults();
-        [$defaultClassExts, $defaultCpExts] = $this->resolveDefaultExts($defaults);
+        [$defaultsClassExts, $defaultsCpExts] = $this->resolveDefaultsExts($defaults);
 
-        $classExts = $this->resolveClassExts($styleExts, $defaultClassExts);
-
-        $stylesMenuOptions = $this->resolveStylesMenuOptions($styles);
+        $classExts = $this->resolveClassExts($stylesExts, $defaultsClassExts);
 
         return [
             'types' => $this->types->all(),
@@ -42,14 +41,14 @@ class OptionManager
             'store' => $store,
             'attr' => $attr,
             'styles' => $styles,
-            'styleExts' => $styleExts,
-            'attributes' => $attributes,
-            'attributeExts' => $attributeExts,
-            'defaults' => $defaults,
-            'defaultClassExts' => $defaultClassExts,
-            'defaultCpExts' => $defaultCpExts,
-            'classExts' => $classExts,
+            'stylesExts' => $stylesExts,
             'stylesMenuOptions' => $stylesMenuOptions,
+            'attributes' => $attributes,
+            'attributesExts' => $attributesExts,
+            'defaults' => $defaults,
+            'defaultsClassExts' => $defaultsClassExts,
+            'defaultsCpExts' => $defaultsCpExts,
+            'classExts' => $classExts,
         ];
     }
 
@@ -70,6 +69,39 @@ class OptionManager
         return $styles;
     }
 
+    protected function resolveStylesExts($styles)
+    {
+        return collect($styles)
+            ->pluck('ext')
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    protected function resolveStylesMenuOptions($styles)
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        return collect($styles)
+            ->map(fn ($style) => $this->types->validateStylesMenuOption($style))
+            ->filter()
+            ->map(fn ($style) => $style['name'])
+            ->merge([
+                'h1' => 'Heading 1',
+                'h2' => 'Heading 2',
+                'h3' => 'Heading 3',
+                'h4' => 'Heading 4',
+                'h5' => 'Heading 5',
+                'h6' => 'Heading 6',
+                'unorderedlist' => 'Unordered List',
+                'orderedlist' => 'Ordered List',
+            ])
+            ->sort()
+            ->all();
+    }
+
     protected function resolveAttributes()
     {
         if (! $this->pro) {
@@ -78,7 +110,16 @@ class OptionManager
 
         $attributes = data_get($this->config, 'attributes', []);
         $attributes = $this->normalizeAttributes($attributes);
-        $attributes = $this->expandAttributes($attributes);
+
+        if (array_key_exists('heading', $attributes)) {
+            for ($i = 1; $i <= 6; $i++) {
+                $attributes['heading_'.$i] = array_merge(
+                    $attributes['heading'],
+                    $attributes['heading_'.$i] ?? []
+                );
+            }
+            unset($attributes['heading']);
+        }
 
         $attributes = collect($attributes)
             ->map(fn ($attrs, $type) => [
@@ -99,6 +140,15 @@ class OptionManager
             ->all();
 
         return $attributes;
+    }
+
+    protected function resolveAttributesExts($attributes)
+    {
+        return collect($attributes)
+            ->pluck('ext')
+            ->unique()
+            ->values()
+            ->all();
     }
 
     protected function resolveDefaults()
@@ -132,7 +182,7 @@ class OptionManager
         return $defaults;
     }
 
-    protected function resolveDefaultExts($defaults)
+    protected function resolveDefaultsExts($defaults)
     {
         $classExts = collect($defaults)
             ->map(function ($group) {
@@ -159,18 +209,9 @@ class OptionManager
         return [$classExts, $cpExts];
     }
 
-    protected function resolveStyleExts($styles)
+    protected function resolveClassExts($stylesExts, $defaultExts)
     {
-        return collect($styles)
-            ->pluck('ext')
-            ->unique()
-            ->values()
-            ->all();
-    }
-
-    protected function resolveClassExts($styleExts, $defaultExts)
-    {
-        return collect($styleExts)
+        return collect($stylesExts)
             ->merge(collect($defaultExts)
                 ->flatten()
                 ->unique()
@@ -178,54 +219,6 @@ class OptionManager
             ->unique()
             ->values()
             ->all();
-    }
-
-    protected function resolveAttributeExts($attributes)
-    {
-        return collect($attributes)
-            ->pluck('ext')
-            ->unique()
-            ->values()
-            ->all();
-    }
-
-    protected function resolveStylesMenuOptions($styles)
-    {
-        if (! $this->pro) {
-            return [];
-        }
-
-        return collect($styles)
-            ->map(fn ($style) => $this->types->validateStylesMenuOption($style))
-            ->filter()
-            ->map(fn ($style) => $style['name'])
-            ->merge([
-                'h1' => 'Heading 1',
-                'h2' => 'Heading 2',
-                'h3' => 'Heading 3',
-                'h4' => 'Heading 4',
-                'h5' => 'Heading 5',
-                'h6' => 'Heading 6',
-                'unorderedlist' => 'Unordered List',
-                'orderedlist' => 'Ordered List',
-            ])
-            ->sort()
-            ->all();
-    }
-
-    protected function expandAttributes($attributes)
-    {
-        if (array_key_exists('heading', $attributes)) {
-            for ($i = 1; $i <= 6; $i++) {
-                $attributes['heading_'.$i] = array_merge(
-                    $attributes['heading'],
-                    $attributes['heading_'.$i] ?? []
-                );
-            }
-            unset($attributes['heading']);
-        }
-
-        return $attributes;
     }
 
     /**

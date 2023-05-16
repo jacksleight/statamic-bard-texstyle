@@ -29,19 +29,19 @@ class Core extends Extension
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
         $defaultsKey = $this->options['defaultsKey'];
-        $styleExts = $this->options['styleExts'];
+        $stylesExts = $this->options['stylesExts'];
         $classExts = $this->options['classExts'];
 
         $insDefaults = $defaults[$defaultsKey] ?? null;
 
         return collect($classExts)
-            ->map(function ($ext) use ($store, $attr, $styles, $styleExts, $insDefaults) {
+            ->map(function ($ext) use ($store, $attr, $styles, $stylesExts, $insDefaults) {
                 return [
                     'types' => [$ext],
                     'attributes' => [
                         $attr => [
-                            'parseHTML' => function ($DOMNode) use ($store, $styles, $styleExts, $ext) {
-                                if (in_array($ext, $styleExts)) {
+                            'parseHTML' => function ($DOMNode) use ($store, $styles, $stylesExts, $ext) {
+                                if (in_array($ext, $stylesExts)) {
                                     $value = $DOMNode->getAttribute('class');
                                     if ($value === '') {
                                         $value = null;
@@ -56,8 +56,8 @@ class Core extends Extension
 
                                 return $value;
                             },
-                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $insDefaults, $styleExts, $ext) {
-                                if (in_array($ext, $styleExts)) {
+                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $insDefaults, $stylesExts, $ext) {
+                                if (in_array($ext, $stylesExts)) {
                                     $class = $attributes->{$attr} ?? null;
                                     if ($store === 'key') {
                                         $class = $styles[$class]['class'] ?? null;

@@ -10,16 +10,16 @@ const Defaults = Extension.create({
         return {
             bard: {},
             store: null,
-            defaultCpExts: {},
+            defaultsCpExts: {},
         }
     },
 
     addProseMirrorPlugins() {
-        const { bard, defaultCpExts } = this.options;
+        const { bard, defaultsCpExts } = this.options;
         const defaultsKey = bard.config.bts_defaults || 'standard';
 
-        const insDefaultCpExts = defaultCpExts[defaultsKey];
-        if (insDefaultCpExts === undefined || !insDefaultCpExts.length) {
+        const insDefaultsCpExts = defaultsCpExts[defaultsKey];
+        if (insDefaultsCpExts === undefined || !insDefaultsCpExts.length) {
             return [];
         }
 

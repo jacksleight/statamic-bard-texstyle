@@ -139,7 +139,7 @@ it('resolves full options', function () {
             ],
         ],
     ]);
-    expect($options['styleExts'])->toEqual([
+    expect($options['stylesExts'])->toEqual([
         'heading',
         'btsDiv',
     ]);
@@ -148,10 +148,10 @@ it('resolves full options', function () {
         'btsDiv',
         'paragraph',
     ]);
-    expect($options['attributeExts'])->toEqual([
+    expect($options['attributesExts'])->toEqual([
         'heading',
     ]);
-    expect($options['defaultClassExts'])->toEqual([
+    expect($options['defaultsClassExts'])->toEqual([
         'standard' => [
             'heading',
             'paragraph',
@@ -160,7 +160,7 @@ it('resolves full options', function () {
             'heading',
         ],
     ]);
-    expect($options['defaultCpExts'])->toEqual([
+    expect($options['defaultsCpExts'])->toEqual([
         'standard' => [
             'heading',
             'paragraph',
@@ -218,7 +218,7 @@ it('resolves free options', function () {
     expect($options['pro'])->toEqual(false);
     expect($options['styles'])->toHaveCount(1)->toHaveKeys(['title']);
     expect($options['attributes'])->toBeEmpty();
-    expect($options['attributeExts'])->toBeEmpty();
+    expect($options['attributesExts'])->toBeEmpty();
 });
 
 it('resolves unsupported options', function () {
