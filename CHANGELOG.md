@@ -7,7 +7,7 @@
 - [fix] Link type control panel CSS
 - Tweak styles button text size and style
 - Internal refactoring and better organisation
-- Undeprecate legacy type names and [clarify change](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-to-3#type-names) in upgrade guide
+- Undeprecate legacy type names and [clarify change in upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-2-to-3#type-names)
 
 ## 3.0.2 (2023-05-04)
 

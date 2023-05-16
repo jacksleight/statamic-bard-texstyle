@@ -23,7 +23,7 @@ class OptionManager
         $store = data_get($this->config, 'store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
 
-        $styles = $this->resolveStylesAndExts();
+        $styles = $this->resolveStyles();
         $styleExts = $this->resolveStyleExts($styles);
 
         $attributes = $this->resolveAttributes();
@@ -53,7 +53,7 @@ class OptionManager
         ];
     }
 
-    protected function resolveStylesAndExts()
+    protected function resolveStyles()
     {
         $styles = data_get($this->config, 'styles', []);
         $styles = $this->normalizeStyles($styles);
