@@ -7,7 +7,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-attributes-arrow text-gray-700" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                    {{ __(title(item)) }}
+                    {{ __(display(item)) }}
                 </div>
                 <div class="p-4 pt-1 border-b" v-if="activeItem === i">
                     <div v-for="(field, name) in fields(item)" class="mt-3">
@@ -62,7 +62,6 @@
 
 <script>
 import { itemToType } from '../helpers'
-import titles from '../titles'
 import TextInput from './TextInput.vue'
 
 export default {
@@ -97,8 +96,8 @@ export default {
 
     methods: {
 
-        title(item) {
-            return titles[itemToType(item)];
+        display(item) {
+            return this.btsOptions.types[itemToType(item)].display;
         },
 
         fields(item) {
