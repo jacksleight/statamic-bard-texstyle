@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.0 ()
+## 3.1.0 (2023-05-17)
 
 - [new] Default control panel CSS and badges for unstyled elements
 - [fix] Glitchy styles menu and attribute panel scrolling
