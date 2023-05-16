@@ -3,12 +3,9 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Statamic\Support\Arr;
-use Statamic\Support\Str;
 
 class TypeManager
 {
-    protected $pro;
-
     protected $types = [
         'blockquote' => [
             'display' => 'Blockquote',
@@ -43,7 +40,6 @@ class TypeManager
             'display' => 'Div',
             'extension' => 'btsDiv',
             'command' => 'btsToggleDiv',
-            'pro' => true,
             'styles_class' => true,
             'styles_cp_css' => true,
             'styles_cp_badge' => true,
@@ -301,8 +297,6 @@ class TypeManager
 
     public function __construct($pro)
     {
-        $this->pro = $pro;
-
         $this->types = collect($this->types)
             ->map(fn ($type, $name) => $type + [
                 'name' => $name,
@@ -313,7 +307,6 @@ class TypeManager
                 'arguments' => [],
                 'attributes' => [],
                 'aliases' => [],
-                'pro' => false,
                 'styles_class' => false,
                 'styles_cp_css' => false,
                 'styles_cp_badge' => false,
@@ -323,6 +316,10 @@ class TypeManager
                 'defaults_cp_css' => false,
                 'defaults_cp_badge' => false,
             ]);
+
+        if (! $pro) {
+            $this->types = $this->types->except(['div']);
+        }
 
         $this->aliases = $this->types
             ->map(fn ($type) => array_merge($type['aliases'], [$type['extension']]))
@@ -338,14 +335,18 @@ class TypeManager
         return $this->types;
     }
 
-    public function find($name)
+    public function name($name)
     {
-        return $this->types[$this->aliases[$name] ?? $name];
+        return $this->aliases[$name] ?? $name;
     }
 
-    public function findByConfig($config)
+    public function find($name)
     {
-        return $this->find($config['type']);
+        if (! isset($this->types[$name])) {
+            throw new \Exception("Unknown type '{$name}'");
+        }
+
+        return $this->types[$name];
     }
 
     public function findByItem($item)
@@ -353,14 +354,14 @@ class TypeManager
         return $this->types->first(fn ($type) => $type['extension'] === $item['type'] && $type['arguments'] === ($item['attrs'] ?? []));
     }
 
-    public function __call($method, $args)
+    public function get($name, $key)
     {
-        return $this->types->where(Str::snake(Str::after($method, 'findBy')), $args[0] ?? true);
+        return $this->find($name)[$key] ?? null;
     }
 
-    public function supports($config, $features)
+    public function supports($name, $features)
     {
-        $type = $this->findByConfig($config);
+        $type = $this->find($name);
         foreach (Arr::wrap($features) as $feature) {
             if ($type[$feature]) {
                 return true;
@@ -368,13 +369,6 @@ class TypeManager
         }
 
         return false;
-    }
-
-    public function pro($config)
-    {
-        $type = $this->findByConfig($config);
-
-        return $type['pro'];
     }
 
     public function validateStyle($style)
@@ -389,22 +383,18 @@ class TypeManager
             'cp_badge' => false,
         ];
 
-        if (! $this->pro && $this->pro($style)) {
+        if (! $this->supports($style['type'], 'styles_class')) {
             return;
         }
 
-        if (! $this->supports($style, 'styles_class')) {
-            return;
-        }
-
-        if ($style['cp_badge'] && ! $this->supports($style, 'styles_cp_badge')) {
+        if ($style['cp_badge'] && ! $this->supports($style['type'], 'styles_cp_badge')) {
             $style['cp_badge'] = false;
         }
 
         return $style;
     }
 
-    public function validateAttribute($attribute)
+    public function validateAttribute($type, $attribute)
     {
         $attribute = $attribute + [
             'type' => null,
@@ -416,14 +406,14 @@ class TypeManager
             'clearable' => false,
         ];
 
-        if (! $this->supports($attribute, 'attributes_panel')) {
+        if (! $this->supports($type, 'attributes_panel')) {
             return;
         }
 
         return $attribute;
     }
 
-    public function validateDefault($default)
+    public function validateDefault($type, $default)
     {
         $default = $default + [
             'class' => null,
@@ -431,15 +421,15 @@ class TypeManager
             'cp_badge' => false,
         ];
 
-        if (! $this->supports($default, ['defaults_class', 'defaults_cp_css', 'defaults_cp_badge'])) {
+        if (! $this->supports($type, ['defaults_class', 'defaults_cp_css', 'defaults_cp_badge'])) {
             return;
         }
 
-        if ($default['cp_css'] && ! $this->supports($default, 'defaults_cp_css')) {
+        if ($default['cp_css'] && ! $this->supports($type, 'defaults_cp_css')) {
             $default['cp_css'] = null;
         }
 
-        if ($default['cp_badge'] && ! $this->supports($default, 'defaults_cp_badge')) {
+        if ($default['cp_badge'] && ! $this->supports($type, 'defaults_cp_badge')) {
             $default['cp_badge'] = false;
         }
 

@@ -4,6 +4,14 @@ use JackSleight\StatamicBardTexstyle\TypeManager;
 
 uses(Tests\TestCase::class);
 
+it('fetches name by alias', function () {
+    $types = new TypeManager(false);
+    expect($types->name('bullet_list'))
+        ->toEqual('unordered_list');
+    expect($types->name('bulletList'))
+        ->toEqual('unordered_list');
+});
+
 it('fetches type by name', function () {
     $types = new TypeManager(false);
     expect($types->find('paragraph'))
@@ -17,7 +25,6 @@ it('fetches type by name', function () {
             'arguments',
             'attributes',
             'aliases',
-            'pro',
             'styles_class',
             'styles_cp_css',
             'styles_cp_badge',
@@ -29,20 +36,6 @@ it('fetches type by name', function () {
         ]);
 });
 
-it('fetches type by alias', function () {
-    $types = new TypeManager(false);
-    expect($types->find('bullet_list'))
-        ->toMatchArray(['name' => 'unordered_list']);
-    expect($types->find('bulletList'))
-        ->toMatchArray(['name' => 'unordered_list']);
-});
-
-it('fetches type by config', function () {
-    $types = new TypeManager(false);
-    expect($types->findByConfig(['type' => 'bullet_list']))
-        ->toMatchArray(['name' => 'unordered_list']);
-});
-
 it('fetches type by item', function () {
     $types = new TypeManager(false);
     expect($types->findByItem(['type' => 'paragraph']))
@@ -51,27 +44,12 @@ it('fetches type by item', function () {
         ->toMatchArray(['name' => 'heading_1']);
 });
 
-it('fetches type by extension', function () {
+it('fetches values', function () {
     $types = new TypeManager(false);
-    expect($types->findByExtension('btsDiv')->first())
-        ->toMatchArray(['name' => 'div']);
-});
-
-it('fetches type by feature', function () {
-    $types = new TypeManager(false);
-    expect($types->findByStylesCpBadge()->pluck('name')->all())
-        ->toEqual([
-            'div',
-            'heading_1',
-            'heading_2',
-            'heading_3',
-            'heading_4',
-            'heading_5',
-            'heading_6',
-            'ordered_list',
-            'paragraph',
-            'unordered_list',
-        ]);
+    expect($types->get('span', 'extension'))
+        ->toEqual('btsSpan');
+    expect($types->get('heading_1', 'display'))
+        ->toEqual('Heading 1');
 });
 
 it('validates styles', function () {
@@ -92,15 +70,15 @@ it('validates styles', function () {
         ->toBeNull();
     expect($types->validateStyle(['type' => 'link', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
-    expect($types->validateStyle(['type' => 'div']))
-        ->toBeNull();
+    expect(fn () => $types->validateStyle(['type' => 'div']))
+        ->toThrow(Exception::class, "Unknown type 'div'");
     expect($typesPro->validateStyle(['type' => 'div']))
         ->toBeArray();
 });
 
 it('validates attributes', function () {
     $types = new TypeManager(false);
-    expect($types->validateAttribute(['type' => 'heading_1']))
+    expect($types->validateAttribute('heading_1', []))
         ->toBeArray()
         ->toHaveKeys([
             'type',
@@ -111,25 +89,25 @@ it('validates attributes', function () {
             'options',
             'clearable',
         ]);
-    expect($types->validateAttribute(['type' => 'div']))
+    expect($types->validateAttribute('span', []))
         ->toBeNull();
 });
 
 it('validates defaults', function () {
     $types = new TypeManager(false);
-    expect($types->validateDefault(['type' => 'heading_1']))
+    expect($types->validateDefault('heading_1', []))
         ->toBeArray()
         ->toHaveKeys([
             'class',
             'cp_css',
             'cp_badge',
         ]);
-    expect($types->validateDefault(['type' => 'list_item']))
+    expect($types->validateDefault('list_item', []))
         ->toBeArray();
-    expect($types->validateDefault(['type' => 'div']))
+    expect($types->validateDefault('span', []))
         ->toBeNull();
-    expect($types->validateDefault(['type' => 'link', 'cp_css' => 'color: red']))
+    expect($types->validateDefault('link', ['cp_css' => 'color: red']))
         ->toMatchArray(['cp_css' => null]);
-    expect($types->validateDefault(['type' => 'link', 'cp_badge' => true]))
+    expect($types->validateDefault('link', ['cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
 });
