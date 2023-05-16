@@ -392,7 +392,7 @@ class TypeManager
             return;
         }
 
-        if ($style['cp_badge'] && ! $this->supports($style['type'], 'styles_cp_badge')) {
+        if (! $this->supports($style['type'], 'styles_cp_badge')) {
             $style['cp_badge'] = false;
         }
 
@@ -448,15 +448,15 @@ class TypeManager
             return;
         }
 
-        if ($default['class'] && ! $this->supports($default['type'], 'defaults_class')) {
+        if (! $this->supports($default['type'], 'defaults_class')) {
             $default['class'] = null;
         }
 
-        if ($default['cp_css'] && ! $this->supports($default['type'], 'defaults_cp_css')) {
+        if (! $this->supports($default['type'], 'defaults_cp_css')) {
             $default['cp_css'] = null;
         }
 
-        if ($default['cp_badge'] && ! $this->supports($default['type'], 'defaults_cp_badge')) {
+        if (! $this->supports($default['type'], 'defaults_cp_badge')) {
             $default['cp_badge'] = false;
         }
 
