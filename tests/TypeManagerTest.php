@@ -14,7 +14,7 @@ it('fetches name by alias', function () {
 
 it('fetches type by name', function () {
     $types = new TypeManager(false);
-    expect($types->find('paragraph'))
+    expect($types->get('paragraph'))
         ->toMatchArray(['name' => 'paragraph'])
         ->toHaveKeys([
             'name',
@@ -24,7 +24,7 @@ it('fetches type by name', function () {
             'command',
             'arguments',
             'attributes',
-            'aliases',
+            'pro',
             'styles_class',
             'styles_cp_css',
             'styles_cp_badge',
@@ -38,18 +38,10 @@ it('fetches type by name', function () {
 
 it('fetches type by item', function () {
     $types = new TypeManager(false);
-    expect($types->findByItem(['type' => 'paragraph']))
+    expect($types->getByItem(['type' => 'paragraph']))
         ->toMatchArray(['name' => 'paragraph']);
-    expect($types->findByItem(['type' => 'heading', 'attrs' => ['level' => 1]]))
+    expect($types->getByItem(['type' => 'heading', 'attrs' => ['level' => 1]]))
         ->toMatchArray(['name' => 'heading_1']);
-});
-
-it('fetches values', function () {
-    $types = new TypeManager(false);
-    expect($types->get('span', 'extension'))
-        ->toEqual('btsSpan');
-    expect($types->get('heading_1', 'display'))
-        ->toEqual('Heading 1');
 });
 
 it('validates styles', function () {
@@ -70,8 +62,8 @@ it('validates styles', function () {
         ->toBeNull();
     expect($types->validateStyle(['type' => 'link', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
-    expect(fn () => $types->validateStyle(['type' => 'div']))
-        ->toThrow(Exception::class, "Unknown type 'div'");
+    expect($types->validateStyle(['type' => 'div']))
+        ->toBeNull();
     expect($typesPro->validateStyle(['type' => 'div']))
         ->toBeArray();
 });

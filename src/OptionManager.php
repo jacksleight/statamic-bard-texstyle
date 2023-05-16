@@ -3,7 +3,6 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Statamic\Support\Arr;
-use Statamic\Support\Str;
 
 class OptionManager
 {
@@ -118,47 +117,9 @@ class OptionManager
         'ordered_list',
     ];
 
-    protected $typeAliases = [
-        'bullet_list' => 'unordered_list',
-        'bulletList' => 'unordered_list',
-        'codeBlock' => 'code_block',
-        'horizontalRule' => 'horizontal_rule',
-        'listItem' => 'list_item',
-        'orderedList' => 'ordered_list',
-        'tableCell' => 'table_cell',
-        'tableHeader' => 'table_header',
-        'tableRow' => 'table_row',
-    ];
-
-    protected $typeExts = [
-        'code_block' => 'codeBlock',
-        'div' => 'btsDiv',
-        'heading_1' => 'heading',
-        'heading_2' => 'heading',
-        'heading_3' => 'heading',
-        'heading_4' => 'heading',
-        'heading_5' => 'heading',
-        'heading_6' => 'heading',
-        'horizontal_rule' => 'horizontalRule',
-        'list_item' => 'listItem',
-        'ordered_list' => 'orderedList',
-        'span' => 'btsSpan',
-        'table_cell' => 'tableCell',
-        'table_header' => 'tableHeader',
-        'table_row' => 'tableRow',
-        'unordered_list' => 'bulletList',
-    ];
-
-    protected $typeArgs = [
-        'heading_1' => ['level' => 1],
-        'heading_2' => ['level' => 2],
-        'heading_3' => ['level' => 3],
-        'heading_4' => ['level' => 4],
-        'heading_5' => ['level' => 5],
-        'heading_6' => ['level' => 6],
-    ];
-
     protected $config;
+
+    protected $types;
 
     protected $pro;
 
@@ -170,7 +131,7 @@ class OptionManager
 
     public function resolve()
     {
-        $types = new TypeManager($this->pro);
+        $this->types = new TypeManager($this->pro);
 
         $store = data_get($this->config, 'store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
@@ -188,7 +149,7 @@ class OptionManager
         $stylesMenuOptions = $this->resolveStylesMenuOptions($styles);
 
         return [
-            'types' => $types->all()->all(),
+            'types' => $this->types->all(),
             'pro' => $this->pro,
             'store' => $store,
             'attr' => $attr,
@@ -219,8 +180,8 @@ class OptionManager
         $usedExts = [];
         $styles = collect($styles)
             ->map(fn ($style, $key) => array_merge($style, [
-                'ext' => $this->typeExts[$style['type']] ?? $style['type'],
-                'args' => $this->typeArgs[$style['type']] ?? [],
+                'ext' => $this->types->get($style['type'])['extension'],
+                'args' => $this->types->get($style['type'])['arguments'],
                 'key' => $key,
             ]))
             ->filter(fn ($style) => isset($exts[$style['ext']]))
@@ -257,7 +218,7 @@ class OptionManager
             ->map(fn ($attrs, $type) => array_merge([
                 'attrs' => $attrs,
                 'type' => $type,
-                'ext' => $this->typeExts[$type] ?? $type,
+                'ext' => $this->types->get($type)['extension'],
             ]))
             ->filter(fn ($group) => array_key_exists($group['ext'], $this->attributeExts))
             ->map(function ($group, $type) use ($classExts) {
@@ -294,7 +255,7 @@ class OptionManager
                 return collect($group)
                     ->map(fn ($dflt, $type) => array_merge($dflt, [
                         'type' => $type,
-                        'ext' => $this->typeExts[$type] ?? $type,
+                        'ext' => $this->types->get($type)['extension'],
                     ]))
                     ->map(function ($dflt, $type) {
                         if (isset($dflt['cp_css']) && ! in_array($dflt['ext'], $this->defaultCpCssExts)) {
@@ -415,8 +376,8 @@ class OptionManager
         return collect($defaults)
             ->map(function ($groups) {
                 return collect($groups)
-                    ->mapWithKeys(fn ($group, $ext) => [
-                        ($this->typeAliases[$ext] ?? $ext) => $group, // @todo move to main when removing deprecated
+                    ->mapWithKeys(fn ($group, $type) => [
+                        $this->types->name($type) => $group, // @todo move to main when removing deprecated
                     ])
                     ->all();
             })
@@ -451,7 +412,7 @@ class OptionManager
     {
         return collect($styles)
             ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->typeAliases[$style['type']] ?? Str::snake($style['type']),
+                'type' => $this->types->name($style['type']),
             ]))
             ->map(function ($style) {
                 if ($style['type'] === 'heading') {
@@ -470,8 +431,8 @@ class OptionManager
     protected function normalizeAttributes($attributes)
     {
         return collect($attributes)
-            ->mapWithKeys(fn ($group, $ext) => [
-                ($this->typeAliases[$ext] ?? $ext) => $group,  // @todo move to main when removing deprecated
+            ->mapWithKeys(fn ($group, $type) => [
+                $this->types->name($type) => $group,  // @todo move to main when removing deprecated
             ])
             ->all();
     }

@@ -56,8 +56,8 @@ it('resolves full options', function () {
         'store' => 'class',
     ], true))->resolve();
 
-    expect($options['types'])->toBeArray();
-    expect($options['pro'])->toEqual(true);
+    expect($options['types'])->toBeObject();
+    expect($options['pro'])->toBeTrue();
     expect($options['store'])->toEqual('class');
     expect($options['attr'])->toEqual('class');
     expect($options['styles'])->toEqual([
@@ -222,6 +222,43 @@ it('resolves free options', function () {
     expect($options['styles'])->toHaveCount(1)->toHaveKeys(['title']);
     expect($options['attributes'])->toBeEmpty();
     expect($options['attributeExts'])->toBeEmpty();
+});
+
+it('resolves unsupported options', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'button' => [
+                'type' => 'link',
+                'name' => 'Button',
+                'cp_badge' => true,
+            ],
+            'other' => [
+                'type' => 'table',
+            ],
+        ],
+        'attributes' => [
+            'span' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                ],
+            ],
+        ],
+        'defaults' => [
+            'list_item' => [
+                'cp_badge' => true,
+            ],
+            'bold' => [
+                'cp_css' => 'color: red',
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['styles']['button']['cp_badge'] ?? null)->toBeFalse();
+    expect($options['styles']['other'] ?? null)->toBeNull();
+    expect($options['attributes']['span'] ?? null)->toBeNull();
+    expect($options['defaults']['standard']['list_item']['cp_badge'] ?? null)->toBeFalse();
+    expect($options['defaults']['standard']['bold']['cp_css'] ?? null)->toBeNull();
 });
 
 it('normalizes legacy style options', function () {

@@ -6,6 +6,8 @@ use Statamic\Support\Arr;
 
 class TypeManager
 {
+    protected $pro;
+
     protected $types = [
         'blockquote' => [
             'display' => 'Blockquote',
@@ -40,6 +42,7 @@ class TypeManager
             'display' => 'Div',
             'extension' => 'btsDiv',
             'command' => 'btsToggleDiv',
+            'pro' => true,
             'styles_class' => true,
             'styles_cp_css' => true,
             'styles_cp_badge' => true,
@@ -281,7 +284,6 @@ class TypeManager
             'selectors' => ['ul'],
             'extension' => 'bulletList',
             'command' => 'btsToggleBulletList',
-            'aliases' => ['bullet_list'],
             'styles_class' => true,
             'styles_cp_css' => true,
             'styles_cp_badge' => true,
@@ -293,10 +295,23 @@ class TypeManager
         ],
     ];
 
-    protected $aliases = [];
+    protected $aliases = [
+        'codeBlock' => 'code_block',
+        'btsDiv' => 'div',
+        'horizontalRule' => 'horizontal_rule',
+        'listItem' => 'list_item',
+        'orderedList' => 'ordered_list',
+        'tableCell' => 'table_cell',
+        'tableHeader' => 'table_header',
+        'tableRow' => 'table_row',
+        'bullet_list' => 'unordered_list',
+        'bulletList' => 'unordered_list',
+    ];
 
     public function __construct($pro)
     {
+        $this->pro = $pro;
+
         $this->types = collect($this->types)
             ->map(fn ($type, $name) => $type + [
                 'name' => $name,
@@ -307,6 +322,7 @@ class TypeManager
                 'arguments' => [],
                 'attributes' => [],
                 'aliases' => [],
+                'pro' => false,
                 'styles_class' => false,
                 'styles_cp_css' => false,
                 'styles_cp_badge' => false,
@@ -316,18 +332,6 @@ class TypeManager
                 'defaults_cp_css' => false,
                 'defaults_cp_badge' => false,
             ]);
-
-        if (! $pro) {
-            $this->types = $this->types->except(['div']);
-        }
-
-        $this->aliases = $this->types
-            ->map(fn ($type) => array_merge($type['aliases'], [$type['extension']]))
-            ->flatMap(function ($aliases, $type) {
-                return collect($aliases)
-                    ->mapWithKeys(fn ($alias) => [$alias => $type])
-                    ->all();
-            });
     }
 
     public function all()
@@ -340,7 +344,7 @@ class TypeManager
         return $this->aliases[$name] ?? $name;
     }
 
-    public function find($name)
+    public function get($name)
     {
         if (! isset($this->types[$name])) {
             throw new \Exception("Unknown type '{$name}'");
@@ -349,19 +353,14 @@ class TypeManager
         return $this->types[$name];
     }
 
-    public function findByItem($item)
+    public function getByItem($item)
     {
         return $this->types->first(fn ($type) => $type['extension'] === $item['type'] && $type['arguments'] === ($item['attrs'] ?? []));
     }
 
-    public function get($name, $key)
-    {
-        return $this->find($name)[$key] ?? null;
-    }
-
     public function supports($name, $features)
     {
-        $type = $this->find($name);
+        $type = $this->get($name);
         foreach (Arr::wrap($features) as $feature) {
             if ($type[$feature]) {
                 return true;
@@ -382,6 +381,10 @@ class TypeManager
             'cp_css' => null,
             'cp_badge' => false,
         ];
+
+        if ($this->get($style['type'])['pro'] && ! $this->pro) {
+            return;
+        }
 
         if (! $this->supports($style['type'], 'styles_class')) {
             return;
