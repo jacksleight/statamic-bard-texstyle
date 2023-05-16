@@ -40,6 +40,7 @@ class TypeManager
         ],
         'div' => [
             'display' => 'Div',
+            'selectors' => ['div'],
             'extension' => 'btsDiv',
             'command' => 'btsToggleDiv',
             'pro' => true,
@@ -221,6 +222,7 @@ class TypeManager
         ],
         'span' => [
             'display' => 'Span',
+            'selectors' => ['span'],
             'extension' => 'btsSpan',
             'command' => 'btsToggleSpan',
             'styles_class' => true,
@@ -397,26 +399,44 @@ class TypeManager
         return $style;
     }
 
-    public function validateAttribute($type, $attribute)
+    public function validateStylesMenuOption($style)
+    {
+        $style = $style + [
+            'type' => null,
+            'name' => null,
+        ];
+
+        if (! $this->supports($style['type'], 'styles_menu')) {
+            return;
+        }
+
+        return $style;
+    }
+
+    public function validateAttribute($attribute)
     {
         $attribute = $attribute + [
             'type' => null,
+            'handle' => null,
+            'field' => null,
             'display' => null,
             'default' => null,
             'rendered' => true,
-            'values' => [],
-            'options' => [],
-            'clearable' => false,
+            'extra' => true,
         ];
 
-        if (! $this->supports($type, 'attributes_panel')) {
+        if (! $this->supports($attribute['type'], 'attributes_panel')) {
             return;
+        }
+
+        if (in_array($attribute['handle'], $this->get($attribute['type'])['attributes'])) {
+            $attribute['extra'] = false;
         }
 
         return $attribute;
     }
 
-    public function validateDefault($type, $default)
+    public function validateDefault($default)
     {
         $default = $default + [
             'class' => null,
@@ -424,15 +444,19 @@ class TypeManager
             'cp_badge' => false,
         ];
 
-        if (! $this->supports($type, ['defaults_class', 'defaults_cp_css', 'defaults_cp_badge'])) {
+        if (! $this->supports($default['type'], ['defaults_class', 'defaults_cp_css', 'defaults_cp_badge'])) {
             return;
         }
 
-        if ($default['cp_css'] && ! $this->supports($type, 'defaults_cp_css')) {
+        if ($default['class'] && ! $this->supports($default['type'], 'defaults_class')) {
+            $default['class'] = null;
+        }
+
+        if ($default['cp_css'] && ! $this->supports($default['type'], 'defaults_cp_css')) {
             $default['cp_css'] = null;
         }
 
-        if ($default['cp_badge'] && ! $this->supports($type, 'defaults_cp_badge')) {
+        if ($default['cp_badge'] && ! $this->supports($default['type'], 'defaults_cp_badge')) {
             $default['cp_badge'] = false;
         }
 

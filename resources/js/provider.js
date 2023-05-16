@@ -10,56 +10,13 @@ import { styleToIcon, coreIcon } from './icons';
 
 class Provider {
 
-    exts = {
-        heading: {
-            command: 'btsToggleHeading',
-            toggleVisibility: false,
-        },
-        paragraph: {
-            command: 'btsToggleParagraph',
-            toggleVisibility: false,
-        },
-        btsSpan: {
-            command: 'btsToggleSpan',
-            toggleVisibility: false,
-        },
-        link: {
-            command: 'btsToggleLink',
-            toggleVisibility: true,
-        },
-        bulletList: {
-            command: 'btsToggleBulletList',
-            toggleVisibility: false,
-        },
-        orderedList: {
-            command: 'btsToggleOrderedList',
-            toggleVisibility: false,
-        },
-        btsDiv: {
-            command: 'btsToggleDiv',
-            toggleVisibility: false,
-        },
-    }
-
     constructor(options) {
-
-        options = {
-            ...options,
-            exts: this.mergeExtData(options.exts),
-        };
-
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
             .bootStylesButton(options)
             .bootAttributesButton(options)
             .bootCss(options);
-    }
-
-    mergeExtData(exts) {
-        return Object.fromEntries(Object.entries(exts).map(([ name, ext ]) => {
-            return [ name, {...ext, ...this.exts[name]} ];
-        }));
     }
 
     bootExtensions(options) {
@@ -77,17 +34,17 @@ class Provider {
     bootStyleButtons(options) {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
-                const ext = options.exts[style.ext];
+                const type = options.types[style.type];
                 const icon = styleToIcon(style);
                 const data = {
                     name: key,
                     text: style.name,
                     args: { [options.attr]: style[options.store], ...style.args },
                     html: icon,
-                    active: (editor, args) => editor.isActive(ext.name, args),
-                    visible: ext.toggleVisibility ? (editor) => editor.isActive(ext.name) : () => true,
-                    btsMenuVisible: ext.toggleVisibility ? (editor) => editor.isActive(ext.name) : () => true,
-                    command: (editor, args) => editor.chain().focus()[ext.command](args).run(),
+                    active: (editor, args) => editor.isActive(type.extension, args),
+                    visible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
+                    btsMenuVisible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
+                    command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
                 };
                 buttons.splice(buttons.indexOf(key), 0, button(data));
@@ -143,7 +100,7 @@ class Provider {
         const css = [];
         const base = `.bard-fieldtype-wrapper .bard-content`;
         Object.entries(options.defaults).forEach(([key, group]) => {
-            Object.entries(group).forEach(([type, dflt]) => {
+            Object.entries(group.dflts).forEach(([type, dflt]) => {
                 const tag = options.types[dflt.type].selectors[0];
                 const pointers = options.types[dflt.type].selectors;
                 if (dflt.cp_css) {

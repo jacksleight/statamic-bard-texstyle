@@ -86,49 +86,56 @@ it('resolves full options', function () {
             'key' => 'twocolumns',
         ],
     ]);
-    expect($options['exts'])->toEqual([
-        'heading' => [
-            'name' => 'heading',
-        ],
-        'btsDiv' => [
-            'name' => 'btsDiv',
-        ],
-    ]);
     expect($options['attributes'])->toEqual([
         'heading_1' => [
+            'ext' => 'heading',
+            'type' => 'heading_1',
             'attrs' => [
                 'id' => [
-                    'type' => 'text',
+                    'type' => 'heading_1',
+                    'handle' => 'id',
+                    'field' => 'text',
                     'display' => 'ID',
                     'default' => null,
                     'rendered' => true,
                     'extra' => true,
                 ],
             ],
-            'ext' => 'heading',
-            'type' => 'heading_1',
         ],
     ]);
     expect($options['defaults'])->toEqual([
         'standard' => [
-            'heading_1' => [
-                'class' => 'heading-1',
-                'cp_badge' => true,
-                'ext' => 'heading',
-                'type' => 'heading_1',
-            ],
-            'paragraph' => [
-                'class' => 'paragraph',
-                'cp_css' => 'color: red',
-                'ext' => 'paragraph',
-                'type' => 'paragraph',
+            'key' => 'standard',
+            'dflts' => [
+                'heading_1' => [
+                    'class' => 'heading-1',
+                    'cp_css' => null,
+                    'cp_badge' => true,
+                    'ext' => 'heading',
+                    'type' => 'heading_1',
+                    'key' => 'standard',
+                ],
+                'paragraph' => [
+                    'class' => 'paragraph',
+                    'cp_css' => 'color: red',
+                    'cp_badge' => false,
+                    'ext' => 'paragraph',
+                    'type' => 'paragraph',
+                    'key' => 'standard',
+                ],
             ],
         ],
         'article' => [
-            'heading_1' => [
-                'class' => 'heading-1',
-                'ext' => 'heading',
-                'type' => 'heading_1',
+            'key' => 'article',
+            'dflts' => [
+                'heading_1' => [
+                    'class' => 'heading-1',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'heading',
+                    'type' => 'heading_1',
+                    'key' => 'article',
+                ],
             ],
         ],
     ]);
@@ -205,16 +212,6 @@ it('resolves free options', function () {
                 ],
             ],
         ],
-        'defaults' => [
-            'standard' => [
-                'heading_1' => [
-                    'class' => 'heading-1',
-                ],
-                'paragraph' => [
-                    'class' => 'paragraph',
-                ],
-            ],
-        ],
         'store' => 'class',
     ], false))->resolve();
 
@@ -257,8 +254,8 @@ it('resolves unsupported options', function () {
     expect($options['styles']['button']['cp_badge'] ?? null)->toBeFalse();
     expect($options['styles']['other'] ?? null)->toBeNull();
     expect($options['attributes']['span'] ?? null)->toBeNull();
-    expect($options['defaults']['standard']['list_item']['cp_badge'] ?? null)->toBeFalse();
-    expect($options['defaults']['standard']['bold']['cp_css'] ?? null)->toBeNull();
+    expect($options['defaults']['standard']['dflts']['list_item']['cp_badge'] ?? null)->toBeFalse();
+    expect($options['defaults']['standard']['dflts']['bold']['cp_css'] ?? null)->toBeNull();
 });
 
 it('normalizes legacy style options', function () {
@@ -285,7 +282,10 @@ it('normalizes legacy style options', function () {
             'ext' => 'heading',
             'name' => 'Title',
             'ident' => 'T',
+            'icon' => null,
             'class' => 'title',
+            'cp_css' => null,
+            'cp_badge' => false,
             'args' => ['level' => 1],
             'type' => 'heading_1',
             'key' => 'title',
@@ -294,7 +294,10 @@ it('normalizes legacy style options', function () {
             'ext' => 'bulletList',
             'name' => 'Square List',
             'ident' => 'S',
+            'icon' => null,
             'class' => 'square-list',
+            'cp_css' => null,
+            'cp_badge' => false,
             'args' => [],
             'type' => 'unordered_list',
             'key' => 'square_list',
@@ -316,25 +319,40 @@ it('normalizes legacy defaults options', function () {
 
     expect($options['defaults'] ?? null)->toEqual([
         'standard' => [
-            'heading_1' => [
-                'class' => 'heading-1',
-                'ext' => 'heading',
-                'type' => 'heading_1',
-            ],
-            'heading_2' => [
-                'class' => 'heading-2',
-                'ext' => 'heading',
-                'type' => 'heading_2',
-            ],
-            'paragraph' => [
-                'class' => 'paragraph',
-                'ext' => 'paragraph',
-                'type' => 'paragraph',
-            ],
-            'table_cell' => [
-                'class' => 'cell',
-                'ext' => 'tableCell',
-                'type' => 'table_cell',
+            'key' => 'standard',
+            'dflts' => [
+                'heading_1' => [
+                    'class' => 'heading-1',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'heading',
+                    'type' => 'heading_1',
+                    'key' => 'standard',
+                ],
+                'heading_2' => [
+                    'class' => 'heading-2',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'heading',
+                    'type' => 'heading_2',
+                    'key' => 'standard',
+                ],
+                'paragraph' => [
+                    'class' => 'paragraph',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'paragraph',
+                    'type' => 'paragraph',
+                    'key' => 'standard',
+                ],
+                'table_cell' => [
+                    'class' => 'cell',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'tableCell',
+                    'type' => 'table_cell',
+                    'key' => 'standard',
+                ],
             ],
         ],
     ]);
@@ -356,17 +374,19 @@ it('normalizes legacy attributes options', function () {
 
     expect($options['attributes'] ?? null)->toEqual([
         'table_cell' => [
+            'ext' => 'tableCell',
+            'type' => 'table_cell',
             'attrs' => [
                 'rowspan' => [
-                    'type' => 'text',
+                    'type' => 'table_cell',
+                    'handle' => 'rowspan',
+                    'field' => 'text',
                     'display' => 'Rowspan',
                     'default' => null,
                     'rendered' => true,
-                    'extra' => true,
+                    'extra' => false,
                 ],
             ],
-            'ext' => 'tableCell',
-            'type' => 'table_cell',
         ],
     ]);
 });
@@ -387,82 +407,94 @@ it('expands header attributes options', function () {
 
     expect($options['attributes'] ?? null)->toEqual([
         'heading_1' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_1',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_1',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_2' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_2',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_2',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_3' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_3',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_3',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_4' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_4',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_4',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_5' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_5',
-        ],
-        'heading_6' => [
             'attrs' => [
                 'id' => [
-                    'type' => 'text',
+                    'type' => 'heading_5',
+                    'handle' => 'id',
+                    'field' => 'text',
                     'display' => 'ID',
                     'default' => null,
                     'rendered' => true,
                     'extra' => true,
                 ],
             ],
+        ],
+        'heading_6' => [
             'ext' => 'heading',
             'type' => 'heading_6',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_6',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
     ]);
 });

@@ -69,37 +69,41 @@ it('validates styles', function () {
 });
 
 it('validates attributes', function () {
-    $types = new TypeManager(false);
-    expect($types->validateAttribute('heading_1', []))
+    $types = new TypeManager(true);
+    expect($types->validateAttribute(['type' => 'heading_1']))
         ->toBeArray()
         ->toHaveKeys([
             'type',
+            'handle',
+            'field',
             'display',
             'default',
             'rendered',
-            'values',
-            'options',
-            'clearable',
+            'extra',
         ]);
-    expect($types->validateAttribute('span', []))
+    expect($types->validateAttribute(['type' => 'span']))
         ->toBeNull();
+    expect($types->validateAttribute(['type' => 'heading_1', 'handle' => 'id']))
+        ->toMatchArray(['extra' => true]);
+    expect($types->validateAttribute(['type' => 'table_cell', 'handle' => 'rowspan']))
+        ->toMatchArray(['extra' => false]);
 });
 
 it('validates defaults', function () {
     $types = new TypeManager(false);
-    expect($types->validateDefault('heading_1', []))
+    expect($types->validateDefault(['type' => 'heading_1']))
         ->toBeArray()
         ->toHaveKeys([
             'class',
             'cp_css',
             'cp_badge',
         ]);
-    expect($types->validateDefault('list_item', []))
+    expect($types->validateDefault(['type' => 'list_item']))
         ->toBeArray();
-    expect($types->validateDefault('span', []))
+    expect($types->validateDefault(['type' => 'span']))
         ->toBeNull();
-    expect($types->validateDefault('link', ['cp_css' => 'color: red']))
+    expect($types->validateDefault(['type' => 'link', 'cp_css' => 'color: red']))
         ->toMatchArray(['cp_css' => null]);
-    expect($types->validateDefault('link', ['cp_badge' => true]))
+    expect($types->validateDefault(['type' => 'link', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
 });
