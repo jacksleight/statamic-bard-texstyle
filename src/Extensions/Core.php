@@ -66,7 +66,7 @@ class Core extends Extension
                                     $class = null;
                                 }
                                 if (! $class) {
-                                    $class = $insDefaults[Helpers::itemToType([
+                                    $class = $insDefaults['dflts'][Helpers::itemToType([
                                         'type' => $ext,
                                         'attrs' => $attributes,
                                     ])]['class'] ?? null;

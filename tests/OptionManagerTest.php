@@ -4,7 +4,7 @@ use JackSleight\StatamicBardTexstyle\OptionManager;
 
 uses(Tests\TestCase::class);
 
-it('resolves full config', function () {
+it('resolves full options', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
@@ -56,125 +56,131 @@ it('resolves full config', function () {
         'store' => 'class',
     ], true))->resolve();
 
-    expect($options)->toEqual([
-        'pro' => true,
-        'store' => 'class',
-        'attr' => 'class',
-        'styles' => [
-            'title' => [
-                'ext' => 'heading',
-                'name' => 'Title',
-                'ident' => 'T',
-                'icon' => null,
-                'class' => 'title',
-                'cp_css' => 'font-size: 1.5em',
-                'cp_badge' => false,
-                'args' => ['level' => 1],
-                'type' => 'heading_1',
-                'key' => 'title',
-            ],
-            'twocolumns' => [
-                'ext' => 'btsDiv',
-                'name' => 'Two Columns',
-                'ident' => '❙ ❙',
-                'icon' => null,
-                'class' => 'two-columns',
-                'cp_css' => 'column-count: 2; column-gap: 16px',
-                'cp_badge' => true,
-                'args' => [],
-                'type' => 'div',
-                'key' => 'twocolumns',
-            ],
+    expect($options['types'])->toBeObject();
+    expect($options['pro'])->toBeTrue();
+    expect($options['store'])->toEqual('class');
+    expect($options['attr'])->toEqual('class');
+    expect($options['styles'])->toEqual([
+        'title' => [
+            'ext' => 'heading',
+            'name' => 'Title',
+            'ident' => 'T',
+            'icon' => null,
+            'class' => 'title',
+            'cp_css' => 'font-size: 1.5em',
+            'cp_badge' => false,
+            'args' => ['level' => 1],
+            'type' => 'heading_1',
+            'key' => 'title',
         ],
-        'exts' => [
-            'heading' => [
-                'name' => 'heading',
-            ],
-            'btsDiv' => [
-                'name' => 'btsDiv',
-            ],
+        'twocolumns' => [
+            'ext' => 'btsDiv',
+            'name' => 'Two Columns',
+            'ident' => '❙ ❙',
+            'icon' => null,
+            'class' => 'two-columns',
+            'cp_css' => 'column-count: 2; column-gap: 16px',
+            'cp_badge' => true,
+            'args' => [],
+            'type' => 'div',
+            'key' => 'twocolumns',
         ],
-        'attributes' => [
-            'heading_1' => [
-                'attrs' => [
-                    'id' => [
-                        'type' => 'text',
-                        'display' => 'ID',
-                        'default' => null,
-                        'rendered' => true,
-                        'extra' => true,
-                    ],
+    ]);
+    expect($options['attributes'])->toEqual([
+        'heading_1' => [
+            'ext' => 'heading',
+            'type' => 'heading_1',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_1',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
                 ],
-                'ext' => 'heading',
-                'type' => 'heading_1',
             ],
         ],
-        'defaults' => [
-            'standard' => [
+    ]);
+    expect($options['defaults'])->toEqual([
+        'standard' => [
+            'key' => 'standard',
+            'dflts' => [
                 'heading_1' => [
                     'class' => 'heading-1',
+                    'cp_css' => null,
                     'cp_badge' => true,
                     'ext' => 'heading',
                     'type' => 'heading_1',
+                    'key' => 'standard',
                 ],
                 'paragraph' => [
                     'class' => 'paragraph',
                     'cp_css' => 'color: red',
+                    'cp_badge' => false,
                     'ext' => 'paragraph',
                     'type' => 'paragraph',
+                    'key' => 'standard',
                 ],
             ],
-            'article' => [
+        ],
+        'article' => [
+            'key' => 'article',
+            'dflts' => [
                 'heading_1' => [
                     'class' => 'heading-1',
+                    'cp_css' => null,
+                    'cp_badge' => false,
                     'ext' => 'heading',
                     'type' => 'heading_1',
+                    'key' => 'article',
                 ],
             ],
         ],
-        'styleExts' => [
+    ]);
+    expect($options['styleExts'])->toEqual([
+        'heading',
+        'btsDiv',
+    ]);
+    expect($options['classExts'])->toEqual([
+        'heading',
+        'btsDiv',
+        'paragraph',
+    ]);
+    expect($options['attributeExts'])->toEqual([
+        'heading',
+    ]);
+    expect($options['defaultClassExts'])->toEqual([
+        'standard' => [
             'heading',
-            'btsDiv',
-        ],
-        'classExts' => [
-            'heading',
-            'btsDiv',
             'paragraph',
         ],
-        'attributeExts' => [
+        'article' => [
             'heading',
         ],
-        'defaultClassExts' => [
-            'standard' => [
-                'heading',
-                'paragraph',
-            ],
-            'article' => [
-                'heading',
-            ],
+    ]);
+    expect($options['defaultCpExts'])->toEqual([
+        'standard' => [
+            'heading',
+            'paragraph',
         ],
-        'defaultCpExts' => [
-            'standard' => [
-                'heading',
-                'paragraph',
-            ],
-            'article' => [],
-        ],
-        'stylesMenuOptions' => [
-            'h1' => 'Heading 1',
-            'h2' => 'Heading 2',
-            'h3' => 'Heading 3',
-            'h4' => 'Heading 4',
-            'h5' => 'Heading 5',
-            'h6' => 'Heading 6',
-            'orderedlist' => 'Ordered List',
-            'title' => 'Title',
-            'unorderedlist' => 'Unordered List',
-        ],
+        'article' => [],
+    ]);
+    expect($options['stylesMenuOptions'])->toEqual([
+        'h1' => 'Heading 1',
+        'h2' => 'Heading 2',
+        'h3' => 'Heading 3',
+        'h4' => 'Heading 4',
+        'h5' => 'Heading 5',
+        'h6' => 'Heading 6',
+        'orderedlist' => 'Ordered List',
+        'title' => 'Title',
+        'unorderedlist' => 'Unordered List',
     ]);
 });
 
-it('resolves free config', function () {
+it('resolves free options', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
@@ -206,16 +212,6 @@ it('resolves free config', function () {
                 ],
             ],
         ],
-        'defaults' => [
-            'standard' => [
-                'heading_1' => [
-                    'class' => 'heading-1',
-                ],
-                'paragraph' => [
-                    'class' => 'paragraph',
-                ],
-            ],
-        ],
         'store' => 'class',
     ], false))->resolve();
 
@@ -225,7 +221,44 @@ it('resolves free config', function () {
     expect($options['attributeExts'])->toBeEmpty();
 });
 
-it('normalizes legacy style config', function () {
+it('resolves unsupported options', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'button' => [
+                'type' => 'link',
+                'name' => 'Button',
+                'cp_badge' => true,
+            ],
+            'other' => [
+                'type' => 'table',
+            ],
+        ],
+        'attributes' => [
+            'span' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
+                ],
+            ],
+        ],
+        'defaults' => [
+            'list_item' => [
+                'cp_badge' => true,
+            ],
+            'bold' => [
+                'cp_css' => 'color: red',
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['styles']['button']['cp_badge'] ?? null)->toBeFalse();
+    expect($options['styles']['other'] ?? null)->toBeNull();
+    expect($options['attributes']['span'] ?? null)->toBeNull();
+    expect($options['defaults']['standard']['dflts']['list_item']['cp_badge'] ?? null)->toBeFalse();
+    expect($options['defaults']['standard']['dflts']['bold']['cp_css'] ?? null)->toBeNull();
+});
+
+it('normalizes legacy style options', function () {
     $options = (new OptionManager([
         'styles' => [
             'title' => [
@@ -249,7 +282,10 @@ it('normalizes legacy style config', function () {
             'ext' => 'heading',
             'name' => 'Title',
             'ident' => 'T',
+            'icon' => null,
             'class' => 'title',
+            'cp_css' => null,
+            'cp_badge' => false,
             'args' => ['level' => 1],
             'type' => 'heading_1',
             'key' => 'title',
@@ -258,7 +294,10 @@ it('normalizes legacy style config', function () {
             'ext' => 'bulletList',
             'name' => 'Square List',
             'ident' => 'S',
+            'icon' => null,
             'class' => 'square-list',
+            'cp_css' => null,
+            'cp_badge' => false,
             'args' => [],
             'type' => 'unordered_list',
             'key' => 'square_list',
@@ -266,7 +305,7 @@ it('normalizes legacy style config', function () {
     ]);
 });
 
-it('normalizes legacy defaults config', function () {
+it('normalizes legacy defaults options', function () {
     $options = (new OptionManager([
         'default_classes' => [
             'heading' => [
@@ -280,31 +319,46 @@ it('normalizes legacy defaults config', function () {
 
     expect($options['defaults'] ?? null)->toEqual([
         'standard' => [
-            'heading_1' => [
-                'class' => 'heading-1',
-                'ext' => 'heading',
-                'type' => 'heading_1',
-            ],
-            'heading_2' => [
-                'class' => 'heading-2',
-                'ext' => 'heading',
-                'type' => 'heading_2',
-            ],
-            'paragraph' => [
-                'class' => 'paragraph',
-                'ext' => 'paragraph',
-                'type' => 'paragraph',
-            ],
-            'table_cell' => [
-                'class' => 'cell',
-                'ext' => 'tableCell',
-                'type' => 'table_cell',
+            'key' => 'standard',
+            'dflts' => [
+                'heading_1' => [
+                    'class' => 'heading-1',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'heading',
+                    'type' => 'heading_1',
+                    'key' => 'standard',
+                ],
+                'heading_2' => [
+                    'class' => 'heading-2',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'heading',
+                    'type' => 'heading_2',
+                    'key' => 'standard',
+                ],
+                'paragraph' => [
+                    'class' => 'paragraph',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'paragraph',
+                    'type' => 'paragraph',
+                    'key' => 'standard',
+                ],
+                'table_cell' => [
+                    'class' => 'cell',
+                    'cp_css' => null,
+                    'cp_badge' => false,
+                    'ext' => 'tableCell',
+                    'type' => 'table_cell',
+                    'key' => 'standard',
+                ],
             ],
         ],
     ]);
 });
 
-it('normalizes legacy attributes config', function () {
+it('normalizes legacy attributes options', function () {
     $options = (new OptionManager([
         'attributes' => [
             'tableCell' => [
@@ -320,22 +374,24 @@ it('normalizes legacy attributes config', function () {
 
     expect($options['attributes'] ?? null)->toEqual([
         'table_cell' => [
+            'ext' => 'tableCell',
+            'type' => 'table_cell',
             'attrs' => [
                 'rowspan' => [
-                    'type' => 'text',
+                    'type' => 'table_cell',
+                    'handle' => 'rowspan',
+                    'field' => 'text',
                     'display' => 'Rowspan',
                     'default' => null,
                     'rendered' => true,
-                    'extra' => true,
+                    'extra' => false,
                 ],
             ],
-            'ext' => 'tableCell',
-            'type' => 'table_cell',
         ],
     ]);
 });
 
-it('expands header attributes config', function () {
+it('expands header attributes options', function () {
     $options = (new OptionManager([
         'attributes' => [
             'heading' => [
@@ -351,82 +407,94 @@ it('expands header attributes config', function () {
 
     expect($options['attributes'] ?? null)->toEqual([
         'heading_1' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_1',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_1',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_2' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_2',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_2',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_3' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_3',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_3',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_4' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_4',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_4',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
         'heading_5' => [
-            'attrs' => [
-                'id' => [
-                    'type' => 'text',
-                    'display' => 'ID',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => true,
-                ],
-            ],
             'ext' => 'heading',
             'type' => 'heading_5',
-        ],
-        'heading_6' => [
             'attrs' => [
                 'id' => [
-                    'type' => 'text',
+                    'type' => 'heading_5',
+                    'handle' => 'id',
+                    'field' => 'text',
                     'display' => 'ID',
                     'default' => null,
                     'rendered' => true,
                     'extra' => true,
                 ],
             ],
+        ],
+        'heading_6' => [
             'ext' => 'heading',
             'type' => 'heading_6',
+            'attrs' => [
+                'id' => [
+                    'type' => 'heading_6',
+                    'handle' => 'id',
+                    'field' => 'text',
+                    'display' => 'ID',
+                    'default' => null,
+                    'rendered' => true,
+                    'extra' => true,
+                ],
+            ],
         ],
     ]);
 });

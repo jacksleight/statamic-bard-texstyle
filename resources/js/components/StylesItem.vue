@@ -56,20 +56,7 @@ export default {
                 unorderedlist: 'ul',
                 orderedlist: 'ol',
             };
-            const typeTags = {
-                heading_1: 'h1',
-                heading_2: 'h2',
-                heading_3: 'h3',
-                heading_4: 'h4',
-                heading_5: 'h5',
-                heading_6: 'h6',
-                span: 'span',
-                unordered_list: 'ul',
-                link: 'a',
-                ordered_list: 'ol',
-                paragraph: 'p',
-            };
-            return typeTags[this.item.btsStyle?.type] || nameTags[this.item.name];
+            return this.btsOptions.types[this.item.btsStyle?.type]?.selectors[0] || nameTags[this.item.name];
         },
         previewStyle() {
             return this.item.btsStyle?.[this.btsOptions.store];
