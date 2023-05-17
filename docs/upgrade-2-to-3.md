@@ -11,6 +11,14 @@ order: 100
 
 Bard Texstyle 3 contains a couple of medium/low impact breaking changes. This is also a housekeeping release, with the goal of making the configuration simpler, more consistent with Statamic conventions, and add flexibility for future features. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can (see below).
 
+## Type Names
+
+Texstyle has always used Tiptap's extension names as type names. In Tiptap 1 these were snake case, but in Tiptap 2 they were changed to camel case. This left Texstyle using camel case even though snake case would be more consistent with Statamic conventions.
+
+Texstyle 3 introduces new features that require type names that diverge from Tiptap's extension names. For this reason and to correct the inconsistency with Statamic conventions the preferred casing of type names is now snake case. Additionally, `unordered_list` is preferred over `bulletList`.
+
+In order to minimise the impact of this change and make Texstyle as easy to use as possible Tiptap's camel case extension names will continue to work as aliases wherever possible.
+
 ## Breaking Changes
 
 ### Defaults configuration field (Medium Impact)
@@ -63,5 +71,3 @@ The `default_classes` option has been renamed to `defaults`, heading types are n
     'class' => 'para',
 ],
 ```
-
-Finally, all types are now snake case instead of camel case, and the `bulletList` type has been renamed to `unordered_list`.

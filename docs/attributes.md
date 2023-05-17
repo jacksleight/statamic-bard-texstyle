@@ -30,6 +30,10 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 ],
 ```
 
+---
+
+## Options
+
 Attributes are grouped by element type and the keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**
@@ -62,24 +66,29 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 ---
 
-## Supported Types
+## Feature Support
 
 The following element types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
-| Type                                  | Standard Attributes                |
+| Styles Types                          | Standard Attributes                |
+| ------------------------------------- | ---------------------------------- |
+| `heading`<br>`heading_[1-6]`          | `level`                            |
+| `paragraph`                           |                                    |
+| `unordered_list`                      |                                    |
+| `ordered_list`                        | `start`                            |
+| `link`                                | `href`, `rel`, `target`, `title`   |
+
+| Other Types                           | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |
 | `blockquote`                          |                                    |
 | `bold`                                |                                    |
 | `code_block`                          | `language`                         |
 | `code`                                |                                    |
-| `heading`<br>`heading_[1-6]`          | `level`                            |
 | `horizontal_rule`                     |                                    |
 | `image`                               | `src`, `alt`, `title`              |
 | `italic`                              |                                    |
-| `link`                                | `href`, `rel`, `target`, `title`   |
 | `list_item`                           |                                    |
-| `ordered_list`                        | `start`                            |
-| `paragraph`                           |                                    |
+| `small`                               |                                    |
 | `strike`                              |                                    |
 | `subscript`                           |                                    |
 | `superscript`                         |                                    |
@@ -88,11 +97,12 @@ The following element types are supported. Some elements have standard attribute
 | `table_row`                           |                                    |
 | `table`                               |                                    |
 | `underline`                           |                                    |
-| `unordered_list`                      |                                    |
 
 :::note
 You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.
 :::
+
+---
 
 ## Compatibility
 

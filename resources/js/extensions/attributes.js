@@ -7,7 +7,7 @@ const Attributes = Extension.create({
 
     addOptions() {
         return {
-            attributeExts: {},
+            attributesExts: {},
             attributes: {},
         }
     },
@@ -61,13 +61,13 @@ const Attributes = Extension.create({
     },
 
     addCommands() {
-        const { attributeExts } = this.options;
+        const { attributesExts } = this.options;
         return {
             btsAttributesFetch: () => ({ state }) => {
                 const { from, to } = state.selection
                 const items = [];
                 state.doc.nodesBetween(from, from + 1, (node) => {
-                    if (attributeExts.includes(node.type.name)) {
+                    if (attributesExts.includes(node.type.name)) {
                         items.push({
                             kind: 'node',
                             type: node.type.name,
@@ -75,7 +75,7 @@ const Attributes = Extension.create({
                         });
                     } else if (node.type.name === 'text') {
                         node.marks.forEach(mark => {
-                            if (attributeExts.includes(mark.type.name)) {
+                            if (attributesExts.includes(mark.type.name)) {
                                 items.push({
                                     kind: 'mark',
                                     type: mark.type.name,

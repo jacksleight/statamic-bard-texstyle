@@ -159,12 +159,18 @@ return [
 
         // 'heading_1' => [
         //     'class' => 'heading-1',
+        //     'cp_css' => null,
+        //     'cp_badge' => false,
         // ],
         // 'heading_2' => [
         //     'class' => 'heading-2',
+        //     'cp_css' => null,
+        //     'cp_badge' => false,
         // ],
         // 'paragraph' => [
         //     'class' => 'paragraph',
+        //     'cp_css' => null,
+        //     'cp_badge' => false,
         // ],
 
     ],

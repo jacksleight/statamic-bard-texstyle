@@ -2,7 +2,6 @@
 
 namespace JackSleight\StatamicBardTexstyle\Extensions;
 
-use JackSleight\StatamicBardTexstyle\Support\Helpers;
 use Statamic\Support\Arr;
 use Tiptap\Core\Extension;
 
@@ -24,24 +23,25 @@ class Core extends Extension
 
     public function addGlobalAttributes()
     {
+        $types = $this->options['types'];
         $store = $this->options['store'];
         $attr = $this->options['attr'];
         $styles = $this->options['styles'];
         $defaults = $this->options['defaults'];
         $defaultsKey = $this->options['defaultsKey'];
-        $styleExts = $this->options['styleExts'];
+        $stylesExts = $this->options['stylesExts'];
         $classExts = $this->options['classExts'];
 
-        $defaults = $defaults[$defaultsKey] ?? null;
+        $insDefaults = $defaults[$defaultsKey] ?? null;
 
         return collect($classExts)
-            ->map(function ($ext) use ($store, $attr, $styles, $styleExts, $defaults) {
+            ->map(function ($ext) use ($types, $store, $attr, $styles, $stylesExts, $insDefaults) {
                 return [
                     'types' => [$ext],
                     'attributes' => [
                         $attr => [
-                            'parseHTML' => function ($DOMNode) use ($store, $styles, $styleExts, $ext) {
-                                if (in_array($ext, $styleExts)) {
+                            'parseHTML' => function ($DOMNode) use ($store, $styles, $stylesExts, $ext) {
+                                if (in_array($ext, $stylesExts)) {
                                     $value = $DOMNode->getAttribute('class');
                                     if ($value === '') {
                                         $value = null;
@@ -56,8 +56,8 @@ class Core extends Extension
 
                                 return $value;
                             },
-                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $defaults, $styleExts, $ext) {
-                                if (in_array($ext, $styleExts)) {
+                            'renderHTML' => function ($attributes) use ($types, $store, $attr, $styles, $insDefaults, $stylesExts, $ext) {
+                                if (in_array($ext, $stylesExts)) {
                                     $class = $attributes->{$attr} ?? null;
                                     if ($store === 'key') {
                                         $class = $styles[$class]['class'] ?? null;
@@ -66,10 +66,10 @@ class Core extends Extension
                                     $class = null;
                                 }
                                 if (! $class) {
-                                    $class = $defaults[Helpers::itemToType([
+                                    $class = $insDefaults['dflts'][$types->getByItem([
                                         'type' => $ext,
                                         'attrs' => $attributes,
-                                    ])]['class'] ?? null;
+                                    ])['name'] ?? null]['class'] ?? null;
                                 }
 
                                 return $class ? ['class' => $class] : [];
