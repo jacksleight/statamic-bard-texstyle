@@ -11,12 +11,24 @@ import { styleToIcon, coreIcon } from './icons';
 class Provider {
 
     constructor(options) {
+        options.types = this.bootTypeManager(options.types);
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
             .bootStylesButton(options)
             .bootAttributesButton(options)
             .bootCss(options);
+    }
+
+    bootTypeManager(types) {
+        types.getByItem = function (item) {
+            return Object.values(this).find(function(type) {
+                const params = Array.isArray(type.parameters) ? {} : type.parameters;
+                const attrs = Object.fromEntries(Object.entries(item.attrs).filter(([key]) => params.hasOwnProperty(key)));
+                return type.extension === item.type && JSON.stringify(attrs) === JSON.stringify(params);
+            });
+        }
+        return types;
     }
 
     bootExtensions(options) {
@@ -39,7 +51,7 @@ class Provider {
                 const data = {
                     name: key,
                     text: style.name,
-                    args: { [options.attr]: style[options.store], ...style.args },
+                    args: { [options.attr]: style[options.store], ...type.parameters },
                     html: icon,
                     active: (editor, args) => editor.isActive(type.extension, args),
                     visible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,

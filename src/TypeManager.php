@@ -2,9 +2,10 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use JsonSerializable;
 use Statamic\Support\Arr;
 
-class TypeManager
+class TypeManager implements JsonSerializable
 {
     protected $pro;
 
@@ -58,7 +59,7 @@ class TypeManager
             'button' => 'h1',
             'extension' => 'heading',
             'command' => 'btsToggleHeading',
-            'arguments' => ['level' => 1],
+            'parameters' => ['level' => 1],
             'attributes' => ['level'],
             'styles_class' => true,
             'styles_cp_css' => true,
@@ -75,7 +76,7 @@ class TypeManager
             'button' => 'h2',
             'extension' => 'heading',
             'command' => 'btsToggleHeading',
-            'arguments' => ['level' => 2],
+            'parameters' => ['level' => 2],
             'attributes' => ['level'],
             'styles_class' => true,
             'styles_cp_css' => true,
@@ -92,7 +93,7 @@ class TypeManager
             'button' => 'h3',
             'extension' => 'heading',
             'command' => 'btsToggleHeading',
-            'arguments' => ['level' => 3],
+            'parameters' => ['level' => 3],
             'attributes' => ['level'],
             'styles_class' => true,
             'styles_cp_css' => true,
@@ -109,7 +110,7 @@ class TypeManager
             'button' => 'h4',
             'extension' => 'heading',
             'command' => 'btsToggleHeading',
-            'arguments' => ['level' => 4],
+            'parameters' => ['level' => 4],
             'attributes' => ['level'],
             'styles_class' => true,
             'styles_cp_css' => true,
@@ -126,7 +127,7 @@ class TypeManager
             'button' => 'h5',
             'extension' => 'heading',
             'command' => 'btsToggleHeading',
-            'arguments' => ['level' => 5],
+            'parameters' => ['level' => 5],
             'attributes' => ['level'],
             'styles_class' => true,
             'styles_cp_css' => true,
@@ -143,7 +144,7 @@ class TypeManager
             'button' => 'h6',
             'extension' => 'heading',
             'command' => 'btsToggleHeading',
-            'arguments' => ['level' => 6],
+            'parameters' => ['level' => 6],
             'attributes' => ['level'],
             'styles_class' => true,
             'styles_cp_css' => true,
@@ -354,9 +355,8 @@ class TypeManager
                 'button' => null,
                 'extension' => null,
                 'command' => null,
-                'arguments' => [],
+                'parameters' => [],
                 'attributes' => [],
-                'aliases' => [],
                 'pro' => false,
                 'styles_class' => false,
                 'styles_cp_css' => false,
@@ -390,7 +390,11 @@ class TypeManager
 
     public function getByItem($item)
     {
-        return $this->types->first(fn ($type) => $type['extension'] === $item['type'] && $type['arguments'] === ($item['attrs'] ?? []));
+        return $this->types->first(function ($type) use ($item) {
+            $attrs = array_intersect_key((array) $item['attrs'], $type['parameters']);
+
+            return $type['extension'] === $item['type'] && $attrs === $type['parameters'];
+        });
     }
 
     public function supports($name, $features)
@@ -494,5 +498,10 @@ class TypeManager
         }
 
         return $default;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->types;
     }
 }

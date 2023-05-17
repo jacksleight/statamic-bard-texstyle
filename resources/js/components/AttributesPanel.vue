@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { itemToType } from '../helpers'
 import TextInput from './TextInput.vue'
 
 export default {
@@ -97,11 +96,11 @@ export default {
     methods: {
 
         display(item) {
-            return this.btsOptions.types[itemToType(item)].display;
+            return this.btsOptions.types.getByItem(item).display;
         },
 
         attrs(item) {
-            return this.btsOptions.attributes[itemToType(item)].attrs;
+            return this.btsOptions.attributes[this.btsOptions.types.getByItem(item).name].attrs;
         },
 
         apply() {

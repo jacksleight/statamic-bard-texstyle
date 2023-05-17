@@ -32,7 +32,7 @@ Open `config/statamic/bard_texstyle.php` to add your defaults:
 ],
 ```
 
-### Multiple Default Groups
+### Multiple Defaults Groups
 
 It's possible configure multiple groups of defaults to use with different Bard fields. To do this you must define a `standard` group that will be used by default, plus your additional groups.
 
@@ -68,7 +68,7 @@ Once configured a new Texstyle Defaults field will appear in the Bard field conf
 Defaults can have the following options:
 
 * **class (string)**  
-  The default class name that will be applied for this type.
+  The default class name that will be applied for this type on the frontend.
 * **cp_css (string, array)**  
   The default CSS properties that will be added to the control panel for this type. Can either be a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the type's root selector.
 * **cp_badge (boolean)**  

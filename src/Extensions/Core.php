@@ -2,7 +2,6 @@
 
 namespace JackSleight\StatamicBardTexstyle\Extensions;
 
-use JackSleight\StatamicBardTexstyle\Support\Helpers;
 use Statamic\Support\Arr;
 use Tiptap\Core\Extension;
 
@@ -24,6 +23,7 @@ class Core extends Extension
 
     public function addGlobalAttributes()
     {
+        $types = $this->options['types'];
         $store = $this->options['store'];
         $attr = $this->options['attr'];
         $styles = $this->options['styles'];
@@ -35,7 +35,7 @@ class Core extends Extension
         $insDefaults = $defaults[$defaultsKey] ?? null;
 
         return collect($classExts)
-            ->map(function ($ext) use ($store, $attr, $styles, $stylesExts, $insDefaults) {
+            ->map(function ($ext) use ($types, $store, $attr, $styles, $stylesExts, $insDefaults) {
                 return [
                     'types' => [$ext],
                     'attributes' => [
@@ -56,7 +56,7 @@ class Core extends Extension
 
                                 return $value;
                             },
-                            'renderHTML' => function ($attributes) use ($store, $attr, $styles, $insDefaults, $stylesExts, $ext) {
+                            'renderHTML' => function ($attributes) use ($types, $store, $attr, $styles, $insDefaults, $stylesExts, $ext) {
                                 if (in_array($ext, $stylesExts)) {
                                     $class = $attributes->{$attr} ?? null;
                                     if ($store === 'key') {
@@ -66,10 +66,10 @@ class Core extends Extension
                                     $class = null;
                                 }
                                 if (! $class) {
-                                    $class = $insDefaults['dflts'][Helpers::itemToType([
+                                    $class = $insDefaults['dflts'][$types->getByItem([
                                         'type' => $ext,
                                         'attrs' => $attributes,
-                                    ])]['class'] ?? null;
+                                    ])['name'] ?? null]['class'] ?? null;
                                 }
 
                                 return $class ? ['class' => $class] : [];

@@ -36,7 +36,7 @@ class OptionManager
         $classExts = $this->resolveClassExts($stylesExts, $defaultsClassExts);
 
         return [
-            'types' => $this->types->all(),
+            'types' => $this->types,
             'pro' => $this->pro,
             'store' => $store,
             'attr' => $attr,
@@ -60,7 +60,6 @@ class OptionManager
         $styles = collect($styles)
             ->map(fn ($style, $key) => $this->types->validateStyle(array_merge($style, [
                 'ext' => $this->types->get($style['type'])['extension'],
-                'args' => $this->types->get($style['type'])['arguments'],
                 'key' => $key,
             ])))
             ->filter()

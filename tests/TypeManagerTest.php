@@ -23,7 +23,7 @@ it('fetches type by name', function () {
             'button',
             'extension',
             'command',
-            'arguments',
+            'parameters',
             'attributes',
             'pro',
             'styles_class',
@@ -39,10 +39,12 @@ it('fetches type by name', function () {
 
 it('fetches type by item', function () {
     $types = new TypeManager(false);
-    expect($types->getByItem(['type' => 'paragraph']))
+    expect($types->getByItem(['type' => 'paragraph', 'attrs' => []]))
         ->toMatchArray(['name' => 'paragraph']);
-    expect($types->getByItem(['type' => 'heading', 'attrs' => ['level' => 1]]))
-        ->toMatchArray(['name' => 'heading_1']);
+    expect($types->getByItem(['type' => 'heading', 'attrs' => ['level' => 3]]))
+        ->toMatchArray(['name' => 'heading_3']);
+    expect($types->getByItem(['type' => 'orderedList', 'attrs' => []]))
+        ->toMatchArray(['name' => 'ordered_list']);
 });
 
 it('validates styles', function () {
