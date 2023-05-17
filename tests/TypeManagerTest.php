@@ -19,7 +19,8 @@ it('fetches type by name', function () {
         ->toHaveKeys([
             'name',
             'display',
-            'selectors',
+            'selector',
+            'button',
             'extension',
             'command',
             'arguments',
@@ -102,8 +103,8 @@ it('validates defaults', function () {
         ->toBeArray();
     expect($types->validateDefault(['type' => 'span']))
         ->toBeNull();
-    expect($types->validateDefault(['type' => 'link', 'cp_css' => 'color: red']))
+    expect($types->validateDefault(['type' => 'image', 'cp_css' => 'color: red']))
         ->toMatchArray(['cp_css' => null]);
-    expect($types->validateDefault(['type' => 'link', 'cp_badge' => true]))
+    expect($types->validateDefault(['type' => 'image', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
 });

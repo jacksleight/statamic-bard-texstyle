@@ -7,9 +7,9 @@
         @click="click"
     >
         <!-- @todo remove this weirdness -->
-        <component :is="previewTag === 'ol' ? 'ol' : 'div'">
+        <component :is="previewType === 'ordered_list' ? 'ol' : 'div'">
             <div class="bts-preview"
-                :data-bts-tag="previewTag"
+                :data-bts-type="previewType"
                 :data-bts-style="previewStyle">
                 {{ item.text }}
             </div>
@@ -45,18 +45,8 @@ export default {
             }
             return true;
         },
-        previewTag() {
-            const nameTags = {
-                h1: 'h1',
-                h2: 'h2',
-                h3: 'h3',
-                h4: 'h4',
-                h5: 'h5',
-                h6: 'h6',
-                unorderedlist: 'ul',
-                orderedlist: 'ol',
-            };
-            return this.btsOptions.types[this.item.btsStyle?.type]?.selectors[0] || nameTags[this.item.name];
+        previewType() {
+            return this.item.btsStyle?.type || Object.values(this.btsOptions.types).find(type => type.button === this.item.name).name;
         },
         previewStyle() {
             return this.item.btsStyle?.[this.btsOptions.store];

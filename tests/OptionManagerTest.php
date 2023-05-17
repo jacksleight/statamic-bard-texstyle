@@ -255,7 +255,7 @@ it('resolves unsupported options', function () {
     expect($options['styles']['other'] ?? null)->toBeNull();
     expect($options['attributes']['span'] ?? null)->toBeNull();
     expect($options['defaults']['standard']['dflts']['list_item']['cp_badge'] ?? null)->toBeFalse();
-    expect($options['defaults']['standard']['dflts']['bold']['cp_css'] ?? null)->toBeNull();
+    expect($options['defaults']['standard']['dflts']['image']['cp_css'] ?? null)->toBeNull();
 });
 
 it('normalizes legacy style options', function () {

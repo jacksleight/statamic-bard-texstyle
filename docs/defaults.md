@@ -86,26 +86,27 @@ The following options are supported for each element type.
 | `paragraph`                           | ●       | ●        | ●          |
 | `unordered_list`                      | ●       | ●        | ●          |
 | `ordered_list`                        | ●       | ●        | ●          |
-| `link`                                | ●       |          |            |
+| `link`                                | ●       | ●        |            |
 
 | Other Types                           | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |
 | `blockquote`                          | ●       | ●        |            |
-| `bold`                                | ●       |          |            |
+| `bold`                                | ●       | ●        |            |
 | `code_block`                          | ●       | ●        |            |
-| `code`                                | ●       |          |            |
+| `code`                                | ●       | ●        |            |
 | `horizontal_rule`                     | ●       | ●        |            |
 | `image`                               | ●       |          |            |
-| `italic`                              | ●       |          |            |
+| `italic`                              | ●       | ●        |            |
 | `list_item`                           | ●       | ●        |            |
-| `strike`                              | ●       |          |            |
-| `subscript`                           | ●       |          |            |
-| `superscript`                         | ●       |          |            |
+| `small`                               | ●       | ●        |            |
+| `strike`                              | ●       | ●        |            |
+| `subscript`                           | ●       | ●        |            |
+| `superscript`                         | ●       | ●        |            |
 | `table_cell`                          | ●       | ●        |            |
 | `table_header`                        | ●       | ●        |            |
 | `table_row`                           | ●       | ●        |            |
 | `table`                               | ●       | ●        |            |
-| `underline`                           | ●       |          |            |
+| `underline`                           | ●       | ●        |            |
 
 ---
 

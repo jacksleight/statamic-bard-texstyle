@@ -88,6 +88,7 @@ The following element types are supported. Some elements have standard attribute
 | `image`                               | `src`, `alt`, `title`              |
 | `italic`                              |                                    |
 | `list_item`                           |                                    |
+| `small`                               |                                    |
 | `strike`                              |                                    |
 | `subscript`                           |                                    |
 | `superscript`                         |                                    |

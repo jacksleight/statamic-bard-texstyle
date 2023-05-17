@@ -101,17 +101,16 @@ class Provider {
         const base = `.bard-fieldtype-wrapper .bard-content`;
         Object.entries(options.defaults).forEach(([key, group]) => {
             Object.entries(group.dflts).forEach(([type, dflt]) => {
-                const tag = options.types[dflt.type].selectors[0];
-                const pointers = options.types[dflt.type].selectors;
+                const selector = options.types[dflt.type].selector;
                 if (dflt.cp_css) {
                     css.push(...this.parseCss([
-                        `.bts-styles[data-bts-defaults="${key}"] .bts-preview[data-bts-tag="${tag}"]:not([data-bts-style])`,
-                        ...pointers.map(tag => `${base}[data-bts-defaults="${key}"] > ${tag}:not([data-bts-style])`),
+                        `.bts-styles[data-bts-defaults="${key}"] .bts-preview[data-bts-type="${dflt.type}"]:not([data-bts-style])`,
+                        `${base}[data-bts-defaults="${key}"] > ${selector}:not([data-bts-style])`,
                     ], dflt.cp_css));
                 }
                 if (dflt.cp_badge) {
                     css.push(...this.parseCss([
-                        ...pointers.map(tag => `${base}[data-bts-defaults="${key}"] > ${tag}:not([data-bts-style])::before`),
+                        `${base}[data-bts-defaults="${key}"] > ${selector}:not([data-bts-style])::before`,
                     ], {'&': {content: `"${__(options.types[dflt.type].display)}"`}}));
                 }
             });
@@ -123,16 +122,16 @@ class Provider {
         const css = [];
         const base = `.bard-fieldtype-wrapper .bard-content`;
         Object.entries(options.styles).forEach(([key, style]) => {
-            const tag = options.types[style.type].selectors[0];
+            const selector = options.types[style.type].selector;
             if (style.cp_css) {
                 css.push(...this.parseCss([
                     `.bts-preview[data-bts-style="${style[options.store]}"]`,
-                    `${base} ${tag}[data-bts-style="${style[options.store]}"]`,
+                    `${base} ${selector}[data-bts-style="${style[options.store]}"]`,
                 ], style.cp_css));
             }
             if (style.cp_badge) {
                 css.push(...this.parseCss([
-                    `${base} ${tag}[data-bts-style="${style[options.store]}"]::before`,
+                    `${base} ${selector}[data-bts-style="${style[options.store]}"]::before`,
                 ], {'&': {content: `"${style.name}"`}}));
             }
         });
