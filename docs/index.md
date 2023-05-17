@@ -11,7 +11,7 @@ This Statamic addon allows you to add custom element styles to the Bard fieldtyp
 * Add custom attributes like IDs, code languages or additional styling
 * Add container div styles for things like multi-column text and hints
 * A style selection menu with previews of each style
-* Multiple sets of default classes for unstyled elements
+* Groups of default classes and CP styles for unstyled elements
 
 ## Editions
 
@@ -25,7 +25,7 @@ This Statamic addon allows you to add custom element styles to the Bard fieldtyp
 | Custom Attributes        |      | ●     |
 | Container Div Styles     |      | ●     |
 | Style Selection Menu     |      | ●     |
-| Default Classes          | ●    | ●     |
+| Unstyled Defaults        | ●    | ●     |
 
 ## Licencing
 
