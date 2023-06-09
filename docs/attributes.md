@@ -72,7 +72,7 @@ The following element types are supported. Some elements have standard attribute
 
 | Styles Types                          | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |
-| `heading`<br>`heading_[1-6]`          | `level`                            |
+| `heading` (all)<br>`heading_[1-6]`    | `level`                            |
 | `paragraph`                           |                                    |
 | `unordered_list`                      |                                    |
 | `ordered_list`                        | `start`                            |
