@@ -6,6 +6,7 @@ use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
+use JackSleight\StatamicBardTexstyle\Nodes\Spot;
 use Statamic\Facades\Addon;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
@@ -34,7 +35,8 @@ class ServiceProvider extends AddonServiceProvider
             ->bootExtensions($options)
             ->bootProvideToScripts($options)
             ->bootMenuFields($options)
-            ->bootDefaultClassesField($options);
+            ->bootDefaultClassesField($options)
+            ->bootSpotsField($options);
 
         return $this;
     }
@@ -61,6 +63,7 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
             Augmentor::addExtension('btsDiv', new Div());
+            Augmentor::addExtension('btsSpot', new Spot());
         }
 
         return $this;
@@ -122,6 +125,24 @@ class ServiceProvider extends AddonServiceProvider
                     'text' => 'Text',
                 ],
                 'width' => 33,
+            ],
+        ]);
+
+        return $this;
+    }
+
+    protected function bootSpotsField($options)
+    {
+        if (! $options['pro']) {
+            return $this;
+        }
+
+        Bard::appendConfigFields([
+            'bts_spots' => [
+                'display' => __('Texstyle Spots'),
+                'type' => 'sets',
+                'full_width_setting' => true,
+                'require_set' => false,
             ],
         ]);
 

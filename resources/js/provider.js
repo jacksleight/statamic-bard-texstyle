@@ -1,11 +1,13 @@
 import Span from './marks/span'
 import Div from './nodes/div'
+import Spot from './nodes/spot'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
 import Defaults from './extensions/defaults'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
+import SpotsButton from "./components/SpotsButton.vue";
 import { styleToIcon, coreIcon } from './icons';
 
 class Provider {
@@ -17,6 +19,7 @@ class Provider {
             .bootStyleButtons(options)
             .bootStylesButton(options)
             .bootAttributesButton(options)
+            .bootSpotsButton(options)
             .bootCss(options);
     }
 
@@ -39,6 +42,7 @@ class Provider {
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
+            Statamic.$bard.addExtension(() => Spot);
         }
         return this;
     }
@@ -91,6 +95,22 @@ class Provider {
                 text: __('Attributes'),
                 component: AttributesButton,
                 html: coreIcon('attributes'),
+                btsOptions: options,
+            }));
+        });
+        return this;
+    }
+
+    bootSpotsButton(options) {
+        if (!options.pro) {
+            return this;
+        }
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_attributes'), 0, button({
+                name: 'bts_spots',
+                text: __('Spots'),
+                component: SpotsButton,
+                html: coreIcon('spots'),
                 btsOptions: options,
             }));
         });

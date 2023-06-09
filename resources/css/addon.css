@@ -142,3 +142,22 @@
 .bts-border-gray-450 {
     border-color: #d1d5db;
 }
+
+.bts-spot {
+    all: initial;
+    font-family: Inter var,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
+    font-size: 13px;
+    font-weight: 500;
+    user-select: none;
+    background-color: rgb(238 242 246);
+    border: 1px solid #d1d5db;
+    border-radius: 100vh;
+    padding: 0.35em 0.75em;
+    text-decoration: none;
+    display: inline-flex;
+    gap: 0.1rem;
+    cursor: default;
+    [data-drag-handle] {
+        cursor: grab;
+    }
+}
