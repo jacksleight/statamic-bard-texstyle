@@ -12,7 +12,7 @@
         }
 
         :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div)[data-bts-style],
-        &[data-bts-defaults] > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div):not([data-bts-style]) {
+        &[data-bts-defaults] > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div):not([data-bts-style]):not(.is-editor-empty) {
             &::before {
                 background-color: #e4ebf1;
                 border-radius: 2px;
@@ -27,9 +27,9 @@
                 position: relative;
             }
         }
-
+        
         :is(ul, ol)[data-bts-style],
-        &[data-bts-defaults] > :is(ul, ol):not([data-bts-style]) {
+        &[data-bts-defaults] > :is(ul, ol):not([data-bts-style]):not(.is-editor-empty) {
             &::before {
                 margin-bottom: 0.85em;
             }

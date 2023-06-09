@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.1 (2023-06-09)
+
+- [fix] Default CP styles conflicting with placeholders
+
 ## 3.1.0 (2023-05-17)
 
 - [new] Default control panel CSS and badges for unstyled elements

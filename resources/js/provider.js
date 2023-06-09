@@ -117,12 +117,12 @@ class Provider {
                 if (dflt.cp_css) {
                     css.push(...this.parseCss([
                         `.bts-styles[data-bts-defaults="${key}"] .bts-preview[data-bts-type="${dflt.type}"]:not([data-bts-style])`,
-                        `${base}[data-bts-defaults="${key}"] > ${selector}:not([data-bts-style])`,
+                        `${base}[data-bts-defaults="${key}"] > ${selector}:not([data-bts-style]):not(.is-editor-empty)`,
                     ], dflt.cp_css));
                 }
                 if (dflt.cp_badge) {
                     css.push(...this.parseCss([
-                        `${base}[data-bts-defaults="${key}"] > ${selector}:not([data-bts-style])::before`,
+                        `${base}[data-bts-defaults="${key}"] > ${selector}:not([data-bts-style]):not(.is-editor-empty)::before`,
                     ], {'&': {content: `"${__(options.types[dflt.type].display)}"`}}));
                 }
             });
