@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.2 (2023-06-16)
+
+- Reinstate legacy config migration guide
+- Improve invalid config handling
+
 ## 3.1.1 (2023-06-09)
 
 - [fix] Default CP styles conflicting with placeholders
