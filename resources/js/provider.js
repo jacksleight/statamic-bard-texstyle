@@ -42,7 +42,7 @@ class Provider {
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
-            Statamic.$bard.addExtension(() => Spot);
+            Statamic.$bard.addExtension(({ bard }) => Spot.configure({ bard }));
         }
         return this;
     }

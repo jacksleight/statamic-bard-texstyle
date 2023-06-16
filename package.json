@@ -20,6 +20,7 @@
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
-        "@tiptap/vue-2": "^2.0.3"
+        "@tiptap/vue-2": "^2.0.3",
+        "uniqid": "^5.4.0"
     }
 }

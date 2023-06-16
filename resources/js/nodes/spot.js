@@ -23,6 +23,17 @@ const Spot = Node.create({
         }
     },
 
+    addAttributes() {
+        return {
+            id: {
+                default: null,
+            },
+            values: {
+                default: null,
+            },
+        }
+    },
+
     addNodeView() {
         return VueNodeViewRenderer(SpotComponent);
     },
@@ -39,8 +50,8 @@ const Spot = Node.create({
 
     addCommands() {
         return {
-            btsInsertSpot: () => ({ commands }) => {
-                return commands.insertContent(this.type.create());
+            btsInsertSpot: (attrs) => ({ chain }) => {
+                return chain().focus().insertContent({ type: 'btsSpot', attrs }).run();
             },
         }
     },

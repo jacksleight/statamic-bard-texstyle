@@ -149,15 +149,35 @@
     font-size: 13px;
     font-weight: 500;
     user-select: none;
-    background-color: rgb(238 242 246);
-    border: 1px solid #d1d5db;
+    background-color: #dde3e9;
+    border: 1px solid #c4ccd4;
     border-radius: 100vh;
-    padding: 0.35em 0.75em;
+    overflow: hidden;
     text-decoration: none;
     display: inline-flex;
-    gap: 0.1rem;
+    align-items: stretch;
     cursor: default;
-    [data-drag-handle] {
+    &-display {
         cursor: grab;
+        line-height: 25px;
+        padding: 0 0.5em 0 0.75em;
+    }
+    &-edit {
+        cursor: pointer;
+        padding: 0 0.5em 0 0.25em;
+        border-left: 1px solid #c4ccd4;
+        display: flex;
+        align-items: center;
+        height: 25px;
+        svg {
+            transform: rotate(90deg);
+            opacity: 0.4;
+        }
+        &:hover {
+            background-color: #c4ccd4;
+            svg {
+                opacity: 1;
+            }
+        }
     }
 }
