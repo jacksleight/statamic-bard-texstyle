@@ -257,7 +257,7 @@ class OptionManager
     {
         return collect($styles)
             ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->types->name($style['type']),
+                'type' => $this->types->name($style['type'] ?? 'paragraph'),
             ]))
             ->map(function ($style) {
                 if ($style['type'] === 'heading') {
