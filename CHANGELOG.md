@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.3 (2023-06-19)
+
+- [fix] JsonSerializable return type warning
+
 ## 3.1.2 (2023-06-16)
 
 - Reinstate legacy config migration guide
