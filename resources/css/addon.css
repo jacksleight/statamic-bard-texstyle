@@ -144,7 +144,6 @@
 }
 
 .bts-spot {
-    all: initial;
     font-family: Inter var,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
     font-size: 13px;
     font-weight: 500;
@@ -179,5 +178,11 @@
                 opacity: 1;
             }
         }
+    }
+}
+
+.bts-spot-fields {
+    > *:not(:first-child) {
+        padding-top: 0 !important;
     }
 }

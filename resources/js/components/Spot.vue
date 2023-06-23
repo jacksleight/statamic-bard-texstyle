@@ -11,7 +11,7 @@
             </template>
             <template #default>
                 <provide-store-name :store-name="storeName">
-                    <div class="flex-1 publish-fields @container">
+                    <div class="flex-1 publish-fields @container w-64 bts-spot-fields">
                         <set-field
                             v-for="field in fields"
                             :key="field.handle"
