@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle\Nodes;
 
 use Closure;
+use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
 use Tiptap\Core\Node;
 
@@ -20,14 +21,19 @@ class Spot extends Node
     public function renderHTML($node, $HTMLAttributes = [])
     {
         $view = "spots.{$node->attrs->values->type}";
+        $id = $node->attrs->id;
         $values = (array) $node->attrs->values;
-        $params = array_merge($values, $this->fields($values['type'])
+
+        $data = array_merge($values, ['id' => $id], $this->fields($values['type'])
             ->addValues($values)
             ->augment()
             ->values()
             ->all());
 
-        return ['content' => view($view, $params)->render()];
+        return ['content' => view($view, array_merge(
+            Cascade::instance()->toArray(),
+            $data
+        ))];
     }
 
     public function process($value)

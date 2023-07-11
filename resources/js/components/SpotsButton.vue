@@ -20,13 +20,10 @@
 
 <script>
 import uniqid from 'uniqid';
-import SetPicker from '/vendor/statamic/cms/resources/js/components/fieldtypes/replicator/SetPicker.vue';
 
 export default {
 
     mixins: [ BardToolbarButton ],
-
-    components: { SetPicker },
 
     data() {    
         return {

@@ -41,7 +41,6 @@
 
 <script>
 import { NodeViewWrapper } from '@tiptap/vue-2';
-import SetField from '/vendor/statamic/cms/resources/js/components/fieldtypes/replicator/Field.vue';
 import { ValidatesFieldConditions } from '/vendor/statamic/cms/resources/js/components/field-conditions/FieldConditions.js';
 import ProvideStoreName from './ProvideStoreName.vue';
 
@@ -58,7 +57,7 @@ export default {
         'deleteNode', // delete the current node
     ],
 
-    components: { NodeViewWrapper, SetField, ProvideStoreName },
+    components: { NodeViewWrapper, ProvideStoreName },
 
     mixins: [ValidatesFieldConditions],
 
