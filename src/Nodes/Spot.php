@@ -33,7 +33,7 @@ class Spot extends Node
         return ['content' => view($view, array_merge(
             Cascade::instance()->toArray(),
             $data
-        ))];
+        ))->render()];
     }
 
     public function process($value)

@@ -3,6 +3,9 @@
     <node-view-wrapper
         class="bts-spot shadow-md">
         <div class="bts-spot-display" data-drag-handle>{{ display }}</div>
+        <!-- <div class="bts-spot-icon" data-drag-handle>
+            <svg-icon :name="icon ? `plump/${icon}` : 'light/add'" class="text-gray-80 w-4" />
+        </div> -->
         <popover placement="bottom-start">
             <template #trigger>
                 <div class="bts-spot-edit" @click="openModal">
@@ -76,6 +79,10 @@ export default {
         },
         display() {
             return this.config.display || this.values.type;
+        },
+        icon() {
+            console.log(this.config.icon);
+            return this.config.icon || this.values.type;
         },
         values() {
             return this.node.attrs.values;

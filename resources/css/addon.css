@@ -145,7 +145,6 @@
 
 .bts-spot {
     font-family: Inter var,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
-    font-size: 13px;
     font-weight: 500;
     user-select: none;
     background-color: #dde3e9;
@@ -156,10 +155,18 @@
     display: inline-flex;
     align-items: stretch;
     cursor: default;
+    vertical-align: calc((1em - 15px) * 0.4);
     &-display {
         cursor: grab;
         line-height: 25px;
         padding: 0 0.5em 0 0.75em;
+        font-size: 13px;
+    }
+    &-icon {
+        cursor: grab;
+        /* line-height: 25px; */
+        padding: 0 0.25em 0 0.5em;
+        display: flex;
     }
     &-edit {
         cursor: pointer;
@@ -185,4 +192,8 @@
     > *:not(:first-child) {
         padding-top: 0 !important;
     }
+}
+
+.set-picker-header {
+    display: none !important;
 }

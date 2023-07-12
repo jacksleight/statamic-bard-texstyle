@@ -108,7 +108,7 @@ class Provider {
         Statamic.$bard.buttons((buttons, button) => {
             buttons.splice(buttons.indexOf('bts_attributes'), 0, button({
                 name: 'bts_spots',
-                text: __('Spots'),
+                text: __('Add Spot'),
                 component: SpotsButton,
                 html: coreIcon('spots'),
                 btsOptions: options,

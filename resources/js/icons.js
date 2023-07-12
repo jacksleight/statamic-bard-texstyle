@@ -134,7 +134,9 @@ const coreIcons = {
         </svg>
     `,
     spots: `
-        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="8" cy="8" r="8"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M14.068 1.932a6.604 6.604 0 0 1 0 9.335l-2.801 2.801a6.604 6.604 0 0 1-9.335 0 6.604 6.604 0 0 1 0-9.335l2.801-2.801a6.604 6.604 0 0 1 9.335 0ZM7.39 7.39H4.534a.612.612 0 1 0 0 1.224H7.39v2.855a.612.612 0 1 0 1.224 0V8.614h2.855a.613.613 0 0 0 0-1.224H8.614V4.534a.613.613 0 0 0-1.224 0V7.39Z"/>
+        </svg>
     `,
 }
 
