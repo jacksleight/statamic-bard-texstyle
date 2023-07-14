@@ -100,6 +100,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Spots (pro only)
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    */
+
+    'spots' => [
+
+        'footnote' => [
+            'display' => 'Footnote',
+            'icon' => 'mail-chat-bubble-text',
+            'instructions' => 'Some footnote text.',
+            'rendered' => true,
+            'view' => 'spots.footnote',
+            'fields' => [
+                'note' => [
+                    'display' => 'Note',
+                    'type' => 'textare',
+                ],
+            ],
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Attributes (pro only)
     |--------------------------------------------------------------------------
     |
@@ -140,37 +167,6 @@ return [
         //         'default' => null,
         //         'rendered' => true,
         //     ],
-        // ],
-
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Defaults
-    |--------------------------------------------------------------------------
-    |
-    | Default styles that will be applied to elements with no style set. It's
-    | also possible configure multiple sets of defaults to use with different
-    | Bard fields, refer to the docs for more info.
-    |
-    */
-
-    'defaults' => [
-
-        // 'heading_1' => [
-        //     'class' => 'heading-1',
-        //     'cp_css' => null,
-        //     'cp_badge' => false,
-        // ],
-        // 'heading_2' => [
-        //     'class' => 'heading-2',
-        //     'cp_css' => null,
-        //     'cp_badge' => false,
-        // ],
-        // 'paragraph' => [
-        //     'class' => 'paragraph',
-        //     'cp_css' => null,
-        //     'cp_badge' => false,
         // ],
 
     ],

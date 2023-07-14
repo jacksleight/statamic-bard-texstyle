@@ -30,6 +30,8 @@ class OptionManager
         $attributes = $this->resolveAttributes();
         $attributesExts = $this->resolveAttributesExts($attributes);
 
+        $spots = $this->resolveSpots();
+
         $defaults = $this->resolveDefaults();
         [$defaultsClassExts, $defaultsCpExts] = $this->resolveDefaultsExts($defaults);
 
@@ -45,6 +47,7 @@ class OptionManager
             'stylesMenuOptions' => $stylesMenuOptions,
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
+            'spots' => $spots,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
             'defaultsCpExts' => $defaultsCpExts,
@@ -132,6 +135,32 @@ class OptionManager
             ->all();
 
         return $attributes;
+    }
+
+    protected function resolveSpots()
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        $spots = data_get($this->config, 'spots', []);
+
+        $spots = collect($spots)
+            ->map(fn ($spot, $handle) => array_merge($spot, [
+                'handle' => $handle,
+                'fields' => collect($spot['fields'])
+                    ->map(function ($field, $handle) {
+                        return array_merge($field, [
+                            'handle' => $handle,
+                            'field' => $field,
+                        ]);
+                    })
+                    ->filter()
+                    ->all(),
+            ]))
+            ->all();
+
+        return $spots;
     }
 
     protected function resolveAttributesExts($attributes)

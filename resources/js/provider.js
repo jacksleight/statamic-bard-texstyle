@@ -42,7 +42,7 @@ class Provider {
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
-            Statamic.$bard.addExtension(({ bard }) => Spot.configure({ bard }));
+            Statamic.$bard.addExtension(({ bard }) => Spot.configure({ ...options, bard }));
         }
         return this;
     }
@@ -106,7 +106,7 @@ class Provider {
             return this;
         }
         Statamic.$bard.buttons((buttons, button) => {
-            buttons.splice(buttons.indexOf('bts_attributes'), 0, button({
+            buttons.splice(buttons.indexOf('bts_spots'), 0, button({
                 name: 'bts_spots',
                 text: __('Add Spot'),
                 component: SpotsButton,

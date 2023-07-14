@@ -35,8 +35,7 @@ class ServiceProvider extends AddonServiceProvider
             ->bootExtensions($options)
             ->bootProvideToScripts($options)
             ->bootMenuFields($options)
-            ->bootDefaultClassesField($options)
-            ->bootSpotsField($options);
+            ->bootDefaultClassesField($options);
 
         return $this;
     }
@@ -53,18 +52,16 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootExtensions($options)
     {
         Augmentor::addExtension('btsCore', function ($bard) use ($options) {
-            $defaultsKey = $bard->config('bts_defaults', 'standard');
-
             return new Core($options + [
-                'defaultsKey' => $defaultsKey,
+                'defaultsKey' => $bard->config('bts_defaults', 'standard'),
             ]);
         });
         Augmentor::addExtension('btsAttributes', new Attributes($options));
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
             Augmentor::addExtension('btsDiv', new Div());
-            Augmentor::addExtension('btsSpot', function ($bard) {
-                return new Spot([
+            Augmentor::addExtension('btsSpot', function ($bard) use ($options) {
+                return new Spot($options + [
                     'bard' => $bard,
                 ]);
             });
@@ -129,24 +126,6 @@ class ServiceProvider extends AddonServiceProvider
                     'text' => 'Text',
                 ],
                 'width' => 33,
-            ],
-        ]);
-
-        return $this;
-    }
-
-    protected function bootSpotsField($options)
-    {
-        if (! $options['pro']) {
-            return $this;
-        }
-
-        Bard::appendConfigFields([
-            'bts_spots' => [
-                'display' => __('Texstyle Spots'),
-                'type' => 'sets',
-                'full_width_setting' => true,
-                'require_set' => false,
             ],
         ]);
 

@@ -9,8 +9,7 @@
             <button
                 class="bard-toolbar-button"
                 v-tooltip="button.text"
-                :aria-label="button.text"
-                @click="buttonClicked">
+                :aria-label="button.text">
                 <div class="flex items-center" v-html="button.html"></div>
             </button>
         </template>
@@ -34,12 +33,12 @@ export default {
 
     computed: {
         groupConfigs() {
-            return this.config.bts_spots;
+            return [{
+                sets: this.spotConfigs,
+            }];
         },
         spotConfigs() {
-            return _.reduce(this.groupConfigs, (spots, group) => {
-                return spots.concat(group.sets);
-            }, []);
+            return Object.values(this.button.btsOptions.spots);
         },
     },
 
@@ -70,11 +69,11 @@ export default {
                 this.$refs.popover.close();
             }
         },
-        buttonClicked() {
-            if (this.spotConfigs.length === 1) {
-                this.addSpot(this.spotConfigs[0].handle);
-            }
-        },
+        // buttonClicked() {
+        //     if (this.button.btsOptions.length === 1) {
+        //         this.addSpot(this.button.btsOptions[0].handle);
+        //     }
+        // },
 
     }
 

@@ -15,14 +15,22 @@ class Spot extends Node
     {
         return [
             'bard' => null,
+            'spots' => null,
         ];
     }
 
     public function renderHTML($node, $HTMLAttributes = [])
     {
-        $view = "spots.{$node->attrs->values->type}";
-        $id = $node->attrs->id;
+        $spots = $this->options['spots'];
+
         $values = (array) $node->attrs->values;
+        $type = $values['type'];
+        $id = $node->attrs->id;
+        $config = $spots[$type];
+
+        if (! $config['rendered']) {
+            return null;
+        }
 
         $data = array_merge($values, ['id' => $id], $this->fields($values['type'])
             ->addValues($values)
@@ -30,7 +38,7 @@ class Spot extends Node
             ->values()
             ->all());
 
-        return ['content' => view($view, array_merge(
+        return ['content' => view($config['view'], array_merge(
             Cascade::instance()->toArray(),
             $data
         ))->render()];
@@ -65,24 +73,16 @@ class Spot extends Node
         });
     }
 
-    protected function fields($set)
+    protected function fields($type)
     {
         $bard = $this->options['bard'];
+        $spots = $this->options['spots'];
 
         return new Fields(
-            $this->spotConfigs()[$set]['fields'],
+            $spots[$type]['fields'],
             $bard->field()->parent(),
             $bard->field()
         );
-    }
-
-    protected function spotConfigs()
-    {
-        $bard = $this->options['bard'];
-
-        return collect($bard->config('bts_spots'))->flatMap(function ($section) {
-            return $section['sets'];
-        });
     }
 
     protected function traverse($nodes, Closure $callback)
