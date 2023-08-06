@@ -34,8 +34,9 @@ class ServiceProvider extends AddonServiceProvider
             ->bootConfig()
             ->bootExtensions($options)
             ->bootProvideToScripts($options)
-            ->bootMenuFields($options)
-            ->bootDefaultClassesField($options);
+            ->bootStylesFields($options)
+            ->bootSpotsFields($options)
+            ->bootDefaultsFields($options);
 
         return $this;
     }
@@ -79,7 +80,7 @@ class ServiceProvider extends AddonServiceProvider
         return $this;
     }
 
-    protected function bootDefaultClassesField($options)
+    protected function bootDefaultsFields($options)
     {
         $options = collect($options['defaults'])
             ->map(fn ($v, $k) => $k)
@@ -101,7 +102,7 @@ class ServiceProvider extends AddonServiceProvider
         return $this;
     }
 
-    protected function bootMenuFields($options)
+    protected function bootStylesFields($options)
     {
         if (! $options['pro']) {
             return $this;
@@ -126,6 +127,26 @@ class ServiceProvider extends AddonServiceProvider
                     'text' => 'Text',
                 ],
                 'width' => 33,
+            ],
+        ]);
+
+        return $this;
+    }
+
+    protected function bootSpotsFields($options)
+    {
+        if (! $options['pro']) {
+            return $this;
+        }
+
+        Bard::appendConfigFields([
+            'bts_spots' => [
+                'display' => __('Texstyle Spots'),
+                'instructions' => __('Which spots are available.'),
+                'type' => 'select',
+                'multiple' => true,
+                'options' => $options['spotsMenuOptions'],
+                'width' => 66,
             ],
         ]);
 

@@ -71,7 +71,6 @@
         flex-direction: column;
         gap: 4px;
         padding: 4px;
-        max-height: 500px;
         overflow-y: auto;
     }
     &-item {
@@ -86,6 +85,15 @@
         &.active {
             background-color: #eef2f6;
         }
+    }
+}
+
+.bts-spots {
+    &-items {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 4px;
     }
 }
 
@@ -196,8 +204,4 @@
     > *:not(:first-child) {
         padding-top: 0 !important;
     }
-}
-
-.set-picker-header {
-    display: none !important;
 }

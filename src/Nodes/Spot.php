@@ -39,7 +39,7 @@ class Spot extends Node
             ->all());
 
         return ['content' => view($config['view'], array_merge(
-            Cascade::instance()->toArray(),
+            Cascade::toArray(),
             $data
         ))->render()];
     }

@@ -1,80 +1,78 @@
 <template>
 
-    <set-picker
-        :sets="groupConfigs"
-        @added="addSpot"
-        @clicked-away="toggleClose"
-    >
+    <popover ref="popover" placement="bottom-start" @closed="closePanel" :clickaway="true">
         <template #trigger>
             <button
                 class="bard-toolbar-button"
                 v-tooltip="button.text"
-                :aria-label="button.text">
+                :aria-label="button.text"
+                @click="togglePanel">
                 <div class="flex items-center" v-html="button.html"></div>
             </button>
         </template>
-    </set-picker>
+        <template #default>
+            <SpotsMenu
+                v-if="panelActive"
+                :config="config"
+                :bard="bard"
+                :editor="editor"
+                :btsOptions="button.btsOptions"
+                :items="items"
+                @close="closePanel"
+                @picked="closePanel"
+            />
+        </template>
+    </popover>
     
 </template>
 
 <script>
-import uniqid from 'uniqid';
+import SpotsMenu from './SpotsMenu.vue';
 
 export default {
 
+    components: {
+        SpotsMenu,
+    },
+
     mixins: [ BardToolbarButton ],
 
-    data() {    
+    data() {
         return {
-            pickerActive: false,
-            activeItem: null,
+            panelActive: false,
         };
     },
 
     computed: {
-        groupConfigs() {
-            return [{
-                sets: this.spotConfigs,
-            }];
-        },
-        spotConfigs() {
-            return Object.values(this.button.btsOptions.spots);
+        items() {
+            const spots = Object.values(this.button.btsOptions.spots);
+            const menu = (this.config.bts_spots || [])
+                .filter(option => Object.keys(this.button.btsOptions.spotsMenuOptions).includes(option));
+            return spots.filter(spot => {
+                return menu.includes(spot.handle);
+            });
         },
     },
 
     methods: {
-        addSpot(handle) {
-            const id = uniqid();
-
-            const values = Object.assign({}, { type: handle }, {});
-            // const values = Object.assign({}, { type: handle }, this.meta.defaults[handle]);
-
-            // let previews = {};
-            // Object.keys(this.meta.defaults[handle]).forEach(key => previews[key] = null);
-            // this.previews = Object.assign({}, this.previews, { [id]: previews });
-
-            // this.updateSetMeta(id, this.meta.new[handle]);
-
-            // // Perform this in nextTick because the meta data won't be ready until then.
-            this.$nextTick(() => {
-                this.editor.commands.btsInsertSpot({ id, values });
-            });
-        },
-        togglePicker() {
-            this.pickerActive = ! this.pickerActive;
+        togglePanel() {
+            this.panelActive = ! this.panelActive;
+            if (! this.panelActive) {
+                this.editor.commands.focus();
+            }
         },
         closePicker() {
-            if (this.pickerActive) {
+            if (this.panelActive) {
                 this.togglePicker();
                 this.$refs.popover.close();
             }
         },
-        // buttonClicked() {
-        //     if (this.button.btsOptions.length === 1) {
-        //         this.addSpot(this.button.btsOptions[0].handle);
-        //     }
-        // },
-
+        closePanel() {
+            if (this.panelActive) {
+                this.togglePanel();
+                this.$refs.popover.close();
+            }
+        },
     }
 
 }
