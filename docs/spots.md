@@ -18,18 +18,17 @@ Open `config/statamic/bard_texstyle.php` to add your spots:
 ```php
 'spots' => [
 
-    'icon' => [
-        'display'      => 'Icon',
-        'icon'         => 'fire-flame-burn-hot',
-        'instructions' => 'An icon graphic.',
-        'view'         => 'spots.icon',
-        'label'        => 'text',
-        'rendered'     => true,
-        'fields'       => [
-            'src' => [
-                'display' => 'Icon',
-                'type' => 'assets',
-                'max_files' => 1,
+    'footnote' => [
+        'display' => 'Footnote',
+        'icon' => 'mail-chat-bubble-text',
+        'instructions' => 'Some footnote text.',
+        'label' => 'text',
+        'view' => 'spots.footnote',
+        'rendered' => true,
+        'fields' => [
+            'note' => [
+                'display' => 'Note',
+                'type' => 'textare',
             ],
         ],
     ],

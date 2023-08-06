@@ -113,8 +113,9 @@ return [
             'display' => 'Footnote',
             'icon' => 'mail-chat-bubble-text',
             'instructions' => 'Some footnote text.',
-            'rendered' => true,
+            'label' => 'text',
             'view' => 'spots.footnote',
+            'rendered' => true,
             'fields' => [
                 'note' => [
                     'display' => 'Note',
@@ -167,6 +168,37 @@ return [
         //         'default' => null,
         //         'rendered' => true,
         //     ],
+        // ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Defaults
+    |--------------------------------------------------------------------------
+    |
+    | Default styles that will be applied to elements with no style set. It's
+    | also possible configure multiple sets of defaults to use with different
+    | Bard fields, refer to the docs for more info.
+    |
+    */
+
+    'defaults' => [
+
+        // 'heading_1' => [
+        //     'class' => 'heading-1',
+        //     'cp_css' => null,
+        //     'cp_badge' => false,
+        // ],
+        // 'heading_2' => [
+        //     'class' => 'heading-2',
+        //     'cp_css' => null,
+        //     'cp_badge' => false,
+        // ],
+        // 'paragraph' => [
+        //     'class' => 'paragraph',
+        //     'cp_css' => null,
+        //     'cp_badge' => false,
         // ],
 
     ],
