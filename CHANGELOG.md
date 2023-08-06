@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.0 ()
+
+- [new] 
+
 ## 3.1.3 (2023-06-19)
 
 - [fix] JsonSerializable return type warning
