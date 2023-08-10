@@ -55,10 +55,6 @@ The spot keys are used as the handles. Spots can have the following options:
   The description of the spot.
 * **view (string)**  
   The name of the view used to render this spot.
-* **label (string)**  
-  How to display this spot in the CP. Options are:
-    * `text`
-    * `icon`
 * **rendered (boolean)**  
   Whether to render this spot in the content.
 * **fields (string)**  
