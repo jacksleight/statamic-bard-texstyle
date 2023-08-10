@@ -4,7 +4,7 @@
         class="bts-spot shadow-md"
         :class="{ 'border-blue-400': selected, 'text-red-500': hasError }">
         <div class="bts-spot-display" v-if="label === 'text'" data-drag-handle>{{ display }}</div>
-        <div class="bts-spot-icon" v-if="label === 'icon'" data-drag-handle>
+        <div class="bts-spot-icon" v-if="label === 'icon'" data-drag-handle v-tooltip="display">
             <svg-icon :name="icon ? `plump/${icon}` : 'light/add'" class="text-gray-80" />
         </div>
         <popover placement="bottom-start">
@@ -86,6 +86,7 @@ export default {
             return this.config.icon || this.values.type;
         },
         label() {
+            return 'icon';
             return this.config.label || 'text';
         },
         values() {

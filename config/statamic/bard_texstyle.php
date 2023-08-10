@@ -109,20 +109,19 @@ return [
 
     'spots' => [
 
-        'footnote' => [
-            'display' => 'Footnote',
-            'icon' => 'mail-chat-bubble-text',
-            'instructions' => 'Some footnote text.',
-            'label' => 'text',
-            'view' => 'spots.footnote',
-            'rendered' => true,
-            'fields' => [
-                'note' => [
-                    'display' => 'Note',
-                    'type' => 'textare',
-                ],
-            ],
-        ],
+        // 'footnote' => [
+        //     'display' => 'Footnote',
+        //     'icon' => 'mail-chat-bubble-text',
+        //     'instructions' => 'Some footnote text.',
+        //     'view' => 'spots.footnote',
+        //     'rendered' => true,
+        //     'fields' => [
+        //         'note' => [
+        //             'display' => 'Note',
+        //             'type' => 'textare',
+        //         ],
+        //     ],
+        // ],
 
     ],
 

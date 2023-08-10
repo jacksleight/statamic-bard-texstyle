@@ -22,7 +22,6 @@ Open `config/statamic/bard_texstyle.php` to add your spots:
         'display' => 'Footnote',
         'icon' => 'mail-chat-bubble-text',
         'instructions' => 'Some footnote text.',
-        'label' => 'text',
         'view' => 'spots.footnote',
         'rendered' => true,
         'fields' => [
