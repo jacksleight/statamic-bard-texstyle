@@ -519,6 +519,7 @@ class TypeManager implements JsonSerializable
         return $default;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->types;
