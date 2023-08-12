@@ -2,6 +2,8 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Statamic\Fieldtypes\Sets;
+
 class OptionManager
 {
     protected $config;
@@ -151,15 +153,24 @@ class OptionManager
             ->map(fn ($spot, $handle) => $this->types->validateSpot(array_merge($spot, [
                 'handle' => $handle,
                 'fields' => collect($spot['fields'])
-                    ->map(function ($field, $handle) {
-                        return array_merge($field, [
-                            'handle' => $handle,
-                            'field' => $field,
-                        ]);
-                    })
-                    ->filter()
+                    ->map(fn ($field, $handle) => [
+                        'handle' => $handle,
+                        'field' => $field,
+                    ])
                     ->all(),
             ])))
+            ->filter()
+            ->all();
+
+        $spots = collect((new Sets())->preProcessConfig($spots)[0]['sets'])
+            ->mapWithKeys(fn ($spot) => [$spot['handle'] => array_merge($spot, [
+                'fields' => collect($spot['fields'])
+                    ->mapWithKeys(fn ($field) => [$field['handle'] => [
+                        'handle' => $field['handle'],
+                        'field' => $field,
+                    ]])
+                    ->all(),
+            ])])
             ->all();
 
         return $spots;

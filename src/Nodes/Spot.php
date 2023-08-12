@@ -5,6 +5,7 @@ namespace JackSleight\StatamicBardTexstyle\Nodes;
 use Closure;
 use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
+use Statamic\Support\Arr;
 use Tiptap\Core\Node;
 
 class Spot extends Node
@@ -71,6 +72,39 @@ class Spot extends Node
 
             return $node;
         });
+    }
+
+    public function preload($data)
+    {
+        $bard = $this->options['bard'];
+        $spots = $this->options['spots'];
+
+        $value = json_decode($bard->field()->value(), true);
+
+        $existing = [];
+        $this->traverse($value, function ($node) use (&$existing, $spots) {
+            $values = $node['attrs']['values'];
+            $config = Arr::get($spots, "{$values['type']}.fields", []);
+            $existing[$node['attrs']['id']] = (new Fields($config))->addValues($values)->meta()->put('_', '_');
+        });
+
+        $defaults = collect($spots)->map(function ($set) {
+            return (new Fields($set['fields']))->all()->map(function ($field) {
+                return $field->fieldtype()->preProcess($field->defaultValue());
+            })->all();
+        })->all();
+
+        $new = collect($spots)->map(function ($set, $handle) use ($defaults) {
+            return (new Fields($set['fields']))->addValues($defaults[$handle])->meta()->put('_', '_');
+        })->toArray();
+
+        $data['bardTexstyle'] = [
+            'existing' => $existing,
+            'new' => $new,
+            'defaults' => $defaults,
+        ];
+
+        return $data;
     }
 
     protected function fields($type)

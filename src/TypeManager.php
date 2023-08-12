@@ -457,8 +457,7 @@ class TypeManager implements JsonSerializable
             'icon' => null,
             'instructions' => null,
             'rendered' => true,
-            'view' => null,
-            'label' => 'text',
+            'view' => "spots.{$spot['handle']}",
             'fields' => [],
         ];
 

@@ -2,7 +2,7 @@
 
     <div class="bts-spots">
         <div v-if="items.length" class="bts-spots-items">
-            <div v-for="(item, i) in items" :key="item.handle" class="cursor-pointer rounded" :class="{ 'bg-gray-200': selectionIndex === i }" @mouseover="selectionIndex = i">
+            <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200': selectionIndex === i }" @mouseover="selectionIndex = i">
                 <div @click="addSpot(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
                     <div class="h-9 w-9 rounded bg-white border border-gray-600 mr-2 p-2">
                         <svg-icon :name="item.icon ? `plump/${item.icon}` : 'light/add'" class="text-gray-800" />
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import uniqid from 'uniqid';
 
 export default {
 
@@ -53,17 +52,18 @@ export default {
     methods: {
         addSpot(handle) {
             const id = uniqid();
-
-            const values = Object.assign({}, { type: handle }, {});
-            // const values = Object.assign({}, { type: handle }, this.meta.defaults[handle]);
-
-            // let previews = {};
-            // Object.keys(this.meta.defaults[handle]).forEach(key => previews[key] = null);
-            // this.previews = Object.assign({}, this.previews, { [id]: previews });
-
-            // this.updateSetMeta(id, this.meta.new[handle]);
-
-            // // Perform this in nextTick because the meta data won't be ready until then.
+            const values = { ...this.bard.meta.bardTexstyle.defaults[handle], type: handle };
+            const meta = this.bard.meta.bardTexstyle.new[handle];
+            this.bard.updateMeta({
+                ...this.bard.meta,
+                bardTexstyle: {
+                    ...this.bard.meta.bardTexstyle,
+                    existing: {
+                        ...this.bard.meta.bardTexstyle.existing,
+                        [id]: meta,
+                    }
+                },
+            });
             this.$nextTick(() => {
                 this.editor.commands.btsInsertSpot({ id, values });
             });

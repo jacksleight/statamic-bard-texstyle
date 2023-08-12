@@ -1,5 +1,5 @@
 import SpotComponent from '../components/Spot.vue';
-import { VueNodeViewRenderer } from '@tiptap/vue-2'
+const { VueNodeViewRenderer } = Statamic.$bard.tiptap.vue2;
 
 const { Node } = Statamic.$bard.tiptap.core;
 

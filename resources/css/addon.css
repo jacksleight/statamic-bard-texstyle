@@ -165,12 +165,6 @@
     cursor: default;
     vertical-align: calc(-3px + ((1em - 15px) * 0.4));
     margin-inline: 1px;
-    /* &-display {
-        cursor: grab;
-        line-height: 24px;
-        padding: 0 8px 0 10px;
-        font-size: 13px;
-    }*/
     &-icon {
         cursor: grab;
         height: 24px;

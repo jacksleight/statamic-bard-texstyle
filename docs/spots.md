@@ -53,9 +53,9 @@ The spot keys are used as the handles. Spots can have the following options:
   The icon for the spot.
 * **instructions (string)**  
   The description of the spot.
-* **view (string)**  
-  The name of the view used to render this spot.
 * **rendered (boolean)**  
   Whether to render this spot in the content.
+* **view (string)**  
+  The name of the view used to render the spot, defaults to `spots.[handle]`.
 * **fields (string)**  
   Fields for this spot.
