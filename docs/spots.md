@@ -49,8 +49,21 @@ The spot keys are used as the handles. Spots can have the following options:
 
 * **display (string)**  
   The display name of the spot.
-* **icon (string)**  
-  The icon for the spot.
+* **icon (string, optional)**  
+  Icon name or custom SVG icon. Options are:
+    * `letter`
+    * `square`
+    * `circle`
+    * `square-solid`
+    * `circle-solid`
+    * `bullet-list`
+    * `ordered-list`
+    * `link`
+    * `symbol`
+    * `[set]/[name]` One of [Statamic's built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
+    * `<svg>...</svg>` Custom SVG icon
+* **ident (string)**  
+  An identification character. This will appear in the icon if using one of Texstyle's icons.
 * **instructions (string)**  
   The description of the spot.
 * **rendered (boolean)**  

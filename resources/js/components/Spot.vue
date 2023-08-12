@@ -4,7 +4,8 @@
         class="bts-spot shadow-md"
         :class="{ 'border-blue-400': selected, 'text-red-500': hasError }">
         <div class="bts-spot-icon" data-drag-handle v-tooltip="display">
-            <svg-icon :name="icon ? `plump/${icon}` : 'light/add'" class="text-gray-80" />
+            <svg-icon :name="icon" v-if="!isIconHtml(icon)" class="text-gray-80"></svg-icon>
+            <div v-html="icon" v-if="isIconHtml(icon)"  class="text-gray-80"></div>
         </div>
         <popover placement="bottom-start">
             <template #trigger>
@@ -46,6 +47,7 @@ const { NodeViewWrapper } = Statamic.$bard.tiptap.vue2;
 import { ValidatesFieldConditions } from '/vendor/statamic/cms/resources/js/components/field-conditions/FieldConditions.js';
 import SetField from '/vendor/statamic/cms/resources/js/components/fieldtypes/replicator/Field.vue';
 import ProvideStoreName from './ProvideStoreName.vue';
+import { spotToIcon, isIconHtml } from '../icons';
 
 export default {
 
@@ -86,7 +88,8 @@ export default {
             return this.config.display || this.values.type;
         },
         icon() {
-            return this.config.icon || this.values.type;
+            console.log(this.config, spotToIcon(this.config || 'light/add'));
+            return spotToIcon(this.config || 'light/add');
         },
         id() {
             return this.node.attrs.id;
@@ -144,6 +147,7 @@ export default {
             let prefix = this.bard.fieldPathPrefix || this.bard.handle;
             return `${prefix}.${this.index}.attrs.values.${field.handle}`;
         },
+        isIconHtml,
     },
 
 }

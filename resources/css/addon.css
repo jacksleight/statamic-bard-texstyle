@@ -171,8 +171,10 @@
         display: flex;
         align-items: center;
         padding: 0 4px 0 6px;
-        > svg {
-            width: 16px;
+        svg {
+            width: 16px !important;
+            height: 16px !important;
+            display: block;
         }
     }
     &-edit {
