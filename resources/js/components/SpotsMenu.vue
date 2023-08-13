@@ -54,14 +54,14 @@ export default {
     methods: {
         addSpot(handle) {
             const id = uniqid();
-            const values = { ...this.bard.meta.bardTexstyle.defaults[handle], type: handle };
-            const meta = this.bard.meta.bardTexstyle.new[handle];
+            const values = { ...this.bard.meta.btsSpots.defaults[handle], type: handle };
+            const meta = this.bard.meta.btsSpots.new[handle];
             this.bard.updateMeta({
                 ...this.bard.meta,
-                bardTexstyle: {
-                    ...this.bard.meta.bardTexstyle,
+                btsSpots: {
+                    ...this.bard.meta.btsSpots,
                     existing: {
-                        ...this.bard.meta.bardTexstyle.existing,
+                        ...this.bard.meta.btsSpots.existing,
                         [id]: meta,
                     }
                 },

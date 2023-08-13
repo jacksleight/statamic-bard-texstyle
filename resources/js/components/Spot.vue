@@ -26,14 +26,12 @@
                             :set-index="index"
                             :field-path="fieldPath(field)"
                             :read-only="isReadOnly"
+                            v-show="showField(field.field, fieldPath(field))"
                             @updated="updated(field.handle, $event)"
                             @meta-updated="metaUpdated(field.handle, $event)"
                             @focus="focused"
-                            @blur="blurred"                        
+                            @blur="blurred"
                         />
-                    <!-- 
-                        v-show="showField(field, fieldPath(field))"
-                     -->
                     </div>
                 </provide-store-name>
             </template>
@@ -88,7 +86,6 @@ export default {
             return this.config.display || this.values.type;
         },
         icon() {
-            console.log(this.config, spotToIcon(this.config || 'light/add'));
             return spotToIcon(this.config || 'light/add');
         },
         id() {
@@ -98,7 +95,7 @@ export default {
             return this.node.attrs.values;
         },
         meta() {
-            return this.bard.meta.bardTexstyle.existing[this.id] || this.bard.meta.bardTexstyle.new[this.values.type];
+            return this.bard.meta.btsSpots.existing[this.id] || this.bard.meta.btsSpots.new[this.values.type];
         },
         parentName() {
             return this.bard.name;
@@ -134,18 +131,18 @@ export default {
             const meta = { ...this.meta, [handle]: value };
             this.bard.updateMeta({
                 ...this.bard.meta,
-                bardTexstyle: {
-                    ...this.bard.meta.bardTexstyle,
+                btsSpots: {
+                    ...this.bard.meta.btsSpots,
                     existing: {
-                        ...this.bard.meta.bardTexstyle.existing,
+                        ...this.bard.meta.btsSpots.existing,
                         [this.id]: meta
                     }
                 },
             });
         },
         fieldPath(field) {
-            let prefix = this.bard.fieldPathPrefix || this.bard.handle;
-            return `${prefix}.${this.index}.attrs.values.${field.handle}`;
+            const prefix = this.bard.fieldPathPrefix || this.bard.handle;
+            return `${prefix}.bts_spots.${this.id}.${field.handle}`;
         },
         isIconHtml,
     },

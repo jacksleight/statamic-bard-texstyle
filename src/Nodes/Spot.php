@@ -98,7 +98,7 @@ class Spot extends Node
             return (new Fields($set['fields']))->addValues($defaults[$handle])->meta()->put('_', '_');
         })->toArray();
 
-        $data['bardTexstyle'] = [
+        $data['btsSpots'] = [
             'existing' => $existing,
             'new' => $new,
             'defaults' => $defaults,
