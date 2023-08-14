@@ -5,7 +5,7 @@ order: 35
 
 # Spots (Pro)
 
-Spots allow you to add custom elements within a block of text, a bit like sets but inline. These are useful for things like icons, footnotes, and dynamic dates.
+Spots allow you to add custom elements within a block of text. These are useful for things like icons, footnotes, and dynamic dates.
 
 [TOC]
 
@@ -34,15 +34,7 @@ Open `config/statamic/bard_texstyle.php` to add your spots:
 ],
 ```
 
----
-
-## Enabling Spots
-
-You can enable spots in any Bard field, either through the blueprint/fieldset editor or by adding them to the spots list in the YAML file directly.
-
----
-
-## Options
+### Options
 
 The spot keys are used as the handles. Spots can have the following options:
 
@@ -68,3 +60,30 @@ The spot keys are used as the handles. Spots can have the following options:
   The description of the spot.
 * **fields (string)**  
   Fields for this spot.
+
+---
+
+## Enabling Spots
+
+You can enable spots in any Bard field, either through the blueprint/fieldset editor or by adding them to the `bts_spots` list in the YAML file directly.
+
+---
+
+## Rendering Spots
+
+Spots are rendered automatically during Bard's augmentation process. For each spot you should create an associated view at `resources/views/spots/[handle].antlers.html`, this is the view that will be used to render the spot. If no view exists nothing will be rendered.
+
+### Secondary Output
+
+Sometimes you may want to output spot data seperatly from your original block of content. For example if you had a footnote spot you may want to output a list of footnotes below the content.
+
+Texstyle provides a `{{ spots:* }}` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
+
+```html
+{{ content }}
+<ol>
+    {{ spots:content type="footnote" }}
+        <li id="fn-{{ id }}">{{ note }}</li>
+    {{ /spots:content }}
+</ol>
+```
