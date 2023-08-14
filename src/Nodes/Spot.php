@@ -53,7 +53,6 @@ class Spot extends Node
                 ->addValues($values)
                 ->process()
                 ->values()
-                ->filter()
                 ->all());
 
             return $node;
@@ -74,12 +73,54 @@ class Spot extends Node
         });
     }
 
-    public function preload($data)
+    // public function preProcessValidatable($value)
+    // {
+    //     return $this->traverse($value, function ($node) {
+    //         $values = $node['attrs']['values'];
+    //         $node['attrs']['values'] = array_merge($values, $this->fields($values['type'])
+    //             ->addValues($values)
+    //             ->preProcessValidatables()
+    //             ->values()
+    //             ->all());
+
+    //         return $node;
+    //     });
+    // }
+
+    // public function extraRules($rules, $value)
+    // {
+    //     return $this->traverse($value, function ($node) use ($rules) {
+    //         $values = $node['attrs']['values'];
+    //         $rules = $this->fields($values['type'])
+    //             ->addValues($values)
+    //             ->validator()
+    //             // ->withContext([
+    //             //     'prefix' => $this->field->validationContext('prefix').$this->setRuleFieldPrefix($index).'.',
+    //             // ])
+    //             ->rules();
+
+    //         // dd($rules);
+
+    //         $rules[] = [];
+    //     });
+
+    //     return $rules;
+    // }
+
+    public function preload($data, $value)
     {
         $bard = $this->options['bard'];
         $spots = $this->options['spots'];
 
-        $value = json_decode($bard->field()->value(), true);
+        $new = collect($spots)->map(function ($set, $handle) use ($defaults) {
+            return (new Fields($set['fields']))->addValues($defaults[$handle])->meta()->put('_', '_');
+        })->toArray();
+
+        $defaults = collect($spots)->map(function ($set) {
+            return (new Fields($set['fields']))->all()->map(function ($field) {
+                return $field->fieldtype()->preProcess($field->defaultValue());
+            })->all();
+        })->all();
 
         $existing = [];
         $this->traverse($value, function ($node) use (&$existing, $spots) {
@@ -88,20 +129,10 @@ class Spot extends Node
             $existing[$node['attrs']['id']] = (new Fields($config))->addValues($values)->meta()->put('_', '_');
         });
 
-        $defaults = collect($spots)->map(function ($set) {
-            return (new Fields($set['fields']))->all()->map(function ($field) {
-                return $field->fieldtype()->preProcess($field->defaultValue());
-            })->all();
-        })->all();
-
-        $new = collect($spots)->map(function ($set, $handle) use ($defaults) {
-            return (new Fields($set['fields']))->addValues($defaults[$handle])->meta()->put('_', '_');
-        })->toArray();
-
         $data['btsSpots'] = [
-            'existing' => $existing,
             'new' => $new,
             'defaults' => $defaults,
+            'existing' => $existing,
         ];
 
         return $data;

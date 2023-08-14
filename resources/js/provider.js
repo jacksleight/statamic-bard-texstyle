@@ -8,12 +8,13 @@ import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import SpotsButton from "./components/SpotsButton.vue";
-import { styleToIcon, coreIcon } from './icons';
+import { styleIcon, spotIcon, coreIcon } from './icons';
 
 class Provider {
 
     constructor(options) {
         options.types = this.bootTypeManager(options.types);
+        options.spots = this.bootSpotsIcons(options.spots);
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
@@ -34,6 +35,10 @@ class Provider {
         return types;
     }
 
+    bootSpotsIcons(spots) {
+        return Object.fromEntries(Object.entries(spots).map(([handle, spot]) => ([handle, { ...spot, icon: spotIcon(spot) }])));
+    }
+
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
         Statamic.$bard.addExtension(({ bard }) => Defaults.configure({ ...options, bard }));
@@ -51,17 +56,16 @@ class Provider {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
                 const type = options.types[style.type];
-                const icon = styleToIcon(style);
                 const data = {
                     name: key,
                     text: style.name,
                     args: { [options.attr]: style[options.store], ...type.parameters },
-                    html: icon,
                     active: (editor, args) => editor.isActive(type.extension, args),
                     visible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
                     btsMenuVisible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
                     command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
+                    ...styleIcon(style),
                 };
                 buttons.splice(buttons.indexOf(key), 0, button(data));
             });

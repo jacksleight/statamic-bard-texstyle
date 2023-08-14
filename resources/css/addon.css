@@ -198,6 +198,7 @@
 }
 
 .bts-spot-fields {
+    width: 300px;
     > *:not(:first-child) {
         padding-top: 0 !important;
     }

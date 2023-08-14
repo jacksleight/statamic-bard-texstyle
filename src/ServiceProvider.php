@@ -74,7 +74,7 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootProvideToScripts($options)
     {
         Statamic::provideToScript([
-            'bard-texstyle' => $options,
+            'btsOptions' => $options,
         ]);
 
         return $this;

@@ -93,30 +93,40 @@ const icons = {
     },
 };
 
-export const styleToIcon = (style) => {
-    let icon;
-    if (style.icon) {
-        icon = style.icon;
-    } else if (style.ext === 'link') {
-        icon = 'link';
-    } else if (style.ext === 'bulletList') {
-        icon = 'bullet-list';
-    } else if (style.ext === 'orderedList') {
-        icon = 'ordered-list';
-    } else if (style.ext === 'btsDiv') {
-        icon = 'square';
-    } else {
-        icon = 'letter';
+export const itemIcon = (item) => {
+    if (!item.icon) {
+        return { svg: null };
     }
-    return icons[icon]
-        ? icons[icon](style.ident, style.ext)
-        : icon;
+    if (Object.keys(icons).includes(item.icon)) {
+        return { html: icons[item.icon](item.ident, item.ext) };
+    } else if (item.icon.match(/<svg/)) {
+        return { html: item.icon };
+    } else if (item.icon.match(/\//)) {
+        return { svg: item.icon };
+    } else {
+        return { svg: `plump/${item.icon}` };
+    }
 }
 
-export const spotToIcon = (spot) => {
-    return icons[spot.icon]
-        ? icons[spot.icon](spot.ident)
-        : spot.icon;
+export const styleIcon = (style) => {
+    if (!style.icon) {
+        if (style.ext === 'link') {
+            style.icon = 'link';
+        } else if (style.ext === 'bulletList') {
+            style.icon = 'bullet-list';
+        } else if (style.ext === 'orderedList') {
+            style.icon = 'ordered-list';
+        } else if (style.ext === 'btsDiv') {
+            style.icon = 'square';
+        } else {
+            style.icon = 'letter';
+        }
+    }
+    return itemIcon(style);
+}
+
+export const spotIcon = (spot) => {
+    return itemIcon(spot);
 }
 
 const coreIcons = {
@@ -139,8 +149,4 @@ const coreIcons = {
 
 export const coreIcon = (name) => {
     return coreIcons[name];
-}
-
-export const isIconHtml = (icon) => {
-    return icon.match(/<svg/);
 }

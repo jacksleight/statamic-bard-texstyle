@@ -5,8 +5,8 @@
             <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200': selectionIndex === i }" @mouseover="selectionIndex = i">
                 <div @click="addSpot(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
                     <div class="h-9 w-9 rounded bg-white border border-gray-600 mr-2 p-2">
-                        <svg-icon :name="spotToIcon(item)" v-if="!isIconHtml(spotToIcon(item))" class="text-gray-80"></svg-icon>
-                        <div v-html="spotToIcon(item)" v-if="isIconHtml(spotToIcon(item))"  class="text-gray-80"></div>
+                        <svg-icon :name="item.icon.svg" v-if="item.icon.svg" class="text-gray-80"></svg-icon>
+                        <div v-html="item.icon.html" v-if="item.icon.html"  class="text-gray-80"></div>
                     </div>
                     <div class="flex-1">
                         <div class="text-md font-medium text-gray-800 truncate w-52">{{ item.display || item.handle }}</div>
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { spotToIcon, isIconHtml } from '../icons';
-
 export default {
 
     props: {
@@ -73,8 +71,6 @@ export default {
         close() {
             this.$emit('close');
         },
-        spotToIcon,
-        isIconHtml,
     },
 
     computed: {

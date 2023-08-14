@@ -4,8 +4,8 @@
         class="bts-spot shadow-md"
         :class="{ 'border-blue-400': selected, 'text-red-500': hasError }">
         <div class="bts-spot-icon" data-drag-handle v-tooltip="display">
-            <svg-icon :name="icon" v-if="!isIconHtml(icon)" class="text-gray-80"></svg-icon>
-            <div v-html="icon" v-if="isIconHtml(icon)"  class="text-gray-80"></div>
+            <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
+            <div v-html="icon.html" v-if="icon.html"  class="text-gray-80"></div>
         </div>
         <popover placement="bottom-start">
             <template #trigger>
@@ -15,8 +15,8 @@
             </template>
             <template #default>
                 <provide-store-name :store-name="storeName">
-                    <div class="flex-1 publish-fields @container w-64 bts-spot-fields">
-                        <SetField
+                    <div class="flex-1 publish-fields @container bts-spot-fields">
+                        <set-field
                             v-for="field in fields"
                             :key="field.handle"
                             :field="field.field"
@@ -29,8 +29,6 @@
                             v-show="showField(field.field, fieldPath(field))"
                             @updated="updated(field.handle, $event)"
                             @meta-updated="metaUpdated(field.handle, $event)"
-                            @focus="focused"
-                            @blur="blurred"
                         />
                     </div>
                 </provide-store-name>
@@ -42,10 +40,9 @@
 
 <script>
 const { NodeViewWrapper } = Statamic.$bard.tiptap.vue2;
-import { ValidatesFieldConditions } from '/vendor/statamic/cms/resources/js/components/field-conditions/FieldConditions.js';
-import SetField from '/vendor/statamic/cms/resources/js/components/fieldtypes/replicator/Field.vue';
+const { ValidatesFieldConditions } = FieldConditions;
+
 import ProvideStoreName from './ProvideStoreName.vue';
-import { spotToIcon, isIconHtml } from '../icons';
 
 export default {
 
@@ -63,20 +60,11 @@ export default {
     components: {
         NodeViewWrapper,
         ProvideStoreName,
-        SetField
     },
 
     mixins: [
         ValidatesFieldConditions
     ],
-
-    data() {
-        return {
-            provide: {
-                storeName: this.storeName,
-            }
-        }
-    },
 
     computed: {
         fields() {
@@ -86,7 +74,7 @@ export default {
             return this.config.display || this.values.type;
         },
         icon() {
-            return spotToIcon(this.config || 'light/add');
+            return this.config.icon;
         },
         id() {
             return this.node.attrs.id;
@@ -144,7 +132,6 @@ export default {
             const prefix = this.bard.fieldPathPrefix || this.bard.handle;
             return `${prefix}.bts_spots.${this.id}.${field.handle}`;
         },
-        isIconHtml,
     },
 
 }
