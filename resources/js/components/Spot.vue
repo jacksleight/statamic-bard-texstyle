@@ -23,7 +23,7 @@
                             :value="values[field.handle]"
                             :meta="meta[field.handle]"
                             :parent-name="parentName"
-                            :set-index="index"
+                            :set-index="index.join('][')"
                             :field-path="fieldPath(field)"
                             :read-only="isReadOnly"
                             v-show="showField(field.field, fieldPath(field))"
@@ -47,14 +47,14 @@ import ProvideStoreName from './ProvideStoreName.vue';
 export default {
 
     props: [
-        'editor', // the editor instance
-        'node', // access the current node
-        'decorations', // an array of decorations
-        'selected', // true when there is a NodeSelection at the current node view
-        'extension', // access to the node extension, for example to get options
-        'getPos', // get the document position of the current node
-        'updateAttributes', // update attributes of the current node.
-        'deleteNode', // delete the current node
+        'editor',
+        'node',
+        'decorations',
+        'selected',
+        'extension',
+        'getPos',
+        'updateAttributes',
+        'deleteNode',
     ],
 
     components: {
@@ -67,6 +67,9 @@ export default {
     ],
 
     computed: {
+        store() {
+            return this.$store.state.publish[this.storeName];
+        },
         fields() {
             return Object.values(this.config.fields || {});
         },
@@ -83,18 +86,27 @@ export default {
             return this.node.attrs.values;
         },
         meta() {
-            return this.bard.meta.btsSpots.existing[this.id] || this.bard.meta.btsSpots.new[this.values.type];
+            return this.bard.meta.btsSpots.existing[this.id];
         },
         parentName() {
             return this.bard.name;
         },
         index() {
-            return 0;
-            // return this.bard.setIndexes[this.id];
+            const pos = this.editor.view.state.doc.resolve(this.getPos());
+            return Array(pos.depth + 1).fill(null).map((blank, depth) => pos.index(depth));
+        },
+        path() {
+            const last = this.index.length - 1;
+            return this.index.map((key, i) => {
+                return i === last ? `${key}.attrs.values` : `${key}.content`;
+            }).join('.');
+        },
+        fullPath() {
+            const prefix = this.bard.fieldPathPrefix || this.bard.handle;
+            return `${prefix}.${this.path}`;
         },
         hasError() {
-            return false;
-            // return this.bard.setsWithErrors.includes(this.index);
+            return Object.keys(this.store.errors).some(key => key.startsWith(this.fullPath));
         },
         bard() {
             return this.extension.options.bard;
@@ -129,8 +141,7 @@ export default {
             });
         },
         fieldPath(field) {
-            const prefix = this.bard.fieldPathPrefix || this.bard.handle;
-            return `${prefix}.bts_spots.${this.id}.${field.handle}`;
+            return `${this.fullPath}.${field.handle}`;
         },
     },
 

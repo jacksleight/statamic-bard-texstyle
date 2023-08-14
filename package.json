@@ -14,7 +14,6 @@
         "postcss": "^8.3.11",
         "postcss-nested": "^6.0.1",
         "postcss-preset-env": "^8.0.1",
-        "uniqid": "^5.4.0",
         "vite": "^4.1.4",
         "vue": "^2.6.11",
         "vue-loader": "^15.9.8",

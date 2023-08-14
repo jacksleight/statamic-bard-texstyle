@@ -60,7 +60,8 @@ The spot keys are used as the handles. Spots can have the following options:
     * `ordered-list`
     * `link`
     * `symbol`
-    * `[set]/[name]` One of [Statamic's built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
+    * `[name]` One of [Statamic's built-in set icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons/plump)
+    * `[set]/[name]` One of [Statamic's other built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
     * `<svg>...</svg>` Custom SVG icon
 * **ident (string, optional)**  
   An identification character. This will appear in the icon if using one of Texstyle's icons.

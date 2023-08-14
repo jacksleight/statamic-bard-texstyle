@@ -5,7 +5,6 @@ namespace JackSleight\StatamicBardTexstyle\Nodes;
 use Closure;
 use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
-use Statamic\Support\Arr;
 use Tiptap\Core\Node;
 
 class Spot extends Node
@@ -47,7 +46,7 @@ class Spot extends Node
 
     public function process($value)
     {
-        return $this->traverse($value, function ($node) {
+        return $this->walk($value, function ($node) {
             $values = $node['attrs']['values'];
             $node['attrs']['values'] = array_merge($values, $this->fields($values['type'])
                 ->addValues($values)
@@ -61,7 +60,7 @@ class Spot extends Node
 
     public function preProcess($value)
     {
-        return $this->traverse($value, function ($node) {
+        return $this->walk($value, function ($node) {
             $values = $node['attrs']['values'];
             $node['attrs']['values'] = array_merge($values, $this->fields($values['type'])
                 ->addValues($values)
@@ -73,60 +72,106 @@ class Spot extends Node
         });
     }
 
-    // public function preProcessValidatable($value)
-    // {
-    //     return $this->traverse($value, function ($node) {
-    //         $values = $node['attrs']['values'];
-    //         $node['attrs']['values'] = array_merge($values, $this->fields($values['type'])
-    //             ->addValues($values)
-    //             ->preProcessValidatables()
-    //             ->values()
-    //             ->all());
+    public function preProcessValidatable($value)
+    {
+        return $this->walk($value, function ($node) {
+            $values = $node['attrs']['values'];
+            $node['attrs']['values'] = array_merge($values, $this->fields($values['type'])
+                ->addValues($values)
+                ->preProcessValidatables()
+                ->values()
+                ->all());
 
-    //         return $node;
-    //     });
-    // }
+            return $node;
+        });
+    }
 
-    // public function extraRules($rules, $value)
-    // {
-    //     return $this->traverse($value, function ($node) use ($rules) {
-    //         $values = $node['attrs']['values'];
-    //         $rules = $this->fields($values['type'])
-    //             ->addValues($values)
-    //             ->validator()
-    //             // ->withContext([
-    //             //     'prefix' => $this->field->validationContext('prefix').$this->setRuleFieldPrefix($index).'.',
-    //             // ])
-    //             ->rules();
+    public function extraRules($rules, $value)
+    {
+        $bard = $this->options['bard'];
+        $field = $bard->field();
 
-    //         // dd($rules);
+        $extras = [];
+        $this->walk($value, function ($node, $index, $path) use (&$extras, $field) {
+            $prefix = $field->handle().'.'.$path;
+            $values = $node['attrs']['values'];
+            $rules = $this->fields($values['type'])
+                ->addValues($values)
+                ->validator()
+                ->withContext([
+                    'prefix' => $field->validationContext('prefix').$prefix.'.',
+                ])
+                ->rules();
+            $extras[] = collect($rules)
+                ->mapWithKeys(function ($rules, $handle) use ($prefix) {
+                    return [$prefix.'.'.$handle => $rules];
+                })->all();
+        });
 
-    //         $rules[] = [];
-    //     });
+        return collect($rules)
+            ->merge(collect($extras)->reduce(function ($carry, $rules) {
+                return $carry->merge($rules);
+            }, collect()))
+            ->all();
+    }
 
-    //     return $rules;
-    // }
+    public function extraValidationAttributes($attributes, $value)
+    {
+        $bard = $this->options['bard'];
+        $field = $bard->field();
+
+        $extras = [];
+        $this->walk($value, function ($node, $index, $path) use (&$extras, $field) {
+            $prefix = $field->handle().'.'.$path;
+            $values = $node['attrs']['values'];
+            $attributes = $this->fields($values['type'])
+                ->addValues($values)
+                ->validator()
+                ->attributes();
+            $extras[] = collect($attributes)
+                ->mapWithKeys(function ($rules, $handle) use ($prefix) {
+                    return [$prefix.'.'.$handle => $rules];
+                })->all();
+        });
+
+        return collect($attributes)
+            ->merge(collect($extras)->reduce(function ($carry, $rules) {
+                return $carry->merge($rules);
+            }, collect()))
+            ->all();
+    }
 
     public function preload($data, $value)
     {
-        $bard = $this->options['bard'];
         $spots = $this->options['spots'];
 
-        $new = collect($spots)->map(function ($set, $handle) use ($defaults) {
-            return (new Fields($set['fields']))->addValues($defaults[$handle])->meta()->put('_', '_');
-        })->toArray();
+        $defaults = collect($spots)
+            ->map(function ($spot, $handle) {
+                return $this->fields($handle)
+                    ->all()
+                    ->map(function ($field) {
+                        return $field->fieldtype()->preProcess($field->defaultValue());
+                    })
+                    ->all();
+            })
+            ->all();
 
-        $defaults = collect($spots)->map(function ($set) {
-            return (new Fields($set['fields']))->all()->map(function ($field) {
-                return $field->fieldtype()->preProcess($field->defaultValue());
-            })->all();
-        })->all();
+        $new = collect($spots)
+            ->map(function ($spot, $handle) use ($defaults) {
+                return $this->fields($handle)
+                    ->addValues($defaults[$handle])
+                    ->meta()
+                    ->put('_', '_');
+            })
+            ->all();
 
         $existing = [];
-        $this->traverse($value, function ($node) use (&$existing, $spots) {
+        $this->walk($value, function ($node) use (&$existing) {
             $values = $node['attrs']['values'];
-            $config = Arr::get($spots, "{$values['type']}.fields", []);
-            $existing[$node['attrs']['id']] = (new Fields($config))->addValues($values)->meta()->put('_', '_');
+            $existing[$node['attrs']['id']] = $this->fields($values['type'])
+                ->addValues($values)
+                ->meta()
+                ->put('_', '_');
         });
 
         $data['btsSpots'] = [
@@ -150,14 +195,23 @@ class Spot extends Node
         );
     }
 
-    protected function traverse($nodes, Closure $callback)
+    protected function walk($nodes, Closure $callback, $parents = [])
     {
+        if (! $nodes) {
+            return $nodes;
+        }
+
         foreach ($nodes as $i => $node) {
+            $index = array_merge($parents, [$i]);
+            $last = count($index) - 1;
+            $path = collect($index)->map(function ($key, $i) use ($last) {
+                return $i === $last ? "{$key}.attrs.values" : "{$key}.content";
+            })->join('.');
             if ($node['type'] === 'btsSpot') {
-                $nodes[$i] = $callback($node);
+                $nodes[$i] = $callback($node, $index, $path);
             }
             if ($node['content'] ?? null) {
-                $nodes[$i]['content'] = $this->traverse($node['content'], $callback);
+                $nodes[$i]['content'] = $this->walk($node['content'], $callback, $index);
             }
         }
 
