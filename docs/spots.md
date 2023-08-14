@@ -21,9 +21,8 @@ Open `config/statamic/bard_texstyle.php` to add your spots:
     'footnote' => [
         'display' => 'Footnote',
         'icon' => 'mail-chat-bubble-text',
+        'ident' => null,
         'instructions' => 'Some footnote text.',
-        'view' => 'spots.footnote',
-        'rendered' => true,
         'fields' => [
             'note' => [
                 'display' => 'Note',
@@ -67,9 +66,5 @@ The spot keys are used as the handles. Spots can have the following options:
   An identification character. This will appear in the icon if using one of Texstyle's icons.
 * **instructions (string, optional)**  
   The description of the spot.
-* **rendered (boolean)**  
-  Whether to render this spot in the content.
-* **view (string, optional)**  
-  The name of the view used to render the spot, defaults to `spots.[handle]`.
 * **fields (string)**  
   Fields for this spot.

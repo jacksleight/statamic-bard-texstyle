@@ -112,9 +112,8 @@ return [
         // 'footnote' => [
         //     'display' => 'Footnote',
         //     'icon' => 'mail-chat-bubble-text',
+        //     'ident' => null,
         //     'instructions' => 'Some footnote text.',
-        //     'view' => 'spots.footnote',
-        //     'rendered' => true,
         //     'fields' => [
         //         'note' => [
         //             'display' => 'Note',

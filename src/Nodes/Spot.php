@@ -28,17 +28,15 @@ class Spot extends Node
         $id = $node->attrs->id;
         $config = $spots[$type];
 
-        if (! $config['rendered']) {
-            return null;
-        }
-
         $data = array_merge($values, ['id' => $id], $this->fields($values['type'])
             ->addValues($values)
             ->augment()
             ->values()
             ->all());
 
-        return ['content' => view($config['view'], array_merge(
+        $view = "spots.{$type}";
+
+        return ['content' => view($view, array_merge(
             Cascade::toArray(),
             $data
         ))->render()];
