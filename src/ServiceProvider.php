@@ -15,6 +15,10 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $tags = [
+        Tags\Spots::class,
+    ];
+
     protected $vite = [
         'hotFile' => __DIR__.'/../vite.hot',
         'publicDirectory' => 'dist',

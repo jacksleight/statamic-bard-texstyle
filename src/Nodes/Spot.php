@@ -21,25 +21,43 @@ class Spot extends Node
 
     public function renderHTML($node, $HTMLAttributes = [])
     {
-        $spots = $this->options['spots'];
-
         $values = (array) $node->attrs->values;
-        $type = $values['type'];
         $id = $node->attrs->id;
-        $config = $spots[$type];
-
         $data = array_merge($values, ['id' => $id], $this->fields($values['type'])
             ->addValues($values)
             ->augment()
             ->values()
             ->all());
 
-        $view = "spots.{$type}";
+        $view = "spots.{$values['type']}";
+        if (! view()->exists($view)) {
+            return;
+        }
 
         return ['content' => view($view, array_merge(
             Cascade::toArray(),
             $data
         ))->render()];
+    }
+
+    public function augmentTag($value, $type = null)
+    {
+        $items = [];
+
+        $this->walk($value, function ($node) use ($type, &$items) {
+            $values = $node['attrs']['values'];
+            $id = $node['attrs']['id'];
+            if ($type && $values['type'] !== $type) {
+                return;
+            }
+            $items[] = array_merge($values, ['id' => $id], $this->fields($values['type'])
+                ->addValues($values)
+                ->augment()
+                ->values()
+                ->all());
+        });
+
+        return $items;
     }
 
     public function process($value)
