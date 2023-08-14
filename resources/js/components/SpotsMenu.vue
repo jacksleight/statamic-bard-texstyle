@@ -25,7 +25,13 @@
 </template>
 
 <script>
+import SpotHelpers from './SpotHelpers.vue';
+
 export default {
+
+    mixins: [
+        SpotHelpers,
+    ],
 
     props: {
         config: {},
@@ -51,19 +57,11 @@ export default {
 
     methods: {
         addSpot(handle) {
+            console.log(this.updateSpotMeta);
             const id = uniqid();
             const values = { ...this.bard.meta.btsSpots.defaults[handle], type: handle };
             const meta = this.bard.meta.btsSpots.new[handle];
-            this.bard.updateMeta({
-                ...this.bard.meta,
-                btsSpots: {
-                    ...this.bard.meta.btsSpots,
-                    existing: {
-                        ...this.bard.meta.btsSpots.existing,
-                        [id]: meta,
-                    }
-                },
-            });
+            this.updateSpotMeta(id, meta);
             this.$nextTick(() => {
                 this.editor.commands.btsInsertSpot({ id, values });
             });

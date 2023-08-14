@@ -43,6 +43,7 @@ const { NodeViewWrapper } = Statamic.$bard.tiptap.vue2;
 const { ValidatesFieldConditions } = FieldConditions;
 
 import ProvideStoreName from './ProvideStoreName.vue';
+import SpotHelpers from './SpotHelpers.vue';
 
 export default {
 
@@ -63,7 +64,8 @@ export default {
     },
 
     mixins: [
-        ValidatesFieldConditions
+        ValidatesFieldConditions,
+        SpotHelpers,
     ],
 
     computed: {
@@ -128,17 +130,7 @@ export default {
             this.updateAttributes({ values });
         },
         metaUpdated(handle, value) {
-            const meta = { ...this.meta, [handle]: value };
-            this.bard.updateMeta({
-                ...this.bard.meta,
-                btsSpots: {
-                    ...this.bard.meta.btsSpots,
-                    existing: {
-                        ...this.bard.meta.btsSpots.existing,
-                        [this.id]: meta
-                    }
-                },
-            });
+            this.updateSpotMeta(this.id, { ...this.meta, [handle]: value });
         },
         fieldPath(field) {
             return `${this.fullPath}.${field.handle}`;
