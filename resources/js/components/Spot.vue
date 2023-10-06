@@ -26,7 +26,7 @@
                             :value="values[field.handle]"
                             :meta="meta[field.handle]"
                             :parent-name="parentName"
-                            :set-index="index.join('][')"
+                            :set-index="-1"
                             :field-path="fieldPath(field)"
                             :read-only="isReadOnly"
                             v-show="showField(field.field, fieldPath(field))"
