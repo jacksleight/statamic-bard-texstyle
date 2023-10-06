@@ -195,6 +195,18 @@
             }
         }
     }
+    &-invalid {
+        cursor: grab;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        padding: 0 4px;
+        svg {
+            width: 16px !important;
+            height: 16px !important;
+            display: block;
+        }
+    }
 }
 
 .bts-spot-fields {

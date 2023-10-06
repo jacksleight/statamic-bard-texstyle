@@ -162,7 +162,7 @@ class OptionManager
             ->filter()
             ->all();
 
-        $spots = collect((new Sets())->preProcessConfig($spots)[0]['sets'])
+        $spots = collect((new Sets())->preProcessConfig($spots)[0]['sets'] ?? [])
             ->mapWithKeys(fn ($spot) => [$spot['handle'] => array_merge($spot, [
                 'fields' => collect($spot['fields'])
                     ->mapWithKeys(fn ($field) => [$field['handle'] => [

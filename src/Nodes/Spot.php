@@ -205,7 +205,7 @@ class Spot extends Node
         $spots = $this->options['spots'];
 
         return new Fields(
-            $spots[$type]['fields'],
+            $spots[$type]['fields'] ?? [],
             $bard->field()->parent(),
             $bard->field()
         );
