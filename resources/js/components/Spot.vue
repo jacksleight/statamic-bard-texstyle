@@ -3,17 +3,17 @@
     <node-view-wrapper
         class="bts-spot shadow-md"
         :class="{ 'border-blue-400': selected, 'text-red-500': hasError }">
-        <div class="bts-spot-icon" data-drag-handle v-tooltip="display" v-if="!isInvalid">
-            <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
-            <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
+        <div class="bts-spot-handle" data-drag-handle>
+            <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
         </div>
         <div class="bts-spot-invalid" v-if="isInvalid">
             <svg-icon name="alert" class="text-red-500"></svg-icon>
         </div>
         <popover placement="bottom-start" v-if="!isInvalid">
             <template #trigger>
-                <div class="bts-spot-edit">
-                    <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
+                <div class="bts-spot-icon" v-tooltip="display" v-if="!isInvalid">
+                    <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
+                    <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
                 </div>
             </template>
             <template #default>
