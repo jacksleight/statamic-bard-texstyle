@@ -2,6 +2,8 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Statamic\Fieldtypes\Sets;
+
 class OptionManager
 {
     protected $config;
@@ -30,6 +32,9 @@ class OptionManager
         $attributes = $this->resolveAttributes();
         $attributesExts = $this->resolveAttributesExts($attributes);
 
+        $spots = $this->resolveSpots();
+        $spotsMenuOptions = $this->resolveSpotsMenuOptions($spots);
+
         $defaults = $this->resolveDefaults();
         [$defaultsClassExts, $defaultsCpExts] = $this->resolveDefaultsExts($defaults);
 
@@ -45,6 +50,8 @@ class OptionManager
             'stylesMenuOptions' => $stylesMenuOptions,
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
+            'spots' => $spots,
+            'spotsMenuOptions' => $spotsMenuOptions,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
             'defaultsCpExts' => $defaultsCpExts,
@@ -132,6 +139,54 @@ class OptionManager
             ->all();
 
         return $attributes;
+    }
+
+    protected function resolveSpots()
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        $spots = data_get($this->config, 'spots', []);
+
+        $spots = collect($spots)
+            ->map(fn ($spot, $handle) => $this->types->validateSpot(array_merge($spot, [
+                'handle' => $handle,
+                'fields' => collect($spot['fields'])
+                    ->map(fn ($field, $handle) => [
+                        'handle' => $handle,
+                        'field' => $field,
+                    ])
+                    ->all(),
+            ])))
+            ->filter()
+            ->all();
+
+        $spots = collect((new Sets())->preProcessConfig($spots)[0]['sets'] ?? [])
+            ->mapWithKeys(fn ($spot) => [$spot['handle'] => array_merge($spot, [
+                'fields' => collect($spot['fields'])
+                    ->mapWithKeys(fn ($field) => [$field['handle'] => [
+                        'handle' => $field['handle'],
+                        'field' => $field,
+                    ]])
+                    ->all(),
+            ])])
+            ->all();
+
+        return $spots;
+    }
+
+    protected function resolveSpotsMenuOptions($spots)
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        return collect($spots)
+            ->filter()
+            ->map(fn ($style) => $style['display'])
+            ->sort()
+            ->all();
     }
 
     protected function resolveAttributesExts($attributes)

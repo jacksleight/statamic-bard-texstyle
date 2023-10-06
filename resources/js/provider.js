@@ -1,22 +1,26 @@
 import Span from './marks/span'
 import Div from './nodes/div'
+import Spot from './nodes/spot'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
 import Defaults from './extensions/defaults'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
-import { styleToIcon, coreIcon } from './icons';
+import SpotsButton from "./components/SpotsButton.vue";
+import { styleIcon, spotIcon, coreIcon } from './icons';
 
 class Provider {
 
     constructor(options) {
         options.types = this.bootTypeManager(options.types);
+        options.spots = this.bootSpotsIcons(options.spots);
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
             .bootStylesButton(options)
             .bootAttributesButton(options)
+            .bootSpotsButton(options)
             .bootCss(options);
     }
 
@@ -31,6 +35,10 @@ class Provider {
         return types;
     }
 
+    bootSpotsIcons(spots) {
+        return Object.fromEntries(Object.entries(spots).map(([handle, spot]) => ([handle, { ...spot, icon: spotIcon(spot) }])));
+    }
+
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
         Statamic.$bard.addExtension(({ bard }) => Defaults.configure({ ...options, bard }));
@@ -39,6 +47,7 @@ class Provider {
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
+            Statamic.$bard.addExtension(({ bard }) => Spot.configure({ ...options, bard }));
         }
         return this;
     }
@@ -47,17 +56,16 @@ class Provider {
         Statamic.$bard.buttons((buttons, button) => {
             Object.entries(options.styles).forEach(([key, style]) => {
                 const type = options.types[style.type];
-                const icon = styleToIcon(style);
                 const data = {
                     name: key,
                     text: style.name,
                     args: { [options.attr]: style[options.store], ...type.parameters },
-                    html: icon,
                     active: (editor, args) => editor.isActive(type.extension, args),
                     visible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
                     btsMenuVisible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
                     command: (editor, args) => editor.chain().focus()[type.command](args).run(),
                     btsStyle: style,
+                    ...styleIcon(style),
                 };
                 buttons.splice(buttons.indexOf(key), 0, button(data));
             });
@@ -91,6 +99,22 @@ class Provider {
                 text: __('Attributes'),
                 component: AttributesButton,
                 html: coreIcon('attributes'),
+                btsOptions: options,
+            }));
+        });
+        return this;
+    }
+
+    bootSpotsButton(options) {
+        if (!options.pro) {
+            return this;
+        }
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_spots'), 0, button({
+                name: 'bts_spots',
+                text: __('Add Spot'),
+                component: SpotsButton,
+                html: coreIcon('spots'),
                 btsOptions: options,
             }));
         });
