@@ -28,6 +28,7 @@ const Core = Extension.create({
     },
 
     addCommands() {
+        const { attr } = this.options;
         return {
             btsToggleHeading: (attributes) => ({ commands }) => {
                 return commands.toggleNode('heading', 'paragraph', attributes);
@@ -37,7 +38,7 @@ const Core = Extension.create({
             },
             btsToggleLink: (attributes) => ({ commands, editor }) => {
                 if (editor.isActive('link', attributes)) {
-                    return commands.resetAttributes('link', 'class');
+                    return commands.resetAttributes('link', attr);
                 } else {
                     return commands.updateAttributes('link', attributes);
                 }
