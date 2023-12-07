@@ -4,6 +4,10 @@
 
 - [new] 
 
+## 3.1.4 (2023-11-21)
+
+- [fix] Link style toggle when using key store mode
+
 ## 3.1.3 (2023-06-19)
 
 - [fix] JsonSerializable return type warning
