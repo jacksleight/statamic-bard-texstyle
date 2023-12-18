@@ -80,7 +80,7 @@ The style keys are used as the button names. Styles can have the following optio
 * **cp_css (string, array)**  
   The CSS properties that will be added to the control panel for this style. Can either be a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the style's root selector.
 * **cp_badge (boolean)**  
-  Whether to display a bage next to elements of this style.
+  Whether to display a badge next to elements of this style.
 
 :::note
 Container div styles are just for simple blocks of text-based content, they cannot contain sets or be nested. If you need something more complex then using a set is 100% the way to go.
