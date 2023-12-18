@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.0 ()
+
+- [new] 
+
 ## 3.1.4 (2023-11-21)
 
 - [fix] Link style toggle when using key store mode
