@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.5 (2024-01-26)
+
+- [fix] Span CP CSS when inside headings
+
 ## 3.1.4 (2023-11-21)
 
 - [fix] Link style toggle when using key store mode
