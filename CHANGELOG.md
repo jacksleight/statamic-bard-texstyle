@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.6 (2024-02-14)
+
+- [fix] Applying multiple span styles to the same text
+
 ## 3.1.5 (2024-01-26)
 
 - [fix] Span CP CSS when inside headings
