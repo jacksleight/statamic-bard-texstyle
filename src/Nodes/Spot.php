@@ -5,11 +5,14 @@ namespace JackSleight\StatamicBardTexstyle\Nodes;
 use Closure;
 use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
+use Statamic\Fieldtypes\Bard;
 use Tiptap\Core\Node;
 
 class Spot extends Node
 {
     public static $name = 'btsSpot';
+
+    protected static $instances = [];
 
     public function addOptions()
     {
@@ -232,5 +235,38 @@ class Spot extends Node
         }
 
         return $nodes;
+    }
+
+    public static function make($options, $bard)
+    {
+        $id = spl_object_id($bard);
+
+        if (! isset(static::$instances[$id])) {
+            static::$instances[$id] = new self([...$options, 'bard' => $bard]);
+        }
+
+        return static::$instances[$id];
+    }
+
+    public static function registerHooks($options)
+    {
+        Bard::hook('process', function ($value, $next) use ($options) {
+            return $next(Spot::make($options, $this)->process($value));
+        });
+        Bard::hook('pre-process', function ($value, $next) use ($options) {
+            return $next(Spot::make($options, $this)->preProcess($value));
+        });
+        Bard::hook('pre-process-validatable', function ($value, $next) use ($options) {
+            return $next(Spot::make($options, $this)->preProcessValidatable($value));
+        });
+        Bard::hook('extra-rules', function ($rules, $next) use ($options) {
+            return $next(Spot::make($options, $this)->extraRules($rules, $this->field->value()));
+        });
+        Bard::hook('extra-validation-attributes', function ($attributes, $next) use ($options) {
+            return $next(Spot::make($options, $this)->extraValidationAttributes($attributes, $this->field->value()));
+        });
+        Bard::hook('preload', function ($data, $next) use ($options) {
+            return $next(Spot::make($options, $this)->preload($data, json_decode($this->field->value(), true)));
+        });
     }
 }

@@ -64,11 +64,10 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addExtension('btsAttributes', new Attributes($options));
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
+            Spot::registerHooks($options);
             Augmentor::addExtension('btsDiv', new Div());
             Augmentor::addExtension('btsSpot', function ($bard) use ($options) {
-                return new Spot($options + [
-                    'bard' => $bard,
-                ]);
+                return Spot::make($options, $bard);
             });
         }
 
