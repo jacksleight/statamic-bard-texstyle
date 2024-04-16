@@ -35,7 +35,12 @@ class Spots extends Tags
         $augmentor = new Augmentor($fieldtype);
         $extension = $augmentor->extensions()['btsSpot'];
 
-        return $extension->augmentTag($from->raw(), $type);
+        $spots = $extension->augmentTag($from->raw(), $type);
+        if (! count($spots)) {
+            return;
+        }
+
+        return $spots;
     }
 
     protected function prepare()

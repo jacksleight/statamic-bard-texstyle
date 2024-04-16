@@ -163,7 +163,7 @@
     display: inline-flex;
     align-items: stretch;
     cursor: default;
-    vertical-align: calc(-3px + ((1em - 15px) * 0.4));
+    vertical-align: calc((1em - 15px) * 0.4);
     margin-inline: 1px;
     &-icon {
         cursor: pointer;

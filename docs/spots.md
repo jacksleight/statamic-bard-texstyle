@@ -5,7 +5,7 @@ order: 35
 
 # Spots (Pro)
 
-Spots allow you to add custom elements within a block of text. These are useful for things like icons, footnotes, and dynamic dates.
+Spots allow you to add dynamic elements within a line of text. These are useful for things like icons, footnotes, and dynamic text.
 
 [TOC]
 
@@ -73,15 +73,20 @@ You can enable spots in any Bard field, either through the blueprint/fieldset ed
 
 Spots are rendered automatically during Bard's augmentation process. For each spot you should create an associated view at `resources/views/spots/[handle].antlers.html`, this is the view that will be used to render the spot. If no view exists nothing will be rendered.
 
+```html
+<!-- resources/views/spots/_footnote.antlers.html -->
+<a href="#fn-{{ id }}" class="[counter-increment:footnote] before:content-[counter(footnote)]"></a>
+```
+
 ### Secondary Output
 
-Sometimes you may want to output spot data seperatly from your original block of content. For example if you had a footnote spot you may want to output a list of footnotes below the content.
+Sometimes you may want to output spot data seperatly from your main block of content. For example if you had a footnote spot you may want to output a list of footnotes below the content.
 
 Texstyle provides a `{{ spots:* }}` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
 
 ```html
 {{ content }}
-<ol>
+<ol class="[counter-reset:footnote]">
     {{ spots:content type="footnote" }}
         <li id="fn-{{ id }}">{{ note }}</li>
     {{ /spots:content }}

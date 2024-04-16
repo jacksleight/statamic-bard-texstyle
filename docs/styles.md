@@ -170,11 +170,11 @@ All of the built-in icons consist of basic shapes that are filled with the speci
 
 ---
 
-## Style Selection Menu (Pro)
+## Styles Menu (Pro)
 
-The style selection menu allows you to collapse all of the custom styles—and some of the standard ones—into a dropdown menu, cleaning up the toolbar and providing a preview of each style at the same time.
+The styles menu allows you to collapse all of the custom styles—and some of the standard ones—into a dropdown menu, cleaning up the toolbar and providing a preview of each style at the same time.
 
-To enable the style selection menu toggle the button in the Bard field's button selector. You can then choose which options are moved into the menu by selecting them in the Styles Menu Options field. Styles *must* be enabled in the standard button selector to appear in the menu. The button selector is also where you should define the order the styles appear in.
+To enable the styles menu toggle the button in the Bard field's button selector. You can then choose which options are moved into the menu by selecting them in the Styles Menu Options field. Styles *must* be enabled in the standard button selector to appear in the menu. The button selector is also where you should define the order the styles appear in.
 
 You can also choose to display the name of the currently selected style in the button instead of an icon.
 
