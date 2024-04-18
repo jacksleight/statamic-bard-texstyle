@@ -5,7 +5,7 @@ order: 35
 
 # Spots (Pro)
 
-Spots allow you to add dynamic elements within a line of text. These are useful for things like icons, footnotes, and dynamic text.
+Spots allow you to add dynamic elements within a line of text. These are useful for things like icons, footnotes, and live dates.
 
 [TOC]
 
