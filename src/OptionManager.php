@@ -32,8 +32,8 @@ class OptionManager
         $attributes = $this->resolveAttributes();
         $attributesExts = $this->resolveAttributesExts($attributes);
 
-        $spots = $this->resolveSpots();
-        $spotsMenuOptions = $this->resolveSpotsMenuOptions($spots);
+        $pins = $this->resolvePins();
+        $pinsMenuOptions = $this->resolvePinsMenuOptions($pins);
 
         $defaults = $this->resolveDefaults();
         [$defaultsClassExts, $defaultsCpExts] = $this->resolveDefaultsExts($defaults);
@@ -50,8 +50,8 @@ class OptionManager
             'stylesMenuOptions' => $stylesMenuOptions,
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
-            'spots' => $spots,
-            'spotsMenuOptions' => $spotsMenuOptions,
+            'pins' => $pins,
+            'pinsMenuOptions' => $pinsMenuOptions,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
             'defaultsCpExts' => $defaultsCpExts,
@@ -141,18 +141,18 @@ class OptionManager
         return $attributes;
     }
 
-    protected function resolveSpots()
+    protected function resolvePins()
     {
         if (! $this->pro) {
             return [];
         }
 
-        $spots = data_get($this->config, 'spots', []);
+        $pins = data_get($this->config, 'pins', []);
 
-        $spots = collect($spots)
-            ->map(fn ($spot, $handle) => $this->types->validateSpot(array_merge($spot, [
+        $pins = collect($pins)
+            ->map(fn ($pin, $handle) => $this->types->validatePin(array_merge($pin, [
                 'handle' => $handle,
-                'fields' => collect($spot['fields'])
+                'fields' => collect($pin['fields'])
                     ->map(fn ($field, $handle) => [
                         'handle' => $handle,
                         'field' => $field,
@@ -162,9 +162,9 @@ class OptionManager
             ->filter()
             ->all();
 
-        $spots = collect((new Sets())->preProcessConfig($spots)[0]['sets'] ?? [])
-            ->mapWithKeys(fn ($spot) => [$spot['handle'] => array_merge($spot, [
-                'fields' => collect($spot['fields'])
+        $pins = collect((new Sets())->preProcessConfig($pins)[0]['sets'] ?? [])
+            ->mapWithKeys(fn ($pin) => [$pin['handle'] => array_merge($pin, [
+                'fields' => collect($pin['fields'])
                     ->mapWithKeys(fn ($field) => [$field['handle'] => [
                         'handle' => $field['handle'],
                         'field' => $field,
@@ -173,16 +173,16 @@ class OptionManager
             ])])
             ->all();
 
-        return $spots;
+        return $pins;
     }
 
-    protected function resolveSpotsMenuOptions($spots)
+    protected function resolvePinsMenuOptions($pins)
     {
         if (! $this->pro) {
             return [];
         }
 
-        return collect($spots)
+        return collect($pins)
             ->filter()
             ->map(fn ($style) => $style['display'])
             ->sort()

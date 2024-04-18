@@ -1,22 +1,22 @@
 ---
-title: Spots
+title: Pins
 order: 35
 ---
 
-# Spots (Pro)
+# Pins (Pro)
 
-Spots allow you to add dynamic elements within a line of text. These are useful for things like icons, footnotes, and live dates.
+Pins allow you to add custom and dynamic elements within a line of text. These are useful for things like icons, footnotes, and live dates.
 
 [TOC]
 
 ---
 
-## Defining Spots
+## Defining Pins
 
-Open `config/statamic/bard_texstyle.php` to add your spots:
+Open `config/statamic/bard_texstyle.php` to add your pins:
 
 ```php
-'spots' => [
+'pins' => [
 
     'footnote' => [
         'display' => 'Footnote',
@@ -36,10 +36,10 @@ Open `config/statamic/bard_texstyle.php` to add your spots:
 
 ### Options
 
-The spot keys are used as the handles. Spots can have the following options:
+The pin keys are used as the handles. Pins can have the following options:
 
 * **display (string)**  
-  The display name of the spot.
+  The display name of the pin.
 * **icon (string)**  
   Icon name or custom SVG icon. Options are:
     * `letter`
@@ -57,38 +57,38 @@ The spot keys are used as the handles. Spots can have the following options:
 * **ident (string, optional)**  
   An identification character. This will appear in the icon if using one of Texstyle's icons.
 * **instructions (string, optional)**  
-  The description of the spot.
+  The description of the pin.
 * **fields (string)**  
-  Fields for this spot.
+  Fields for this pin.
 
 ---
 
-## Enabling Spots
+## Enabling Pins
 
-You can enable spots in any Bard field, either through the blueprint/fieldset editor or by adding them to the `bts_spots` list in the YAML file directly.
+You can enable pins in any Bard field, either through the blueprint/fieldset editor or by adding them to the `bts_pins` list in the YAML file directly.
 
 ---
 
-## Rendering Spots
+## Rendering Pins
 
-Spots are rendered automatically during Bard's augmentation process. For each spot you should create an associated view at `resources/views/spots/[handle].antlers.html`, this is the view that will be used to render the spot. If no view exists nothing will be rendered.
+Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated view at `resources/views/pins/[handle].antlers.html`, this is the view that will be used to render the pin. If no view exists nothing will be rendered.
 
 ```html
-<!-- resources/views/spots/_footnote.antlers.html -->
+<!-- resources/views/pins/_footnote.antlers.html -->
 <a href="#fn-{{ id }}" class="[counter-increment:footnote] before:content-[counter(footnote)]"></a>
 ```
 
 ### Secondary Output
 
-Sometimes you may want to output spot data seperatly from your main block of content. For example if you had a footnote spot you may want to output a list of footnotes below the content.
+Sometimes you may want to output pin data seperatly from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
 
-Texstyle provides a `{{ spots:* }}` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
+Texstyle provides a `{{ pins:* }}` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
 
 ```html
 {{ content }}
 <ol class="[counter-reset:footnote]">
-    {{ spots:content type="footnote" }}
+    {{ pins:content type="footnote" }}
         <li id="fn-{{ id }}">{{ note }}</li>
-    {{ /spots:content }}
+    {{ /pins:content }}
 </ol>
 ```

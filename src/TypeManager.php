@@ -450,9 +450,9 @@ class TypeManager implements JsonSerializable
         return $style;
     }
 
-    public function validateSpot($spot)
+    public function validatePin($pin)
     {
-        $spot = $spot + [
+        $pin = $pin + [
             'display' => null,
             'icon' => null,
             'ident' => null,
@@ -464,7 +464,7 @@ class TypeManager implements JsonSerializable
             return;
         }
 
-        return $spot;
+        return $pin;
     }
 
     public function validateAttribute($attribute)

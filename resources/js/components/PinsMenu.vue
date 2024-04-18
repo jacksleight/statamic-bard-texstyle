@@ -1,9 +1,9 @@
 <template>
 
-    <div class="bts-spots">
-        <div v-if="items.length" class="bts-spots-items">
+    <div class="bts-pins">
+        <div v-if="items.length" class="bts-pins-items">
             <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200': selectionIndex === i }" @mouseover="selectionIndex = i">
-                <div @click="addSpot(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
+                <div @click="addPin(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
                     <div class="h-9 w-9 rounded bg-white border border-gray-600 mr-2 p-2">
                         <svg-icon :name="item.icon.svg" v-if="item.icon.svg" class="text-gray-80"></svg-icon>
                         <div v-html="item.icon.html" v-if="item.icon.html"  class="text-gray-80"></div>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import SpotHelpers from './SpotHelpers.vue';
+import PinHelpers from './PinHelpers.vue';
 
 export default {
 
     mixins: [
-        SpotHelpers,
+        PinHelpers,
     ],
 
     props: {
@@ -56,14 +56,14 @@ export default {
     },
 
     methods: {
-        addSpot(handle) {
-            console.log(this.updateSpotMeta);
+        addPin(handle) {
+            console.log(this.updatePinMeta);
             const id = uniqid();
-            const values = { ...this.bard.meta.btsSpots.defaults[handle], type: handle };
-            const meta = this.bard.meta.btsSpots.new[handle];
-            this.updateSpotMeta(id, meta);
+            const values = { ...this.bard.meta.btsPins.defaults[handle], type: handle };
+            const meta = this.bard.meta.btsPins.new[handle];
+            this.updatePinMeta(id, meta);
             this.$nextTick(() => {
-                this.editor.commands.btsInsertSpot({ id, values });
+                this.editor.commands.btsInsertPin({ id, values });
             });
         },
         close() {

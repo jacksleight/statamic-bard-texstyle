@@ -6,7 +6,7 @@ use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
-use JackSleight\StatamicBardTexstyle\Nodes\Spot;
+use JackSleight\StatamicBardTexstyle\Nodes\Pin;
 use Statamic\Facades\Addon;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
@@ -16,7 +16,7 @@ use Statamic\Statamic;
 class ServiceProvider extends AddonServiceProvider
 {
     protected $tags = [
-        Tags\Spots::class,
+        Tags\Pins::class,
     ];
 
     protected $vite = [
@@ -39,7 +39,7 @@ class ServiceProvider extends AddonServiceProvider
             ->bootExtensions($options)
             ->bootProvideToScripts($options)
             ->bootStylesFields($options)
-            ->bootSpotsFields($options)
+            ->bootPinsFields($options)
             ->bootDefaultsFields($options);
 
         return $this;
@@ -64,10 +64,10 @@ class ServiceProvider extends AddonServiceProvider
         Augmentor::addExtension('btsAttributes', new Attributes($options));
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
-            Spot::registerHooks($options);
+            Pin::registerHooks($options);
             Augmentor::addExtension('btsDiv', new Div());
-            Augmentor::addExtension('btsSpot', function ($bard) use ($options) {
-                return Spot::make($options, $bard);
+            Augmentor::addExtension('btsPin', function ($bard) use ($options) {
+                return Pin::make($options, $bard);
             });
         }
 
@@ -136,19 +136,19 @@ class ServiceProvider extends AddonServiceProvider
         return $this;
     }
 
-    protected function bootSpotsFields($options)
+    protected function bootPinsFields($options)
     {
         if (! $options['pro']) {
             return $this;
         }
 
         Bard::appendConfigFields([
-            'bts_spots' => [
-                'display' => __('Texstyle Spots'),
-                'instructions' => __('Which spots are available.'),
+            'bts_pins' => [
+                'display' => __('Texstyle Pins'),
+                'instructions' => __('Which pins are available.'),
                 'type' => 'select',
                 'multiple' => true,
-                'options' => $options['spotsMenuOptions'],
+                'options' => $options['pinsMenuOptions'],
                 'width' => 66,
             ],
         ]);

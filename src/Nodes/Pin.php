@@ -8,9 +8,9 @@ use Statamic\Fields\Fields;
 use Statamic\Fieldtypes\Bard;
 use Tiptap\Core\Node;
 
-class Spot extends Node
+class Pin extends Node
 {
-    public static $name = 'btsSpot';
+    public static $name = 'btsPin';
 
     protected static $instances = [];
 
@@ -18,7 +18,7 @@ class Spot extends Node
     {
         return [
             'bard' => null,
-            'spots' => null,
+            'pins' => null,
         ];
     }
 
@@ -32,7 +32,7 @@ class Spot extends Node
             ->values()
             ->all());
 
-        $view = "spots.{$values['type']}";
+        $view = "pins._{$values['type']}";
         if (! view()->exists($view)) {
             return;
         }
@@ -162,10 +162,10 @@ class Spot extends Node
 
     public function preload($data, $value)
     {
-        $spots = $this->options['spots'];
+        $pins = $this->options['pins'];
 
-        $defaults = collect($spots)
-            ->map(function ($spot, $handle) {
+        $defaults = collect($pins)
+            ->map(function ($pin, $handle) {
                 return $this->fields($handle)
                     ->all()
                     ->map(function ($field) {
@@ -175,8 +175,8 @@ class Spot extends Node
             })
             ->all();
 
-        $new = collect($spots)
-            ->map(function ($spot, $handle) use ($defaults) {
+        $new = collect($pins)
+            ->map(function ($pin, $handle) use ($defaults) {
                 return $this->fields($handle)
                     ->addValues($defaults[$handle])
                     ->meta()
@@ -193,7 +193,7 @@ class Spot extends Node
                 ->put('_', '_');
         });
 
-        $data['btsSpots'] = [
+        $data['btsPins'] = [
             'new' => $new,
             'defaults' => $defaults,
             'existing' => $existing,
@@ -205,10 +205,10 @@ class Spot extends Node
     protected function fields($type)
     {
         $bard = $this->options['bard'];
-        $spots = $this->options['spots'];
+        $pins = $this->options['pins'];
 
         return new Fields(
-            $spots[$type]['fields'] ?? [],
+            $pins[$type]['fields'] ?? [],
             $bard->field()->parent(),
             $bard->field()
         );
@@ -226,7 +226,7 @@ class Spot extends Node
             $path = collect($index)->map(function ($key, $i) use ($last) {
                 return $i === $last ? "{$key}.attrs.values" : "{$key}.content";
             })->join('.');
-            if ($node['type'] === 'btsSpot') {
+            if ($node['type'] === 'btsPin') {
                 $nodes[$i] = $callback($node, $index, $path);
             }
             if ($node['content'] ?? null) {
@@ -251,22 +251,22 @@ class Spot extends Node
     public static function registerHooks($options)
     {
         Bard::hook('process', function ($value, $next) use ($options) {
-            return $next(Spot::make($options, $this)->process($value));
+            return $next(Pin::make($options, $this)->process($value));
         });
         Bard::hook('pre-process', function ($value, $next) use ($options) {
-            return $next(Spot::make($options, $this)->preProcess($value));
+            return $next(Pin::make($options, $this)->preProcess($value));
         });
         Bard::hook('pre-process-validatable', function ($value, $next) use ($options) {
-            return $next(Spot::make($options, $this)->preProcessValidatable($value));
+            return $next(Pin::make($options, $this)->preProcessValidatable($value));
         });
         Bard::hook('extra-rules', function ($rules, $next) use ($options) {
-            return $next(Spot::make($options, $this)->extraRules($rules, $this->field->value()));
+            return $next(Pin::make($options, $this)->extraRules($rules, $this->field->value()));
         });
         Bard::hook('extra-validation-attributes', function ($attributes, $next) use ($options) {
-            return $next(Spot::make($options, $this)->extraValidationAttributes($attributes, $this->field->value()));
+            return $next(Pin::make($options, $this)->extraValidationAttributes($attributes, $this->field->value()));
         });
         Bard::hook('preload', function ($data, $next) use ($options) {
-            return $next(Spot::make($options, $this)->preload($data, json_decode($this->field->value(), true)));
+            return $next(Pin::make($options, $this)->preload($data, json_decode($this->field->value(), true)));
         });
     }
 }

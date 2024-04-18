@@ -1,24 +1,24 @@
 <template>
 
     <node-view-wrapper
-        class="bts-spot shadow-md"
+        class="bts-pin shadow-md"
         :class="{ 'border-blue-400': selected, 'text-red-500': hasError }">
-        <div class="bts-spot-handle" data-drag-handle>
+        <div class="bts-pin-handle" data-drag-handle>
             <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
         </div>
-        <div class="bts-spot-invalid" v-if="isInvalid">
+        <div class="bts-pin-invalid" v-if="isInvalid">
             <svg-icon name="alert" class="text-red-500"></svg-icon>
         </div>
         <popover placement="bottom-start" v-if="!isInvalid">
             <template #trigger>
-                <div class="bts-spot-icon" v-tooltip="display" v-if="!isInvalid">
+                <div class="bts-pin-icon" v-tooltip="display" v-if="!isInvalid">
                     <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
                 </div>
             </template>
             <template #default>
                 <provide-store-name :store-name="storeName">
-                    <div class="flex-1 publish-fields @container bts-spot-fields">
+                    <div class="flex-1 publish-fields @container bts-pin-fields">
                         <set-field
                             v-for="field in fields"
                             :key="field.handle"
@@ -46,7 +46,7 @@ const { NodeViewWrapper } = Statamic.$bard.tiptap.vue2;
 const { ValidatesFieldConditions } = FieldConditions;
 
 import ProvideStoreName from './ProvideStoreName.vue';
-import SpotHelpers from './SpotHelpers.vue';
+import PinHelpers from './PinHelpers.vue';
 
 export default {
 
@@ -68,7 +68,7 @@ export default {
 
     mixins: [
         ValidatesFieldConditions,
-        SpotHelpers,
+        PinHelpers,
     ],
 
     computed: {
@@ -91,7 +91,7 @@ export default {
             return this.node.attrs.values;
         },
         meta() {
-            return this.bard.meta.btsSpots.existing[this.id];
+            return this.bard.meta.btsPins.existing[this.id];
         },
         parentName() {
             return this.bard.name;
@@ -117,10 +117,10 @@ export default {
             return this.extension.options.bard;
         },
         config() {
-            return _.findWhere(this.spotConfigs, { handle: this.values.type }) || {};
+            return _.findWhere(this.pinConfigs, { handle: this.values.type }) || {};
         },
-        spotConfigs() {
-            return Object.values(this.extension.options.spots);
+        pinConfigs() {
+            return Object.values(this.extension.options.pins);
         },
         isReadOnly() {
             return this.bard.isReadOnly;
@@ -136,7 +136,7 @@ export default {
             this.updateAttributes({ values });
         },
         metaUpdated(handle, value) {
-            this.updateSpotMeta(this.id, { ...this.meta, [handle]: value });
+            this.updatePinMeta(this.id, { ...this.meta, [handle]: value });
         },
         fieldPath(field) {
             return `${this.fullPath}.${field.handle}`;

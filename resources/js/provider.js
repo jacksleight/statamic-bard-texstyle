@@ -1,26 +1,26 @@
 import Span from './marks/span'
 import Div from './nodes/div'
-import Spot from './nodes/spot'
+import Pin from './nodes/pin'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
 import Defaults from './extensions/defaults'
 import Attributes from './extensions/attributes'
 import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
-import SpotsButton from "./components/SpotsButton.vue";
-import { styleIcon, spotIcon, coreIcon } from './icons';
+import PinsButton from "./components/PinsButton.vue";
+import { styleIcon, pinIcon, coreIcon } from './icons';
 
 class Provider {
 
     constructor(options) {
         options.types = this.bootTypeManager(options.types);
-        options.spots = this.bootSpotsIcons(options.spots);
+        options.pins = this.bootPinsIcons(options.pins);
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
             .bootStylesButton(options)
             .bootAttributesButton(options)
-            .bootSpotsButton(options)
+            .bootPinsButton(options)
             .bootCss(options);
     }
 
@@ -35,8 +35,8 @@ class Provider {
         return types;
     }
 
-    bootSpotsIcons(spots) {
-        return Object.fromEntries(Object.entries(spots).map(([handle, spot]) => ([handle, { ...spot, icon: spotIcon(spot) }])));
+    bootPinsIcons(pins) {
+        return Object.fromEntries(Object.entries(pins).map(([handle, pin]) => ([handle, { ...pin, icon: pinIcon(pin) }])));
     }
 
     bootExtensions(options) {
@@ -47,7 +47,7 @@ class Provider {
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(() => Div);
-            Statamic.$bard.addExtension(({ bard }) => Spot.configure({ ...options, bard }));
+            Statamic.$bard.addExtension(({ bard }) => Pin.configure({ ...options, bard }));
         }
         return this;
     }
@@ -105,16 +105,16 @@ class Provider {
         return this;
     }
 
-    bootSpotsButton(options) {
+    bootPinsButton(options) {
         if (!options.pro) {
             return this;
         }
         Statamic.$bard.buttons((buttons, button) => {
-            buttons.splice(buttons.indexOf('bts_spots'), 0, button({
-                name: 'bts_spots',
-                text: __('Add Spot'),
-                component: SpotsButton,
-                html: coreIcon('spots'),
+            buttons.splice(buttons.indexOf('bts_pins'), 0, button({
+                name: 'bts_pins',
+                text: __('Add Pin'),
+                component: PinsButton,
+                html: coreIcon('pins'),
                 btsOptions: options,
             }));
         });

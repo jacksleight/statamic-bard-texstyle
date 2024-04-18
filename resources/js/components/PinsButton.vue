@@ -11,7 +11,7 @@
             </button>
         </template>
         <template #default>
-            <SpotsMenu
+            <PinsMenu
                 v-if="panelActive"
                 :config="config"
                 :bard="bard"
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import SpotsMenu from './SpotsMenu.vue';
+import PinsMenu from './PinsMenu.vue';
 
 export default {
 
     components: {
-        SpotsMenu,
+        PinsMenu,
     },
 
     mixins: [ BardToolbarButton ],
@@ -45,11 +45,11 @@ export default {
 
     computed: {
         items() {
-            const spots = Object.values(this.button.btsOptions.spots);
-            const menu = (this.config.bts_spots || [])
-                .filter(option => Object.keys(this.button.btsOptions.spotsMenuOptions).includes(option));
-            return spots.filter(spot => {
-                return menu.includes(spot.handle);
+            const pins = Object.values(this.button.btsOptions.pins);
+            const menu = (this.config.bts_pins || [])
+                .filter(option => Object.keys(this.button.btsOptions.pinsMenuOptions).includes(option));
+            return pins.filter(pin => {
+                return menu.includes(pin.handle);
             });
         },
     },

@@ -1,11 +1,11 @@
-import SpotComponent from '../components/Spot.vue';
+import PinComponent from '../components/Pin.vue';
 const { VueNodeViewRenderer } = Statamic.$bard.tiptap.vue2;
 
 const { Node } = Statamic.$bard.tiptap.core;
 
-const Spot = Node.create({
+const Pin = Node.create({
 
-    name: 'btsSpot',
+    name: 'btsPin',
         
     group: 'inline',
 
@@ -35,26 +35,26 @@ const Spot = Node.create({
     },
 
     addNodeView() {
-        return VueNodeViewRenderer(SpotComponent);
+        return VueNodeViewRenderer(PinComponent);
     },
 
     parseHTML() {
         return [
-            { tag: 'bts-spot' },
+            { tag: 'bts-pin' },
         ]
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['bts-spot', HTMLAttributes];
+        return ['bts-pin', HTMLAttributes];
     },
 
     addCommands() {
         return {
-            btsInsertSpot: (attrs) => ({ chain }) => {
-                return chain().focus().insertContent({ type: 'btsSpot', attrs }).run();
+            btsInsertPin: (attrs) => ({ chain }) => {
+                return chain().focus().insertContent({ type: 'btsPin', attrs }).run();
             },
         }
     },
 
 });
-export default Spot;
+export default Pin;

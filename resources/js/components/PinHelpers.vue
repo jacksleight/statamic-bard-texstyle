@@ -3,13 +3,13 @@ export default {
 
     methods: {
         
-        updateSpotMeta(id, meta) {
+        updatePinMeta(id, meta) {
             this.bard.updateMeta({
                 ...this.bard.meta,
-                btsSpots: {
-                    ...this.bard.meta.btsSpots,
+                btsPins: {
+                    ...this.bard.meta.btsPins,
                     existing: {
-                        ...this.bard.meta.btsSpots.existing,
+                        ...this.bard.meta.btsPins.existing,
                         [id]: meta
                     }
                 },

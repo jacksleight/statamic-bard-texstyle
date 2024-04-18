@@ -7,7 +7,7 @@ use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Tags\Tags;
 
-class Spots extends Tags
+class Pins extends Tags
 {
     public function wildcard(string $from)
     {
@@ -33,14 +33,14 @@ class Spots extends Tags
         }
 
         $augmentor = new Augmentor($fieldtype);
-        $extension = $augmentor->extensions()['btsSpot'];
+        $extension = $augmentor->extensions()['btsPin'];
 
-        $spots = $extension->augmentTag($from->raw(), $type);
-        if (! count($spots)) {
+        $pins = $extension->augmentTag($from->raw(), $type);
+        if (! count($pins)) {
             return;
         }
 
-        return $spots;
+        return $pins;
     }
 
     protected function prepare()
