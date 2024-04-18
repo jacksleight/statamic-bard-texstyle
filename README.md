@@ -23,7 +23,7 @@ This Statamic addon allows you to add custom element styles and attributes to th
 | Custom Link Styles       | ●    | ●     |
 | Custom Span Styles       | ●    | ●     |
 | Custom Div Styles        |      | ●     |
-| Pins                    |      | ●     |
+| Pins                     |      | ●     |
 | Attributes               |      | ●     |
 | Styles Menu              |      | ●     |
 | Unstyled Defaults        | ●    | ●     |

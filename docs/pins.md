@@ -71,7 +71,7 @@ You can enable pins in any Bard field, either through the blueprint/fieldset edi
 
 ## Rendering Pins
 
-Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated view at `resources/views/pins/[handle].antlers.html`, this is the view that will be used to render the pin. If no view exists nothing will be rendered.
+Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated partial at `resources/views/pins/_[handle].antlers.html`, this is the partial that will be used to render the pin. If no partial exists nothing will be rendered.
 
 ```html
 <!-- resources/views/pins/_footnote.antlers.html -->
