@@ -65,6 +65,8 @@ class Pin extends Node
 
     public function process($value)
     {
+        dump($value);
+
         return $this->walk($value, function ($node) {
             $values = $node['attrs']['values'];
             $node['attrs']['values'] = array_merge($values, $this->fields($values['type'])
@@ -72,6 +74,8 @@ class Pin extends Node
                 ->process()
                 ->values()
                 ->all());
+
+            dd($this->fields($values['type']), $node['attrs']['values']);
 
             return $node;
         });

@@ -1,7 +1,11 @@
-import PinComponent from '../components/Pin.vue';
 const { VueNodeViewRenderer } = Statamic.$bard.tiptap.vue2;
-
+const { Plugin, PluginKey } = Statamic.$bard.tiptap.pm.state;
+const { Decoration, DecorationSet } = Statamic.$bard.tiptap.pm.view;
+// const { Slice, Fragment } = Statamic.$bard.tiptap.pm.model;
 const { Node } = Statamic.$bard.tiptap.core;
+
+import PinComponent from '../components/Pin.vue';
+import PinHelpers from '../components/PinHelpers.vue';
 
 const Pin = Node.create({
 
@@ -39,13 +43,18 @@ const Pin = Node.create({
     },
 
     parseHTML() {
-        return [
-            { tag: 'bts-pin' },
-        ]
+        return [{
+            tag: 'bts-pin',
+            getAttrs: dom => JSON.parse(dom.innerHTML),
+        }];
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['bts-pin', HTMLAttributes];
+        return [
+            'bts-pin',
+            {},
+            JSON.stringify(HTMLAttributes),
+        ]
     },
 
     addCommands() {
@@ -54,6 +63,67 @@ const Pin = Node.create({
                 return chain().focus().insertContent({ type: 'btsPin', attrs }).run();
             },
         }
+    },
+
+    addProseMirrorPlugins() {
+        // const bard = this.options.bard;
+        const type = this.type;
+        // const adapter = {
+        //     bard,
+        //     ...PinHelpers.methods,
+        // };
+        return [
+            new Plugin({
+                key: new PluginKey('btsPinSelectionDecorator'),
+                props: {
+                    decorations(state) {
+                        const { from, to } = state.selection;
+                        const decorations = [];
+                        state.doc.nodesBetween(from, to, (node, pos) => {
+                            if (node.type === type) {
+                                decorations.push(Decoration.node(pos, pos + node.nodeSize, {}, {
+                                    withinSelection: true,
+                                }));
+                            }
+                        });
+                        return DecorationSet.create(state.doc, decorations);
+                    }
+                },
+            }),
+            // new Plugin({
+            //     key: new PluginKey('btsPinPastedTransformer'),
+            //     props: {
+            //         transformPasted: (slice) => {
+            //             const { content } = slice.content;
+            //             const newMetas = {};
+            //             const transformNode = (node) => {
+            //                 if (node.type === type) {
+            //                     const [newNode, newMeta] = adapter.pastePin(node.attrs);
+            //                     newMetas[newNode.id] = newMeta;
+            //                     return node.type.create(newNode);
+            //                 }
+            //                 return node.copy(node.content);
+            //             };
+            //             const transformContent = (content) => {
+            //                 let newContent = [];
+            //                 content.forEach(node => {
+            //                     let newNode = transformNode(node);
+            //                     if (newNode.content) {
+            //                         newNode = newNode.copy(transformContent(newNode.content));
+            //                     }
+            //                     newContent.push(newNode);
+            //                 });
+            //                 return Fragment.fromArray(newContent);
+            //             }
+            //             const newContent = transformContent(content);
+            //             Vue.nextTick(() => {
+            //                 adapter.updatePinMetas(newMetas);
+            //             });
+            //             return new Slice(newContent, slice.openStart, slice.openEnd);
+            //         },
+            //     },
+            // }),
+        ]
     },
 
 });

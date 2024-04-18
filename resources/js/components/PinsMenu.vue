@@ -57,7 +57,6 @@ export default {
 
     methods: {
         addPin(handle) {
-            console.log(this.updatePinMeta);
             const id = uniqid();
             const values = { ...this.bard.meta.btsPins.defaults[handle], type: handle };
             const meta = this.bard.meta.btsPins.new[handle];

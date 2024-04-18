@@ -2,16 +2,19 @@
 
     <node-view-wrapper
         class="bts-pin shadow-md"
-        :class="{ 'border-blue-400': selected, 'text-red-500': hasError }">
+        :class="{ 'border-blue-400': selected || withinSelection, 'text-red-500': hasError }">
         <div class="bts-pin-handle" data-drag-handle>
             <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
         </div>
         <div class="bts-pin-invalid" v-if="isInvalid">
-            <svg-icon name="alert" class="text-red-500"></svg-icon>
+            <svg-icon name="alert" v-tooltip="'Invalid Pin'" class="text-red-500"></svg-icon>
         </div>
-        <popover placement="bottom-start" v-if="!isInvalid">
+        <div class="bts-pin-invalid" v-if="isUnknown">
+            <svg-icon name="alert" v-tooltip="'Unknown Pin'"></svg-icon>
+        </div>
+        <popover placement="bottom-start" v-if="!isInvalid && !isUnknown">
             <template #trigger>
-                <div class="bts-pin-icon" v-tooltip="display" v-if="!isInvalid">
+                <div class="bts-pin-icon" v-tooltip="display">
                     <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
                 </div>
@@ -91,7 +94,7 @@ export default {
             return this.node.attrs.values;
         },
         meta() {
-            return this.bard.meta.btsPins.existing[this.id];
+            return this.bard.meta.btsPins.existing[this.id] || {};
         },
         parentName() {
             return this.bard.name;
@@ -125,8 +128,17 @@ export default {
         isReadOnly() {
             return this.bard.isReadOnly;
         },
+        isUnknown() {
+            return Object.keys(this.meta).length === 0;
+        },
         isInvalid() {
             return Object.keys(this.config).length === 0;
+        },
+        decorationSpecs() {
+            return Object.assign({}, ...this.decorations.map((decoration) => decoration.type.spec));
+        },
+        withinSelection() {
+            return this.decorationSpecs.withinSelection;
         },
     },
 
