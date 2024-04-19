@@ -6,6 +6,7 @@ use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
+use JackSleight\StatamicBardTexstyle\Nodes\Pin;
 use Statamic\Facades\Addon;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
@@ -14,6 +15,10 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $tags = [
+        Tags\Pins::class,
+    ];
+
     protected $vite = [
         'hotFile' => __DIR__.'/../vite.hot',
         'publicDirectory' => 'dist',
@@ -33,8 +38,9 @@ class ServiceProvider extends AddonServiceProvider
             ->bootConfig()
             ->bootExtensions($options)
             ->bootProvideToScripts($options)
-            ->bootMenuFields($options)
-            ->bootDefaultClassesField($options);
+            ->bootStylesFields($options)
+            ->bootPinsFields($options)
+            ->bootDefaultsFields($options);
 
         return $this;
     }
@@ -51,16 +57,18 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootExtensions($options)
     {
         Augmentor::addExtension('btsCore', function ($bard) use ($options) {
-            $defaultsKey = $bard->config('bts_defaults', 'standard');
-
             return new Core($options + [
-                'defaultsKey' => $defaultsKey,
+                'defaultsKey' => $bard->config('bts_defaults', 'standard'),
             ]);
         });
         Augmentor::addExtension('btsAttributes', new Attributes($options));
         Augmentor::addExtension('btsSpan', new Span());
         if ($options['pro']) {
+            Pin::registerHooks($options);
             Augmentor::addExtension('btsDiv', new Div());
+            Augmentor::addExtension('btsPin', function ($bard) use ($options) {
+                return Pin::make($options, $bard);
+            });
         }
 
         return $this;
@@ -69,13 +77,13 @@ class ServiceProvider extends AddonServiceProvider
     protected function bootProvideToScripts($options)
     {
         Statamic::provideToScript([
-            'bard-texstyle' => $options,
+            'bardTexstyle' => $options,
         ]);
 
         return $this;
     }
 
-    protected function bootDefaultClassesField($options)
+    protected function bootDefaultsFields($options)
     {
         $options = collect($options['defaults'])
             ->map(fn ($v, $k) => $k)
@@ -97,7 +105,7 @@ class ServiceProvider extends AddonServiceProvider
         return $this;
     }
 
-    protected function bootMenuFields($options)
+    protected function bootStylesFields($options)
     {
         if (! $options['pro']) {
             return $this;
@@ -122,6 +130,26 @@ class ServiceProvider extends AddonServiceProvider
                     'text' => 'Text',
                 ],
                 'width' => 33,
+            ],
+        ]);
+
+        return $this;
+    }
+
+    protected function bootPinsFields($options)
+    {
+        if (! $options['pro']) {
+            return $this;
+        }
+
+        Bard::appendConfigFields([
+            'bts_pins' => [
+                'display' => __('Texstyle Pins'),
+                'instructions' => __('Which pins are available.'),
+                'type' => 'select',
+                'multiple' => true,
+                'options' => $options['pinsMenuOptions'],
+                'width' => 66,
             ],
         ]);
 
