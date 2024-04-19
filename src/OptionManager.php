@@ -2,6 +2,8 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Statamic\Fields\Fields;
+
 class OptionManager
 {
     protected $config;
@@ -30,6 +32,9 @@ class OptionManager
         $attributes = $this->resolveAttributes();
         $attributesExts = $this->resolveAttributesExts($attributes);
 
+        $pins = $this->resolvePins();
+        $pinsMenuOptions = $this->resolvePinsMenuOptions($pins);
+
         $defaults = $this->resolveDefaults();
         [$defaultsClassExts, $defaultsCpExts] = $this->resolveDefaultsExts($defaults);
 
@@ -45,6 +50,8 @@ class OptionManager
             'stylesMenuOptions' => $stylesMenuOptions,
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
+            'pins' => $pins,
+            'pinsMenuOptions' => $pinsMenuOptions,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
             'defaultsCpExts' => $defaultsCpExts,
@@ -132,6 +139,45 @@ class OptionManager
             ->all();
 
         return $attributes;
+    }
+
+    protected function resolvePins()
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        $pins = data_get($this->config, 'pins', []);
+
+        $pins = collect($pins)
+            ->map(fn ($pin, $handle) => $this->types->validatePin(array_merge($pin, [
+                'handle' => $handle,
+                'fields' => $fields = collect($pin['fields'])
+                    ->map(fn ($field, $handle) => [
+                        'handle' => $handle,
+                        'field' => $field,
+                    ])
+                    ->values()
+                    ->all(),
+                'publishFields' => (new Fields($fields))->toPublishArray(),
+            ])))
+            ->filter()
+            ->all();
+
+        return $pins;
+    }
+
+    protected function resolvePinsMenuOptions($pins)
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        return collect($pins)
+            ->filter()
+            ->map(fn ($style) => $style['display'])
+            ->sort()
+            ->all();
     }
 
     protected function resolveAttributesExts($attributes)

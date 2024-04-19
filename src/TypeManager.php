@@ -450,6 +450,23 @@ class TypeManager implements JsonSerializable
         return $style;
     }
 
+    public function validatePin($pin)
+    {
+        $pin = $pin + [
+            'display' => null,
+            'icon' => null,
+            'ident' => null,
+            'instructions' => null,
+            'fields' => [],
+        ];
+
+        if (! $this->pro) {
+            return;
+        }
+
+        return $pin;
+    }
+
     public function validateAttribute($attribute)
     {
         $attribute = $attribute + [
