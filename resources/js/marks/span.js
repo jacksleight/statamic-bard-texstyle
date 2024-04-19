@@ -4,6 +4,8 @@ const Span = Mark.create({
 
     name: 'btsSpan',
 
+    excludes: '',
+
     parseHTML() {
         return [
             { tag: 'span[data-bts-style]' },

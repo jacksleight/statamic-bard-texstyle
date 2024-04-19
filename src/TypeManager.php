@@ -248,7 +248,7 @@ class TypeManager implements JsonSerializable
         ],
         'span' => [
             'display' => 'Span',
-            'selector' => ':is(p, ul, ol, blockquote) span',
+            'selector' => ':is(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote) span',
             'extension' => 'btsSpan',
             'command' => 'btsToggleSpan',
             'styles_class' => true,
