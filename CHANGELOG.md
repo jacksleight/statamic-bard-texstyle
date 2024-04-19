@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.0 ()
+
+- 
+
 ## 3.1.6 (2024-02-14)
 
 - [fix] Applying multiple span styles to the same text
