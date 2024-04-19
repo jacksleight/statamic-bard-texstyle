@@ -4,6 +4,14 @@
 
 - [new] 
 
+## 3.1.6 (2024-02-14)
+
+- [fix] Applying multiple span styles to the same text
+
+## 3.1.5 (2024-01-26)
+
+- [fix] Span CP CSS when inside headings
+
 ## 3.1.4 (2023-11-21)
 
 - [fix] Link style toggle when using key store mode
