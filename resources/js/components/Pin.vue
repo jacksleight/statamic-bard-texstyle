@@ -25,14 +25,14 @@
                         <set-field
                             v-for="field in fields"
                             :key="field.handle"
-                            :field="field.field"
+                            :field="field"
                             :value="values[field.handle]"
                             :meta="meta[field.handle]"
                             :parent-name="parentName"
                             :set-index="-1"
                             :field-path="fieldPath(field)"
                             :read-only="isReadOnly"
-                            v-show="showField(field.field, fieldPath(field))"
+                            v-show="showField(field, fieldPath(field))"
                             @updated="updated(field.handle, $event)"
                             @meta-updated="metaUpdated(field.handle, $event)"
                         />
@@ -79,7 +79,7 @@ export default {
             return this.$store.state.publish[this.storeName];
         },
         fields() {
-            return Object.values(this.config.fields || {});
+            return this.config.publishFields || [];
         },
         display() {
             return this.config.display || this.values.type;

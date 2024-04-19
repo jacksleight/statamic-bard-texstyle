@@ -92,9 +92,3 @@ Texstyle provides a `{{ pins:* }}` tag that can be used for this this purpose, i
     {{ /pins:content }}
 </ol>
 ```
-
----
-
-## Unknown Pins
-
-If you copy a pin from one Bard field to another the newly pasted pin will appear as an "Unknown Pin" and will not be editable. Saving the entry and then reloading the page will correct it. I hope to improve this in a future update.

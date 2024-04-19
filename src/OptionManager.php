@@ -2,7 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
-use Statamic\Fieldtypes\Sets;
+use Statamic\Fields\Fields;
 
 class OptionManager
 {
@@ -152,25 +152,16 @@ class OptionManager
         $pins = collect($pins)
             ->map(fn ($pin, $handle) => $this->types->validatePin(array_merge($pin, [
                 'handle' => $handle,
-                'fields' => collect($pin['fields'])
+                'fields' => $fields = collect($pin['fields'])
                     ->map(fn ($field, $handle) => [
                         'handle' => $handle,
                         'field' => $field,
                     ])
+                    ->values()
                     ->all(),
+                'publishFields' => (new Fields($fields))->toPublishArray(),
             ])))
             ->filter()
-            ->all();
-
-        $pins = collect((new Sets())->preProcessConfig($pins)[0]['sets'] ?? [])
-            ->mapWithKeys(fn ($pin) => [$pin['handle'] => array_merge($pin, [
-                'fields' => collect($pin['fields'])
-                    ->mapWithKeys(fn ($field) => [$field['handle'] => [
-                        'handle' => $field['handle'],
-                        'field' => $field,
-                    ]])
-                    ->all(),
-            ])])
             ->all();
 
         return $pins;

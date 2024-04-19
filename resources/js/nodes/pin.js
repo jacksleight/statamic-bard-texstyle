@@ -1,7 +1,7 @@
 const { VueNodeViewRenderer } = Statamic.$bard.tiptap.vue2;
 const { Plugin, PluginKey } = Statamic.$bard.tiptap.pm.state;
 const { Decoration, DecorationSet } = Statamic.$bard.tiptap.pm.view;
-// const { Slice, Fragment } = Statamic.$bard.tiptap.pm.model;
+const { Slice, Fragment } = Statamic.$bard.tiptap.pm.model;
 const { Node } = Statamic.$bard.tiptap.core;
 
 import PinComponent from '../components/Pin.vue';
@@ -66,12 +66,12 @@ const Pin = Node.create({
     },
 
     addProseMirrorPlugins() {
-        // const bard = this.options.bard;
+        const bard = this.options.bard;
         const type = this.type;
-        // const adapter = {
-        //     bard,
-        //     ...PinHelpers.methods,
-        // };
+        const adapter = {
+            bard,
+            ...PinHelpers.methods,
+        };
         return [
             new Plugin({
                 key: new PluginKey('btsPinSelectionDecorator'),
@@ -90,39 +90,36 @@ const Pin = Node.create({
                     }
                 },
             }),
-            // new Plugin({
-            //     key: new PluginKey('btsPinPastedTransformer'),
-            //     props: {
-            //         transformPasted: (slice) => {
-            //             const { content } = slice.content;
-            //             const newMetas = {};
-            //             const transformNode = (node) => {
-            //                 if (node.type === type) {
-            //                     const [newNode, newMeta] = adapter.pastePin(node.attrs);
-            //                     newMetas[newNode.id] = newMeta;
-            //                     return node.type.create(newNode);
-            //                 }
-            //                 return node.copy(node.content);
-            //             };
-            //             const transformContent = (content) => {
-            //                 let newContent = [];
-            //                 content.forEach(node => {
-            //                     let newNode = transformNode(node);
-            //                     if (newNode.content) {
-            //                         newNode = newNode.copy(transformContent(newNode.content));
-            //                     }
-            //                     newContent.push(newNode);
-            //                 });
-            //                 return Fragment.fromArray(newContent);
-            //             }
-            //             const newContent = transformContent(content);
-            //             Vue.nextTick(() => {
-            //                 adapter.updatePinMetas(newMetas);
-            //             });
-            //             return new Slice(newContent, slice.openStart, slice.openEnd);
-            //         },
-            //     },
-            // }),
+            new Plugin({
+                key: new PluginKey('btsPinPastedTransformer'),
+                props: {
+                    transformPasted: (slice) => {
+                        if (JSON.stringify(slice.content.toJSON()).indexOf('btsPin') === -1) {
+                            return slice;
+                        }
+                        const { content } = slice.content;
+                        const transformNode = (node) => {
+                            if (node.type === type) {
+                                return node.type.create(adapter.pastePin(node.attrs));
+                            }
+                            return node.copy(node.content);
+                        };
+                        const transformContent = (content) => {
+                            let newContent = [];
+                            content.forEach(node => {
+                                let newNode = transformNode(node);
+                                if (newNode.content) {
+                                    newNode = newNode.copy(transformContent(newNode.content));
+                                }
+                                newContent.push(newNode);
+                            });
+                            return Fragment.fromArray(newContent);
+                        }
+                        const newContent = transformContent(content);
+                        return new Slice(newContent, slice.openStart, slice.openEnd);
+                    },
+                },
+            }),
         ]
     },
 
