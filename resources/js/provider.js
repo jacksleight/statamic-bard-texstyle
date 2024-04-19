@@ -44,9 +44,9 @@ class Provider {
         Statamic.$bard.addExtension(({ bard }) => Defaults.configure({ ...options, bard }));
         Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
+        Statamic.$bard.addExtension(() => Div);
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
-            Statamic.$bard.addExtension(() => Div);
             Statamic.$bard.addExtension(({ bard }) => Pin.configure({ ...options, bard }));
         }
         return this;

@@ -66,7 +66,7 @@ it('validates styles', function () {
     expect($types->validateStyle(['type' => 'link', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
     expect($types->validateStyle(['type' => 'div']))
-        ->toBeNull();
+        ->toBeArray();
     expect($typesPro->validateStyle(['type' => 'div']))
         ->toBeArray();
 });

@@ -48,7 +48,6 @@ class TypeManager implements JsonSerializable
             'selector' => 'div',
             'extension' => 'btsDiv',
             'command' => 'btsToggleDiv',
-            'pro' => true,
             'styles_class' => true,
             'styles_cp_css' => true,
             'styles_cp_badge' => true,

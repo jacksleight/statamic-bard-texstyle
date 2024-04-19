@@ -59,7 +59,7 @@ The style keys are used as the button names. Styles can have the following optio
     * `ordered_list`
     * `link`
     * `span`
-    * `div` (Pro)
+    * `div`
 * **class (string)**  
   The class name that will be applied for this style. Must be unique within the type.
 * **name (string)**  

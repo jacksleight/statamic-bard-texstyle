@@ -214,7 +214,7 @@ it('resolves free options', function () {
     ], false))->resolve();
 
     expect($options['pro'])->toEqual(false);
-    expect($options['styles'])->toHaveCount(1)->toHaveKeys(['title']);
+    expect($options['styles'])->toHaveCount(2)->toHaveKeys(['title']);
     expect($options['attributes'])->toBeEmpty();
     expect($options['attributesExts'])->toBeEmpty();
 });
