@@ -2,7 +2,9 @@
 
 ## 3.2.0 ()
 
-- [new] 
+- [new] Pins 📍
+- [new] Free edition now includes custom div styles
+- Statamic 4.56.0+ is now required
 
 ## 3.1.6 (2024-02-14)
 
