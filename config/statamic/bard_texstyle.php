@@ -117,7 +117,7 @@ return [
         //     'fields' => [
         //         'note' => [
         //             'display' => 'Note',
-        //             'type' => 'textare',
+        //             'type' => 'textarea',
         //         ],
         //     ],
         // ],
