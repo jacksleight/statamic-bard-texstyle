@@ -18,15 +18,16 @@ Open `config/statamic/bard_texstyle.php` to add your pins:
 ```php
 'pins' => [
 
-    'footnote' => [
-        'display' => 'Footnote',
-        'icon' => 'mail-chat-bubble-text',
-        'ident' => null,
-        'instructions' => 'Some footnote text.',
+    'icon' => [
+        'display' => 'Icon',
+        'icon' => 'plump/fire-flame-burn-hot',
+        'instructions' => 'An icon graphic.',
         'fields' => [
-            'note' => [
-                'display' => 'Note',
-                'type' => 'textarea',
+            'src' => [
+                'display' => 'Icon',
+                'type' => 'assets',
+                'max_files' => 1,
+                'mode' => 'list',
             ],
         ],
     ],
@@ -66,8 +67,8 @@ You can enable pins in any Bard field, either through the blueprint/fieldset edi
 Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated partial at `resources/views/pins/_[handle].antlers.html`, this is the partial that will be used to render the pin. If no partial exists nothing will be rendered.
 
 ```html
-<!-- resources/views/pins/_footnote.antlers.html -->
-<a href="#fn-{{ id }}" class="[counter-increment:footnote] before:content-[counter(footnote)]"></a>
+<!-- resources/views/pins/_icon.antlers.html -->
+{{ svg :src="src" class="w-6 h-6 inline-block" }}
 ```
 
 ### Secondary Output
@@ -77,8 +78,7 @@ Sometimes you may want to output pin data seperatly from your main block of cont
 Texstyle provides a `{{ pins:* }}` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
 
 ```html
-{{ content }}
-<ol class="[counter-reset:footnote]">
+<ol>
     {{ pins:content type="footnote" }}
         <li id="fn-{{ id }}">{{ note }}</li>
     {{ /pins:content }}
