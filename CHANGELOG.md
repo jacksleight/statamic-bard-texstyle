@@ -3,6 +3,7 @@
 ## 3.2.0 ()
 
 - [new] Pins 📍
+- [new] Statamic's icons can be used as style icons
 - [new] Free edition now includes custom div styles
 - Statamic 4.56.0+ is now required
 
