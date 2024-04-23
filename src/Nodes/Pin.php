@@ -33,15 +33,28 @@ class Pin extends Node
             ->values()
             ->all());
 
-        $view = "pins._{$values['type']}";
-        if (! view()->exists($view)) {
+        $viewName = $this->viewName($values['type']);
+        if (! $viewName) {
             return;
         }
 
-        return ['content' => view($view, array_merge(
+        return ['content' => view($viewName, array_merge(
             Cascade::toArray(),
             $data
         ))->render()];
+    }
+
+    protected function viewName($type)
+    {
+        if (view()->exists($view = "pins._{$type}")) {
+            return $view;
+        }
+
+        if (view()->exists($view = "pins.{$type}")) {
+            return $view;
+        }
+
+        return false;
     }
 
     public function augmentTag($value, $type = null)
