@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle\Nodes;
 
 use Closure;
+use Illuminate\Support\Arr;
 use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
 use Statamic\Fieldtypes\Bard;
@@ -163,6 +164,9 @@ class Pin extends Node
     public function preload($data, $value)
     {
         $pins = $this->options['pins'];
+        $bard = $this->options['bard'];
+
+        $pins = Arr::only($pins, $bard->config('bts_pins', []));
 
         $defaults = collect($pins)
             ->map(function ($pin, $handle) {
