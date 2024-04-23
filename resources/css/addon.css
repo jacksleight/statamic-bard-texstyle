@@ -214,7 +214,7 @@
 }
 
 .bts-pin-fields {
-    width: 300px;
+    width: 330px;
     > *:not(:first-child) {
         padding-top: 0 !important;
     }
