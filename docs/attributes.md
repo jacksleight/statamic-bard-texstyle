@@ -1,6 +1,6 @@
 ---
 title: Attributes
-order: 40
+order: 50
 ---
 
 # Attributes (Pro)

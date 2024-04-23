@@ -1,6 +1,6 @@
 ---
 title: Pins
-order: 35
+order: 40
 ---
 
 # Pins (Pro)
@@ -26,7 +26,7 @@ Open `config/statamic/bard_texstyle.php` to add your pins:
         'fields' => [
             'note' => [
                 'display' => 'Note',
-                'type' => 'textare',
+                'type' => 'textarea',
             ],
         ],
     ],
@@ -42,15 +42,7 @@ The pin keys are used as the handles. Pins can have the following options:
   The display name of the pin.
 * **icon (string)**  
   Icon name or custom SVG icon. Options are:
-    * `letter`
-    * `square`
-    * `circle`
-    * `square-solid`
-    * `circle-solid`
-    * `bullet-list`
-    * `ordered-list`
-    * `link`
-    * `symbol`
+    * `[name]` One of [Texstyles's dynamic icons](dynamic-icons)
     * `[name]` One of [Statamic's built-in set icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons/plump)
     * `[set]/[name]` One of [Statamic's other built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
     * `<svg>...</svg>` Custom SVG icon
