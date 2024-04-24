@@ -60,7 +60,7 @@ Attributes are grouped by element type and the keys are the attribute names. Att
 
 ---
 
-## Enabling the Button
+## Enabling the Panel
 
 To enable the attribute panel toggle the button in the Bard field's button selector.
 
