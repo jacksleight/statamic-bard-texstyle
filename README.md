@@ -39,6 +39,6 @@ Bard Texstyle Pro is not free software. You will need to purchase a license via 
 
 ## Contributing
 
-Contributions are very welcome, however please bear in mind that while Bard Texstyle's source code is open source and publicly available, it is proprietary. Everything in this repo, including any community-contributed code, is the property of Jack Sleight..
+Contributions are very welcome, however please bear in mind that while Bard Texstyle's source code is open source and publicly available, it is proprietary. Everything in this repo, including any community-contributed code, is the property of Jack Sleight.
 
 <!-- /statamic:hide -->
