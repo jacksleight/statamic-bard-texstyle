@@ -66,10 +66,6 @@ The pin keys are used as the handles. Pins can have the following options:
 
 To enable the pins menu toggle the button in the Bard field's button selector. Then select which pins are available in that field either through the blueprint/fieldset editor or by adding them to the `bts_pins` list in the YAML file directly.
 
-:::warning
-Just like Statamic fieldsets, pins can’t be configured recursively. If you are using a bard field in a pin do not enable that pin in the inner bard field, or you’ll have a bad time.
-:::
-
 ---
 
 ## Rendering Pins
