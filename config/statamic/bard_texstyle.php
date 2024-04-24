@@ -109,15 +109,16 @@ return [
 
     'pins' => [
 
-        // 'footnote' => [
-        //     'display' => 'Footnote',
-        //     'icon' => 'mail-chat-bubble-text',
-        //     'ident' => null,
-        //     'instructions' => 'Some footnote text.',
+        // 'icon' => [
+        //     'display' => 'Icon',
+        //     'icon' => 'fire-flame-burn-hot',
+        //     'instructions' => 'An icon graphic.',
         //     'fields' => [
-        //         'note' => [
-        //             'display' => 'Note',
-        //             'type' => 'textarea',
+        //         'src' => [
+        //             'display' => 'Icon',
+        //             'type' => 'assets',
+        //             'max_files' => 1,
+        //             'mode' => 'list',
         //         ],
         //     ],
         // ],

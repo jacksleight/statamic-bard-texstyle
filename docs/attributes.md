@@ -34,7 +34,7 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 
 ## Options
 
-Attributes are grouped by element type and the keys are the attribute names. Attributes can have the following options:
+Attributes are grouped by element type and the array keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**
   The field type. Options are:

@@ -20,7 +20,7 @@ Open `config/statamic/bard_texstyle.php` to add your pins:
 
     'icon' => [
         'display' => 'Icon',
-        'icon' => 'plump/fire-flame-burn-hot',
+        'icon' => 'fire-flame-burn-hot',
         'instructions' => 'An icon graphic.',
         'fields' => [
             'src' => [
@@ -37,7 +37,7 @@ Open `config/statamic/bard_texstyle.php` to add your pins:
 
 ### Options
 
-The pin keys are used as the handles. Pins can have the following options:
+The array keys are used as the handles. Pins can have the following options:
 
 * **display (string)**  
   The display name of the pin.
@@ -52,7 +52,7 @@ The pin keys are used as the handles. Pins can have the following options:
 * **instructions (string, optional)**  
   The description of the pin.
 * **fields (array)**  
-  Fields for this pin. Array keys are the field handles. Parameters are:
+  Fields for this pin. The array keys are used as the handles. Parameters are:
   * **display (string)**  
     The display name of the field.
   * **type (string)**  
@@ -81,12 +81,12 @@ Pins are rendered automatically during Bard's augmentation process. For each pin
 
 Sometimes you may want to output pin data seperatly from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
 
-Texstyle provides a `{{ pins:* }}` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
+Texstyle provides a `pins` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
 
 ```html
 <ol>
     {{ pins:content type="footnote" }}
-        <li>{{ note }}</li>
+        <li>{{ text }}</li>
     {{ /pins:content }}
 </ol>
 ```

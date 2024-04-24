@@ -49,7 +49,7 @@ When using link styles the `link` button must also be enabled in the Bard field.
 
 ## Options
 
-The style keys are used as the button names. Styles can have the following options:
+The array keys are used as the button names. Styles can have the following options:
 
 * **type (string)**  
   The type. Options are:
