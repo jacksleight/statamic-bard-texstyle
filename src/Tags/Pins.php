@@ -45,6 +45,9 @@ class Pins extends Tags
 
     protected function prepare()
     {
-        $this->params->put('from', $this->context->get($this->params->get('from')));
+        $from = $this->params->get('from');
+        if (is_string($from)) {
+            $this->params->put('from', $this->context->get($from));
+        }
     }
 }
