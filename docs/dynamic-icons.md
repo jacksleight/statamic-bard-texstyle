@@ -5,7 +5,7 @@ order: 80
 
 # Dynamic Icons
 
-There are nine dynamic icons built into Texstyle. These consist of a basic shape that is filled with the specified `ident` character.  Each style type has a default dynamic icon that you can override if necessary. The full list of built-in icons is:
+There are nine dynamic icons built into Texstyle. These consist of a basic shape that is filled with the specified `ident` character.  Each style type has a default dynamic icon that you can override if necessary. The full list of dynamic icons are:
 
 * `letter`
 * `square`

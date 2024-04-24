@@ -48,11 +48,17 @@ The pin keys are used as the handles. Pins can have the following options:
     * `[set]/[name]` One of [Statamic's other built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
     * `<svg>...</svg>` Custom SVG icon
 * **ident (string, optional)**  
-  An identification character. This will appear in the icon if using one of Texstyle's icons.
+  An identification character. This will appear in the icon if using one of Texstyle's dynamic icons.
 * **instructions (string, optional)**  
   The description of the pin.
-* **fields (string)**  
-  Fields for this pin.
+* **fields (array)**  
+  Fields for this pin. Array keys are the field handles. Parameters are:
+  * **display (string)**  
+    The display name of the field.
+  * **type (string)**  
+    The type of the field. Can be any Statamic fieldtype.
+  * **...[parameters] (mixed)**  
+    Any additional fieldtype parameters.
 
 ---
 
