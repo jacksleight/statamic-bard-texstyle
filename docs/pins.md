@@ -5,7 +5,7 @@ order: 40
 
 # Pins (Pro)
 
-Pins allow you to add custom and dynamic elements within a line of text. These are useful for things like icons, footnotes, and live dates.
+Pins allow you to add custom elements within a line of text. These are useful for things like icons, footnotes, and dynamic values.
 
 [TOC]
 
