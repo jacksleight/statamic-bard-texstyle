@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.2.0 ()
+
+- [new] Pins 📍
+- [new] Statamic's icons can be used as style icons
+- [new] Free edition now includes custom div styles
+- Statamic 4.56.0+ is now required
+
 ## 3.1.6 (2024-02-14)
 
 - [fix] Applying multiple span styles to the same text

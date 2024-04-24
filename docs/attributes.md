@@ -1,6 +1,6 @@
 ---
 title: Attributes
-order: 40
+order: 50
 ---
 
 # Attributes (Pro)
@@ -34,7 +34,7 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 
 ## Options
 
-Attributes are grouped by element type and the keys are the attribute names. Attributes can have the following options:
+Attributes are grouped by element type and the array keys are the attribute names. Attributes can have the following options:
 
 * **type (string)**
   The field type. Options are:
@@ -60,7 +60,7 @@ Attributes are grouped by element type and the keys are the attribute names. Att
 
 ---
 
-## Enabling the Button
+## Enabling the Panel
 
 To enable the attribute panel toggle the button in the Bard field's button selector.
 
