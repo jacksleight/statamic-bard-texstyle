@@ -67,7 +67,7 @@ class ServiceProvider extends AddonServiceProvider
         if ($options['pro']) {
             Pin::registerHooks($options);
             Augmentor::addExtension('btsPin', function ($bard) use ($options) {
-                return Pin::make($options, $bard);
+                return new Pin($options + ['bard' => $bard]);
             });
         }
 

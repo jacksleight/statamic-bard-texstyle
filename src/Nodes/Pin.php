@@ -15,6 +15,45 @@ class Pin extends Node
 
     protected static $instances = [];
 
+    public static function registerHooks($options)
+    {
+        Bard::hook('process', function ($value, $next) use ($options) {
+            return $next(Pin::resolve($options + ['bard' => $this])
+                ->process($value));
+        });
+        Bard::hook('pre-process', function ($value, $next) use ($options) {
+            return $next(Pin::resolve($options + ['bard' => $this])
+                ->preProcess($value));
+        });
+        Bard::hook('pre-process-validatable', function ($value, $next) use ($options) {
+            return $next(Pin::resolve($options + ['bard' => $this])
+                ->preProcessValidatable($value));
+        });
+        Bard::hook('extra-rules', function ($rules, $next) use ($options) {
+            return $next(Pin::resolve($options + ['bard' => $this])
+                ->extraRules($rules, $this->field->value()));
+        });
+        Bard::hook('extra-validation-attributes', function ($attributes, $next) use ($options) {
+            return $next(Pin::resolve($options + ['bard' => $this])
+                ->extraValidationAttributes($attributes, $this->field->value()));
+        });
+        Bard::hook('preload', function ($data, $next) use ($options) {
+            return $next(Pin::resolve($options + ['bard' => $this])
+                ->preload($data, json_decode($this->field->value(), true)));
+        });
+    }
+
+    public static function resolve($options)
+    {
+        return static::$instances[spl_object_id($options['bard'])] ?? new self($options);
+    }
+
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+        static::$instances[spl_object_id($options['bard'])] = $this;
+    }
+
     public function addOptions()
     {
         return [
@@ -252,38 +291,5 @@ class Pin extends Node
         }
 
         return $nodes;
-    }
-
-    public static function make($options, $bard)
-    {
-        $id = spl_object_id($bard);
-
-        if (! isset(static::$instances[$id])) {
-            static::$instances[$id] = new self([...$options, 'bard' => $bard]);
-        }
-
-        return static::$instances[$id];
-    }
-
-    public static function registerHooks($options)
-    {
-        Bard::hook('process', function ($value, $next) use ($options) {
-            return $next(Pin::make($options, $this)->process($value));
-        });
-        Bard::hook('pre-process', function ($value, $next) use ($options) {
-            return $next(Pin::make($options, $this)->preProcess($value));
-        });
-        Bard::hook('pre-process-validatable', function ($value, $next) use ($options) {
-            return $next(Pin::make($options, $this)->preProcessValidatable($value));
-        });
-        Bard::hook('extra-rules', function ($rules, $next) use ($options) {
-            return $next(Pin::make($options, $this)->extraRules($rules, $this->field->value()));
-        });
-        Bard::hook('extra-validation-attributes', function ($attributes, $next) use ($options) {
-            return $next(Pin::make($options, $this)->extraValidationAttributes($attributes, $this->field->value()));
-        });
-        Bard::hook('preload', function ($data, $next) use ($options) {
-            return $next(Pin::make($options, $this)->preload($data, json_decode($this->field->value(), true)));
-        });
     }
 }
