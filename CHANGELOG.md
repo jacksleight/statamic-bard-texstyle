@@ -2,7 +2,7 @@
 
 ## 3.2.1 (2024-05-07)
 
-- Statamic 5.0 support
+- Statamic 5 support
 
 ## 3.2.0 (2024-04-24)
 
