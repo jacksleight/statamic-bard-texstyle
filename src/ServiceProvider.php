@@ -61,11 +61,11 @@ class ServiceProvider extends AddonServiceProvider
                 'defaultsKey' => $bard->config('bts_defaults', 'standard'),
             ]);
         });
-        Augmentor::addExtension('btsAttributes', new Attributes($options));
         Augmentor::addExtension('btsSpan', new Span());
         Augmentor::addExtension('btsDiv', new Div());
         if ($options['pro']) {
             Pin::registerHooks($options);
+            Augmentor::addExtension('btsAttributes', new Attributes($options));
             Augmentor::addExtension('btsPin', function ($bard) use ($options) {
                 return new Pin($options + ['bard' => $bard]);
             });
