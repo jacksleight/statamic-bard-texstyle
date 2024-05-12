@@ -39,7 +39,7 @@ class Pin extends Node
         });
         Bard::hook('preload', function ($data, $next) use ($options) {
             return $next(Pin::resolve($options + ['bard' => $this])
-                ->preload($data, json_decode($this->field->value(), true)));
+                ->preload($data, is_string($value = $this->field->value()) ? json_decode($value, true) : $value));
         });
     }
 

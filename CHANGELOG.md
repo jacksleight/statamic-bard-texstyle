@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.2 (2024-05-12)
+
+- [fix] JSON decode error with Statamic 5
+
 ## 3.2.1 (2024-05-07)
 
 - Statamic 5 support
