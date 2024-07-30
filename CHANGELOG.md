@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.3 (2024-07-30)
+
+- [fix] Rendering pins with `bard_html` modifier
+
 ## 3.2.2 (2024-05-12)
 
 - [fix] JSON decode error with Statamic 5

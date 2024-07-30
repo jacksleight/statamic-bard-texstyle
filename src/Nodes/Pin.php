@@ -265,7 +265,7 @@ class Pin extends Node
 
         return new Fields(
             $pins[$type]['fields'] ?? [],
-            $bard->field()->parent(),
+            $bard->field()?->parent(),
             $bard->field()
         );
     }
