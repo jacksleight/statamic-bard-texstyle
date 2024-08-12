@@ -14,9 +14,12 @@
         </div>
         <popover placement="bottom-start" v-if="!isInvalid && !isUnknown">
             <template #trigger>
-                <div class="bts-pin-icon" v-tooltip="display">
+                <div class="bts-pin-button" v-tooltip="display">
                     <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
+                    <div class="bts-pin-preview">
+                        {{ previewText }}
+                    </div>
                 </div>
             </template>
             <template #default>
@@ -32,9 +35,11 @@
                             :set-index="-1"
                             :field-path="fieldPath(field)"
                             :read-only="isReadOnly"
+                            :show-field-previews="true"
                             v-show="showField(field, fieldPath(field))"
                             @updated="updated(field.handle, $event)"
                             @meta-updated="metaUpdated(field.handle, $event)"
+                            @replicator-preview-updated="previewUpdated(field.handle, $event)"
                         />
                     </div>
                 </provide-store-name>
@@ -73,6 +78,12 @@ export default {
         ValidatesFieldConditions,
         PinHelpers,
     ],
+
+    data() {
+        return {
+            previews: {},
+        };
+    },
 
     computed: {
         store() {
@@ -140,6 +151,12 @@ export default {
         withinSelection() {
             return this.decorationSpecs.withinSelection;
         },
+        previewText() {
+            return this.fields
+                .map(field => this.previews[field.handle])
+                .filter(value => value)
+                .join('/');
+        },
     },
 
     methods: {
@@ -152,6 +169,12 @@ export default {
         },
         fieldPath(field) {
             return `${this.fullPath}.${field.handle}`;
+        },
+        previewUpdated(handle, value) {
+            this.previews = {
+                ...this.previews,
+                [handle]: value,
+            };
         },
     },
 
