@@ -166,16 +166,13 @@
     vertical-align: calc((1em - 16px) * 0.4);
     margin-inline: 1px;
     margin-block: -1px;
-    &-button {
+    &-icon {
         cursor: pointer;
         height: 24px;
         border-left: 1px solid #c4ccd4;
         display: flex;
         align-items: center;
-        gap: 4px;
         padding: 0 6px 0 4px;
-        font-size: 12px;
-        font-weight: 400;
         svg {
             width: 16px !important;
             height: 16px !important;
