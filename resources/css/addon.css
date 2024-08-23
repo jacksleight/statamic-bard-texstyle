@@ -9,6 +9,13 @@
             padding-bottom: 0.85em;
             margin-top: 1.7em;
             margin-bottom: 1.7em;
+            .dark & {
+                border-color: #414245;
+            }
+            &::before {
+                border-bottom-left-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
         }
 
         :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div)[data-bts-style],
@@ -25,6 +32,10 @@
                 display: block;
                 max-width: max-content;
                 position: relative;
+                .dark & {
+                    color: #bbbdc0;
+                    background-color: #393b40;
+                }
             }
         }
         
@@ -59,6 +70,9 @@
             text-overflow: ellipsis;
             line-height: 1;
             display: block;
+            .dark & {
+                border-color: #171717;
+            }
         }
     }
     
@@ -81,9 +95,15 @@
         text-align: left;
         &:hover {
             background-color: #f5f8fc;
+            .dark & {
+                background-color: #2b2d30;
+            }
         }
         &.active {
             background-color: #eef2f6;
+            .dark & {
+                background-color: #242628;
+            }
         }
     }
 }
@@ -166,20 +186,43 @@
     vertical-align: calc((1em - 16px) * 0.4);
     margin-inline: 1px;
     margin-block: -1px;
-    &-icon {
+    .dark & {
+        background-color: #212223;
+        border-color: #131314;
+    }
+    &-button {
         cursor: pointer;
         height: 24px;
         border-left: 1px solid #c4ccd4;
         display: flex;
         align-items: center;
-        padding: 0 6px 0 4px;
-        svg {
+        gap: 4px;
+        padding: 0 7px 0 4px;
+        font-size: 12px;
+        font-weight: 400;
+        .dark & {
+            border-left-color: #131314;
+        }
+        > svg {
             width: 16px !important;
             height: 16px !important;
             display: block;
         }
         &:hover {
             background-color: #c4ccd4;
+            .dark & {
+                background-color: #131314;
+            }
+        }
+    }
+    &-preview {
+        max-width: 12ch;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        img {
+            height: 16px !important;
+            border-radius: 4px;
         }
     }
     &-handle {
@@ -194,6 +237,9 @@
         }
         &:hover {
             background-color: #c4ccd4;
+            .dark & {
+                background-color: #131314;
+            }
             svg {
                 opacity: 1;
             }

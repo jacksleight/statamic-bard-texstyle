@@ -2,15 +2,15 @@
 
     <div class="bts-pins">
         <div v-if="items.length" class="bts-pins-items">
-            <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200': selectionIndex === i }" @mouseover="selectionIndex = i">
+            <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200 dark:bg-dark-600': selectionIndex === i }" @mouseover="selectionIndex = i">
                 <div @click="addPin(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
-                    <div class="h-9 w-9 rounded bg-white border border-gray-600 mr-2 p-2">
+                    <div class="h-9 w-9 rounded bg-white dark:bg-dark-650 border border-gray-600 dark:border-dark-800 rtl:ml-2 ltr:mr-2 p-2 text-gray-800 dark:text-dark-175">
                         <svg-icon :name="item.icon.svg" v-if="item.icon.svg" class="text-gray-80"></svg-icon>
                         <div v-html="item.icon.html" v-if="item.icon.html"  class="text-gray-80"></div>
                     </div>
                     <div class="flex-1">
-                        <div class="text-md font-medium text-gray-800 truncate w-52">{{ item.display || item.handle }}</div>
-                        <div v-if="item.instructions" class="text-2xs text-gray-700 truncate w-52">{{ item.instructions }}</div>
+                        <div class="text-md font-medium text-gray-800 dark:text-dark-175 truncate w-52">{{ item.display || item.handle }}</div>
+                        <div v-if="item.instructions" class="text-2xs text-gray-700 dark:text-dark-175 truncate w-52">{{ item.instructions }}</div>
                     </div>
                 </div>
             </div>

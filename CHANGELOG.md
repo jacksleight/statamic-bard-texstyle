@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.0 (2024-08-23)
+
+- [new] Field value previews in pin buttons
+- [fix] Dark mode improvements
+
 ## 3.2.3 (2024-07-30)
 
 - [fix] Rendering pins with `bard_html` modifier
