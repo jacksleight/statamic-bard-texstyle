@@ -28,6 +28,7 @@ Open `config/statamic/bard_texstyle.php` to add your pins:
                 'type' => 'assets',
                 'max_files' => 1,
                 'mode' => 'list',
+                'preview' => true,
             ],
         ],
     ],
@@ -57,6 +58,8 @@ The array keys are used as the handles. Pins can have the following options:
     The display name of the field.
   * **type (string)**  
     The type of the field. Can be any Statamic fieldtype.
+  * **preview (boolean, false)**  
+    Whether to show a preview in the pin button.
   * **...[parameters] (mixed)**  
     Any additional fieldtype parameters.
 

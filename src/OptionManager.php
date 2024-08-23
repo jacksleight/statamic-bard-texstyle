@@ -155,7 +155,10 @@ class OptionManager
                 'fields' => $fields = collect($pin['fields'])
                     ->map(fn ($field, $handle) => [
                         'handle' => $handle,
-                        'field' => $field,
+                        'field' => [
+                            ...$field,
+                            'preview' => $field['preview'] ?? false,
+                        ],
                     ])
                     ->values()
                     ->all(),
