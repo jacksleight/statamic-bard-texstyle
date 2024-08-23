@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3 ()
+
+- [new] Field previews in pin buttons
+
 ## 3.2.3 (2024-07-30)
 
 - [fix] Rendering pins with `bard_html` modifier
