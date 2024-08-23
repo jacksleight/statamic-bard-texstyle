@@ -17,9 +17,7 @@
                 <div class="bts-pin-button" v-tooltip="display">
                     <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
-                    <div class="bts-pin-preview">
-                        {{ previewText }}
-                    </div>
+                    <div class="bts-pin-preview" v-if="previewText" v-html="previewText"></div>
                 </div>
             </template>
             <template #default>
@@ -35,7 +33,7 @@
                             :set-index="-1"
                             :field-path="fieldPath(field)"
                             :read-only="isReadOnly"
-                            :show-field-previews="true"
+                            :show-field-previews="field.preview"
                             v-show="showField(field, fieldPath(field))"
                             @updated="updated(field.handle, $event)"
                             @meta-updated="metaUpdated(field.handle, $event)"
@@ -153,9 +151,22 @@ export default {
         },
         previewText() {
             return this.fields
+                .filter(field => field.preview)
                 .map(field => this.previews[field.handle])
-                .filter(value => value)
-                .join('/');
+                .filter(value => ![undefined, 'null', '[]', '{}', ''].includes(JSON.stringify(value)))
+                .map(value => {
+                    if (typeof value === 'object' && value.constructor.name === 'PreviewHtml') {
+                        return value.html;
+                    }
+                    if (typeof value === 'string') {
+                        return escapeHtml(value);
+                    }
+                    if (Array.isArray(value) && typeof value[0] === 'string') {
+                        return escapeHtml(value.join(', '));
+                    }
+                    return escapeHtml(JSON.stringify(value));
+                })
+                .join(' / ');
         },
     },
 
