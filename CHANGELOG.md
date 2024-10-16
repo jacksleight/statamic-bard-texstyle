@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.1 (2024-10-16)
+
+- [fix] Error when using pins with scope modifier
+- Exclude currently augmenting field from pin view data
+
 ## 3.3.0 (2024-08-23)
 
 - [new] Field value previews in pin buttons
