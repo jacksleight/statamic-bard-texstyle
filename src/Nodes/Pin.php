@@ -77,10 +77,20 @@ class Pin extends Node
             return;
         }
 
-        return ['content' => view($viewName, array_merge(
-            Cascade::toArray(),
-            $data
-        ))->render()];
+        // Including the currently augmenting field in the child view data seems to cause issues when
+        // the scope modifier is used. I don't know why that is, but this workaround avoids it.
+        // https://github.com/jacksleight/statamic-bard-texstyle/issues/74
+        $handle = $this->options['bard']->field()->handle();
+        $cascade = collect(Cascade::toArray())
+            ->except($handle)
+            ->all();
+
+        $content = view($viewName, array_merge(
+            $cascade,
+            $data,
+        ))->render();
+
+        return ['content' => $content];
     }
 
     protected function viewName($type)
