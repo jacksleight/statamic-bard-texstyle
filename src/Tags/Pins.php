@@ -24,12 +24,12 @@ class Pins extends Tags
         $type = $this->params->get('type');
 
         if (! $from instanceof Value) {
-            throw new \Exception('From paramter must be the name of a Bard field');
+            throw new \Exception('From parameter must be the name of a Bard field');
         }
 
         $fieldtype = $from->fieldtype();
         if (! $fieldtype instanceof Bard) {
-            throw new \Exception('From paramter must be the name of a Bard field');
+            throw new \Exception('From parameter must be the name of a Bard field');
         }
 
         $augmentor = new Augmentor($fieldtype);
