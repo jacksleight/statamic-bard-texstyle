@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.2 (2024-10-30)
+
+- [fix] Skip secondary Tiptap pin render call
+
 ## 3.3.1 (2024-10-16)
 
 - [fix] Error when using pins with scope modifier
