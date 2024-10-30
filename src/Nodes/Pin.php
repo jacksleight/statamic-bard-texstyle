@@ -64,6 +64,11 @@ class Pin extends Node
 
     public function renderHTML($node, $HTMLAttributes = [])
     {
+        $phase = (func_num_args() === 2 ? 'open' : 'close');
+        if ($phase === 'close') {
+            return;
+        }
+
         $values = (array) $node->attrs->values;
         $id = $node->attrs->id;
         $data = array_merge($values, ['id' => $id], $this->fields($values['type'])
