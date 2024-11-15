@@ -64,7 +64,7 @@ class Pin extends Node
 
     public function renderHTML($node, $HTMLAttributes = [])
     {
-        $phase = (func_num_args() === 2 ? 'open' : 'close');
+        $phase = func_num_args() === 2 ? 'open' : 'close';
         if ($phase === 'close') {
             return;
         }

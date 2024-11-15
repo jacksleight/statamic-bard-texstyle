@@ -61,8 +61,8 @@ class ServiceProvider extends AddonServiceProvider
                 'defaultsKey' => $bard->config('bts_defaults', 'standard'),
             ]);
         });
-        Augmentor::addExtension('btsSpan', new Span());
-        Augmentor::addExtension('btsDiv', new Div());
+        Augmentor::addExtension('btsSpan', new Span);
+        Augmentor::addExtension('btsDiv', new Div);
         if ($options['pro']) {
             Pin::registerHooks($options);
             Augmentor::addExtension('btsAttributes', new Attributes($options));
