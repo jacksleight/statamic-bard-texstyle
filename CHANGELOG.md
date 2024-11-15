@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.3 (2024-11-15)
+
+- [fix] Rendering pins with `bard_html`modifier regression
+
 ## 3.3.2 (2024-10-30)
 
 - [fix] Skip secondary Tiptap pin render call
