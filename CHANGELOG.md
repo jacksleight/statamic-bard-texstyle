@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.4.0 (2024-12-02)
+
+- [new] Ability to specify pin views
+
 ## 3.3.3 (2024-11-15)
 
 - [fix] Rendering pins with `bard_html`modifier regression
