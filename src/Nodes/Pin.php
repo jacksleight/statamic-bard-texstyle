@@ -100,6 +100,11 @@ class Pin extends Node
 
     protected function viewName($type)
     {
+        $pins = $this->options['pins'];
+        if ($pins[$type]['view'] ?? null) {
+            return $pins[$type]['view'];
+        }
+
         if (view()->exists($view = "pins._{$type}")) {
             return $view;
         }
