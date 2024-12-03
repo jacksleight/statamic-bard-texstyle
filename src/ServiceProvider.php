@@ -47,6 +47,8 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function bootConfig()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/statamic/bard_texstyle.php', 'statamic.bard_texstyle');
+
         $this->publishes([
             __DIR__.'/../config/statamic/bard_texstyle.php' => config_path('statamic/bard_texstyle.php'),
         ], 'statamic-bard-texstyle-config');
