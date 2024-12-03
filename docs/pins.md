@@ -52,6 +52,8 @@ The array keys are used as the handles. Pins can have the following options:
   An identification character. This will appear in the icon if using one of Texstyle's dynamic icons.
 * **instructions (string, optional)**  
   The description of the pin.
+* **view (string, optional)**  
+  The name of the view used to render this pin.
 * **fields (array)**  
   Fields for this pin. The array keys are used as the handles. Parameters are:
   * **display (string)**  
@@ -73,7 +75,7 @@ To enable the pins menu toggle the button in the Bard field's button selector. T
 
 ## Rendering Pins
 
-Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated partial at `resources/views/pins/_[handle].antlers.html`, this is the partial that will be used to render the pin. If no partial exists nothing will be rendered.
+Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated partial at `resources/views/pins/_[handle].antlers.html`, this is the partial that will be used to render the pin. If no partial exists nothing will be rendered. You can also specify a custom view in the pin configuration.
 
 ```html
 <!-- resources/views/pins/_icon.antlers.html -->
