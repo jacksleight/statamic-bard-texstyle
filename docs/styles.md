@@ -31,23 +31,7 @@ Open `config/statamic/bard_texstyle.php` to add your styles:
 ],
 ```
 
----
-
-## Enabling the Buttons
-
-You can enable the buttons in any Bard field, either through the blueprint/fieldset editor or by adding them to the buttons list in the YAML file directly.
-
-### Heading & List Style Buttons
-
-When using heading, unordered list or ordered list styles the associated `h*`, `unorderedlist` or `orderedlist` buttons must also be enabled in the Bard field.
-
-### Link Style Buttons
-
-When using link styles the `link` button must also be enabled in the Bard field. Link style buttons will only be visible when a link is selected, they should still be created through the standard link button.
-
----
-
-## Options
+### Options
 
 The array keys are used as the button names. Styles can have the following options:
 
@@ -80,6 +64,20 @@ The array keys are used as the button names. Styles can have the following optio
 :::note
 Container div styles are just for simple blocks of text-based content, they cannot contain sets or be nested. If you need something more complex then using a set is 100% the way to go.
 :::
+
+---
+
+## Enabling the Buttons
+
+You can enable the buttons in any Bard field, either through the blueprint/fieldset editor or by adding them to the buttons list in the YAML file directly.
+
+### Heading & List Style Buttons
+
+When using heading, unordered list or ordered list styles the associated `h*`, `unorderedlist` or `orderedlist` buttons must also be enabled in the Bard field.
+
+### Link Style Buttons
+
+When using link styles the `link` button must also be enabled in the Bard field. Link style buttons will only be visible when a link is selected, they should still be created through the standard link button.
 
 ---
 
