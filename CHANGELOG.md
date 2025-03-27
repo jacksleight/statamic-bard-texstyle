@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.0 ()
+
+- 
+
 ## 3.4.1 (2024-12-03)
 
 - [fix] Merging default config
