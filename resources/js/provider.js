@@ -1,5 +1,6 @@
 import Span from './marks/span'
 import Div from './nodes/div'
+import Hidden from './nodes/hidden'
 import Pin from './nodes/pin'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
@@ -21,6 +22,7 @@ class Provider {
             .bootStylesButton(options)
             .bootAttributesButton(options)
             .bootPinsButton(options)
+            .bootHiddenButton(options)
             .bootCss(options);
     }
 
@@ -45,6 +47,7 @@ class Provider {
         Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         Statamic.$bard.addExtension(() => Div);
+        Statamic.$bard.addExtension(() => Hidden);
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(({ bard }) => Pin.configure({ ...options, bard }));
@@ -116,6 +119,19 @@ class Provider {
                 component: PinsButton,
                 html: coreIcon('pins'),
                 btsOptions: options,
+            }));
+        });
+        return this;
+    }
+
+    bootHiddenButton(options) {
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_hidden'), 0, button({
+                name: 'bts_hidden',
+                text: __('Hidden'),
+                command: (editor) => editor.chain().focus().btsToggleHidden().run(),
+                activeName: 'btsHidden',
+                html: coreIcon('hidden'),
             }));
         });
         return this;
