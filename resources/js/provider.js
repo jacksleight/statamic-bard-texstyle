@@ -10,6 +10,7 @@ import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import PinsButton from "./components/PinsButton.vue";
 import { styleIcon, pinIcon, coreIcon } from './icons';
+import { kebab } from './helpers'
 
 class Provider {
 
@@ -141,6 +142,7 @@ class Provider {
         const css = [
             ...this.gatherDefaultsCss(options),
             ...this.gatherStylesCss(options),
+            ...this.gatherAttributesCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -186,6 +188,34 @@ class Provider {
                     `${base} ${selector}[data-bts-style="${style[options.store]}"]::before`,
                 ], {'&': {content: `"${style.name}"`}}));
             }
+        });
+        return css;
+    }
+
+    gatherAttributesCss(options) {
+        const css = [];
+        const base = `.bard-fieldtype-wrapper .bard-content`;
+        const merged = Object.entries(options.attributes)
+            .reduce((stack, [ext, group]) => {
+                const type = group.ext;
+                stack[type] = {...stack[type] || {}, ...group.attrs};
+                return stack;
+            }, {});
+        Object.entries(merged).forEach(([type, attrs]) => {
+            Object.entries(attrs).forEach(([name, attr]) => {
+                const selector = options.types[attr.type].selector;
+                if (attr.cp_css) {
+                    Object.entries(attr.cp_css).forEach(([value, cp_css]) => {
+                        if (value === 'true' && attr.values?.true !== undefined) {
+                            value = attr.values.true;
+                        }
+                        css.push(...this.parseCss([
+                            `.bts-preview[data-bts-attribute-${kebab(name)}="${value}"]`,
+                            `${base} ${selector}[data-bts-attribute-${kebab(name)}="${value}"]`,
+                        ], cp_css));
+                    });
+                }
+            });
         });
         return css;
     }
