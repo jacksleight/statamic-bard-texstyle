@@ -24,6 +24,7 @@ class Provider {
             .bootAttributesButton(options)
             .bootPinsButton(options)
             .bootHiddenButton(options)
+            .bootParagraphButton(options)
             .bootCss(options);
     }
 
@@ -133,6 +134,19 @@ class Provider {
                 command: (editor) => editor.chain().focus().btsToggleHidden().run(),
                 activeName: 'btsHidden',
                 html: coreIcon('hidden'),
+            }));
+        });
+        return this;
+    }
+
+    bootParagraphButton(options) {
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_paragraph'), 0, button({
+                name: 'bts_paragraph',
+                text: __('Paragraph'),
+                command: (editor) => editor.chain().focus().btsToggleParagraph().run(),
+                activeName: 'paragraph',
+                html: coreIcon('paragraph'),
             }));
         });
         return this;
