@@ -154,7 +154,6 @@ class TypeManager implements JsonSerializable
             'defaults_cp_css' => true,
             'defaults_cp_badge' => true,
         ],
-        'hidden' => [],
         'horizontal_rule' => [
             'display' => 'Horizontal Rule',
             'selector' => 'hr',
