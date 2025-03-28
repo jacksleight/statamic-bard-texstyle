@@ -57,8 +57,9 @@
         }
 
         div[data-bts-hidden] {
-            opacity: 0.25;
-            text-decoration: line-through;
+            > * {
+                opacity: 0.25;
+            }
         }
 
     }
