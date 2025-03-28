@@ -55,6 +55,8 @@ Attributes are grouped by element type and the array keys are the attribute name
   The options to use for select attributes.
 * **clearable (boolean)**
   Whether select attributes can be cleared.
+* **cp_css (array)**  
+  The CSS properties that will be added to the control panel for each of this attribute's possible values. Should be an array where keys are the attribute values and the values are either a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the style's root selector.
 
 ---
 
@@ -70,7 +72,7 @@ The following element types are supported. Some elements have standard attribute
 
 | Styles Types                          | Standard Attributes                |
 | ------------------------------------- | ---------------------------------- |
-| `heading` (all)<br>`heading_[1-6]`    | `level`                            |
+| `heading` / `heading_[1-6]`           | `level`                            |
 | `paragraph`                           |                                    |
 | `unordered_list`                      |                                    |
 | `ordered_list`                        | `start`                            |
