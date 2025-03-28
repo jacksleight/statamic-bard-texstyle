@@ -309,7 +309,7 @@ class OptionManager
                 'type' => $this->types->name($style['type'] ?? 'paragraph'),
             ]))
             ->map(function ($style) {
-                if ($style['type'] === 'heading') {
+                if ($style['type'] === 'heading' && isset($style['level'])) {
                     $style['type'] = 'heading_'.$style['level'];
                     unset($style['level']);
                 }
