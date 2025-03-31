@@ -37,7 +37,8 @@ The array keys are used as the button names. Styles can have the following optio
 
 * **type (string)**  
   The type. Options are:
-    * `heading_[1-6]`
+    * `heading` (can be applied to any heading level)
+    * `heading_[1-6]` (locked to a specific heading level)
     * `paragraph`
     * `unordered_list`
     * `ordered_list`
@@ -97,7 +98,7 @@ The following options are supported for each element type.
 
 | Types                                 | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |
-| `heading_[1-6]`                       | ●       | ●        | ●          |
+| `heading` / `heading_[1-6]`           | ●       | ●        | ●          |
 | `paragraph`                           | ●       | ●        | ●          |
 | `unordered_list`                      | ●       | ●        | ●          |
 | `ordered_list`                        | ●       | ●        | ●          |

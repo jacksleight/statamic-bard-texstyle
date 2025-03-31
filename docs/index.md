@@ -11,21 +11,18 @@ This Statamic addon allows you to add custom styles, inline elements and attribu
 * Add custom elements within a line of text (Pins)
 * Add custom attributes like IDs, code languages or additional styling
 * A styles menu with previews of each style
+* Ability to hide parts of text content to prevent them rendering 
 * Groups of default classes and CP styles for unstyled elements
 
 ## Editions
 
 | Feature                  | Free | Pro   |
 | ------------------------ | :--: | :---: |
-| Custom Heading Styles    | ●    | ●     |
-| Custom Paragraph Styles  | ●    | ●     |
-| Custom List Styles       | ●    | ●     |
-| Custom Link Styles       | ●    | ●     |
-| Custom Span Styles       | ●    | ●     |
-| Custom Div Styles        | ●    | ●     |
+| Custom Styles            | ●    | ●     |
 | Pins                     |      | ●     |
 | Attributes               |      | ●     |
 | Styles Menu              |      | ●     |
+| Hidden Blocks            | ●    | ●     |
 | Unstyled Defaults        | ●    | ●     |
 
 ## Licencing

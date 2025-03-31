@@ -39,7 +39,7 @@ Support for the Bard Paragraph Style configuration format has been removed. Plea
 
 The following changes have been made to the Bard Texstyle config. The old configuration formats will still work but support may be removed in the future so it would be best to update your config as soon as you can.
 
-The heading style `level` option has been removed in favour of specifying one of six heading types in the `type` option instead:
+The heading style `level` option has been removed in favor of specifying one of six heading types in the `type` option instead:
 
 ```php
 'title' => [

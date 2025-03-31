@@ -6,6 +6,7 @@ use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
+use JackSleight\StatamicBardTexstyle\Nodes\Hidden;
 use JackSleight\StatamicBardTexstyle\Nodes\Pin;
 use Statamic\Facades\Addon;
 use Statamic\Fieldtypes\Bard;
@@ -65,6 +66,7 @@ class ServiceProvider extends AddonServiceProvider
         });
         Augmentor::addExtension('btsSpan', new Span);
         Augmentor::addExtension('btsDiv', new Div);
+        Augmentor::addExtension('btsHidden', new Hidden);
         if ($options['pro']) {
             Pin::registerHooks($options);
             Augmentor::addExtension('btsAttributes', new Attributes($options));

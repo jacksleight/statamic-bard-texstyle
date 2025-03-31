@@ -18,36 +18,36 @@ class Pins extends Tags
 
     public function index()
     {
-        $this->prepare();
-
         $from = $this->params->get('from');
         $type = $this->params->get('type');
 
-        if (! $from instanceof Value) {
-            throw new \Exception('From parameter must be the name of a Bard field');
+        if (! is_array($from)) {
+            $from = explode('|', $from);
         }
 
-        $fieldtype = $from->fieldtype();
-        if (! $fieldtype instanceof Bard) {
-            throw new \Exception('From parameter must be the name of a Bard field');
-        }
+        $pins = collect($from)
+            ->flatMap(function ($from) use ($type) {
+                if (is_string($from)) {
+                    $from = $this->context->get($from);
+                }
+                if (is_array($from) && isset($from['value'])) {
+                    $from = $from['value'];
+                }
+                if (! $from instanceof Value || ! $from->fieldtype() instanceof Bard) {
+                    throw new \Exception('From parameter must be the name of a Bard field or array of Bard values');
+                }
 
-        $augmentor = new Augmentor($fieldtype);
-        $extension = $augmentor->extensions()['btsPin'];
+                $augmentor = new Augmentor($from->fieldtype());
+                $extension = $augmentor->extensions()['btsPin'];
 
-        $pins = $extension->augmentTag($from->raw(), $type);
+                return $extension->augmentTag($from->raw(), $type);
+            })
+            ->all();
+
         if (! count($pins)) {
             return;
         }
 
         return $pins;
-    }
-
-    protected function prepare()
-    {
-        $from = $this->params->get('from');
-        if (is_string($from)) {
-            $this->params->put('from', $this->context->get($from));
-        }
     }
 }

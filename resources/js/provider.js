@@ -1,5 +1,6 @@
 import Span from './marks/span'
 import Div from './nodes/div'
+import Hidden from './nodes/hidden'
 import Pin from './nodes/pin'
 import Core from './extensions/core'
 import Overrides from './extensions/overrides'
@@ -9,6 +10,7 @@ import StylesButton from "./components/StylesButton.vue";
 import AttributesButton from "./components/AttributesButton.vue";
 import PinsButton from "./components/PinsButton.vue";
 import { styleIcon, pinIcon, coreIcon } from './icons';
+import { kebab } from './helpers'
 
 class Provider {
 
@@ -21,6 +23,8 @@ class Provider {
             .bootStylesButton(options)
             .bootAttributesButton(options)
             .bootPinsButton(options)
+            .bootHiddenButton(options)
+            .bootParagraphButton(options)
             .bootCss(options);
     }
 
@@ -45,6 +49,7 @@ class Provider {
         Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
         Statamic.$bard.addExtension(() => Span);
         Statamic.$bard.addExtension(() => Div);
+        Statamic.$bard.addExtension(() => Hidden);
         if (options.pro) {
             Statamic.$bard.addExtension(() => Attributes.configure(options));
             Statamic.$bard.addExtension(({ bard }) => Pin.configure({ ...options, bard }));
@@ -121,10 +126,37 @@ class Provider {
         return this;
     }
 
+    bootHiddenButton(options) {
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_hidden'), 0, button({
+                name: 'bts_hidden',
+                text: __('Hidden'),
+                command: (editor) => editor.chain().focus().btsToggleHidden().run(),
+                activeName: 'btsHidden',
+                html: coreIcon('hidden'),
+            }));
+        });
+        return this;
+    }
+
+    bootParagraphButton(options) {
+        Statamic.$bard.buttons((buttons, button) => {
+            buttons.splice(buttons.indexOf('bts_paragraph'), 0, button({
+                name: 'bts_paragraph',
+                text: __('Paragraph'),
+                command: (editor) => editor.chain().focus().btsToggleParagraph().run(),
+                activeName: 'paragraph',
+                html: coreIcon('paragraph'),
+            }));
+        });
+        return this;
+    }
+
     bootCss(options) {
         const css = [
             ...this.gatherDefaultsCss(options),
             ...this.gatherStylesCss(options),
+            ...this.gatherAttributesCss(options),
         ];
         const el = document.createElement('style');
         el.appendChild(document.createTextNode(css.join(' ')));
@@ -170,6 +202,34 @@ class Provider {
                     `${base} ${selector}[data-bts-style="${style[options.store]}"]::before`,
                 ], {'&': {content: `"${style.name}"`}}));
             }
+        });
+        return css;
+    }
+
+    gatherAttributesCss(options) {
+        const css = [];
+        const base = `.bard-fieldtype-wrapper .bard-content`;
+        const merged = Object.entries(options.attributes)
+            .reduce((stack, [ext, group]) => {
+                const type = group.ext;
+                stack[type] = {...stack[type] || {}, ...group.attrs};
+                return stack;
+            }, {});
+        Object.entries(merged).forEach(([type, attrs]) => {
+            Object.entries(attrs).forEach(([name, attr]) => {
+                const selector = options.types[attr.type].selector;
+                if (attr.cp_css) {
+                    Object.entries(attr.cp_css).forEach(([value, cp_css]) => {
+                        if (value === 'true' && attr.values?.true !== undefined) {
+                            value = attr.values.true;
+                        }
+                        css.push(...this.parseCss([
+                            `.bts-preview[data-bts-attribute-${kebab(name)}="${value}"]`,
+                            `${base} ${selector}[data-bts-attribute-${kebab(name)}="${value}"]`,
+                        ], cp_css));
+                    });
+                }
+            });
         });
         return css;
     }
