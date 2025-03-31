@@ -86,7 +86,7 @@ Pins are rendered automatically during Bard's augmentation process. For each pin
 
 ## Secondary Output
 
-Sometimes you may want to output pin data seperatly from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
+Sometimes you may want to output pin data separately from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
 
 Texstyle provides a `pins` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
 
