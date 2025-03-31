@@ -55,6 +55,8 @@ Attributes are grouped by element type and the array keys are the attribute name
   The options to use for select attributes.
 * **clearable (boolean)**
   Whether select attributes can be cleared.
+* **cp_css (array)**  
+  The CSS properties that will be added to the control panel for each of this attribute's possible values. Should be an array where keys are the attribute values and the values are either a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the style's root selector.
 
 ---
 
@@ -68,33 +70,33 @@ To enable the attribute panel toggle the button in the Bard field's button selec
 
 The following element types are supported. Some elements have standard attributes built in, which you can add to the attributes panel but the `default` and `rendered` options cannot be customised.
 
-| Styles Types                          | Standard Attributes                |
-| ------------------------------------- | ---------------------------------- |
-| `heading` (all)<br>`heading_[1-6]`    | `level`                            |
-| `paragraph`                           |                                    |
-| `unordered_list`                      |                                    |
-| `ordered_list`                        | `start`                            |
-| `link`                                | `href`, `rel`, `target`, `title`   |
+| Styles Types                          | Standard Attributes                | `cp_css` |
+| ------------------------------------- | ---------------------------------- | :------: |
+| `heading` / `heading_[1-6]`           | `level`                            | ●        |
+| `paragraph`                           |                                    | ●        |
+| `unordered_list`                      |                                    | ●        |
+| `ordered_list`                        | `start`                            | ●        |
+| `link`                                | `href`, `rel`, `target`, `title`   | ●        |
 
-| Other Types                           | Standard Attributes                |
-| ------------------------------------- | ---------------------------------- |
-| `blockquote`                          |                                    |
-| `bold`                                |                                    |
-| `code_block`                          | `language`                         |
-| `code`                                |                                    |
-| `horizontal_rule`                     |                                    |
-| `image`                               | `src`, `alt`, `title`              |
-| `italic`                              |                                    |
-| `list_item`                           |                                    |
-| `small`                               |                                    |
-| `strike`                              |                                    |
-| `subscript`                           |                                    |
-| `superscript`                         |                                    |
-| `table_cell`                          | `rowspan`, `colspan`, `colwidth`   |
-| `table_header`                        | `rowspan`, `colspan`, `colwidth`   |
-| `table_row`                           |                                    |
-| `table`                               |                                    |
-| `underline`                           |                                    |
+| Other Types                           | Standard Attributes                | `cp_css` |
+| ------------------------------------- | ---------------------------------- | :------: |
+| `blockquote`                          |                                    | ●        |
+| `bold`                                |                                    | ●        |
+| `code_block`                          | `language`                         | ●        |
+| `code`                                |                                    | ●        |
+| `horizontal_rule`                     |                                    | ●        |
+| `image`                               | `src`, `alt`, `title`              | ●        |
+| `italic`                              |                                    | ●        |
+| `list_item`                           |                                    | ●        |
+| `small`                               |                                    | ●        |
+| `strike`                              |                                    | ●        |
+| `subscript`                           |                                    | ●        |
+| `superscript`                         |                                    | ●        |
+| `table_cell`                          | `rowspan`, `colspan`, `colwidth`   |          |
+| `table_header`                        | `rowspan`, `colspan`, `colwidth`   |          |
+| `table_row`                           |                                    |          |
+| `table`                               |                                    |          |
+| `underline`                           |                                    | ●        |
 
 :::note
 You can add attributes to all headings or specific levels and Texstyle will display the appropriate fields in the panel. However internally Tiptap uses the same unified list of attributes for all headings regardless of level.
