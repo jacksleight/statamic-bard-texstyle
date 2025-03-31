@@ -82,9 +82,11 @@ Pins are rendered automatically during Bard's augmentation process. For each pin
 {{ svg :src="src" class="w-6 h-6 inline-block" }}
 ```
 
-### Secondary Output
+---
 
-Sometimes you may want to output pin data seperatly from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
+## Secondary Output
+
+Sometimes you may want to output pin data separately from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
 
 Texstyle provides a `pins` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
 
@@ -93,6 +95,24 @@ Texstyle provides a `pins` tag that can be used for this this purpose, it accept
     {{ pins:content type="footnote" }}
         <li>{{ text }}</li>
     {{ /pins:content }}
+</ol>
+```
+
+The tag will also accept multiple field names, returning a single list of pins from those fields, or the result of a [Distill](https://statamic.com/addons/jacksleight/distill) query:
+
+```html
+<ol>
+    {{ pins from="content|other_content" type="footnote" }}
+        <li>{{ text }}</li>
+    {{ /pins }}
+</ol>
+```
+
+```html
+<ol>
+    {{ pins from="{ distill:page_builder type='value:bard' }" type="footnote" }}
+        <li>{{ text }}</li>
+    {{ /pins }}
 </ol>
 ```
 

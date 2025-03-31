@@ -82,7 +82,7 @@ The following options are supported for each element type.
 
 | Styles Types                          | `class` | `cp_css` | `cp_badge` |
 | ------------------------------------- | :-----: | :------: | :--------: |
-| `heading_[1-6]`                       | ●       | ●        | ●          |
+| `heading` / `heading_[1-6]`           | ●       | ●        | ●          |
 | `paragraph`                           | ●       | ●        | ●          |
 | `unordered_list`                      | ●       | ●        | ●          |
 | `ordered_list`                        | ●       | ●        | ●          |

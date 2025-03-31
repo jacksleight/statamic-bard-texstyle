@@ -52,6 +52,18 @@ class TypeManager implements JsonSerializable
             'styles_cp_css' => true,
             'styles_cp_badge' => true,
         ],
+        'heading' => [
+            'display' => 'Heading',
+            'selector' => ':is(h1, h2, h3, h4, h5, h6)',
+            'extension' => 'heading',
+            'command' => 'btsToggleHeading',
+            'parameters' => [],
+            'attributes' => ['level'],
+            'styles_class' => true,
+            'styles_cp_css' => true,
+            'styles_cp_badge' => true,
+            'styles_menu' => true,
+        ],
         'heading_1' => [
             'display' => 'Heading 1',
             'selector' => 'h1',
@@ -218,6 +230,7 @@ class TypeManager implements JsonSerializable
         'paragraph' => [
             'display' => 'Paragraph',
             'selector' => 'p',
+            'button' => 'bts_paragraph',
             'extension' => 'paragraph',
             'command' => 'btsToggleParagraph',
             'styles_class' => true,

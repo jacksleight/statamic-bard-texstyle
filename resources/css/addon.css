@@ -56,6 +56,12 @@
             }
         }
 
+        div[data-bts-hidden] {
+            > * {
+                opacity: 0.25;
+            }
+        }
+
     }
 
     .bts-styles-button {
