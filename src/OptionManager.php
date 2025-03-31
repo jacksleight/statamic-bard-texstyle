@@ -206,6 +206,19 @@ class OptionManager
         $defaults = $this->normalizeDefaults($defaults);
 
         $defaults = collect($defaults)
+            ->map(function ($dflts) {
+                if (array_key_exists('heading', $dflts)) {
+                    for ($i = 1; $i <= 6; $i++) {
+                        $dflts['heading_'.$i] = array_merge(
+                            $dflts['heading'],
+                            $dflts['heading_'.$i] ?? []
+                        );
+                    }
+                    unset($dflts['heading']);
+                }
+
+                return $dflts;
+            })
             ->map(fn ($dflts, $key) => [
                 'key' => $key,
                 'dflts' => collect($dflts)
@@ -276,7 +289,7 @@ class OptionManager
                     ->all();
             })
             ->map(function ($groups) {
-                if (array_key_exists('heading', $groups)) {
+                if (array_key_exists('heading', $groups) && collect($groups['heading'])->keys()->every(fn ($key) => is_numeric($key))) {
                     foreach ($groups['heading'] as $level => $class) {
                         $groups['heading_'.$level] = $class;
                     }
