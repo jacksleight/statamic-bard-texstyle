@@ -13,17 +13,18 @@ const Overrides = Extension.create({
     },
 
     onCreate() {
-        const { bard, stylesExts, stylesMenuOptions } = this.options;
+        const { bard, stylesExts, stylesMenuOptions, attr, store } = this.options;
         const widlcards = Object.entries(this.options.styles)
             .filter(([key, style]) => style.type === 'heading')
-            .map(([key, style]) => style.class);
+            .map(([key, style]) => style[store]);
         bard.buttons.forEach(button => {
+            const args = button.args || {};
             if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(button.name)) {
-                button.active = (editor) => editor.isActive('heading', { ...(button.args || {}), class: null }) ||
-                    widlcards.some(widlcard => editor.isActive('heading', { ...button.args, class: widlcard }));
+                button.active = (editor) => editor.isActive('heading', { ...args, [attr]: null }) ||
+                    widlcards.some(widlcard => editor.isActive('heading', { ...args, [attr]: widlcard }));
             }
             if (['unorderedlist', 'orderedlist'].includes(button.name)) {
-                button.args = { ...(button.args || {}), class: null };
+                button.args = { ...args, [attr]: null };
             }
             if (button.name === 'unorderedlist' && stylesExts.includes('bulletList')) {
                 button.command = (editor, args) => editor.chain().focus().btsToggleBulletList(args).run();
