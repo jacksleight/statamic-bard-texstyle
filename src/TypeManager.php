@@ -405,6 +405,9 @@ class TypeManager implements JsonSerializable
     public function getByItem($item)
     {
         return $this->types->first(function ($type) use ($item) {
+            if ($type['wildcard']) {
+                return false;
+            }
             $attrs = array_intersect_key((array) $item['attrs'], $type['parameters']);
 
             return $type['extension'] === $item['type'] && $attrs === $type['parameters'];
