@@ -1,7 +1,7 @@
 <template>
 
     <div class="bts-attributes">
-        <div v-if="items.length">
+        <div v-if="hasAttrs">
             <div v-for="(item, i) in items">
                 <div class="px-4 py-3 title-case border-b flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-attributes-arrow text-gray-700" :class="{ 'rotate-90': activeItem === i }">
@@ -93,6 +93,14 @@ export default {
         this.bard.$off('bts-update', this.close);
     },
 
+    computed: {
+
+        hasAttrs() {
+            return this.items.some(item => Object.values(this.attrs(item)).length > 0);
+        },
+
+    },
+
     methods: {
 
         display(item) {
@@ -100,7 +108,7 @@ export default {
         },
 
         attrs(item) {
-            return this.btsOptions.attributes[this.btsOptions.types.getByItem(item).name].attrs;
+            return this.btsOptions.attributes[this.btsOptions.types.getByItem(item).name]?.attrs || {};
         },
 
         apply() {
