@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.2 (2025-04-01)
+
+- [fix] Heading default styles
+
 ## 3.5.1 (2025-04-01)
 
 - [fix] Heading attributes panel
