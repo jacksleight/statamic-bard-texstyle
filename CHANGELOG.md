@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.1 (2025-04-01)
+
+- [fix] Heading attributes panel
+
 ## 3.5.0 (2025-03-31)
 
 - [new] Heading styles that can apply to any heading level
