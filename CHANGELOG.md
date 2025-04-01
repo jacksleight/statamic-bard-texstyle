@@ -9,7 +9,7 @@
 - [new] Heading styles that can apply to any heading level
 - [new] Ability to hide parts of text content
 - [new] Control panel CSS for specific attribute values
-- [new] Plain paragraph style button/menu option
+- [new] Plain paragraph styles menu option
 - [new] Support multipe fields and Distill results in pins tag
 
 ## 3.4.1 (2024-12-03)
