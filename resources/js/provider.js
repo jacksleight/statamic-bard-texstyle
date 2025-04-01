@@ -31,6 +31,9 @@ class Provider {
     bootTypeManager(types) {
         types.getByItem = function (item) {
             return Object.values(this).find(function(type) {
+                if (type.wildcard) {
+                    return false;
+                }
                 const params = Array.isArray(type.parameters) ? {} : type.parameters;
                 const attrs = Object.fromEntries(Object.entries(item.attrs).filter(([key]) => params.hasOwnProperty(key)));
                 return type.extension === item.type && JSON.stringify(attrs) === JSON.stringify(params);

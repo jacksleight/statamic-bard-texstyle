@@ -63,6 +63,7 @@ class TypeManager implements JsonSerializable
             'styles_cp_css' => true,
             'styles_cp_badge' => true,
             'styles_menu' => true,
+            'wildcard' => true,
         ],
         'heading_1' => [
             'display' => 'Heading 1',
@@ -378,6 +379,7 @@ class TypeManager implements JsonSerializable
                 'defaults_class' => false,
                 'defaults_cp_css' => false,
                 'defaults_cp_badge' => false,
+                'wildcard' => false,
             ]);
     }
 
