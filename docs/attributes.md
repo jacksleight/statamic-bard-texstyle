@@ -85,7 +85,7 @@ The following element types are supported. Some elements have standard attribute
 | `code_block`                          | `language`                         | ●        |
 | `code`                                |                                    | ●        |
 | `horizontal_rule`                     |                                    | ●        |
-| `image`                               | `src`, `alt`, `title`              | ●        |
+| `image`                               | `src`, `alt`, `title`              |          |
 | `italic`                              |                                    | ●        |
 | `list_item`                           |                                    | ●        |
 | `small`                               |                                    | ●        |
