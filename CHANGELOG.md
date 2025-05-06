@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.3 (2025-05-06)
+
+- [fix] Incorrect support for image CP CSS
+
 ## 3.5.2 (2025-04-01)
 
 - [fix] Heading default styles
