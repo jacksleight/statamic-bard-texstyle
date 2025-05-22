@@ -143,12 +143,13 @@ class Provider {
     }
 
     bootParagraphButton(options) {
+        const { attr } = options;
         Statamic.$bard.buttons((buttons, button) => {
             buttons.splice(buttons.indexOf('bts_paragraph'), 0, button({
                 name: 'bts_paragraph',
                 text: __('Paragraph'),
-                command: (editor) => editor.chain().focus().btsToggleParagraph().run(),
-                activeName: 'paragraph',
+                command: (editor) => editor.chain().focus().btsToggleParagraph({ [attr]: null }).run(),
+                active: (editor) => editor.isActive('paragraph', { [attr]: null }),
                 html: coreIcon('paragraph'),
             }));
         });

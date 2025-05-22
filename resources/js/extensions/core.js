@@ -33,8 +33,12 @@ const Core = Extension.create({
             btsToggleHeading: (attributes) => ({ commands }) => {
                 return commands.toggleNode('heading', 'paragraph', attributes);
             },
-            btsToggleParagraph: (attributes) => ({ commands }) => {
-                return commands.toggleNode('paragraph', 'paragraph', attributes);
+            btsToggleParagraph: (attributes) => ({ commands, editor }) => {
+                if (editor.isActive('paragraph', attributes)) {
+                    return commands.resetAttributes('paragraph', attr);
+                } else {
+                    return commands.toggleNode('paragraph', 'paragraph', attributes);
+                }
             },
             btsToggleLink: (attributes) => ({ commands, editor }) => {
                 if (editor.isActive('link', attributes)) {

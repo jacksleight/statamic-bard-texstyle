@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.5.4 (2025-05-22)
+
+- [fix] Toggling paragraph styles off
+- [fix] Plain paragraph active state
+
 ## 3.5.3 (2025-05-06)
 
 - [fix] Incorrect support for image CP CSS
