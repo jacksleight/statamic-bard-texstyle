@@ -214,8 +214,8 @@ class Provider {
         const css = [];
         const base = `.bard-fieldtype-wrapper .bard-content`;
         const merged = Object.entries(options.attributes)
-            .reduce((stack, [ext, group]) => {
-                const type = group.ext;
+            .reduce((stack, [, group]) => {
+                const type = group.type;
                 stack[type] = {...stack[type] || {}, ...group.attrs};
                 return stack;
             }, {});

@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.5 (2025-06-04)
+
+- [fix] Multi heading level CP CSS
+
 ## 3.5.4 (2025-05-22)
 
 - [fix] Toggling paragraph styles off
