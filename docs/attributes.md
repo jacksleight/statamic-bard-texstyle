@@ -56,7 +56,7 @@ Attributes are grouped by element type and the array keys are the attribute name
 * **clearable (boolean)**
   Whether select attributes can be cleared.
 * **cp_css (array)**  
-  The CSS properties that will be added to the control panel for each of this attribute's possible values. Should be an array where keys are the attribute values and the values are either a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the style's root selector. Only applied when *rendered* is set to `class` or `style`. 
+  The CSS properties that will be added to the control panel for each of this attribute's possible values. Should be an array where keys are the attribute values and the values are either a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the style's root selector. Only applied when **rendered** is set to `class` or `style`. 
 
 ---
 
