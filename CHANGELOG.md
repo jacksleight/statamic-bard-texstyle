@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.6 (2025-07-04)
+
+- [fix] Fix heading button active states
+
 ## 3.5.5 (2025-06-04)
 
 - [fix] Multi heading level CP CSS
