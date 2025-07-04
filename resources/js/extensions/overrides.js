@@ -19,7 +19,7 @@ const Overrides = Extension.create({
             .map(([key, style]) => style[store]);
         bard.buttons.forEach(button => {
             const args = button.args || {};
-            if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(button.name)) {
+            if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(button.name) && stylesExts.includes('heading')) {
                 button.active = (editor) => editor.isActive('heading', { ...args, [attr]: null }) ||
                     wildcards.some(widlcard => editor.isActive('heading', { ...args, [attr]: widlcard }));
             }
