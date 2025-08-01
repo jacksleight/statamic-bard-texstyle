@@ -28,7 +28,7 @@ const Core = Extension.create({
     },
 
     addCommands() {
-        const { attr } = this.options;
+        const { attr, store, styles } = this.options;
         return {
             btsToggleHeading: (attributes) => ({ commands }) => {
                 return commands.toggleNode('heading', 'paragraph', attributes);
@@ -63,6 +63,11 @@ const Core = Extension.create({
             },
             btsToggleOrderedList: (attributes) => ({ commands }) => {
                 return commands.btsToggleList(attributes, 'orderedList');
+            },
+            btsActiveStylesFetch: () => ({ editor }) => {
+                return Object.values(styles)
+                    .filter(style => editor.isActive(style.ext, { [attr]: style[store] }))
+                    .map(style => style.key);
             },
         }
     },
