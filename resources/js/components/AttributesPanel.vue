@@ -78,10 +78,12 @@ export default {
 
     data() {
         const { info, items } = this.editor.commands.btsAttributesFetch();
+        const activeStyles = this.editor.commands.btsActiveStylesFetch();
         return {
             activeItem: 0,
             info,
             items,
+            activeStyles,
         };
     },
 
@@ -108,7 +110,14 @@ export default {
         },
 
         attrs(item) {
-            return this.btsOptions.attributes[this.btsOptions.types.getByItem(item).name]?.attrs || {};
+            const attrs = this.btsOptions.attributes[this.btsOptions.types.getByItem(item).name]?.attrs || {};            
+            return Object.fromEntries(Object.entries(attrs)
+                .filter(([name, attr]) => {
+                    if (!attr.styles.length) {
+                        return true;
+                    }
+                    return attr.styles.some(style => this.activeStyles.includes(style));
+                }));
         },
 
         apply() {
