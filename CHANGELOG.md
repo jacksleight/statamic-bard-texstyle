@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.6.0 (2025-08-08)
+
+- [new] Style specific attributes
+
 ## 3.5.6 (2025-07-04)
 
 - [fix] Heading button active states
