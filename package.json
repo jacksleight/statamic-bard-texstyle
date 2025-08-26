@@ -6,7 +6,6 @@
     },
     "devDependencies": {
         "@statamic/cms": "file:./vendor/statamic/cms/resources/js/package",
-        "@statamic/tiptap": "file:./vendor/statamic/cms/resources/js/uitl/tiptap",
         "laravel-vite-plugin": "^2.0.0",
         "vite": "^7.0.0"
     }
