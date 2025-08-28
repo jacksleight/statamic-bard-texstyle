@@ -27,15 +27,18 @@
 </template>
 
 <script>
+import { Popover } from '@statamic/cms/ui';
+import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import PinsMenu from './PinsMenu.vue';
 
 export default {
 
     components: {
         PinsMenu,
+        Popover,
     },
 
-    mixins: [ BardToolbarButton ],
+    mixins: [ ToolbarButtonMixin ],
 
     data() {
         return {

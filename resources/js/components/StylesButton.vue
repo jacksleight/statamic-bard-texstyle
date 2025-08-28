@@ -32,14 +32,17 @@
 </template>
 
 <script>
+import { Popover } from '@statamic/cms/ui';
+import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import StylesMenu from './StylesMenu.vue';
 
 export default {
 
-    mixins: [ BardToolbarButton ],
+    mixins: [ ToolbarButtonMixin ],
 
     components: {
         StylesMenu,
+        Popover,
     },
 
     data() {    
@@ -52,13 +55,13 @@ export default {
     created() {
         if (this.type === 'text') {
             this.updateActiveItem();
-            this.bard.$on('bts-update', this.updateActiveItem);
+            this.bard.events.on('bts-update', this.updateActiveItem);
         }
     },
 
     beforeDestroy() {
         if (this.type === 'text') {
-            this.bard.$off('bts-update', this.updateActiveItem);
+            this.bard.events.off('bts-update', this.updateActiveItem);
         }
     },
 

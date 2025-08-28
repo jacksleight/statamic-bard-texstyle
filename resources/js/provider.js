@@ -47,15 +47,15 @@ class Provider {
     }
 
     bootExtensions(options) {
-        Statamic.$bard.addExtension(({ bard }) => Core.configure({ ...options, bard }));
-        Statamic.$bard.addExtension(({ bard }) => Defaults.configure({ ...options, bard }));
-        Statamic.$bard.addExtension(({ bard }) => Overrides.configure({ ...options, bard }));
-        Statamic.$bard.addExtension(() => Span);
-        Statamic.$bard.addExtension(() => Div);
-        Statamic.$bard.addExtension(() => Hidden);
+        Statamic.$bard.addExtension(({ tiptap, bard }) => Core(tiptap).configure({ ...options, bard }));
+        Statamic.$bard.addExtension(({ tiptap, bard }) => Defaults(tiptap).configure({ ...options, bard }));
+        Statamic.$bard.addExtension(({ tiptap, bard }) => Overrides(tiptap).configure({ ...options, bard }));
+        Statamic.$bard.addExtension(({ tiptap }) => Span(tiptap));
+        Statamic.$bard.addExtension(({ tiptap }) => Div(tiptap));
+        Statamic.$bard.addExtension(({ tiptap }) => Hidden(tiptap));
         if (options.pro) {
-            Statamic.$bard.addExtension(() => Attributes.configure(options));
-            Statamic.$bard.addExtension(({ bard }) => Pin.configure({ ...options, bard }));
+            Statamic.$bard.addExtension(({ tiptap }) => Attributes(tiptap).configure(options));
+            Statamic.$bard.addExtension(({ tiptap, bard }) => Pin(tiptap).configure({ ...options, bard }));
         }
         return this;
     }

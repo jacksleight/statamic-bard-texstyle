@@ -26,14 +26,17 @@
 </template>
 
 <script>
+import { Popover } from '@statamic/cms/ui';
+import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import AttributesPanel from './AttributesPanel.vue';
 
 export default {
 
-    mixins: [ BardToolbarButton ],
+    mixins: [ ToolbarButtonMixin ],
 
     components: {
         AttributesPanel,
+        Popover,
     },
 
     data() {    

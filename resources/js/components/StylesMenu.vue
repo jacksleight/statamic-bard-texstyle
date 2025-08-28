@@ -41,11 +41,11 @@ export default {
     },
 
     created() {
-        this.bard.$on('bts-update', this.close);
+        this.bard.events.on('bts-update', this.close);
     },
 
     beforeDestroy() {
-        this.bard.$off('bts-update', this.close);
+        this.bard.events.off('bts-update', this.close);
     },
 
     methods: {

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-const { NodeViewWrapper } = Statamic.$bard.tiptap.vue2;
+const { NodeViewWrapper } = Statamic.$bard.tiptap.vue3;
 const { ValidatesFieldConditions } = FieldConditions;
 
 import ProvideStoreName from './ProvideStoreName.vue';
