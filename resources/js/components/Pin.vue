@@ -7,40 +7,39 @@
             <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
         </div>
         <div class="bts-pin-invalid" v-if="isInvalid">
-            <svg-icon name="alert" v-tooltip="'Invalid Pin'" class="text-red-500"></svg-icon>
+            <icon name="alert" v-tooltip="'Invalid Pin'" class="text-red-500"></icon>
         </div>
         <div class="bts-pin-invalid" v-if="isUnknown">
-            <svg-icon name="alert" v-tooltip="'Unknown Pin'"></svg-icon>
+            <icon name="alert" v-tooltip="'Unknown Pin'"></icon>
         </div>
         <popover placement="bottom-start" v-if="!isInvalid && !isUnknown">
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
-                    <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
+                    <icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
                     <div class="bts-pin-preview" v-if="previewText" v-html="previewText"></div>
                 </div>
             </template>
             <template #default>
-                <provide-store-name :store-name="storeName">
-                    <div class="flex-1 publish-fields @container bts-pin-fields">
-                        <set-field
-                            v-for="field in fields"
-                            :key="field.handle"
-                            :field="field"
-                            :value="values[field.handle]"
-                            :meta="meta[field.handle]"
-                            :parent-name="parentName"
-                            :set-index="-1"
-                            :field-path="fieldPath(field)"
-                            :read-only="isReadOnly"
-                            :show-field-previews="field.preview"
-                            v-show="showField(field, fieldPath(field))"
-                            @updated="updated(field.handle, $event)"
-                            @meta-updated="metaUpdated(field.handle, $event)"
-                            @replicator-preview-updated="previewUpdated(field.handle, $event)"
-                        />
-                    </div>
-                </provide-store-name>
+                <div class="flex-1 publish-fields @container bts-pin-fields">
+                    <!-- @todo -->
+                    <!-- <set-field
+                        v-for="field in fields"
+                        :key="field.handle"
+                        :field="field"
+                        :value="values[field.handle]"
+                        :meta="meta[field.handle]"
+                        :parent-name="parentName"
+                        :set-index="-1"
+                        :field-path="fieldPath(field)"
+                        :read-only="isReadOnly"
+                        :show-field-previews="field.preview"
+                        v-show="showField(field, fieldPath(field))"
+                        @updated="updated(field.handle, $event)"
+                        @meta-updated="metaUpdated(field.handle, $event)"
+                        @replicator-preview-updated="previewUpdated(field.handle, $event)"
+                    /> -->
+                </div>
             </template>
         </popover>
     </node-view-wrapper>
@@ -48,34 +47,31 @@
 </template>
 
 <script>
-const { NodeViewWrapper } = Statamic.$bard.tiptap.vue3;
-const { ValidatesFieldConditions } = FieldConditions;
-
-import ProvideStoreName from './ProvideStoreName.vue';
+import { Icon } from '@statamic/cms/ui';
+import { Popover } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
 
 export default {
 
-    props: [
-        'editor',
-        'node',
-        'decorations',
-        'selected',
-        'extension',
-        'getPos',
-        'updateAttributes',
-        'deleteNode',
-    ],
-
     components: {
-        NodeViewWrapper,
-        ProvideStoreName,
+        Icon,
+        Popover,
     },
 
     mixins: [
-        ValidatesFieldConditions,
         PinHelpers,
     ],
+
+    props: {
+        editor: { type: Object, required: true },
+        node: { type: Object, required: true },
+        decorations: { type: Array, required: true },
+        selected: { type: Boolean, required: true },
+        extension: { type: Object, required: true },
+        getPos: { type: Function, required: true },
+        updateAttributes: { type: Function, required: true },
+        deleteNode: { type: Function, required: true },
+    },
 
     data() {
         return {
@@ -85,6 +81,8 @@ export default {
 
     computed: {
         store() {
+            // @todo
+            return {};
             return this.$store.state.publish[this.storeName];
         },
         fields() {
@@ -123,13 +121,15 @@ export default {
             return `${prefix}.${this.path}`;
         },
         hasError() {
+            // @todo
+            return false;
             return Object.keys(this.store.errors).some(key => key.startsWith(this.fullPath));
         },
         bard() {
             return this.extension.options.bard;
         },
         config() {
-            return _.findWhere(this.pinConfigs, { handle: this.values.type }) || {};
+            return this.pinConfigs.find(config => config.handle === this.values.type) || {};
         },
         pinConfigs() {
             return Object.values(this.extension.options.pins);

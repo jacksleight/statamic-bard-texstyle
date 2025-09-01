@@ -5,7 +5,7 @@
             <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200 dark:bg-dark-600': selectionIndex === i }" @mouseover="selectionIndex = i">
                 <div @click="addPin(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
                     <div class="h-9 w-9 rounded bg-white dark:bg-dark-650 border border-gray-600 dark:border-dark-800 rtl:ml-2 ltr:mr-2 p-2 text-gray-800 dark:text-dark-175">
-                        <svg-icon :name="item.icon.svg" v-if="item.icon.svg" class="text-gray-80"></svg-icon>
+                        <icon :name="item.icon.svg" v-if="item.icon.svg" class="text-gray-80"></icon>
                         <div v-html="item.icon.html" v-if="item.icon.html"  class="text-gray-80"></div>
                     </div>
                     <div class="flex-1">
@@ -25,9 +25,14 @@
 </template>
 
 <script>
+import { Icon } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
 
 export default {
+
+    components: {
+        Icon,
+    },
 
     mixins: [
         PinHelpers,

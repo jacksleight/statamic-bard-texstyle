@@ -104,7 +104,7 @@ export const itemIcon = (item) => {
     } else if (item.icon.match(/\//)) {
         return { svg: item.icon };
     } else {
-        return { svg: `plump/${item.icon}` };
+        return { svg: item.icon };
     }
 }
 
