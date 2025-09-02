@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.0 (NEXT)
+
+- Statamic 6 support
+
 ## 3.6.0 (2025-08-08)
 
 - [new] Style specific attributes
