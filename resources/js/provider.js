@@ -170,7 +170,7 @@ class Provider {
 
     gatherDefaultsCss(options) {
         const css = [];
-        const base = `.bard-fieldtype-wrapper .bard-content`;
+        const base = `.bard-content`;
         Object.entries(options.defaults).forEach(([key, group]) => {
             Object.entries(group.dflts).forEach(([type, dflt]) => {
                 const selector = options.types[dflt.type].selector;
@@ -192,7 +192,7 @@ class Provider {
 
     gatherStylesCss(options) {
         const css = [];
-        const base = `.bard-fieldtype-wrapper .bard-content`;
+        const base = `.bard-content`;
         Object.entries(options.styles).forEach(([key, style]) => {
             const selector = options.types[style.type].selector;
             if (style.cp_css) {
@@ -212,7 +212,7 @@ class Provider {
 
     gatherAttributesCss(options) {
         const css = [];
-        const base = `.bard-fieldtype-wrapper .bard-content`;
+        const base = `.bard-content`;
         const merged = Object.entries(options.attributes)
             .reduce((stack, [, group]) => {
                 const type = group.type;
