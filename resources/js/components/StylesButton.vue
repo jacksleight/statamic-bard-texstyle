@@ -1,19 +1,19 @@
 <template>
 
-    <popover ref="popover" placement="bottom-start" @closed="closePanel" :clickaway="true">
+    <popover ref="popover" align="start" @closed="closePanel" inset :clickaway="true">
         <template #trigger>
-            <button
-                class="bard-toolbar-button"
+            <Button
                 :class="{
                     'bts-styles-button-icon': type === 'icon',
                     'bts-styles-button-text': type === 'text',
                 }"
+                size="sm"
                 v-tooltip="type === 'icon' ? button.text : undefined"
                 :aria-label="button.text"
                 @click="togglePanel">
                 <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
                 <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
-            </button>
+            </Button>
         </template>
         <template #default>
             <StylesMenu
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { Button } from '@statamic/cms/ui';
 import { Popover } from '@statamic/cms/ui';
 import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import StylesMenu from './StylesMenu.vue';
@@ -42,6 +43,7 @@ export default {
 
     components: {
         StylesMenu,
+        Button,
         Popover,
     },
 

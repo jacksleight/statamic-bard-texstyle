@@ -6,163 +6,101 @@
     .bard-content {
 
         div[data-bts-style] {
-            border: #d1d5db solid;
-            border-width: 1px 0;
-            padding-top: 0.85em;
-            padding-bottom: 0.85em;
-            margin-top: 1.7em;
-            margin-bottom: 1.7em;
+            @apply border-gray-200 border-y rounded rounded-tl-none py-[0.85em] my-[1.7em];
             .dark & {
-                border-color: #414245;
+                @apply border-dark-600;
             }
             &::before {
-                border-bottom-left-radius: 0 !important;
-                border-bottom-right-radius: 0 !important;
+                @apply !rounded-b-none;
             }
         }
 
         :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div)[data-bts-style],
         &[data-bts-defaults] > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, div):not([data-bts-style]):not(.is-editor-empty) {
             &::before {
-                background-color: #e4ebf1;
-                border-radius: 2px;
-                color: #1c2e36;
-                font-size: 10px;
-                font-weight: normal;
-                font-family: Inter UI,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
-                line-height: 1;
-                padding: 4px 6px;
-                display: block;
-                max-width: max-content;
-                position: relative;
-                .dark & {
-                    color: #bbbdc0;
-                    background-color: #393b40;
-                }
+                @apply bg-gray-200 text-gray-700 font-sans font-normal rounded text-2xs leading-none px-1.5 py-1 block max-w-max relative;
+            }
+            .dark &::before {
+                @apply bg-dark-600 text-dark-100;
             }
         }
         
         :is(ul, ol)[data-bts-style],
         &[data-bts-defaults] > :is(ul, ol):not([data-bts-style]):not(.is-editor-empty) {
             &::before {
-                margin-bottom: 0.85em;
+                @apply mb-[0.85em];
             }
         }
 
-        :is(div)[data-bts-style] {
-            position: relative;
+        :is(div)[data-bts-style],
+        &[data-bts-defaults] > :is(div):not([data-bts-style]):not(.is-editor-empty) {
+            @apply relative;
             &::before {
-                position: absolute;
-                bottom: calc(100% + 1px);
-                left: 50%;
-                transform: translateX(-50%);
+                @apply absolute bottom-full mb-px -ml-px left-0;
             }
         }
 
         div[data-bts-hidden] {
             > * {
-                opacity: 0.25;
+                @apply opacity-25;
             }
         }
 
     }
 
-    .bts-styles-button {
-        .bts-styles-button-text {
-            border: 1px solid #d1d5db;
-            padding-inline: 6px;
-            width: 6rem;
-            font-size: 0.8125rem;
-            margin-right: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1;
-            display: block;
-            .dark & {
-                border-color: #171717;
-            }
-        }
+    .bts-styles-button-text {
+        @apply w-24 mr-1 -ml-1 text-ellipsis opacity-80;
     }
 
     .bts-styles {
-        line-height: 1;
         .bts-styles-items {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 4px;
-            overflow-y: auto;
+            @apply flex flex-col p-1 gap-1 overflow-y-auto;
         }
         .bts-styles-item {
-            white-space: nowrap;
-            padding: 8px 12px;
-            font-size: 1rem;
-            border-radius: 3px;
-            text-align: left;
+            @apply whitespace-normal py-2 px-3 text-[1rem] leading-[1] rounded-lg text-left;
             &:hover {
-                background-color: #f5f8fc;
+                @apply bg-gray-50;
                 .dark & {
-                    background-color: #2b2d30;
+                    @apply bg-dark-700;
                 }
             }
             &.active {
-                background-color: #eef2f6;
+                @apply bg-gray-100;
                 .dark & {
-                    background-color: #242628;
+                    @apply bg-dark-800;
                 }
             }
-        }
-    }
-
-    .bts-pins {
-        .bts-pins-items {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 4px;
         }
     }
 
     .bts-preview {
-        margin: 0 !important;
         &[data-bts-type="heading_1"] {
-            font-size: 2em;
-            font-weight: 700;
+            @apply text-3xl;
         }
         &[data-bts-type="heading_2"] {
-            font-size: 1.75em;
-            font-weight: 700;
+            @apply text-2xl;
         }
         &[data-bts-type="heading_3"] {
-            font-size: 1.5em;
-            font-weight: 700;
+            @apply text-xl;
         }
         &[data-bts-type="heading_4"] {
-            font-size: 1.25em;
-            font-weight: 700;
+            @apply text-base;
         }
         &[data-bts-type="heading_5"] {
-            font-size: 1em;
-            font-weight: 700;
+            @apply text-sm;
         }
         &[data-bts-type="heading_6"] {
-            font-size: 1em;
-            font-weight: 700;
+            @apply text-2xs uppercase text-gray-800 dark:text-gray-500 tracking-wider;
         }
         &[data-bts-type="span"],
         &[data-bts-type="link"] {
-            display: inline;
+            @apply inline;
         }
         &[data-bts-type="unordered_list"] {
-            display: list-item;
-            list-style-type: disc;
-            margin-left: 17px !important;
+            @apply list-item list-disc ml-4;
         }
         &[data-bts-type="ordered_list"] {
-            display: list-item;
-            list-style-type: decimal;
-            margin-left: 17px !important;
+            @apply list-item list-decimal ml-4;
         }
     }
 
@@ -174,8 +112,13 @@
         }
     }
 
-    .bts-border-gray-450 {
-        border-color: #d1d5db;
+    .bts-pins {
+        .bts-pins-items {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 4px;
+        }
     }
 
     .bts-pin {

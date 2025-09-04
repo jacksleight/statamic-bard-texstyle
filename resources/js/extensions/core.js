@@ -75,11 +75,11 @@ export default (tiptap) => {
         },
 
         onUpdate() {
-            this.options.bard.$emit('bts-update');
+            this.options.bard.events.emit('bts-update');
         },
 
         onSelectionUpdate() {
-            this.options.bard.$emit('bts-update');
+            this.options.bard.events.emit('bts-update');
         },
 
     });

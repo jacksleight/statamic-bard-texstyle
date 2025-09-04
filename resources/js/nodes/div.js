@@ -30,6 +30,7 @@ export default (tiptap) => {
                     } else if (editor.isActive(this.name)) {
                         return commands.updateAttributes(this.name, attributes);
                     }
+                    console.log(123);
                     return commands.wrapIn(this.name, attributes);
                 },
             }

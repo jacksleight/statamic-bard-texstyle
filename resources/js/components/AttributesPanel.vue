@@ -13,7 +13,7 @@
                     <div v-for="(attr, name) in attrs(item)" class="mt-3">
                         <label v-if="attr.field === 'select'" class="font-normal">
                             <div class="text-sm leading-none">{{ attr.display || name }}</div>
-                            <select v-model="item.attrs[name]" class="mt-2 h-8 px-1 border rounded shadow-inner bg-gray-100 text-gray-800 w-full text-sm bts-border-gray-450">
+                            <select v-model="item.attrs[name]" class="mt-2 h-8 px-1 border rounded shadow-inner bg-gray-100 text-gray-800 w-full text-sm border-gray-400">
                                 <option :value="null" v-if="attr.clearable"></option>
                                 <option v-for="display, value in attr.options" :value="value">{{ display }}</option>
                             </select>
@@ -32,7 +32,7 @@
                             <TextInput
                                 type="text"
                                 v-model="item.attrs[name]"
-                                class="mt-2 h-8 p-2 bg-gray-100 text-gray-800 w-full border bts-border-gray-450 rounded shadow-inner text-sm"
+                                class="mt-2 h-8 p-2 bg-gray-100 text-gray-800 w-full border border-gray-400 rounded shadow-inner text-sm"
                             />
                         </label>
                     </div>
