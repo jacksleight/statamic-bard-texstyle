@@ -47,8 +47,7 @@
 </template>
 
 <script>
-import { Icon } from '@statamic/cms/ui';
-import { Popover } from '@statamic/cms/ui';
+import { Icon, Popover } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
 
 export default {

@@ -1,5 +1,5 @@
-@import "tailwindcss/theme.css" layer(theme) theme(inline);
-@import "../../vendor/statamic/cms/resources/css/ui.css";
+@import "@statamic/cms/tailwind.css";
+@source "../js/components";
 
 @layer components {
 
@@ -75,22 +75,22 @@
 
     .bts-preview {
         &[data-bts-type="heading_1"] {
-            @apply text-3xl;
+            @apply text-3xl font-bold;
         }
         &[data-bts-type="heading_2"] {
-            @apply text-2xl;
+            @apply text-2xl font-bold;
         }
         &[data-bts-type="heading_3"] {
-            @apply text-xl;
+            @apply text-xl font-bold;
         }
         &[data-bts-type="heading_4"] {
-            @apply text-base;
+            @apply text-base font-bold;
         }
         &[data-bts-type="heading_5"] {
-            @apply text-sm;
+            @apply text-sm font-bold;
         }
         &[data-bts-type="heading_6"] {
-            @apply text-2xs uppercase text-gray-800 dark:text-gray-500 tracking-wider;
+            @apply text-2xs uppercase text-gray-800 dark:text-gray-500 tracking-wider font-bold;
         }
         &[data-bts-type="span"],
         &[data-bts-type="link"] {
@@ -214,6 +214,10 @@
         > *:not(:first-child) {
             padding-top: 0 !important;
         }
+    }
+
+    .bts-empty {
+        @apply p-8 w-40 flex justify-center text-gray-300;
     }
 
 }

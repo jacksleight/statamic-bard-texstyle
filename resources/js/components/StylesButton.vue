@@ -1,6 +1,6 @@
 <template>
 
-    <popover ref="popover" align="start" @closed="closePanel" inset :clickaway="true">
+    <popover ref="popover" align="start" @closed="closePanel" inset :clickaway="true" class="!w-max">
         <template #trigger>
             <Button
                 :class="{
@@ -32,8 +32,7 @@
 </template>
 
 <script>
-import { Button } from '@statamic/cms/ui';
-import { Popover } from '@statamic/cms/ui';
+import { Button, Popover } from '@statamic/cms/ui';
 import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import StylesMenu from './StylesMenu.vue';
 

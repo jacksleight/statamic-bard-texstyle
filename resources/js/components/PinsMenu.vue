@@ -2,20 +2,31 @@
 
     <div class="bts-pins">
         <div v-if="items.length" class="bts-pins-items">
-            <div v-for="(item, i) in items" class="cursor-pointer rounded" :class="{ 'bg-gray-200 dark:bg-dark-600': selectionIndex === i }" @mouseover="selectionIndex = i">
-                <div @click="addPin(item.handle)" class="flex items-center group px-2 py-1.5 rounded-md">
-                    <div class="h-9 w-9 rounded bg-white dark:bg-dark-650 border border-gray-600 dark:border-dark-800 rtl:ml-2 ltr:mr-2 p-2 text-gray-800 dark:text-dark-175">
-                        <icon :name="item.icon.svg" v-if="item.icon.svg" class="text-gray-80"></icon>
-                        <div v-html="item.icon.html" v-if="item.icon.html"  class="text-gray-80"></div>
+            <div
+                v-for="(item, i) in items"
+                :key="item.handle"
+                class="cursor-pointer rounded-md"
+                :class="{ 'bg-gray-100 dark:bg-gray-900': selectionIndex === i }"
+                @mouseover="selectionIndex = i"
+                :title="__(item.instructions)"
+            >
+                <div @click="addPin(item.handle)" class="group flex rounded-md p-2 gap-3">
+                    <div class="size-9 rounded-md border border-gray-300 bg-white dark:bg-gray-900/50 dark:border-gray-600 shadow-ui-xs p-2 flex items-center justify-center">
+                        <ui-icon :name="item.icon.svg" v-if="item.icon.svg"></ui-icon>
+                        <div v-html="item.icon.html" v-if="item.icon.html"></div>
                     </div>
                     <div class="flex-1">
-                        <div class="text-md font-medium text-gray-800 dark:text-dark-175 truncate w-52">{{ item.display || item.handle }}</div>
-                        <div v-if="item.instructions" class="text-2xs text-gray-700 dark:text-dark-175 truncate w-52">{{ item.instructions }}</div>
+                        <div class="w-52 line-clamp-2 text-sm font-medium text-gray-900 dark:text-dark-175">
+                            {{ __(item.display || item.handle) }}
+                        </div>
+                        <div v-if="item.instructions" class="w-52 truncate text-2xs leading-tight text-gray-700 dark:text-dark-175">
+                            {{ __(item.instructions) }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-else class="p-8 w-40 text-center text-gray-400">
+        <div v-else class="bts-empty">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>
