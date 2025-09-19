@@ -6,7 +6,7 @@
     .bard-content {
 
         div[data-bts-style] {
-            @apply border-gray-200 border-y rounded rounded-tl-none py-[0.85em] my-[1.7em];
+            @apply border-gray-200 border-y !rounded-none py-[0.85em] my-[1.7em];
             .dark & {
                 @apply border-dark-600;
             }
@@ -210,9 +210,9 @@
     }
 
     .bts-pin-fields {
-        width: 330px;
-        > *:not(:first-child) {
-            padding-top: 0 !important;
+        width: 350px;
+        > * {
+            gap: 0.75rem !important;
         }
     }
 

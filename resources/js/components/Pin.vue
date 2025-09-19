@@ -12,7 +12,7 @@
         <div class="bts-pin-invalid" v-if="isUnknown">
             <icon name="alert" v-tooltip="'Unknown Pin'"></icon>
         </div>
-        <popover placement="bottom-start" v-if="!isInvalid && !isUnknown">
+        <popover align="start" v-if="!isInvalid && !isUnknown" class="!w-max">
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
                     <icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></icon>
@@ -21,24 +21,14 @@
                 </div>
             </template>
             <template #default>
-                <div class="flex-1 publish-fields @container bts-pin-fields">
-                    <!-- @todo -->
-                    <!-- <set-field
-                        v-for="field in fields"
-                        :key="field.handle"
-                        :field="field"
-                        :value="values[field.handle]"
-                        :meta="meta[field.handle]"
-                        :parent-name="parentName"
-                        :set-index="-1"
-                        :field-path="fieldPath(field)"
-                        :read-only="isReadOnly"
-                        :show-field-previews="field.preview"
-                        v-show="showField(field, fieldPath(field))"
-                        @updated="updated(field.handle, $event)"
-                        @meta-updated="metaUpdated(field.handle, $event)"
-                        @replicator-preview-updated="previewUpdated(field.handle, $event)"
-                    /> -->
+                <div class="bts-pin-fields">
+                    <FieldsProvider
+                        :fields="fields"
+                        :field-path-prefix="fieldPathPrefix"
+                        :meta-path-prefix="metaPathPrefix"
+                    >
+                        <Fields />
+                    </FieldsProvider>
                 </div>
             </template>
         </popover>
@@ -48,6 +38,7 @@
 
 <script>
 import { Icon, Popover } from '@statamic/cms/ui';
+import { PublishFields as Fields, PublishFieldsProvider as FieldsProvider } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
 
 export default {
@@ -55,6 +46,8 @@ export default {
     components: {
         Icon,
         Popover,
+        Fields,
+        FieldsProvider,
     },
 
     mixins: [
@@ -79,11 +72,6 @@ export default {
     },
 
     computed: {
-        store() {
-            // @todo
-            return {};
-            return this.$store.state.publish[this.storeName];
-        },
         fields() {
             return this.config.publishFields || [];
         },
@@ -102,6 +90,18 @@ export default {
         meta() {
             return this.bard.meta.btsPins.existing[this.id] || {};
         },
+        fieldPathPrefix() {
+            const fpf = this.bard.fieldPathPrefix;
+            const handle = this.bard.handle;
+            const prefix = fpf ? `${fpf}.${handle}` : handle;
+            return `${prefix}.${this.path}`;
+        },
+        metaPathPrefix() {
+            const mpp = this.bard.metaPathPrefix;
+            const handle = this.bard.handle;
+            const prefix = mpp ? `${mpp}.${handle}` : handle;
+            return `${prefix}.btsPins.existing.${this.id}`;
+        },
         parentName() {
             return this.bard.name;
         },
@@ -114,10 +114,6 @@ export default {
             return this.index.map((key, i) => {
                 return i === last ? `${key}.attrs.values` : `${key}.content`;
             }).join('.');
-        },
-        fullPath() {
-            const prefix = this.bard.fieldPathPrefix || this.bard.handle;
-            return `${prefix}.${this.path}`;
         },
         hasError() {
             // @todo
@@ -149,6 +145,8 @@ export default {
             return this.decorationSpecs.withinSelection;
         },
         previewText() {
+            // @todo
+            return '';
             return this.fields
                 .filter(field => field.preview)
                 .map(field => this.previews[field.handle])
@@ -177,15 +175,13 @@ export default {
         metaUpdated(handle, value) {
             this.updatePinMeta(this.id, { ...this.meta, [handle]: value });
         },
-        fieldPath(field) {
-            return `${this.fullPath}.${field.handle}`;
-        },
-        previewUpdated(handle, value) {
-            this.previews = {
-                ...this.previews,
-                [handle]: value,
-            };
-        },
+        // @todo
+        // previewUpdated(handle, value) {
+        //     this.previews = {
+        //         ...this.previews,
+        //         [handle]: value,
+        //     };
+        // },
     },
 
 }
