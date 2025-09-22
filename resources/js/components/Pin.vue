@@ -12,7 +12,7 @@
         <div class="bts-pin-invalid" v-if="isUnknown">
             <icon name="alert" v-tooltip="'Unknown Pin'"></icon>
         </div>
-        <popover align="start" v-if="!isInvalid && !isUnknown" class="!w-max">
+        <popover :open="pending" align="start" v-if="!isInvalid && !isUnknown" class="!w-max">
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
                     <icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></icon>
@@ -39,6 +39,7 @@
 <script>
 import { Icon, Popover } from '@statamic/cms/ui';
 import { PublishFields as Fields, PublishFieldsProvider as FieldsProvider } from '@statamic/cms/ui';
+import { injectPublishContext } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
 
 export default {
@@ -67,8 +68,17 @@ export default {
 
     data() {
         return {
+            pending: true,
             previews: {},
         };
+    },
+
+    created() {
+        const { previews } = injectPublishContext();
+        this.previews = previews;
+        this.$nextTick(() => {
+            this.pending = undefined;
+        });
     },
 
     computed: {
@@ -116,9 +126,7 @@ export default {
             }).join('.');
         },
         hasError() {
-            // @todo
-            return false;
-            return Object.keys(this.store.errors).some(key => key.startsWith(this.fullPath));
+            return Object.keys(this.bard.publishContainer.errors).some(key => key.startsWith(this.fieldPathPrefix));
         },
         bard() {
             return this.extension.options.bard;
@@ -145,15 +153,18 @@ export default {
             return this.decorationSpecs.withinSelection;
         },
         previewText() {
-            // @todo
-            return '';
-            return this.fields
-                .filter(field => field.preview)
-                .map(field => this.previews[field.handle])
-                .filter(value => ![undefined, 'null', '[]', '{}', ''].includes(JSON.stringify(value)))
-                .map(value => {
+            return Object.entries(data_get(this.previews, this.fieldPathPrefix) || {})
+                .filter(([handle, value]) => {
+                    if (!handle.endsWith('_')) return false;
+                    handle = handle.substr(0, handle.length - 1); // Remove the trailing underscore.
+                    const config = this.fields.find((f) => f.handle === handle) || {};
+                    return config.replicator_preview;
+                })
+                .map(([handle, value]) => value)
+                .filter((value) => (['null', '[]', '{}', ''].includes(JSON.stringify(value)) ? null : value))
+                .map((value) => {
                     if (typeof value === 'object' && value.constructor.name === 'PreviewHtml') {
-                        return value.html;
+                      return value.html;
                     }
                     if (typeof value === 'string') {
                         return escapeHtml(value);
@@ -175,13 +186,6 @@ export default {
         metaUpdated(handle, value) {
             this.updatePinMeta(this.id, { ...this.meta, [handle]: value });
         },
-        // @todo
-        // previewUpdated(handle, value) {
-        //     this.previews = {
-        //         ...this.previews,
-        //         [handle]: value,
-        //     };
-        // },
     },
 
 }
