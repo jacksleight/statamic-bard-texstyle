@@ -90,7 +90,6 @@ export default {
         closePanel() {
             if (this.panelActive) {
                 this.togglePanel();
-                this.$refs.popover.close();
             }
         },
         updateActiveItem() {

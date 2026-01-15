@@ -72,13 +72,11 @@ export default {
         closePicker() {
             if (this.panelActive) {
                 this.togglePicker();
-                this.$refs.popover.close();
             }
         },
         closePanel() {
             if (this.panelActive) {
                 this.togglePanel();
-                this.$refs.popover.close();
             }
         },
     }

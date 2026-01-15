@@ -90,7 +90,10 @@
             @apply text-sm font-bold;
         }
         &[data-bts-type="heading_6"] {
-            @apply text-2xs uppercase text-gray-800 dark:text-gray-500 tracking-wider font-bold;
+            @apply text-2xs uppercase text-gray-800 tracking-wider font-bold;
+            .dark & {
+                @apply text-gray-500;
+            }
         }
         &[data-bts-type="span"],
         &[data-bts-type="link"] {
@@ -106,10 +109,6 @@
 
     .bts-attributes {
         width: 250px;
-        &-arrow {
-            margin-left: -0.1rem;
-            margin-right: 0.25rem;
-        }
     }
 
     .bts-pins {
@@ -122,13 +121,13 @@
         @apply font-sans font-medium select-none bg-gray-200 shadow border border-gray-300 rounded-lg overflow-hidden no-underline inline-flex items-stretch cursor-default mx-px -my-px;
         vertical-align: calc((1em - 16px) * 0.4);
         .dark & {
-            @apply bg-dark-900 border-dark-950;
+            @apply bg-dark-975 border-dark-700;
         }
 
         .bts-pin-button {
             @apply cursor-pointer h-6 border-l border-gray-300 flex items-center gap-1 pl-1 pr-[7px] text-xs font-normal;
             .dark & {
-                @apply border-dark-950;
+                @apply border-dark-700;
             }
             > svg {
                 @apply size-4 block;
