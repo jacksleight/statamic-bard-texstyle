@@ -1,15 +1,15 @@
 <template>
 
     <div class="bts-attributes">
-        <section v-if="hasAttrs" class="bg-white dark:bg-gray-900">
+        <div v-if="hasAttrs">
             <div v-for="(item, i) in items">
-                <div class="px-4 py-3 title-case border-b text-sm flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
+                <div class="px-4 py-3 title-case border-b border-gray-200 text-xs flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-700 mr-1" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                     {{ __(display(item)) }}
                 </div>
-                <div class="p-4 border-b dark:border-gray-800" v-if="activeItem === i">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-800" v-if="activeItem === i">
                     <div v-for="(attr, name) in attrs(item)" class="not-first:mt-3">
                         <label v-if="attr.field === 'select'" class="font-normal">
                             <div class="text-sm leading-none">{{ attr.display || name }}</div>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <footer class="flex items-center justify-end gap-3 rounded-b-md bg-gray-100 p-2 font-normal dark:bg-gray-800 rounded-b-xl">
+            <footer class="flex items-center justify-end gap-2 sm:gap-3 rounded-b-md bg-gray-100 p-2 font-normal dark:bg-gray-800 rounded-b-xl">
                 <ui-button
                     @click="close"
                     inset
@@ -53,7 +53,7 @@
                     {{ __('Apply') }}
                 </ui-button>
             </footer>
-        </section>
+        </div>
         <div v-else class="bts-empty">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />

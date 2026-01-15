@@ -11,15 +11,15 @@
                 :title="__(item.instructions)"
             >
                 <div @click="addPin(item.handle)" class="group flex rounded-md p-2 gap-3">
-                    <div class="size-9 rounded-md border border-gray-300 bg-white dark:bg-gray-900/50 dark:border-gray-600 shadow-ui-xs p-2 flex items-center justify-center">
+                    <div class="flex items-center justify-center">
                         <ui-icon :name="item.icon.svg" v-if="item.icon.svg"></ui-icon>
                         <div v-html="item.icon.html" v-if="item.icon.html"></div>
                     </div>
                     <div class="flex-1">
-                        <div class="w-52 line-clamp-2 text-sm font-medium text-gray-900 dark:text-dark-175">
+                        <div class="w-52 line-clamp-2 text-sm text-gray-800 dark:text-dark-175">
                             {{ __(item.display || item.handle) }}
                         </div>
-                        <div v-if="item.instructions" class="w-52 truncate text-2xs leading-tight text-gray-700 dark:text-dark-175">
+                        <div v-if="item.instructions" class="w-52 truncate text-2xs leading-tight text-gray-500 dark:text-dark-175">
                             {{ __(item.instructions) }}
                         </div>
                     </div>

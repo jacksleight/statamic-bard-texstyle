@@ -1,21 +1,21 @@
 <template>
 
     <node-view-wrapper
-        class="bts-pin shadow-md"
-        :class="{ 'border-blue-400': selected || withinSelection, 'text-red-500': hasError }">
+        class="bts-pin"
+        :class="{ 'bts-pin-selected': selected || withinSelection, 'border-red-500': hasError }">
         <div class="bts-pin-handle" data-drag-handle>
-            <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
+            <svg viewBox="0 0 8 17" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="1.641" cy="8.5" r="1.25"/><circle cx="1.641" cy="4" r="1.25"/><circle cx="1.641" cy="13" r="1.25"/><circle cx="6.359" cy="8.5" r="1.25"/><circle cx="6.359" cy="4" r="1.25"/><circle cx="6.359" cy="13" r="1.25"/></svg>
         </div>
         <div class="bts-pin-invalid" v-if="isInvalid">
-            <icon name="alert" v-tooltip="'Invalid Pin'" class="text-red-500"></icon>
+            <ui-icon name="alert-warning-exclamation-mark" v-tooltip="'Invalid Pin'" class="text-red-500"></ui-icon>
         </div>
         <div class="bts-pin-invalid" v-if="isUnknown">
-            <icon name="alert" v-tooltip="'Unknown Pin'"></icon>
+            <ui-icon name="alert-warning-exclamation-mark" v-tooltip="'Unknown Pin'"></ui-icon>
         </div>
         <popover :open="pending" align="start" v-if="!isInvalid && !isUnknown" class="!w-max">
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
-                    <icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></icon>
+                    <ui-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></ui-icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
                     <div class="bts-pin-preview" v-if="previewText" v-html="previewText"></div>
                 </div>
@@ -45,7 +45,6 @@ import PinHelpers from './PinHelpers.vue';
 export default {
 
     components: {
-        Icon,
         Popover,
         Fields,
         FieldsProvider,
@@ -77,7 +76,7 @@ export default {
         const { previews } = injectPublishContext();
         this.previews = previews;
         this.$nextTick(() => {
-            this.pending = undefined;
+            this.pending = false;
         });
     },
 
@@ -158,7 +157,7 @@ export default {
                     if (!handle.endsWith('_')) return false;
                     handle = handle.substr(0, handle.length - 1); // Remove the trailing underscore.
                     const config = this.fields.find((f) => f.handle === handle) || {};
-                    return config.replicator_preview;
+                    return config.preview;
                 })
                 .map(([handle, value]) => value)
                 .filter((value) => (['null', '[]', '{}', ''].includes(JSON.stringify(value)) ? null : value))

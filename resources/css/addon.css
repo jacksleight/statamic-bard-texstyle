@@ -54,18 +54,18 @@
 
     .bts-styles {
         .bts-styles-items {
-            @apply flex flex-col p-1 gap-1 overflow-y-auto;
+            @apply flex flex-col p-1.5 overflow-y-auto;
         }
         .bts-styles-item {
             @apply whitespace-normal py-2 px-3 text-[1rem] leading-[1] rounded-lg text-left;
             &:hover {
-                @apply bg-gray-50;
+                @apply bg-gray-100;
                 .dark & {
                     @apply bg-dark-700;
                 }
             }
             &.active {
-                @apply bg-gray-100;
+                @apply bg-gray-100/75;
                 .dark & {
                     @apply bg-dark-800;
                 }
@@ -114,105 +114,57 @@
 
     .bts-pins {
         .bts-pins-items {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 4px;
+            @apply flex flex-col p-1.5;
         }
     }
 
     .bts-pin {
-        @apply font-sans;
-        font-weight: 500;
-        user-select: none;
-        background-color: #dde3e9;
-        border: 1px solid #c4ccd4;
-        border-radius: 100vh;
-        overflow: hidden;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: stretch;
-        cursor: default;
+        @apply font-sans font-medium select-none bg-gray-200 shadow border border-gray-300 rounded-lg overflow-hidden no-underline inline-flex items-stretch cursor-default mx-px -my-px;
         vertical-align: calc((1em - 16px) * 0.4);
-        margin-inline: 1px;
-        margin-block: -1px;
         .dark & {
-            background-color: #212223;
-            border-color: #131314;
+            @apply bg-dark-900 border-dark-950;
         }
+
         .bts-pin-button {
-            cursor: pointer;
-            height: 24px;
-            border-left: 1px solid #c4ccd4;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 0 7px 0 4px;
-            font-size: 12px;
-            font-weight: 400;
+            @apply cursor-pointer h-6 border-l border-gray-300 flex items-center gap-1 pl-1 pr-[7px] text-xs font-normal;
             .dark & {
-                border-left-color: #131314;
+                @apply border-dark-950;
             }
             > svg {
-                width: 16px !important;
-                height: 16px !important;
-                display: block;
-            }
-            &:hover {
-                background-color: #c4ccd4;
-                .dark & {
-                    background-color: #131314;
-                }
+                @apply size-4 block;
             }
         }
+
         .bts-pin-preview {
-            max-width: 12ch;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
+            @apply max-w-[12ch] text-ellipsis overflow-hidden whitespace-nowrap;
             img {
-                height: 16px !important;
-                border-radius: 4px;
+                @apply !h-4 rounded;
             }
         }
+
         .bts-pin-handle {
-            cursor: grab;
-            padding: 0 2px 0 4px;
-            display: flex;
-            align-items: center;
-            height: 24px;
+            @apply cursor-grab pl-0.5 pr-0.5 flex items-center h-6;
             svg {
-                transform: rotate(90deg);
-                opacity: 0.4;
-            }
-            &:hover {
-                background-color: #c4ccd4;
-                .dark & {
-                    background-color: #131314;
-                }
-                svg {
-                    opacity: 1;
-                }
+                @apply size-4 block text-gray-400;
             }
         }
+
         .bts-pin-invalid {
-            cursor: grab;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            padding: 0 4px;
+            @apply cursor-grab h-6 flex items-center px-1;
             svg {
-                width: 16px !important;
-                height: 16px !important;
-                display: block;
+                @apply !size-4 block;
             }
+        }
+
+        &.bts-pin-selected {
+            @apply border-blue-400 outline outline-blue-400;
         }
     }
 
     .bts-pin-fields {
-        width: 350px;
+        @apply w-[350px];
         > * {
-            gap: 0.75rem !important;
+            @apply !gap-3;
         }
     }
 
