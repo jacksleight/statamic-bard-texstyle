@@ -4,7 +4,7 @@
         <div v-if="hasAttrs">
             <div v-for="(item, i) in items">
                 <div class="px-4 py-3 title-case border-b border-gray-200 dark:border-gray-800 text-xs flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-700 mr-2 -ml-2" :class="{ 'rotate-90': activeItem === i }">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-700 dark:text-gray-400 mr-2 -ml-2" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                     {{ __(display(item)) }}
