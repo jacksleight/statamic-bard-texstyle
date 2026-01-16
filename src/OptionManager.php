@@ -64,6 +64,9 @@ class OptionManager
         $styles = data_get($this->config, 'styles', []);
 
         $styles = collect($styles)
+            ->map(fn ($style, $key) => array_merge($style, [
+                'type' => $this->types->name($style['type'] ?? 'paragraph'),
+            ]))
             ->map(fn ($style, $key) => $this->types->validateStyle(array_merge($style, [
                 'ext' => $this->types->get($style['type'])['extension'],
                 'key' => $key,
