@@ -76,7 +76,7 @@ export default {
             });    
         },
         type() {
-            return this.config.bts_styles_button;
+            return this.config.bts_styles_button ?? 'icon';
         },
     },
 
