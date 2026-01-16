@@ -42,11 +42,10 @@ The array keys are used as the handles. Pins can have the following options:
 
 * **display (string)**  
   The display name of the pin.
-* **icon (string)**  
+* **icon (string)**
   Icon name or custom SVG icon. Options are:
-    * `[name]` One of [Texstyles's dynamic icons](dynamic-icons)
-    * `[name]` One of [Statamic's built-in set icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons/plump)
-    * `[set]/[name]` One of [Statamic's other built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
+    * `[name]` One of [Texstyle's dynamic icons](dynamic-icons)
+    * `[name]` One of [Statamic's built-in icons](https://github.com/statamic/cms/tree/master/resources/svg/icons)
     * `<svg>...</svg>` Custom SVG icon
 * **ident (string, optional)**  
   An identification character. This will appear in the icon if using one of Texstyle's dynamic icons.

@@ -4,6 +4,7 @@ namespace JackSleight\StatamicBardTexstyle\Nodes;
 
 use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
 use Statamic\Fieldtypes\Bard;
@@ -13,7 +14,7 @@ class Pin extends Node
 {
     public static $name = 'btsPin';
 
-    protected static $instances = [];
+    protected static \WeakMap $instances;
 
     public static function registerHooks($options)
     {
@@ -45,13 +46,17 @@ class Pin extends Node
 
     public static function resolve($options)
     {
-        return static::$instances[spl_object_id($options['bard'])] ?? new self($options);
+        static::$instances ??= new \WeakMap;
+
+        return static::$instances[$options['bard']] ?? new self($options);
     }
 
     public function __construct(array $options = [])
     {
         parent::__construct($options);
-        static::$instances[spl_object_id($options['bard'])] = $this;
+
+        static::$instances ??= new \WeakMap;
+        static::$instances[$options['bard']] = $this;
     }
 
     public function addOptions()
@@ -59,6 +64,7 @@ class Pin extends Node
         return [
             'bard' => null,
             'pins' => null,
+            'pinsPath' => null,
         ];
     }
 
@@ -101,15 +107,18 @@ class Pin extends Node
     protected function viewName($type)
     {
         $pins = $this->options['pins'];
+
         if ($pins[$type]['view'] ?? null) {
             return $pins[$type]['view'];
         }
 
-        if (view()->exists($view = "pins._{$type}")) {
+        $path = Str::replace('/', '.', $this->options['pinsPath']);
+
+        if (view()->exists($view = "{$path}._{$type}")) {
             return $view;
         }
 
-        if (view()->exists($view = "pins.{$type}")) {
+        if (view()->exists($view = "{$path}.{$type}")) {
             return $view;
         }
 

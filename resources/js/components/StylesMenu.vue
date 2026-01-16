@@ -13,7 +13,7 @@
                 @picked="$emit('picked')"
             />
         </div>
-        <div v-else class="p-8 w-40 text-center text-gray-400">
+        <div v-else class="bts-empty">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>
@@ -41,11 +41,11 @@ export default {
     },
 
     created() {
-        this.bard.$on('bts-update', this.close);
+        this.bard.events.on('bts-update', this.close);
     },
 
-    beforeDestroy() {
-        this.bard.$off('bts-update', this.close);
+    beforeUnmount() {
+        this.bard.events.off('bts-update', this.close);
     },
 
     methods: {

@@ -38,9 +38,13 @@ class Pins extends Tags
                 }
 
                 $augmentor = new Augmentor($from->fieldtype());
-                $extension = $augmentor->extensions()['btsPin'];
+                $extensions = $augmentor->extensions();
 
-                return $extension->augmentTag($from->raw(), $type);
+                if (! isset($extensions['btsPin'])) {
+                    throw new \Exception('Pins require the Pro edition of Bard Texstyle');
+                }
+
+                return $extensions['btsPin']->augmentTag($from->raw(), $type);
             })
             ->all();
 

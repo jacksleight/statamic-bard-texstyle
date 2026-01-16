@@ -110,3 +110,37 @@ it('validates defaults', function () {
     expect($types->validateDefault(['type' => 'image', 'cp_badge' => true]))
         ->toMatchArray(['cp_badge' => false]);
 });
+
+it('returns null for unsupported style types', function () {
+    $types = new TypeManager(true);
+
+    expect($types->validateStyle(['type' => 'table']))
+        ->toBeNull();
+
+    expect($types->validateStyle(['type' => 'bold']))
+        ->toBeNull();
+});
+
+it('returns null for pins in free edition', function () {
+    $types = new TypeManager(false);
+
+    expect($types->validatePin(['display' => 'Test Pin']))
+        ->toBeNull();
+});
+
+it('returns null for attributes on unsupported types', function () {
+    $types = new TypeManager(true);
+
+    expect($types->validateAttribute(['type' => 'span', 'handle' => 'id']))
+        ->toBeNull();
+});
+
+it('returns null for styles menu option on unsupported types', function () {
+    $types = new TypeManager(true);
+
+    expect($types->validateStylesMenuOption(['type' => 'bold', 'name' => 'Test']))
+        ->toBeNull();
+
+    expect($types->validateStylesMenuOption(['type' => 'paragraph', 'name' => 'Test']))
+        ->toBeArray();
+});

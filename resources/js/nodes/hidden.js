@@ -1,37 +1,40 @@
-const { Node } = Statamic.$bard.tiptap.core;
+export default (tiptap) => {
 
-const Hidden = Node.create({
+    const { Node } = tiptap.core;
 
-    name: 'btsHidden',
-    
-    content: 'block+',
-    
-    group: 'root',
+    return Node.create({
 
-    defining: false,
+        name: 'btsHidden',
+        
+        content: 'block+',
+        
+        group: 'root',
 
-    parseHTML() {
-        return [
-            { tag: 'div[data-bts-hidden]' },
-        ]
-    },
+        defining: false,
 
-    renderHTML({ HTMLAttributes }) {
-        return ['div', { 'data-bts-hidden': '', class: 'bard-content', ...HTMLAttributes }, 0]
-    },
+        parseHTML() {
+            return [
+                { tag: 'div[data-bts-hidden]' },
+            ]
+        },
 
-    addCommands() {
-        return {
-            btsToggleHidden: (attributes) => ({ editor, commands }) => {
-                if (editor.isActive(this.name, attributes)) {
-                    return commands.lift(this.name);
-                } else if (editor.isActive(this.name)) {
-                    return commands.updateAttributes(this.name, attributes);
-                }
-                return commands.wrapIn(this.name, attributes);
-            },
-        }
-    },
+        renderHTML({ HTMLAttributes }) {
+            return ['div', { 'data-bts-hidden': '', class: 'bard-content', ...HTMLAttributes }, 0]
+        },
 
-});
-export default Hidden;
+        addCommands() {
+            return {
+                btsToggleHidden: (attributes) => ({ editor, commands }) => {
+                    if (editor.isActive(this.name, attributes)) {
+                        return commands.lift(this.name);
+                    } else if (editor.isActive(this.name)) {
+                        return commands.updateAttributes(this.name, attributes);
+                    }
+                    return commands.wrapIn(this.name, attributes);
+                },
+            }
+        },
+
+    });
+
+};

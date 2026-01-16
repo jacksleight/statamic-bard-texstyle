@@ -66,7 +66,7 @@ class Attributes extends Extension
 
                             return array_merge([
                                 'default' => $attr['default'] ?? null,
-                            ], $renders[$key]($name, $attr) ?? $attr['rendered']['true']($name, $attr));
+                            ], $renders[$key]($name, $attr) ?? $renders['true']($name, $attr));
                         })
                         ->all(),
                 ];

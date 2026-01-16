@@ -12,18 +12,18 @@ class OptionManager
 
     protected $pro;
 
-    public function __construct($config, $pro)
+    public function __construct(array $config, bool $pro)
     {
         $this->config = $config;
         $this->pro = $pro;
     }
 
-    public function resolve()
+    public function resolve(): array
     {
         $this->types = new TypeManager($this->pro);
 
         $store = data_get($this->config, 'store', 'class');
-        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
+        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey one day, maybe
 
         $styles = $this->resolveStyles();
         $stylesExts = $this->resolveStylesExts($styles);
@@ -33,6 +33,7 @@ class OptionManager
         $attributesExts = $this->resolveAttributesExts($attributes);
 
         $pins = $this->resolvePins();
+        $pinsPath = data_get($this->config, 'pins_path', 'partials/pins');
         $pinsMenuOptions = $this->resolvePinsMenuOptions($pins);
 
         $defaults = $this->resolveDefaults();
@@ -51,6 +52,7 @@ class OptionManager
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
             'pins' => $pins,
+            'pinsPath' => $pinsPath,
             'pinsMenuOptions' => $pinsMenuOptions,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
@@ -59,12 +61,14 @@ class OptionManager
         ];
     }
 
-    protected function resolveStyles()
+    protected function resolveStyles(): array
     {
         $styles = data_get($this->config, 'styles', []);
-        $styles = $this->normalizeStyles($styles);
 
         $styles = collect($styles)
+            ->map(fn ($style, $key) => array_merge($style, [
+                'type' => $this->types->name($style['type'] ?? 'paragraph'),
+            ]))
             ->map(fn ($style, $key) => $this->types->validateStyle(array_merge($style, [
                 'ext' => $this->types->get($style['type'])['extension'],
                 'key' => $key,
@@ -75,7 +79,7 @@ class OptionManager
         return $styles;
     }
 
-    protected function resolveStylesExts($styles)
+    protected function resolveStylesExts(array $styles): array
     {
         return collect($styles)
             ->pluck('ext')
@@ -84,7 +88,7 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveStylesMenuOptions($styles)
+    protected function resolveStylesMenuOptions(array $styles): array
     {
         if (! $this->pro) {
             return [];
@@ -101,26 +105,19 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveAttributes()
+    protected function resolveAttributes(): array
     {
         if (! $this->pro) {
             return [];
         }
 
         $attributes = data_get($this->config, 'attributes', []);
-        $attributes = $this->normalizeAttributes($attributes);
-
-        if (array_key_exists('heading', $attributes)) {
-            for ($i = 1; $i <= 6; $i++) {
-                $attributes['heading_'.$i] = array_merge(
-                    $attributes['heading'],
-                    $attributes['heading_'.$i] ?? []
-                );
-            }
-            unset($attributes['heading']);
-        }
+        $attributes = $this->expandHeadings($attributes);
 
         $attributes = collect($attributes)
+            ->mapWithKeys(fn ($attrs, $type) => [
+                $this->types->name($type) => $attrs,
+            ])
             ->map(fn ($attrs, $type) => [
                 'type' => $type,
                 'ext' => $this->types->get($type)['extension'],
@@ -141,7 +138,7 @@ class OptionManager
         return $attributes;
     }
 
-    protected function resolvePins()
+    protected function resolvePins(): array
     {
         if (! $this->pro) {
             return [];
@@ -170,7 +167,7 @@ class OptionManager
         return $pins;
     }
 
-    protected function resolvePinsMenuOptions($pins)
+    protected function resolvePinsMenuOptions(array $pins): array
     {
         if (! $this->pro) {
             return [];
@@ -183,7 +180,7 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveAttributesExts($attributes)
+    protected function resolveAttributesExts(array $attributes): array
     {
         return collect($attributes)
             ->pluck('ext')
@@ -192,10 +189,9 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveDefaults()
+    protected function resolveDefaults(): array
     {
-        // @deprecated: default_classes
-        $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes') ?? [];
+        $defaults = data_get($this->config, 'defaults') ?? [];
 
         if (! array_key_exists('standard', $defaults)) {
             $defaults = [
@@ -203,22 +199,15 @@ class OptionManager
             ];
         }
 
-        $defaults = $this->normalizeDefaults($defaults);
-
         $defaults = collect($defaults)
             ->map(function ($dflts) {
-                if (array_key_exists('heading', $dflts)) {
-                    for ($i = 1; $i <= 6; $i++) {
-                        $dflts['heading_'.$i] = array_merge(
-                            $dflts['heading'],
-                            $dflts['heading_'.$i] ?? []
-                        );
-                    }
-                    unset($dflts['heading']);
-                }
-
-                return $dflts;
+                return collect($dflts)
+                    ->mapWithKeys(fn ($dflt, $type) => [
+                        $this->types->name($type) => $dflt,
+                    ])
+                    ->all();
             })
+            ->map(fn ($dflts) => $this->expandHeadings($dflts))
             ->map(fn ($dflts, $key) => [
                 'key' => $key,
                 'dflts' => collect($dflts)
@@ -236,7 +225,7 @@ class OptionManager
         return $defaults;
     }
 
-    protected function resolveDefaultsExts($defaults)
+    protected function resolveDefaultsExts(array $defaults): array
     {
         $classExts = collect($defaults)
             ->map(function ($group) {
@@ -263,7 +252,7 @@ class OptionManager
         return [$classExts, $cpExts];
     }
 
-    protected function resolveClassExts($stylesExts, $defaultExts)
+    protected function resolveClassExts(array $stylesExts, array $defaultExts): array
     {
         return collect($stylesExts)
             ->merge(collect($defaultExts)
@@ -275,72 +264,18 @@ class OptionManager
             ->all();
     }
 
-    /**
-     * @deprecated
-     */
-    protected function normalizeDefaults($defaults)
+    protected function expandHeadings(array $items): array
     {
-        return collect($defaults)
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->mapWithKeys(fn ($group, $type) => [
-                        $this->types->name($type) => $group, // @todo move to main when removing deprecated
-                    ])
-                    ->all();
-            })
-            ->map(function ($groups) {
-                if (array_key_exists('heading', $groups) && collect($groups['heading'])->keys()->every(fn ($key) => is_numeric($key))) {
-                    foreach ($groups['heading'] as $level => $class) {
-                        $groups['heading_'.$level] = $class;
-                    }
-                    unset($groups['heading']);
-                }
+        if (array_key_exists('heading', $items)) {
+            for ($i = 1; $i <= 6; $i++) {
+                $items['heading_'.$i] = array_merge(
+                    $items['heading'],
+                    $items['heading_'.$i] ?? []
+                );
+            }
+            unset($items['heading']);
+        }
 
-                return $groups;
-            })
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->map(function ($group) {
-                        if (is_string($group)) {
-                            $group = ['class' => $group];
-                        }
-
-                        return $group;
-                    })
-                    ->all();
-            })
-            ->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeStyles($styles)
-    {
-        return collect($styles)
-            ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->types->name($style['type'] ?? 'paragraph'),
-            ]))
-            ->map(function ($style) {
-                if ($style['type'] === 'heading' && isset($style['level'])) {
-                    $style['type'] = 'heading_'.$style['level'];
-                    unset($style['level']);
-                }
-
-                return $style;
-            })
-            ->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeAttributes($attributes)
-    {
-        return collect($attributes)
-            ->mapWithKeys(fn ($group, $type) => [
-                $this->types->name($type) => $group,  // @todo move to main when removing deprecated
-            ])
-            ->all();
+        return $items;
     }
 }
