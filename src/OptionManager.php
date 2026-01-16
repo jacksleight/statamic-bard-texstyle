@@ -12,13 +12,13 @@ class OptionManager
 
     protected $pro;
 
-    public function __construct($config, $pro)
+    public function __construct(array $config, bool $pro)
     {
         $this->config = $config;
         $this->pro = $pro;
     }
 
-    public function resolve()
+    public function resolve(): array
     {
         $this->types = new TypeManager($this->pro);
 
@@ -59,7 +59,7 @@ class OptionManager
         ];
     }
 
-    protected function resolveStyles()
+    protected function resolveStyles(): array
     {
         $styles = data_get($this->config, 'styles', []);
 
@@ -74,7 +74,7 @@ class OptionManager
         return $styles;
     }
 
-    protected function resolveStylesExts($styles)
+    protected function resolveStylesExts(array $styles): array
     {
         return collect($styles)
             ->pluck('ext')
@@ -83,7 +83,7 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveStylesMenuOptions($styles)
+    protected function resolveStylesMenuOptions(array $styles): array
     {
         if (! $this->pro) {
             return [];
@@ -100,23 +100,14 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveAttributes()
+    protected function resolveAttributes(): array
     {
         if (! $this->pro) {
             return [];
         }
 
         $attributes = data_get($this->config, 'attributes', []);
-
-        if (array_key_exists('heading', $attributes)) {
-            for ($i = 1; $i <= 6; $i++) {
-                $attributes['heading_'.$i] = array_merge(
-                    $attributes['heading'],
-                    $attributes['heading_'.$i] ?? []
-                );
-            }
-            unset($attributes['heading']);
-        }
+        $attributes = $this->expandHeadings($attributes);
 
         $attributes = collect($attributes)
             ->mapWithKeys(fn ($attrs, $type) => [
@@ -142,7 +133,7 @@ class OptionManager
         return $attributes;
     }
 
-    protected function resolvePins()
+    protected function resolvePins(): array
     {
         if (! $this->pro) {
             return [];
@@ -171,7 +162,7 @@ class OptionManager
         return $pins;
     }
 
-    protected function resolvePinsMenuOptions($pins)
+    protected function resolvePinsMenuOptions(array $pins): array
     {
         if (! $this->pro) {
             return [];
@@ -184,7 +175,7 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveAttributesExts($attributes)
+    protected function resolveAttributesExts(array $attributes): array
     {
         return collect($attributes)
             ->pluck('ext')
@@ -193,7 +184,7 @@ class OptionManager
             ->all();
     }
 
-    protected function resolveDefaults()
+    protected function resolveDefaults(): array
     {
         $defaults = data_get($this->config, 'defaults') ?? [];
 
@@ -211,19 +202,7 @@ class OptionManager
                     ])
                     ->all();
             })
-            ->map(function ($dflts) {
-                if (array_key_exists('heading', $dflts)) {
-                    for ($i = 1; $i <= 6; $i++) {
-                        $dflts['heading_'.$i] = array_merge(
-                            $dflts['heading'],
-                            $dflts['heading_'.$i] ?? []
-                        );
-                    }
-                    unset($dflts['heading']);
-                }
-
-                return $dflts;
-            })
+            ->map(fn ($dflts) => $this->expandHeadings($dflts))
             ->map(fn ($dflts, $key) => [
                 'key' => $key,
                 'dflts' => collect($dflts)
@@ -241,7 +220,7 @@ class OptionManager
         return $defaults;
     }
 
-    protected function resolveDefaultsExts($defaults)
+    protected function resolveDefaultsExts(array $defaults): array
     {
         $classExts = collect($defaults)
             ->map(function ($group) {
@@ -268,7 +247,7 @@ class OptionManager
         return [$classExts, $cpExts];
     }
 
-    protected function resolveClassExts($stylesExts, $defaultExts)
+    protected function resolveClassExts(array $stylesExts, array $defaultExts): array
     {
         return collect($stylesExts)
             ->merge(collect($defaultExts)
@@ -278,5 +257,20 @@ class OptionManager
             ->unique()
             ->values()
             ->all();
+    }
+
+    protected function expandHeadings(array $items): array
+    {
+        if (array_key_exists('heading', $items)) {
+            for ($i = 1; $i <= 6; $i++) {
+                $items['heading_'.$i] = array_merge(
+                    $items['heading'],
+                    $items['heading_'.$i] ?? []
+                );
+            }
+            unset($items['heading']);
+        }
+
+        return $items;
     }
 }

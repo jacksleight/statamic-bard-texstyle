@@ -13,7 +13,7 @@ class Pin extends Node
 {
     public static $name = 'btsPin';
 
-    protected static $instances = [];
+    protected static \WeakMap $instances;
 
     public static function registerHooks($options)
     {
@@ -45,13 +45,17 @@ class Pin extends Node
 
     public static function resolve($options)
     {
-        return static::$instances[spl_object_id($options['bard'])] ?? new self($options);
+        static::$instances ??= new \WeakMap;
+
+        return static::$instances[$options['bard']] ?? new self($options);
     }
 
     public function __construct(array $options = [])
     {
         parent::__construct($options);
-        static::$instances[spl_object_id($options['bard'])] = $this;
+
+        static::$instances ??= new \WeakMap;
+        static::$instances[$options['bard']] = $this;
     }
 
     public function addOptions()

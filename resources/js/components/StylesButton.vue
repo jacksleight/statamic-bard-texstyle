@@ -60,7 +60,7 @@ export default {
         }
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         if (this.type === 'text') {
             this.bard.events.off('bts-update', this.updateActiveItem);
         }

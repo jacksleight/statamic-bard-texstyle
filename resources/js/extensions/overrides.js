@@ -23,7 +23,7 @@ export default (tiptap) => {
                 const args = button.args || {};
                 if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(button.name) && stylesExts.includes('heading')) {
                     button.active = (editor) => editor.isActive('heading', { ...args, [attr]: null }) ||
-                        wildcards.some(widlcard => editor.isActive('heading', { ...args, [attr]: widlcard }));
+                        wildcards.some(wildcard => editor.isActive('heading', { ...args, [attr]: wildcard }));
                 }
                 if (['unorderedlist', 'orderedlist'].includes(button.name)) {
                     button.args = { ...args, [attr]: null };

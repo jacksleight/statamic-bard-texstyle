@@ -44,7 +44,7 @@ export default {
         this.bard.events.on('bts-update', this.close);
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         this.bard.events.off('bts-update', this.close);
     },
 

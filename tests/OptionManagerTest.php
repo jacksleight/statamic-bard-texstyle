@@ -297,6 +297,37 @@ it('normalizes aliased type names in attributes', function () {
     expect($options['attributes']['ordered_list']['type'])->toEqual('ordered_list');
 });
 
+it('expands heading defaults correctly', function () {
+    $options = (new OptionManager([
+        'defaults' => [
+            'heading' => [
+                'class' => 'all-headings',
+            ],
+            'heading_1' => [
+                'class' => 'heading-1-override',
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['defaults']['standard']['dflts']['heading_1']['class'])
+        ->toEqual('heading-1-override');
+
+    expect($options['defaults']['standard']['dflts']['heading_2']['class'])
+        ->toEqual('all-headings');
+
+    expect($options['defaults']['standard']['dflts'])
+        ->not->toHaveKey('heading');
+});
+
+it('handles empty config gracefully', function () {
+    $options = (new OptionManager([], false))->resolve();
+
+    expect($options['styles'])->toBeEmpty();
+    expect($options['attributes'])->toBeEmpty();
+    expect($options['pins'])->toBeEmpty();
+    expect($options['defaults'])->toBeEmpty();
+});
+
 it('expands header attributes options', function () {
     $options = (new OptionManager([
         'attributes' => [

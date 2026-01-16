@@ -60,13 +60,7 @@
 </template>
 
 <script>
-import TextInput from './TextInput.vue'
-
 export default {
-
-    components: {
-        TextInput,
-    },
 
     props: {
         config: {},
@@ -90,7 +84,7 @@ export default {
         this.bard.events.on('bts-update', this.close);
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         this.bard.events.off('bts-update', this.close);
     },
 
