@@ -19,10 +19,7 @@ Statamic 6 has a [single icon set](https://github.com/statamic/cms/tree/master/r
 
 ### Pins view path changed (High Impact)
 
-The default view path for pins has changed from `pins` to `partials/pins`. If you have existing pin views, you should either:
-
-1. Move your views from `resources/views/pins/` to `resources/views/partials/pins/`
-2. Or set the `pins_path` config option to restore the old path:
+The default view path for pins has changed from `pins` to `partials/pins`. If you have existing pin views, you should either move your views from `resources/views/pins/` to `resources/views/partials/pins/` or set the `pins_path` config option to restore the old path:
 
 ```php
 'pins_path' => 'pins',
