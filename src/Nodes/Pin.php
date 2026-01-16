@@ -4,6 +4,7 @@ namespace JackSleight\StatamicBardTexstyle\Nodes;
 
 use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Statamic\Facades\Cascade;
 use Statamic\Fields\Fields;
 use Statamic\Fieldtypes\Bard;
@@ -63,6 +64,7 @@ class Pin extends Node
         return [
             'bard' => null,
             'pins' => null,
+            'pinsPath' => null,
         ];
     }
 
@@ -105,15 +107,18 @@ class Pin extends Node
     protected function viewName($type)
     {
         $pins = $this->options['pins'];
+
         if ($pins[$type]['view'] ?? null) {
             return $pins[$type]['view'];
         }
 
-        if (view()->exists($view = "pins._{$type}")) {
+        $path = Str::replace('/', '.', $this->options['pinsPath']);
+
+        if (view()->exists($view = "{$path}._{$type}")) {
             return $view;
         }
 
-        if (view()->exists($view = "pins.{$type}")) {
+        if (view()->exists($view = "{$path}.{$type}")) {
             return $view;
         }
 

@@ -3,6 +3,7 @@
 ## 4.0.0 (2025-01-16)
 
 - Statamic 6 support
+- [new] Configurable `pins_path` option for pin view templates
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-texstyle/upgrade-3-to-4) for more information
 - Dropped support for Statamic 5
 

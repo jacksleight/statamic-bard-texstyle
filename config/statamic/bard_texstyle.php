@@ -127,6 +127,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Pins Path (pro only)
+    |--------------------------------------------------------------------------
+    |
+    | The default view path for pin templates. Individual pins can override
+    | this by setting their own "view" key in the pin configuration.
+    |
+    */
+
+    'pins_path' => 'partials/pins',
+
+    /*
+    |--------------------------------------------------------------------------
     | Attributes (pro only)
     |--------------------------------------------------------------------------
     |

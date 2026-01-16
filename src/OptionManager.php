@@ -33,6 +33,7 @@ class OptionManager
         $attributesExts = $this->resolveAttributesExts($attributes);
 
         $pins = $this->resolvePins();
+        $pinsPath = data_get($this->config, 'pins_path', 'partials/pins');
         $pinsMenuOptions = $this->resolvePinsMenuOptions($pins);
 
         $defaults = $this->resolveDefaults();
@@ -51,6 +52,7 @@ class OptionManager
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
             'pins' => $pins,
+            'pinsPath' => $pinsPath,
             'pinsMenuOptions' => $pinsMenuOptions,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
