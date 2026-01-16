@@ -15,7 +15,7 @@ Bard Texstyle 4 requires Statamic 6 and contains a couple of breaking changes.
 
 ### New Statamic icon set (High Impact)
 
-Statamic 6 has a [single icon set](https://github.com/statamic/cms/tree/master/resources/svg/icons) with new names. If you were using Statamic's built-in icons in your styles or pins configuration, you will need to update the icon names. Previously icons were referenced as either `[name]` for plump icons or `[set]/[name]` for other sets. Now all icons are in a single set and referenced simply as `[name]`.
+Statamic 6 has a [single icon set](https://github.com/statamic/cms/tree/master/resources/svg/icons) with new names. If you were using Statamic's built-in icons in your styles or pins configuration, you will need to update the icon names.
 
 ### Pins view path changed (High Impact)
 
