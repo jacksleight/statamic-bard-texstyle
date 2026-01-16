@@ -75,6 +75,9 @@ export default {
     created() {
         const { previews } = injectPublishContext();
         this.previews = previews;
+    },
+
+    mounted() {
         this.$nextTick(() => {
             this.pending = false;
         });

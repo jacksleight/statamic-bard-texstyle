@@ -1,5 +1,5 @@
 ---
-title: Upgrade from v3 to v4
+title: Upgrade v3 to v4
 order: 110
 ---
 
