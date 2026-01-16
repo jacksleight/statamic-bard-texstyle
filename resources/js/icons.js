@@ -97,14 +97,14 @@ export const itemIcon = (item) => {
     if (!item.icon) {
         return { svg: null };
     }
-    if (Object.keys(icons).includes(item.icon)) {
+    if (icons.hasOwnProperty(item.icon)) {
         return { html: icons[item.icon](item.ident, item.ext) };
     } else if (item.icon.match(/<svg/)) {
         return { html: item.icon };
     } else if (item.icon.match(/\//)) {
         return { svg: item.icon };
     } else {
-        return { svg: `plump/${item.icon}` };
+        return { svg: item.icon };
     }
 }
 

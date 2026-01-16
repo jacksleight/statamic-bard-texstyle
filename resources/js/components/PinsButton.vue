@@ -1,14 +1,18 @@
 <template>
-
-    <popover ref="popover" placement="bottom-start" @closed="closePanel" :clickaway="true">
+    
+    <popover ref="popover" align="start" @closed="closePanel" inset :clickaway="true" class="!w-max">
         <template #trigger>
-            <button
-                class="bard-toolbar-button"
-                v-tooltip="button.text"
+            <Button
+                class="px-2!"
+                :class="{ group: variant === 'floating' }"
+                :variant="variant === 'floating' ? 'subtle' : 'ghost'"
+                size="sm"
                 :aria-label="button.text"
-                @click="togglePanel">
+                v-tooltip="button.text"
+                @click="togglePanel"
+            >
                 <div class="flex items-center" v-html="button.html"></div>
-            </button>
+            </Button>
         </template>
         <template #default>
             <PinsMenu
@@ -27,15 +31,19 @@
 </template>
 
 <script>
+import { Button, Popover } from '@statamic/cms/ui';
+import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import PinsMenu from './PinsMenu.vue';
 
 export default {
 
     components: {
         PinsMenu,
+        Button,
+        Popover,
     },
 
-    mixins: [ BardToolbarButton ],
+    mixins: [ ToolbarButtonMixin ],
 
     data() {
         return {
@@ -64,13 +72,11 @@ export default {
         closePicker() {
             if (this.panelActive) {
                 this.togglePicker();
-                this.$refs.popover.close();
             }
         },
         closePanel() {
             if (this.panelActive) {
                 this.togglePanel();
-                this.$refs.popover.close();
             }
         },
     }

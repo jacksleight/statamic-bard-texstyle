@@ -1,19 +1,19 @@
 <template>
 
-    <popover ref="popover" placement="bottom-start" @closed="closePanel" :clickaway="true">
+    <popover ref="popover" align="start" @closed="closePanel" inset :clickaway="true" class="!w-max">
         <template #trigger>
-            <button
-                class="bard-toolbar-button"
+            <Button
                 :class="{
                     'bts-styles-button-icon': type === 'icon',
                     'bts-styles-button-text': type === 'text',
                 }"
+                size="sm"
                 v-tooltip="type === 'icon' ? button.text : undefined"
                 :aria-label="button.text"
                 @click="togglePanel">
                 <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
                 <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
-            </button>
+            </Button>
         </template>
         <template #default>
             <StylesMenu
@@ -32,14 +32,18 @@
 </template>
 
 <script>
+import { Button, Popover } from '@statamic/cms/ui';
+import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import StylesMenu from './StylesMenu.vue';
 
 export default {
 
-    mixins: [ BardToolbarButton ],
+    mixins: [ ToolbarButtonMixin ],
 
     components: {
         StylesMenu,
+        Button,
+        Popover,
     },
 
     data() {    
@@ -52,13 +56,13 @@ export default {
     created() {
         if (this.type === 'text') {
             this.updateActiveItem();
-            this.bard.$on('bts-update', this.updateActiveItem);
+            this.bard.events.on('bts-update', this.updateActiveItem);
         }
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         if (this.type === 'text') {
-            this.bard.$off('bts-update', this.updateActiveItem);
+            this.bard.events.off('bts-update', this.updateActiveItem);
         }
     },
 
@@ -72,7 +76,7 @@ export default {
             });    
         },
         type() {
-            return this.config.bts_styles_button;
+            return this.config.bts_styles_button ?? 'icon';
         },
     },
 
@@ -86,7 +90,6 @@ export default {
         closePanel() {
             if (this.panelActive) {
                 this.togglePanel();
-                this.$refs.popover.close();
             }
         },
         updateActiveItem() {

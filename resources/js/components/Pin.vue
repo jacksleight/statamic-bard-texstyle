@@ -1,46 +1,35 @@
 <template>
 
     <node-view-wrapper
-        class="bts-pin shadow-md"
-        :class="{ 'border-blue-400': selected || withinSelection, 'text-red-500': hasError }">
+        class="bts-pin"
+        :class="{ 'bts-pin-selected': selected || withinSelection, 'border-red-500': hasError }">
         <div class="bts-pin-handle" data-drag-handle>
-            <svg class="fill-current" width="12" viewBox="0 0 24 24"><circle cx="3" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="21" cy="12" r="3"/></svg>
+            <svg viewBox="0 0 8 17" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="1.641" cy="8.5" r="1.25"/><circle cx="1.641" cy="4" r="1.25"/><circle cx="1.641" cy="13" r="1.25"/><circle cx="6.359" cy="8.5" r="1.25"/><circle cx="6.359" cy="4" r="1.25"/><circle cx="6.359" cy="13" r="1.25"/></svg>
         </div>
         <div class="bts-pin-invalid" v-if="isInvalid">
-            <svg-icon name="alert" v-tooltip="'Invalid Pin'" class="text-red-500"></svg-icon>
+            <ui-icon name="alert-warning-exclamation-mark" v-tooltip="'Invalid Pin'" class="text-red-500"></ui-icon>
         </div>
         <div class="bts-pin-invalid" v-if="isUnknown">
-            <svg-icon name="alert" v-tooltip="'Unknown Pin'"></svg-icon>
+            <ui-icon name="alert-warning-exclamation-mark" v-tooltip="'Unknown Pin'"></ui-icon>
         </div>
-        <popover placement="bottom-start" v-if="!isInvalid && !isUnknown">
+        <popover :open="pending" align="start" v-if="!isInvalid && !isUnknown" class="!w-max">
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
-                    <svg-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></svg-icon>
+                    <ui-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></ui-icon>
                     <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
                     <div class="bts-pin-preview" v-if="previewText" v-html="previewText"></div>
                 </div>
             </template>
             <template #default>
-                <provide-store-name :store-name="storeName">
-                    <div class="flex-1 publish-fields @container bts-pin-fields">
-                        <set-field
-                            v-for="field in fields"
-                            :key="field.handle"
-                            :field="field"
-                            :value="values[field.handle]"
-                            :meta="meta[field.handle]"
-                            :parent-name="parentName"
-                            :set-index="-1"
-                            :field-path="fieldPath(field)"
-                            :read-only="isReadOnly"
-                            :show-field-previews="field.preview"
-                            v-show="showField(field, fieldPath(field))"
-                            @updated="updated(field.handle, $event)"
-                            @meta-updated="metaUpdated(field.handle, $event)"
-                            @replicator-preview-updated="previewUpdated(field.handle, $event)"
-                        />
-                    </div>
-                </provide-store-name>
+                <div class="bts-pin-fields">
+                    <FieldsProvider
+                        :fields="fields"
+                        :field-path-prefix="fieldPathPrefix"
+                        :meta-path-prefix="metaPathPrefix"
+                    >
+                        <Fields />
+                    </FieldsProvider>
+                </div>
             </template>
         </popover>
     </node-view-wrapper>
@@ -48,45 +37,50 @@
 </template>
 
 <script>
-const { NodeViewWrapper } = Statamic.$bard.tiptap.vue2;
-const { ValidatesFieldConditions } = FieldConditions;
-
-import ProvideStoreName from './ProvideStoreName.vue';
+import { Icon, Popover } from '@statamic/cms/ui';
+import { PublishFields as Fields, PublishFieldsProvider as FieldsProvider } from '@statamic/cms/ui';
+import { injectPublishContext } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
 
 export default {
 
-    props: [
-        'editor',
-        'node',
-        'decorations',
-        'selected',
-        'extension',
-        'getPos',
-        'updateAttributes',
-        'deleteNode',
-    ],
-
     components: {
-        NodeViewWrapper,
-        ProvideStoreName,
+        Popover,
+        Fields,
+        FieldsProvider,
     },
 
     mixins: [
-        ValidatesFieldConditions,
         PinHelpers,
     ],
 
+    props: {
+        editor: { type: Object, required: true },
+        node: { type: Object, required: true },
+        decorations: { type: Array, required: true },
+        selected: { type: Boolean, required: true },
+        extension: { type: Object, required: true },
+        getPos: { type: Function, required: true },
+        updateAttributes: { type: Function, required: true },
+        deleteNode: { type: Function, required: true },
+    },
+
     data() {
         return {
+            pending: true,
             previews: {},
         };
     },
 
+    created() {
+        const { previews } = injectPublishContext();
+        this.previews = previews;
+        this.$nextTick(() => {
+            this.pending = false;
+        });
+    },
+
     computed: {
-        store() {
-            return this.$store.state.publish[this.storeName];
-        },
         fields() {
             return this.config.publishFields || [];
         },
@@ -105,6 +99,18 @@ export default {
         meta() {
             return this.bard.meta.btsPins.existing[this.id] || {};
         },
+        fieldPathPrefix() {
+            const fpf = this.bard.fieldPathPrefix;
+            const handle = this.bard.handle;
+            const prefix = fpf ? `${fpf}.${handle}` : handle;
+            return `${prefix}.${this.path}`;
+        },
+        metaPathPrefix() {
+            const mpp = this.bard.metaPathPrefix;
+            const handle = this.bard.handle;
+            const prefix = mpp ? `${mpp}.${handle}` : handle;
+            return `${prefix}.btsPins.existing.${this.id}`;
+        },
         parentName() {
             return this.bard.name;
         },
@@ -118,18 +124,14 @@ export default {
                 return i === last ? `${key}.attrs.values` : `${key}.content`;
             }).join('.');
         },
-        fullPath() {
-            const prefix = this.bard.fieldPathPrefix || this.bard.handle;
-            return `${prefix}.${this.path}`;
-        },
         hasError() {
-            return Object.keys(this.store.errors).some(key => key.startsWith(this.fullPath));
+            return Object.keys(this.bard.publishContainer.errors).some(key => key.startsWith(this.fieldPathPrefix));
         },
         bard() {
             return this.extension.options.bard;
         },
         config() {
-            return _.findWhere(this.pinConfigs, { handle: this.values.type }) || {};
+            return this.pinConfigs.find(config => config.handle === this.values.type) || {};
         },
         pinConfigs() {
             return Object.values(this.extension.options.pins);
@@ -150,13 +152,18 @@ export default {
             return this.decorationSpecs.withinSelection;
         },
         previewText() {
-            return this.fields
-                .filter(field => field.preview)
-                .map(field => this.previews[field.handle])
-                .filter(value => ![undefined, 'null', '[]', '{}', ''].includes(JSON.stringify(value)))
-                .map(value => {
+            return Object.entries(data_get(this.previews, this.fieldPathPrefix) || {})
+                .filter(([handle, value]) => {
+                    if (!handle.endsWith('_')) return false;
+                    handle = handle.substr(0, handle.length - 1); // Remove the trailing underscore.
+                    const config = this.fields.find((f) => f.handle === handle) || {};
+                    return config.preview;
+                })
+                .map(([handle, value]) => value)
+                .filter((value) => (['null', '[]', '{}', ''].includes(JSON.stringify(value)) ? null : value))
+                .map((value) => {
                     if (typeof value === 'object' && value.constructor.name === 'PreviewHtml') {
-                        return value.html;
+                      return value.html;
                     }
                     if (typeof value === 'string') {
                         return escapeHtml(value);
@@ -177,15 +184,6 @@ export default {
         },
         metaUpdated(handle, value) {
             this.updatePinMeta(this.id, { ...this.meta, [handle]: value });
-        },
-        fieldPath(field) {
-            return `${this.fullPath}.${field.handle}`;
-        },
-        previewUpdated(handle, value) {
-            this.previews = {
-                ...this.previews,
-                [handle]: value,
-            };
         },
     },
 

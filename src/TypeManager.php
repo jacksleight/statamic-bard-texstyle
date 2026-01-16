@@ -379,7 +379,7 @@ class TypeManager implements JsonSerializable
         'bulletList' => 'unordered_list',
     ];
 
-    public function __construct($pro)
+    public function __construct(bool $pro)
     {
         $this->pro = $pro;
 
@@ -407,17 +407,17 @@ class TypeManager implements JsonSerializable
             ]);
     }
 
-    public function all()
+    public function all(): \Illuminate\Support\Collection
     {
         return $this->types;
     }
 
-    public function name($name)
+    public function name(string $name): string
     {
         return $this->aliases[$name] ?? $name;
     }
 
-    public function get($name)
+    public function get(string $name): array
     {
         if (! isset($this->types[$name])) {
             throw new \Exception("Unknown type '{$name}'");
@@ -426,7 +426,7 @@ class TypeManager implements JsonSerializable
         return $this->types[$name];
     }
 
-    public function getByItem($item)
+    public function getByItem(array $item): ?array
     {
         return $this->types->first(function ($type) use ($item) {
             if ($type['wildcard']) {
@@ -438,7 +438,7 @@ class TypeManager implements JsonSerializable
         });
     }
 
-    public function supports($name, $features)
+    public function supports(string $name, string|array $features): bool
     {
         $type = $this->get($name);
         foreach (Arr::wrap($features) as $feature) {
@@ -450,7 +450,7 @@ class TypeManager implements JsonSerializable
         return false;
     }
 
-    public function validateStyle($style)
+    public function validateStyle(array $style): ?array
     {
         $style = $style + [
             'type' => null,
@@ -463,11 +463,11 @@ class TypeManager implements JsonSerializable
         ];
 
         if ($this->get($style['type'])['pro'] && ! $this->pro) {
-            return;
+            return null;
         }
 
         if (! $this->supports($style['type'], 'styles_class')) {
-            return;
+            return null;
         }
 
         if (! $this->supports($style['type'], 'styles_cp_badge')) {
@@ -477,7 +477,7 @@ class TypeManager implements JsonSerializable
         return $style;
     }
 
-    public function validateStylesMenuOption($style)
+    public function validateStylesMenuOption(array $style): ?array
     {
         $style = $style + [
             'type' => null,
@@ -485,13 +485,13 @@ class TypeManager implements JsonSerializable
         ];
 
         if (! $this->supports($style['type'], 'styles_menu')) {
-            return;
+            return null;
         }
 
         return $style;
     }
 
-    public function validatePin($pin)
+    public function validatePin(array $pin): ?array
     {
         $pin = $pin + [
             'display' => null,
@@ -502,13 +502,13 @@ class TypeManager implements JsonSerializable
         ];
 
         if (! $this->pro) {
-            return;
+            return null;
         }
 
         return $pin;
     }
 
-    public function validateAttribute($attribute)
+    public function validateAttribute(array $attribute): ?array
     {
         $attribute = $attribute + [
             'type' => null,
@@ -522,7 +522,7 @@ class TypeManager implements JsonSerializable
         ];
 
         if (! $this->supports($attribute['type'], 'attributes_panel')) {
-            return;
+            return null;
         }
 
         if (in_array($attribute['handle'], $this->get($attribute['type'])['attributes'])) {
@@ -536,7 +536,7 @@ class TypeManager implements JsonSerializable
         return $attribute;
     }
 
-    public function validateDefault($default)
+    public function validateDefault(array $default): ?array
     {
         $default = $default + [
             'class' => null,
@@ -545,7 +545,7 @@ class TypeManager implements JsonSerializable
         ];
 
         if (! $this->supports($default['type'], ['defaults_class', 'defaults_cp_css', 'defaults_cp_badge'])) {
-            return;
+            return null;
         }
 
         if (! $this->supports($default['type'], 'defaults_class')) {
@@ -563,8 +563,7 @@ class TypeManager implements JsonSerializable
         return $default;
     }
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->types;
     }

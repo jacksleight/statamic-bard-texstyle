@@ -1,37 +1,41 @@
-const { Node } = Statamic.$bard.tiptap.core;
+export default (tiptap) => {
 
-const Div = Node.create({
+    const { Node } = tiptap.core;
 
-    name: 'btsDiv',
-    
-    content: 'block+',
-    
-    group: 'root',
+    return Node.create({
 
-    defining: false,
+        name: 'btsDiv',
+        
+        content: 'block+',
+        
+        group: 'root',
 
-    parseHTML() {
-        return [
-            { tag: 'div[data-bts-style]' },
-        ]
-    },
+        defining: false,
 
-    renderHTML({ HTMLAttributes }) {
-        return ['div', { class: 'bard-content', ...HTMLAttributes }, 0]
-    },
+        parseHTML() {
+            return [
+                { tag: 'div[data-bts-style]' },
+            ]
+        },
 
-    addCommands() {
-        return {
-            btsToggleDiv: (attributes) => ({ editor, commands }) => {
-                if (editor.isActive(this.name, attributes)) {
-                    return commands.lift(this.name);
-                } else if (editor.isActive(this.name)) {
-                    return commands.updateAttributes(this.name, attributes);
-                }
-                return commands.wrapIn(this.name, attributes);
-            },
-        }
-    },
+        renderHTML({ HTMLAttributes }) {
+            return ['div', { class: 'bard-content', ...HTMLAttributes }, 0]
+        },
 
-});
-export default Div;
+        addCommands() {
+            return {
+                btsToggleDiv: (attributes) => ({ editor, commands }) => {
+                    if (editor.isActive(this.name, attributes)) {
+                        return commands.lift(this.name);
+                    } else if (editor.isActive(this.name)) {
+                        return commands.updateAttributes(this.name, attributes);
+                    }
+                    console.log(123);
+                    return commands.wrapIn(this.name, attributes);
+                },
+            }
+        },
+
+    });
+
+};

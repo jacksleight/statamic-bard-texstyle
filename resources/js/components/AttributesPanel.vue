@@ -1,57 +1,56 @@
 <template>
 
-    <div class="bts-attributes">
+    <div class="bts-attributes rounded-xl dark:bg-gray-900">
         <div v-if="hasAttrs">
             <div v-for="(item, i) in items">
-                <div class="px-4 py-3 title-case border-b flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 bts-attributes-arrow text-gray-700" :class="{ 'rotate-90': activeItem === i }">
+                <div class="px-4 py-3 title-case border-b border-gray-200 dark:border-gray-800 text-xs flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-700 dark:text-gray-400 mr-2 -ml-2" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                     {{ __(display(item)) }}
                 </div>
-                <div class="p-4 pt-1 border-b" v-if="activeItem === i">
-                    <div v-for="(attr, name) in attrs(item)" class="mt-3">
-                        <label v-if="attr.field === 'select'" class="font-normal">
-                            <div class="text-sm leading-none">{{ attr.display || name }}</div>
-                            <select v-model="item.attrs[name]" class="mt-2 h-8 px-1 border rounded shadow-inner bg-gray-100 text-gray-800 w-full text-sm bts-border-gray-450">
-                                <option :value="null" v-if="attr.clearable"></option>
-                                <option v-for="display, value in attr.options" :value="value">{{ display }}</option>
-                            </select>
-                        </label>
-                        <label v-else-if="attr.field === 'toggle'" class="flex items-baseline font-normal">
-                            <input
-                                type="checkbox"
+                <div class="p-4 flex flex-col gap-3 border-b border-gray-200 dark:border-gray-800" v-if="activeItem === i">
+                    <template v-for="(attr, name) in attrs(item)">
+                        <ui-field v-if="attr.field === 'toggle'">
+                            <ui-checkbox
+                                :label="attr.display || name"
+                                :model-value="toBoolean(item.attrs[name], attr)"
+                                @update:model-value="item.attrs[name] = fromBoolean($event, attr)" />
+                        </ui-field>
+                        <ui-field v-else-if="attr.field === 'select'">
+                            <ui-label>{{ attr.display || name }}</ui-label>
+                            <ui-select
                                 v-model="item.attrs[name]"
-                                :true-value="trueValue(attr)"
-                                :false-value="falseValue(attr)"
-                            />
-                            <div class="text-sm ml-1">{{ attr.display || name }}</div>
-                        </label>
-                        <label v-else class="font-normal">
-                            <div class="text-sm leading-none">{{ attr.display || name }}</div>
-                            <TextInput
-                                type="text"
+                                size="sm"
+                                :clearable="attr.clearable"
+                                :options="selectOptions(attr.options)" />
+                        </ui-field>
+                        <ui-field v-else>
+                            <ui-label>{{ attr.display || name }}</ui-label>
+                            <ui-input
                                 v-model="item.attrs[name]"
-                                class="mt-2 h-8 p-2 bg-gray-100 text-gray-800 w-full border bts-border-gray-450 rounded shadow-inner text-sm"
-                            />
-                        </label>
-                    </div>
+                                size="sm" />
+                        </ui-field>
+                    </template>
                 </div>
             </div>
-            <div class="bg-gray-100 rounded-b-md flex items-center justify-end space-x-3 font-normal p-2">
-                <button
+            <footer class="flex items-center justify-end gap-2 sm:gap-3 rounded-b-md bg-gray-100 p-2 font-normal dark:bg-gray-800 rounded-b-xl">
+                <ui-button
                     @click="close"
-                    class="text-xs text-gray-600 hover:text-gray-800">
+                    inset
+                    variant="ghost"
+                    size="sm">
                     {{ __('Cancel') }}
-                </button>
-                <button
+                </ui-button>
+                <ui-button
                     @click="apply"
-                    class="btn btn-sm">
+                    variant="primary"
+                    size="sm">
                     {{ __('Apply') }}
-                </button>
-            </div>
+                </ui-button>
+            </footer>
         </div>
-        <div v-else class="p-8 text-center text-gray-400">
+        <div v-else class="bts-empty">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>
@@ -61,13 +60,7 @@
 </template>
 
 <script>
-import TextInput from './TextInput.vue'
-
 export default {
-
-    components: {
-        TextInput,
-    },
 
     props: {
         config: {},
@@ -88,11 +81,11 @@ export default {
     },
 
     created() {
-        this.bard.$on('bts-update', this.close);
+        this.bard.events.on('bts-update', this.close);
     },
 
-    beforeDestroy() {
-        this.bard.$off('bts-update', this.close);
+    beforeUnmount() {
+        this.bard.events.off('bts-update', this.close);
     },
 
     computed: {
@@ -132,18 +125,28 @@ export default {
             this.$emit('close');
         },
 
-        trueValue(attr) {
+        toBoolean(value, attr) {
             if (attr.values?.true !== undefined) {
-                return attr.values.true;
+                return value === attr.values.true;
             }
-            return true;
+
+            return !!value;
         },
 
-        falseValue(attr) {
+        fromBoolean(checked, attr) {
+            if (checked) {
+                return attr.values?.true !== undefined ? attr.values.true : true;
+            }
+
             if (attr.values?.false !== undefined) {
                 return attr.values.false;
             }
+
             return attr.rendered ? null : false;
+        },
+
+        selectOptions(options) {
+            return Object.entries(options).map(([value, label]) => ({ label, value }));
         },
 
     },
