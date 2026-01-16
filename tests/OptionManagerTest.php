@@ -258,137 +258,43 @@ it('resolves unsupported options', function () {
     expect($options['defaults']['standard']['dflts']['image']['cp_css'] ?? null)->toBeNull();
 });
 
-it('normalizes legacy style options', function () {
+it('normalizes aliased type names in defaults', function () {
     $options = (new OptionManager([
-        'styles' => [
-            'title' => [
-                'type' => 'heading',
-                'level' => 1,
-                'name' => 'Title',
-                'ident' => 'T',
-                'class' => 'title',
-            ],
-            'square_list' => [
-                'type' => 'bulletList',
-                'name' => 'Square List',
-                'ident' => 'S',
-                'class' => 'square-list',
-            ],
-        ],
-    ], false))->resolve();
-
-    expect($options['styles'] ?? null)->toEqual([
-        'title' => [
-            'ext' => 'heading',
-            'name' => 'Title',
-            'ident' => 'T',
-            'icon' => null,
-            'class' => 'title',
-            'cp_css' => null,
-            'cp_badge' => false,
-            'type' => 'heading_1',
-            'key' => 'title',
-        ],
-        'square_list' => [
-            'ext' => 'bulletList',
-            'name' => 'Square List',
-            'ident' => 'S',
-            'icon' => null,
-            'class' => 'square-list',
-            'cp_css' => null,
-            'cp_badge' => false,
-            'type' => 'unordered_list',
-            'key' => 'square_list',
-        ],
-    ]);
-});
-
-it('normalizes legacy defaults options', function () {
-    $options = (new OptionManager([
-        'default_classes' => [
-            'heading' => [
-                1 => 'heading-1',
-                2 => 'heading-2',
-            ],
-            'paragraph' => 'paragraph',
-            'tableCell' => 'cell',
-        ],
-    ], false))->resolve();
-
-    expect($options['defaults'] ?? null)->toEqual([
-        'standard' => [
-            'key' => 'standard',
-            'dflts' => [
-                'heading_1' => [
-                    'class' => 'heading-1',
-                    'cp_css' => null,
-                    'cp_badge' => false,
-                    'ext' => 'heading',
-                    'type' => 'heading_1',
-                    'key' => 'standard',
+        'defaults' => [
+            'standard' => [
+                'bulletList' => [
+                    'class' => 'custom-list',
                 ],
-                'heading_2' => [
-                    'class' => 'heading-2',
-                    'cp_css' => null,
-                    'cp_badge' => false,
-                    'ext' => 'heading',
-                    'type' => 'heading_2',
-                    'key' => 'standard',
-                ],
-                'paragraph' => [
-                    'class' => 'paragraph',
-                    'cp_css' => null,
-                    'cp_badge' => false,
-                    'ext' => 'paragraph',
-                    'type' => 'paragraph',
-                    'key' => 'standard',
-                ],
-                'table_cell' => [
-                    'class' => 'cell',
-                    'cp_css' => null,
-                    'cp_badge' => false,
-                    'ext' => 'tableCell',
-                    'type' => 'table_cell',
-                    'key' => 'standard',
-                ],
-            ],
-        ],
-    ]);
-});
-
-it('normalizes legacy attributes options', function () {
-    $options = (new OptionManager([
-        'attributes' => [
-            'tableCell' => [
-                'rowspan' => [
-                    'type' => 'text',
-                    'display' => 'Rowspan',
-                    'default' => null,
-                    'rendered' => true,
+                'orderedList' => [
+                    'class' => 'ordered-list',
                 ],
             ],
         ],
     ], true))->resolve();
 
-    expect($options['attributes'] ?? null)->toEqual([
-        'table_cell' => [
-            'ext' => 'tableCell',
-            'type' => 'table_cell',
-            'attrs' => [
-                'rowspan' => [
-                    'type' => 'table_cell',
-                    'handle' => 'rowspan',
-                    'field' => 'text',
-                    'display' => 'Rowspan',
-                    'default' => null,
-                    'rendered' => true,
-                    'extra' => false,
-                    'styles' => [],
-                    'cp_css' => false,
+    expect($options['defaults']['standard']['dflts'])->toHaveKey('unordered_list');
+    expect($options['defaults']['standard']['dflts'])->toHaveKey('ordered_list');
+    expect($options['defaults']['standard']['dflts'])->not->toHaveKey('bulletList');
+    expect($options['defaults']['standard']['dflts'])->not->toHaveKey('orderedList');
+    expect($options['defaults']['standard']['dflts']['unordered_list']['class'])->toEqual('custom-list');
+    expect($options['defaults']['standard']['dflts']['ordered_list']['class'])->toEqual('ordered-list');
+});
+
+it('normalizes aliased type names in attributes', function () {
+    $options = (new OptionManager([
+        'attributes' => [
+            'orderedList' => [
+                'id' => [
+                    'type' => 'text',
+                    'display' => 'ID',
                 ],
             ],
         ],
-    ]);
+    ], true))->resolve();
+
+    expect($options['attributes'])->toHaveKey('ordered_list');
+    expect($options['attributes'])->not->toHaveKey('orderedList');
+    expect($options['attributes']['ordered_list']['type'])->toEqual('ordered_list');
 });
 
 it('expands header attributes options', function () {

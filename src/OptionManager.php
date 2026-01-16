@@ -23,7 +23,7 @@ class OptionManager
         $this->types = new TypeManager($this->pro);
 
         $store = data_get($this->config, 'store', 'class');
-        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey in next major version
+        $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey one day, maybe
 
         $styles = $this->resolveStyles();
         $stylesExts = $this->resolveStylesExts($styles);
@@ -62,7 +62,6 @@ class OptionManager
     protected function resolveStyles()
     {
         $styles = data_get($this->config, 'styles', []);
-        $styles = $this->normalizeStyles($styles);
 
         $styles = collect($styles)
             ->map(fn ($style, $key) => $this->types->validateStyle(array_merge($style, [
@@ -108,7 +107,6 @@ class OptionManager
         }
 
         $attributes = data_get($this->config, 'attributes', []);
-        $attributes = $this->normalizeAttributes($attributes);
 
         if (array_key_exists('heading', $attributes)) {
             for ($i = 1; $i <= 6; $i++) {
@@ -121,6 +119,9 @@ class OptionManager
         }
 
         $attributes = collect($attributes)
+            ->mapWithKeys(fn ($attrs, $type) => [
+                $this->types->name($type) => $attrs,
+            ])
             ->map(fn ($attrs, $type) => [
                 'type' => $type,
                 'ext' => $this->types->get($type)['extension'],
@@ -194,8 +195,7 @@ class OptionManager
 
     protected function resolveDefaults()
     {
-        // @deprecated: default_classes
-        $defaults = data_get($this->config, 'defaults') ?? data_get($this->config, 'default_classes') ?? [];
+        $defaults = data_get($this->config, 'defaults') ?? [];
 
         if (! array_key_exists('standard', $defaults)) {
             $defaults = [
@@ -203,9 +203,14 @@ class OptionManager
             ];
         }
 
-        $defaults = $this->normalizeDefaults($defaults);
-
         $defaults = collect($defaults)
+            ->map(function ($dflts) {
+                return collect($dflts)
+                    ->mapWithKeys(fn ($dflt, $type) => [
+                        $this->types->name($type) => $dflt,
+                    ])
+                    ->all();
+            })
             ->map(function ($dflts) {
                 if (array_key_exists('heading', $dflts)) {
                     for ($i = 1; $i <= 6; $i++) {
@@ -272,75 +277,6 @@ class OptionManager
                 ->all())
             ->unique()
             ->values()
-            ->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeDefaults($defaults)
-    {
-        return collect($defaults)
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->mapWithKeys(fn ($group, $type) => [
-                        $this->types->name($type) => $group, // @todo move to main when removing deprecated
-                    ])
-                    ->all();
-            })
-            ->map(function ($groups) {
-                if (array_key_exists('heading', $groups) && collect($groups['heading'])->keys()->every(fn ($key) => is_numeric($key))) {
-                    foreach ($groups['heading'] as $level => $class) {
-                        $groups['heading_'.$level] = $class;
-                    }
-                    unset($groups['heading']);
-                }
-
-                return $groups;
-            })
-            ->map(function ($groups) {
-                return collect($groups)
-                    ->map(function ($group) {
-                        if (is_string($group)) {
-                            $group = ['class' => $group];
-                        }
-
-                        return $group;
-                    })
-                    ->all();
-            })
-            ->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeStyles($styles)
-    {
-        return collect($styles)
-            ->map(fn ($style, $key) => array_merge($style, [
-                'type' => $this->types->name($style['type'] ?? 'paragraph'),
-            ]))
-            ->map(function ($style) {
-                if ($style['type'] === 'heading' && isset($style['level'])) {
-                    $style['type'] = 'heading_'.$style['level'];
-                    unset($style['level']);
-                }
-
-                return $style;
-            })
-            ->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeAttributes($attributes)
-    {
-        return collect($attributes)
-            ->mapWithKeys(fn ($group, $type) => [
-                $this->types->name($type) => $group,  // @todo move to main when removing deprecated
-            ])
             ->all();
     }
 }
