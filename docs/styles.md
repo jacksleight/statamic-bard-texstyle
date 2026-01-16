@@ -49,11 +49,10 @@ The array keys are used as the button names. Styles can have the following optio
   The class name that will be applied for this style. Must be unique within the type.
 * **name (string)**  
   The name of the style. This will appear in the tooltip.
-* **icon (string, optional)**  
+* **icon (string, optional)**
   Icon name or custom SVG icon. Options are:
-    * `[name]` One of [Texstyles's dynamic icons](dynamic-icons)
-    * `[name]` One of [Statamic's built-in set icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons/plump)
-    * `[set]/[name]` One of [Statamic's other built-in icons](https://github.com/statamic/cms/tree/4.x/resources/svg/icons)
+    * `[name]` One of [Texstyle's dynamic icons](dynamic-icons)
+    * `[name]` One of [Statamic's built-in icons](https://github.com/statamic/cms/tree/master/resources/svg/icons)
     * `<svg>...</svg>` Custom SVG icon
 * **ident (string)**  
   An identification character. This will appear in the icon if using one of Texstyle's dynamic icons.
