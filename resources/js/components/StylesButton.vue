@@ -1,6 +1,6 @@
 <template>
 
-    <popover ref="popover" align="start" @closed="closePanel" inset :clickaway="true" class="!w-max">
+    <popover ref="popover" align="start" @closed="closePanel" inset class="!w-max">
         <template #trigger>
             <Button
                 :class="{
