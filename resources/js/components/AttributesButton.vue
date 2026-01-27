@@ -1,6 +1,12 @@
 <template>
 
-    <popover ref="popover" align="start" inset @closed="closePanel" class="!w-max">
+    <Stack
+        :title="__('Attributes')"
+        size="narrow"
+        inset
+        :wrap-slot="false"
+        v-model:open="panelActive"
+    >
         <template #trigger>
             <Button
                 class="px-2!"
@@ -9,28 +15,25 @@
                 size="sm"
                 :aria-label="button.text"
                 v-tooltip="button.text"
-                @click="togglePanel"
             >
                 <div class="flex items-center" v-html="button.html"></div>
             </Button>
         </template>
-        <template #default>
-            <AttributesPanel
-                v-if="panelActive"
-                :config="config"
-                :bard="bard"
-                :editor="editor"
-                :btsOptions="button.btsOptions"
-                @applied="closePanel"
-                @close="closePanel"
-            />
-        </template>
-    </popover>
+        <AttributesPanel
+            v-if="panelActive"
+            :config="config"
+            :bard="bard"
+            :editor="editor"
+            :btsOptions="button.btsOptions"
+            @applied="closePanel"
+            @close="closePanel"
+        />
+    </Stack>
 
 </template>
 
 <script>
-import { Button, Popover } from '@statamic/cms/ui';
+import { Button, Stack } from '@statamic/cms/ui';
 import { ToolbarButtonMixin } from '@statamic/cms/bard';
 import AttributesPanel from './AttributesPanel.vue';
 
@@ -41,26 +44,19 @@ export default {
     components: {
         AttributesPanel,
         Button,
-        Popover,
+        Stack,
     },
 
-    data() {    
+    data() {
         return {
             panelActive: false,
         };
     },
 
     methods: {
-        togglePanel() {
-            this.panelActive = ! this.panelActive;
-            if (! this.panelActive) {
-                this.editor.commands.focus();
-            }
-        },
         closePanel() {
-            if (this.panelActive) {
-                this.togglePanel();
-            }
+            this.panelActive = false;
+            this.editor.commands.focus();
         },
     }
 

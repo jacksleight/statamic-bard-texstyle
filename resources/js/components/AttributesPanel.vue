@@ -1,15 +1,15 @@
 <template>
 
-    <div class="bts-attributes rounded-xl dark:bg-gray-900">
+    <StackContent class="space-y-5 !p-0">
         <div v-if="hasAttrs">
             <div v-for="(item, i) in items">
-                <div class="px-4 py-3 title-case border-b border-gray-200 dark:border-gray-800 text-xs flex items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-700 dark:text-gray-400 mr-2 -ml-2" :class="{ 'rotate-90': activeItem === i }">
+                <div class="px-6 py-4 title-case border-b border-gray-200 dark:border-gray-800 text-sm flex justify-between items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
+                    {{ __(display(item)) }}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 -mr-1" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                    {{ __(display(item)) }}
                 </div>
-                <div class="p-4 flex flex-col gap-3 border-b border-gray-200 dark:border-gray-800" v-if="activeItem === i">
+                <div class="p-6 flex flex-col gap-3 border-b border-gray-200 dark:border-gray-800" v-if="activeItem === i">
                     <template v-for="(attr, name) in attrs(item)">
                         <ui-field v-if="attr.field === 'toggle'">
                             <ui-checkbox
@@ -21,46 +21,51 @@
                             <ui-label>{{ attr.display || name }}</ui-label>
                             <ui-select
                                 v-model="item.attrs[name]"
-                                size="sm"
                                 :clearable="attr.clearable"
                                 :options="selectOptions(attr.options)" />
                         </ui-field>
                         <ui-field v-else>
                             <ui-label>{{ attr.display || name }}</ui-label>
                             <ui-input
-                                v-model="item.attrs[name]"
-                                size="sm" />
+                                v-model="item.attrs[name]" />
                         </ui-field>
                     </template>
                 </div>
             </div>
-            <footer class="flex items-center justify-end gap-2 sm:gap-3 rounded-b-md bg-gray-100 p-2 font-normal dark:bg-gray-800 rounded-b-xl">
-                <ui-button
-                    @click="close"
-                    inset
-                    variant="ghost"
-                    size="sm">
-                    {{ __('Cancel') }}
-                </ui-button>
-                <ui-button
-                    @click="apply"
-                    variant="primary"
-                    size="sm">
-                    {{ __('Apply') }}
-                </ui-button>
-            </footer>
         </div>
         <div v-else class="bts-empty">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12">
                 <path d="M23.168.832.809 23.191M21 12c0 4.937-4.063 9-9 9s-9-4.063-9-9 4.063-9 9-9 9 4.063 9 9Z" style="fill:none;fill-rule:nonzero;stroke-width:1.5px" stroke="currentColor" />
             </svg>
         </div>
-    </div>
+    </StackContent>
+
+    <StackFooter v-if="hasAttrs">
+        <template #end>
+            <ui-button
+                @click="close"
+                variant="ghost">
+                {{ __('Cancel') }}
+            </ui-button>
+            <ui-button
+                @click="apply"
+                variant="primary">
+                {{ __('Apply') }}
+            </ui-button>
+        </template>
+    </StackFooter>
 
 </template>
 
 <script>
+import { StackContent, StackFooter } from '@statamic/cms/ui';
+
 export default {
+
+    components: {
+        StackContent,
+        StackFooter,
+    },
 
     props: {
         config: {},

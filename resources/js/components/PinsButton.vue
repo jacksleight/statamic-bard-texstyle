@@ -64,14 +64,9 @@ export default {
 
     methods: {
         togglePanel() {
-            this.panelActive = ! this.panelActive;
-            if (! this.panelActive) {
+            this.panelActive = !this.panelActive;
+            if (!this.panelActive) {
                 this.editor.commands.focus();
-            }
-        },
-        closePicker() {
-            if (this.panelActive) {
-                this.togglePicker();
             }
         },
         closePanel() {
