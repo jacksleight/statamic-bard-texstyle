@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.0.0 (2025-01-16)
+## 4.0.0 (2025-01-28)
 
 - Statamic 6 support
 - [new] Configurable `pins_path` option for pin view templates
