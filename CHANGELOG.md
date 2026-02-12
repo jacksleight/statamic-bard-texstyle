@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.0.1 (2025-02-12)
+
+- [fix] Swap pin panel popover for stack overlay
+- Adjust attribute panel styling
+
 ## 4.0.0 (2025-01-28)
 
 - Statamic 6 support

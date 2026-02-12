@@ -31,7 +31,6 @@
         "pestphp/pest": "^4.0",
         "laravel/pint": "^1.21"
     },
-    "minimum-stability": "dev",
     "config": {
         "allow-plugins": {
             "pixelfear/composer-dist-plugin": true,

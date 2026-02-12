@@ -1,15 +1,15 @@
 <template>
 
-    <StackContent class="space-y-5 !p-0">
+    <StackContent class="space-y-5">
         <div v-if="hasAttrs">
-            <div v-for="(item, i) in items">
-                <div class="px-6 py-4 title-case border-b border-gray-200 dark:border-gray-800 text-sm flex justify-between items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
+            <div v-for="(item, i) in items" class="mb-3">
+                <div class="px-4 py-2 title-case bg-gray-100 dark:bg-gray-800 rounded-lg font-medium text-gray-700 dark:text-white antialiased flex justify-between items-center cursor-pointer" @click="activeItem = i" :class="{ 'text-gray-700': activeItem !== i }">
                     {{ __(display(item)) }}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 -mr-1" :class="{ 'rotate-90': activeItem === i }">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                 </div>
-                <div class="p-6 flex flex-col gap-3 border-b border-gray-200 dark:border-gray-800" v-if="activeItem === i">
+                <div class="pt-6 pb-3 flex flex-col gap-3" v-if="activeItem === i">
                     <template v-for="(attr, name) in attrs(item)">
                         <ui-field v-if="attr.field === 'toggle'">
                             <ui-checkbox
@@ -80,7 +80,7 @@ export default {
         return {
             activeItem: 0,
             info,
-            items,
+            items: [...items, ...items],
             activeStyles,
         };
     },

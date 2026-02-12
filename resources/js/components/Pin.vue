@@ -12,7 +12,15 @@
         <div class="bts-pin-invalid" v-if="isUnknown">
             <ui-icon name="alert-warning-exclamation-mark" v-tooltip="'Unknown Pin'"></ui-icon>
         </div>
-        <popover :open="pending" align="start" v-if="!isInvalid && !isUnknown" class="!w-max">
+        <Stack
+            :title="display"
+            size="narrow"
+            inset
+            class="absolute"
+            :wrap-slot="false"
+            v-model:open="panelActive"
+            v-if="!isInvalid && !isUnknown"
+        >
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
                     <ui-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></ui-icon>
@@ -20,24 +28,40 @@
                     <div class="bts-pin-preview" v-if="previewText" v-html="previewText"></div>
                 </div>
             </template>
-            <template #default>
-                <div class="bts-pin-fields">
-                    <FieldsProvider
-                        :fields="fields"
-                        :field-path-prefix="fieldPathPrefix"
-                        :meta-path-prefix="metaPathPrefix"
-                    >
-                        <Fields />
-                    </FieldsProvider>
-                </div>
-            </template>
-        </popover>
+            <StackContent v-if="panelActive">
+                <FieldsProvider
+                    :fields="fields"
+                    :field-path-prefix="fieldPathPrefix"
+                    :meta-path-prefix="metaPathPrefix"
+                >
+                    <Fields />
+                </FieldsProvider>
+            </StackContent>
+            <StackFooter>
+                <template #end>
+                    <ui-button
+                        @click="panelActive = false"
+                        variant="primary">
+                        {{ __('Close') }}
+                    </ui-button>
+                </template>
+            </StackFooter>
+        </Stack>
+        <div v-if="initializing" class="hidden">
+            <FieldsProvider
+                :fields="fields"
+                :field-path-prefix="fieldPathPrefix"
+                :meta-path-prefix="metaPathPrefix"
+            >
+                <Fields />
+            </FieldsProvider>
+        </div>
     </node-view-wrapper>
 
 </template>
 
 <script>
-import { Icon, Popover } from '@statamic/cms/ui';
+import { Icon, Stack, StackContent, StackFooter } from '@statamic/cms/ui';
 import { PublishFields as Fields, PublishFieldsProvider as FieldsProvider } from '@statamic/cms/ui';
 import { injectPublishContext } from '@statamic/cms/ui';
 import PinHelpers from './PinHelpers.vue';
@@ -45,7 +69,9 @@ import PinHelpers from './PinHelpers.vue';
 export default {
 
     components: {
-        Popover,
+        Stack,
+        StackContent,
+        StackFooter,
         Fields,
         FieldsProvider,
     },
@@ -67,8 +93,9 @@ export default {
 
     data() {
         return {
-            pending: true,
+            panelActive: false,
             previews: {},
+            initializing: true,
         };
     },
 
@@ -79,7 +106,7 @@ export default {
 
     mounted() {
         this.$nextTick(() => {
-            this.pending = false;
+            this.initializing = false;
         });
     },
 

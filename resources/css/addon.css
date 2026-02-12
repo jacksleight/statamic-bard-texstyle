@@ -120,6 +120,9 @@
     .bts-pin {
         @apply font-sans font-medium select-none bg-gray-200 shadow border border-gray-300 rounded-lg overflow-hidden no-underline inline-flex items-stretch cursor-default mx-px -my-px;
         vertical-align: calc((1em - 16px) * 0.4);
+        + .ProseMirror-separator {
+            @apply hidden;
+        }
         .dark & {
             @apply bg-dark-975 border-dark-700;
         }
@@ -157,13 +160,6 @@
 
         &.bts-pin-selected {
             @apply border-blue-400 outline outline-blue-400;
-        }
-    }
-
-    .bts-pin-fields {
-        @apply w-[350px];
-        > * {
-            @apply !gap-3;
         }
     }
 
