@@ -3,6 +3,7 @@
 ## 4.0.2 (2025-02-13)
 
 - [fix] Duplicate sections in attribute panel
+- [fix] Error dragging pins with certain fieldtypes
 
 ## 4.0.1 (2025-02-12)
 

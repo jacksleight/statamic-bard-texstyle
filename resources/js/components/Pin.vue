@@ -95,7 +95,7 @@ export default {
         return {
             panelActive: false,
             previews: {},
-            initializing: true,
+            initializing: false,
         };
     },
 
@@ -105,9 +105,12 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(() => {
-            this.initializing = false;
-        });
+        setTimeout(() => {
+            this.initializing = true;
+            this.$nextTick(() => {
+                this.initializing = false;
+            });
+        }, 0);
     },
 
     computed: {
