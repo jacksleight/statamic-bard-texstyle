@@ -118,7 +118,7 @@
     }
 
     .bts-pin {
-        @apply font-sans font-medium select-none bg-gray-200 shadow border border-gray-300 rounded-lg overflow-hidden no-underline inline-flex items-stretch cursor-default mx-px -my-px;
+        @apply font-sans font-medium select-none bg-gray-200 shadow border border-gray-300 rounded-lg overflow-hidden no-underline inline-flex items-stretch cursor-default mx-px -my-px text-gray-900 dark:text-gray-300;
         vertical-align: calc((1em - 16px) * 0.4);
         + .ProseMirror-separator {
             @apply hidden;
