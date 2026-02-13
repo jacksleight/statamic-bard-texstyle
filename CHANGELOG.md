@@ -4,6 +4,7 @@
 
 - [fix] Duplicate sections in attribute panel
 - [fix] Error dragging pins with certain fieldtypes
+- [fix] Pin text color in styled elements
 
 ## 4.0.1 (2025-02-12)
 
