@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.2 (2025-02-13)
+
+- [fix] Duplicate sections in attribute panel
+
 ## 4.0.1 (2025-02-12)
 
 - [fix] Swap pin panel popover for stack overlay
