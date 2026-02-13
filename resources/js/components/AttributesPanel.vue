@@ -80,7 +80,7 @@ export default {
         return {
             activeItem: 0,
             info,
-            items: [...items, ...items],
+            items,
             activeStyles,
         };
     },
