@@ -53,6 +53,8 @@ Attributes are grouped by element type and the array keys are the attribute name
   The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
 * **options (array)**
   The options to use for select attributes.
+* **classes (array)**
+  Class map for attributes with `rendered` set to `class`. When set the stored value will be mapped to the specified class at render time, instead of being used as a literal class name. Works with `select` and `toggle` attributes.
 * **clearable (boolean)**
   Whether select attributes can be cleared.
 * **styles (array)**
