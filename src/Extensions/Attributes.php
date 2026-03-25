@@ -33,9 +33,14 @@ class Attributes extends Extension
             },
             'class' => function ($name, $attr) {
                 return [
-                    'renderHTML' => fn ($attributes) => isset($attributes->{$name})
-                        ? ['class' => $attributes->{$name}]
-                        : null,
+                    'renderHTML' => function ($attributes) use ($name, $attr) {
+                        $value = $attributes->{$name} ?? null;
+                        if (isset($attr['classes'])) {
+                            $value = $attr['classes'][$value] ?? null;
+                        }
+
+                        return isset($value) ? ['class' => $value] : null;
+                    },
                 ];
             },
             'style' => function ($name, $attr) {
