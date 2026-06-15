@@ -1,17 +1,25 @@
 # Changelog
 
-## 4.0.2 (2025-02-13)
+## Unreleased
+
+- [fix] Styles button colour on floating toolbar
+
+## 4.1.0 (2026-02-13)
+
+- [new] Attribute option-to-class mappings
+
+## 4.0.2 (2026-02-13)
 
 - [fix] Duplicate sections in attribute panel
 - [fix] Error dragging pins with certain fieldtypes
 - [fix] Pin text color in styled elements
 
-## 4.0.1 (2025-02-12)
+## 4.0.1 (2026-02-12)
 
 - [fix] Swap pin panel popover for stack overlay
 - Adjust attribute panel styling
 
-## 4.0.0 (2025-01-28)
+## 4.0.0 (2026-01-28)
 
 - Statamic 6 support
 - [new] Configurable `pins_path` option for pin view templates

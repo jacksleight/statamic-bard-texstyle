@@ -6,7 +6,9 @@
                 :class="{
                     'bts-styles-button-icon': type === 'icon',
                     'bts-styles-button-text': type === 'text',
+                    'group hover:!bg-white/10 !text-gray-100 hover:!text-white': variant === 'floating',
                 }"
+                :variant="variant === 'floating' ? 'subtle' : 'default'"
                 size="sm"
                 v-tooltip="type === 'icon' ? button.text : undefined"
                 :aria-label="button.text"
