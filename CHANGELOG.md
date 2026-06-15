@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.1.1 (2026-06-15)
 
 - [fix] Styles button colour on floating toolbar
 
