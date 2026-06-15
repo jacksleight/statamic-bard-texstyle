@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [fix] Styles button colour on floating toolbar
+
 ## 4.1.0 (2026-02-13)
 
 - [new] Attribute option-to-class mappings
