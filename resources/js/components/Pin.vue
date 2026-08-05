@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { watch } from 'vue';
 import { Icon, Stack, StackContent, StackFooter } from '@statamic/cms/ui';
 import { PublishFields as Fields, PublishFieldsProvider as FieldsProvider } from '@statamic/cms/ui';
 import { injectPublishContext } from '@statamic/cms/ui';
@@ -111,6 +112,16 @@ export default {
                 this.initializing = false;
             });
         }, 0);
+
+        watch(
+            () => data_get(this.bard.publishContainer.values, this.fieldPathPrefix),
+            (values) => {
+                if (! values) return;
+
+                this.updateAttributes({ values });
+            },
+            { deep: true }
+        );
     },
 
     computed: {
@@ -207,16 +218,6 @@ export default {
                     return escapeHtml(JSON.stringify(value));
                 })
                 .join(' / ');
-        },
-    },
-
-    methods: {
-        updated(handle, value) {
-            const values = { ...this.values, [handle]: value };            
-            this.updateAttributes({ values });
-        },
-        metaUpdated(handle, value) {
-            this.updatePinMeta(this.id, { ...this.meta, [handle]: value });
         },
     },
 
