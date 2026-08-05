@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.0 (2026-08-05)
+
+- [new] Import fieldset fields and entire fieldsets into pins
+- [fix] Pin field values being lost when the editor is edited after setting them
+- [fix] Heading level and style resetting each other when the selection edge extends past the block
+
 ## 4.1.1 (2026-06-15)
 
 - [fix] Styles button colour on floating toolbar
