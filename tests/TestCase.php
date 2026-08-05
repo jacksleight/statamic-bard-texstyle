@@ -2,16 +2,10 @@
 
 namespace Tests;
 
-use Facades\Statamic\Version;
-use Statamic\Console\Processes\Composer;
-use Statamic\Statamic;
+use JackSleight\StatamicBardTexstyle\ServiceProvider;
+use Statamic\Testing\AddonTestCase;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends AddonTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Version::shouldReceive('get')->andReturn(Composer::create(__DIR__.'/../')->installedVersion(Statamic::PACKAGE));
-    }
+    protected string $addonServiceProvider = ServiceProvider::class;
 }

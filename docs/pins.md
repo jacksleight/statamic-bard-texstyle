@@ -64,6 +64,34 @@ The array keys are used as the handles. Pins can have the following options:
   * **...[parameters] (mixed)**  
     Any additional fieldtype parameters.
 
+### Linking Existing Fields and Fieldsets
+
+You can import fields from fieldsets or import entire fieldsets:
+
+```php
+'fields' => [
+
+    'label' => [
+        'field' => 'button.label',
+    ],
+
+    'url' => [
+        'field' => 'button.url',
+        'display' => 'Link URL',
+    ],
+
+    ['import' => 'button'],
+
+    ['import' => 'button', 'prefix' => 'secondary_'],
+
+],
+```
+
+* **Linked fields**  
+  Set `field` to a `{fieldset}.{field}` reference. Any other parameters are used as config overrides.
+* **Imported fieldsets**  
+  Add a keyless item with `import` set to the fieldset handle, and optionally a `prefix` that will be prepended to the handles of the imported fields.
+
 ---
 
 ## Enabling the Menu and Pins

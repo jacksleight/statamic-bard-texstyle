@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Illuminate\Support\Arr;
 use Statamic\Fields\Fields;
 
 class OptionManager
@@ -150,13 +151,7 @@ class OptionManager
             ->map(fn ($pin, $handle) => $this->types->validatePin(array_merge($pin, [
                 'handle' => $handle,
                 'fields' => $fields = collect($pin['fields'])
-                    ->map(fn ($field, $handle) => [
-                        'handle' => $handle,
-                        'field' => [
-                            ...$field,
-                            'preview' => $field['preview'] ?? false,
-                        ],
-                    ])
+                    ->map(fn ($field, $handle) => $this->resolvePinField($field, $handle))
                     ->values()
                     ->all(),
                 'publishFields' => (new Fields($fields))->toPublishArray(),
@@ -165,6 +160,29 @@ class OptionManager
             ->all();
 
         return $pins;
+    }
+
+    protected function resolvePinField($field, $handle): array
+    {
+        if (is_int($handle)) {
+            return $field;
+        }
+
+        if (isset($field['field'])) {
+            return [
+                'handle' => $handle,
+                'field' => $field['field'],
+                'config' => Arr::except($field, 'field'),
+            ];
+        }
+
+        return [
+            'handle' => $handle,
+            'field' => [
+                ...$field,
+                'preview' => $field['preview'] ?? false,
+            ],
+        ];
     }
 
     protected function resolvePinsMenuOptions(array $pins): array

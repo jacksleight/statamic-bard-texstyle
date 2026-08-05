@@ -1,6 +1,7 @@
 <?php
 
 use JackSleight\StatamicBardTexstyle\OptionManager;
+use Statamic\Facades\Fieldset;
 
 uses(Tests\TestCase::class);
 
@@ -440,4 +441,106 @@ it('expands header attributes options', function () {
             ],
         ],
     ]);
+});
+
+it('resolves inline pin fields', function () {
+    $options = (new OptionManager([
+        'pins' => [
+            'button' => [
+                'display' => 'Button',
+                'fields' => [
+                    'label' => [
+                        'type' => 'text',
+                        'display' => 'Label',
+                    ],
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['pins']['button']['fields'])->toEqual([
+        [
+            'handle' => 'label',
+            'field' => [
+                'type' => 'text',
+                'display' => 'Label',
+                'preview' => false,
+            ],
+        ],
+    ]);
+
+    expect(collect($options['pins']['button']['publishFields'])->pluck('handle')->all())
+        ->toEqual(['label']);
+});
+
+it('resolves linked pin fields', function () {
+    Fieldset::setDirectory(__DIR__.'/__fixtures__/fieldsets');
+
+    $options = (new OptionManager([
+        'pins' => [
+            'cta' => [
+                'display' => 'CTA',
+                'fields' => [
+                    'label' => [
+                        'field' => 'button.label',
+                    ],
+                    'link' => [
+                        'field' => 'button.url',
+                        'display' => 'Link URL',
+                        'preview' => true,
+                    ],
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['pins']['cta']['fields'])->toEqual([
+        [
+            'handle' => 'label',
+            'field' => 'button.label',
+            'config' => [],
+        ],
+        [
+            'handle' => 'link',
+            'field' => 'button.url',
+            'config' => [
+                'display' => 'Link URL',
+                'preview' => true,
+            ],
+        ],
+    ]);
+
+    $publishFields = collect($options['pins']['cta']['publishFields']);
+    expect($publishFields->pluck('handle')->all())->toEqual(['label', 'link']);
+    expect($publishFields->firstWhere('handle', 'label')['display'])->toEqual('Label');
+    expect($publishFields->firstWhere('handle', 'link')['display'])->toEqual('Link URL');
+    expect($publishFields->firstWhere('handle', 'link')['preview'])->toBeTrue();
+});
+
+it('resolves imported pin fields', function () {
+    Fieldset::setDirectory(__DIR__.'/__fixtures__/fieldsets');
+
+    $options = (new OptionManager([
+        'pins' => [
+            'cta' => [
+                'display' => 'CTA',
+                'fields' => [
+                    'style' => [
+                        'type' => 'text',
+                        'display' => 'Style',
+                    ],
+                    ['import' => 'button'],
+                    ['import' => 'button', 'prefix' => 'secondary_'],
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['pins']['cta']['fields'][1])->toEqual(['import' => 'button']);
+    expect($options['pins']['cta']['fields'][2])->toEqual(['import' => 'button', 'prefix' => 'secondary_']);
+
+    $publishFields = collect($options['pins']['cta']['publishFields']);
+    expect($publishFields->pluck('handle')->all())
+        ->toEqual(['style', 'label', 'url', 'secondary_label', 'secondary_url']);
+    expect($publishFields->firstWhere('handle', 'url')['preview'])->toBeTrue();
 });
