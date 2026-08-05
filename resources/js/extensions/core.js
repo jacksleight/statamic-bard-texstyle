@@ -1,6 +1,7 @@
 export default (tiptap) => {
 
     const { Extension } = tiptap.core;
+    const { Selection, TextSelection } = tiptap.pm.state;
 
     return Extension.create({
 
@@ -32,8 +33,21 @@ export default (tiptap) => {
         addCommands() {
             const { attr, store, styles } = this.options;
             return {
-                btsToggleHeading: (attributes) => ({ commands }) => {
-                    return commands.toggleNode('heading', 'paragraph', attributes);
+                btsTrimSelection: () => ({ state, tr, dispatch }) => {
+                    const { $from, $to } = state.selection;
+                    if ($to.parentOffset === 0 && $to.pos > $from.pos) {
+                        const found = Selection.findFrom(state.doc.resolve($to.before()), -1, true);
+                        if (found && $from.sameParent(found.$head) && dispatch) {
+                            tr.setSelection(TextSelection.create(state.doc, $from.pos, found.$head.pos));
+                        }
+                    }
+                    return true;
+                },
+                btsToggleHeading: (attributes) => ({ chain }) => {
+                    return chain()
+                        .btsTrimSelection()
+                        .toggleNode('heading', 'paragraph', attributes)
+                        .run();
                 },
                 btsToggleParagraph: (attributes) => ({ commands, editor }) => {
                     if (editor.isActive('paragraph', attributes)) {

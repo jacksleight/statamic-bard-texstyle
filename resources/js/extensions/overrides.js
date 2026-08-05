@@ -24,6 +24,7 @@ export default (tiptap) => {
                 if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(button.name) && stylesExts.includes('heading')) {
                     button.active = (editor) => editor.isActive('heading', { ...args, [attr]: null }) ||
                         wildcards.some(wildcard => editor.isActive('heading', { ...args, [attr]: wildcard }));
+                    button.command = (editor, args) => editor.chain().focus().btsTrimSelection().toggleHeading(args).run();
                 }
                 if (['unorderedlist', 'orderedlist'].includes(button.name)) {
                     button.args = { ...args, [attr]: null };
