@@ -64,7 +64,7 @@ The array keys are used as the handles. Pins can have the following options:
   * **...[parameters] (mixed)**  
     Any additional fieldtype parameters.
 
-### Linking Existing Fields and Fieldsets
+### Importing Fields
 
 You can import fields from fieldsets or import entire fieldsets:
 
