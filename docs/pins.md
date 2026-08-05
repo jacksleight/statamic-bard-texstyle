@@ -87,9 +87,9 @@ You can import fields from fieldsets or import entire fieldsets:
 ],
 ```
 
-* **Linked fields**  
+* **Single fields**  
   Set `field` to a `{fieldset}.{field}` reference. Any other parameters are used as config overrides.
-* **Imported fieldsets**  
+* **Entire fieldsets**  
   Add a keyless item with `import` set to the fieldset handle, and optionally a `prefix` that will be prepended to the handles of the imported fields.
 
 ---
