@@ -2,7 +2,7 @@
 
 ## 4.2.1 (2026-08-12)
 
-- [fix] Pins with nested fieldtypes throwing an error on front-end render
+- [fix] Pins with nested sets throwing an error on front-end render
 
 ## 4.2.0 (2026-08-05)
 
