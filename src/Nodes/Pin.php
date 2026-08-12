@@ -75,7 +75,7 @@ class Pin extends Node
             return;
         }
 
-        $values = (array) $node->attrs->values;
+        $values = json_decode(json_encode($node->attrs->values), true);
         $id = $node->attrs->id;
         $data = array_merge($values, ['id' => $id], $this->fields($values['type'])
             ->addValues($values)
