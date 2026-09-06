@@ -1,0 +1,18 @@
+<article class="demo">
+    <p class="demo-kicker">Brighton Notes</p>
+
+    <div class="demo-content">{{ content }}</div>
+
+    {{ if alternate }}
+        <aside class="demo-aside demo-content">{{ alternate }}</aside>
+    {{ /if }}
+
+    <footer class="demo-notes">
+        <h2 class="demo-notes-heading">Notes</h2>
+        <ol>
+            {{ pins:content type="note" }}
+                <li id="note-{{ id }}">{{ text }}</li>
+            {{ /pins:content }}
+        </ol>
+    </footer>
+</article>

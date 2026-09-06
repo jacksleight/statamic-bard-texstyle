@@ -1,0 +1,78 @@
+title: 'Styles Menu'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: content
+    field:
+      type: bard
+      display: Article
+      container: assets
+      link_collections:
+        - demos
+      remove_empty_nodes: false
+      bts_defaults: demo
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - headline
+        - standfirst
+        - unorderedlist
+        - tick_list
+        - orderedlist
+        - steps
+        - tip
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - headline
+        - bts_paragraph
+        - standfirst
+        - unorderedlist
+        - tick_list
+        - orderedlist
+        - steps
+        - tip
+        - bold
+        - italic
+        - anchor
+        - button_link
+        - highlight
+  -
+    handle: alternate
+    field:
+      type: bard
+      display: 'Sidebar'
+      container: assets
+      remove_empty_nodes: false
+      bts_defaults: demo
+      bts_styles_button: icon
+      bts_styles:
+        - h2
+        - h3
+        - standfirst
+        - unorderedlist
+        - tick_list
+        - tip
+      buttons:
+        - bts_styles
+        - h2
+        - h3
+        - bts_paragraph
+        - standfirst
+        - unorderedlist
+        - tick_list
+        - tip
+        - bold
+        - italic
+        - anchor

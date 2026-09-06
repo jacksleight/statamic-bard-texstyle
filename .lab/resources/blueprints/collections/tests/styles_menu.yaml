@@ -1,0 +1,84 @@
+title: 'Styles Menu'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: 'Content (Icon Button)'
+      instructions: 'Styles collapsed into the menu, with the menu button showing an icon.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: icon
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+        - brand
+        - unorderedlist
+        - square_list
+        - orderedlist
+        - roman_list
+        - two_columns
+        - hint
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+        - brand
+        - unorderedlist
+        - square_list
+        - orderedlist
+        - roman_list
+        - two_columns
+        - hint
+        - bold
+        - italic
+  -
+    handle: alternate
+    field:
+      type: bard
+      display: 'Content (Text Button)'
+      instructions: 'The same menu, with the button showing the name of the current style.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+        - bold
+        - italic

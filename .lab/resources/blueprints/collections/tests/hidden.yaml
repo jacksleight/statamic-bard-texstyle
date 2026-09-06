@@ -1,0 +1,33 @@
+title: Hidden
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: Content
+      instructions: 'Hidden blocks should be absent from the rendered output and from the source below it.'
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - bts_hidden
+        - h2
+        - h3
+        - bts_paragraph
+        - unorderedlist
+        - quote
+        - bold
+        - italic

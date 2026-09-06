@@ -1,0 +1,21 @@
+{{ partial:heading }}
+
+{{ partial:field heading="Content" :value="content" }}
+
+{{ partial:field heading="Aside" :value="aside" }}
+
+{{ partial:panel heading="Footnotes &middot; pins tag, both fields" }}
+    <ol class="content list-decimal pl-5">
+        {{ pins from="content|aside" type="footnote" }}
+            <li id="footnote-{{ id }}">{{ text }}</li>
+        {{ /pins }}
+    </ol>
+{{ /partial:panel }}
+
+{{ partial:panel heading="Buttons &middot; pins tag, single field" }}
+    <ul class="content list-disc pl-5">
+        {{ pins:content type="button" }}
+            <li>{{ label }} &rarr; {{ url }}</li>
+        {{ /pins:content }}
+    </ul>
+{{ /partial:panel }}

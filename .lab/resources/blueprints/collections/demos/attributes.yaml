@@ -1,0 +1,34 @@
+title: Attributes
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: content
+    field:
+      type: bard
+      display: Article
+      container: assets
+      link_collections:
+        - demos
+      remove_empty_nodes: false
+      bts_defaults: demo
+      buttons:
+        - bts_attributes
+        - h1
+        - h2
+        - h3
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - quote
+        - code
+        - codeblock
+        - bold
+        - italic
+        - anchor

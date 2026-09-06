@@ -1,0 +1,40 @@
+title: Attributes
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: Content
+      instructions: 'Select an element and open the attributes panel. Covers standard attributes, extra rendered ones, class mapped ones and toggles.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      buttons:
+        - bts_attributes
+        - h1
+        - h2
+        - h3
+        - bts_paragraph
+        - orderedlist
+        - unorderedlist
+        - anchor
+        - quote
+        - code
+        - codeblock
+        - bold
+        - italic

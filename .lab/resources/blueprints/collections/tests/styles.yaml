@@ -1,0 +1,45 @@
+title: Styles
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: Content
+      instructions: 'Every style type has a button here: wildcard heading, locked heading, paragraph, both list types, link, span and div.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+        - unorderedlist
+        - square_list
+        - orderedlist
+        - roman_list
+        - anchor
+        - action
+        - brand
+        - two_columns
+        - hint
+        - bold
+        - italic
