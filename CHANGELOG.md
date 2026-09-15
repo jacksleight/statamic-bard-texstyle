@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.2 (2026-09-15)
+
+- [fix] Styles menu button using the outlined button style when it isn't the first button in the toolbar
+- [fix] Icons rendering smaller than Statamic's own toolbar icons
+- [fix] Styles menu growing unbounded when a field has a lot of styles
+
 ## 4.2.1 (2026-08-12)
 
 - [fix] Pins with nested sets throwing an error on front-end render

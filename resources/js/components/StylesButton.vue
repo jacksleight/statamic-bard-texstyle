@@ -5,16 +5,19 @@
             <Button
                 :class="{
                     'bts-styles-button-icon': type === 'icon',
-                    'bts-styles-button-text': type === 'text',
+                    '-ml-1': type === 'icon' && first,
+                    'bts-styles-button-text': type === 'text' && first,
+                    'bts-styles-button-text-inline': type === 'text' && ! first,
+                    'px-2!': ! first,
                     'group hover:!bg-white/10 !text-gray-100 hover:!text-white': variant === 'floating',
                 }"
-                :variant="variant === 'floating' ? 'subtle' : 'default'"
+                :variant="buttonVariant"
                 size="sm"
                 v-tooltip="type === 'icon' ? button.text : undefined"
                 :aria-label="button.text"
                 @click="togglePanel">
                 <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
-                <span v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
+                <span class="opacity-60" v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
             </Button>
         </template>
         <template #default>
@@ -79,6 +82,15 @@ export default {
         },
         type() {
             return this.config.bts_styles_button ?? 'icon';
+        },
+        first() {
+            return this.bard.buttons[0]?.name === this.button.name;
+        },
+        buttonVariant() {
+            if (this.variant === 'floating') {
+                return 'subtle';
+            }
+            return this.first ? 'default' : 'ghost';
         },
     },
 
