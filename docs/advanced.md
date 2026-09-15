@@ -9,6 +9,14 @@ order: 70
 
 ---
 
+## Hiding Content
+
+The hidden feature allows you to hide parts of text content, useful if you need to temporarily remove something from the page but keep storing it. Hidden content is completely excluded from the rendered HTML. To use it toggle the hidden button in the Bard field's button selector.
+
+:::warning
+Hidden content is not compatible with Bard's `save_html` option and will be lost on save.
+:::
+
 ## Stored Values
 
 By default the class names are saved to your content. If you would prefer to save the style keys instead you can change the `store` option to `key`. Saving the style key allows you to rename classes later without having to update all your content, but it does make your content dependant on the Bard Texstyle configuration.
