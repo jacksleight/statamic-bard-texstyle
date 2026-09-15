@@ -26,7 +26,7 @@ This Statamic addon allows you to add custom styles, inline elements and attribu
 
 ## Documentation
 
-[Statamic Bard Texstyle Documentation](https://jacksleight.dev/docs/bard-texstyle/)
+[Statamic Bard Texstyle Documentation](https://jacksleight.com/code/statamic-bard-texstyle)
 
 <!-- statamic:hide -->
 
