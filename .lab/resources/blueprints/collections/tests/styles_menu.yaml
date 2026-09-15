@@ -82,3 +82,57 @@ fields:
         - lead
         - bold
         - italic
+  -
+    handle: icon_later
+    field:
+      type: bard
+      display: 'Content (Icon Button, Later)'
+      instructions: 'The icon button with the menu placed partway along the toolbar rather than first.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: icon
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+      buttons:
+        - bold
+        - italic
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+  -
+    handle: text_later
+    field:
+      type: bard
+      display: 'Content (Text Button, Later)'
+      instructions: 'The text button with the menu placed partway along the toolbar rather than first.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+      buttons:
+        - bold
+        - italic
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
