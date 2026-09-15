@@ -1,6 +1,6 @@
 {
   "resources/css/addon.css": {
-    "file": "assets/addon-oLmPPS62.css",
+    "file": "assets/addon-DkNpeXJX.css",
     "src": "resources/css/addon.css",
     "isEntry": true,
     "names": [
@@ -8,7 +8,7 @@
     ]
   },
   "resources/js/addon.js": {
-    "file": "assets/addon-B2vYrp_o.js",
+    "file": "assets/addon-Bh0g3ya9.js",
     "name": "addon",
     "src": "resources/js/addon.js",
     "isEntry": true

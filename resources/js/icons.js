@@ -14,9 +14,9 @@ const icons = {
             S: '<path d="M4.081,15.505C5.274,15.505 6.265,15.129 7.073,14.398C7.862,13.666 8.266,12.726 8.266,11.534C8.266,6.539 1.989,7.898 1.989,4.282C1.989,2.965 2.888,2.129 4.301,2.129C5.017,2.129 5.715,2.359 6.357,2.798C6.522,2.903 6.669,2.944 6.779,2.944C7.018,2.944 7.22,2.819 7.385,2.547C7.477,2.443 7.514,2.296 7.514,2.108C7.514,1.816 7.422,1.586 7.22,1.44C6.321,0.792 5.311,0.457 4.21,0.457C3.017,0.457 2.08,0.813 1.383,1.544C0.685,2.276 0.337,3.195 0.337,4.282C0.337,9.131 6.614,7.981 6.614,11.555C6.614,12.976 5.513,13.833 4.1,13.833C3.347,13.833 2.466,13.415 1.456,12.558C1.328,12.454 1.199,12.412 1.034,12.412C0.796,12.412 0.612,12.517 0.465,12.726C0.355,12.872 0.3,13.06 0.3,13.248C0.3,13.499 0.373,13.687 0.52,13.833C1.677,14.941 2.87,15.505 4.081,15.505Z" />',
         }[letter];
         return `
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="bts-icon-letter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 ${letterPath}
-                <text text-anchor="middle" x="12.75" y="14.5" style="font-size: 10px; stroke-width: 1px; stroke: currentColor">${ident}</text>
+                <text text-anchor="middle" x="12.75" y="14.5" style="font-size: 9px; stroke-width: 0.75px; stroke: currentColor">${ident}</text>
             </svg>
         `;
     },
@@ -24,7 +24,7 @@ const icons = {
         return `
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <rect width="15" height="15" x="0.5" y="0.5" rx="3" stroke-width="1" stroke="currentColor" fill="none" />
-                <text text-anchor="middle" x="8" y="12" style="font-size: 11px;">${ident}</text>
+                <text text-anchor="middle" x="8" y="12" style="font-size: 11.5px;">${ident}</text>
             </svg>
         `;
     },
@@ -34,7 +34,7 @@ const icons = {
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <mask id="${maskId}">
                     <rect width="16" height="16" fill="white" />
-                    <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" fill="black">${ident}</text>
+                    <text text-anchor="middle" x="8" y="12" style="font-size: 11.5px;" fill="black">${ident}</text>
                 </mask>
                 <rect width="15" height="15" x="0.5" y="0.5" rx="3" stroke-width="1" stroke="currentColor" mask="url(#${maskId})" />
             </svg>
@@ -44,7 +44,7 @@ const icons = {
         return `
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <circle cx="8" cy="8" r="7.5" stroke-width="1" stroke="currentColor" fill="none" />
-                <text text-anchor="middle" x="8" y="12" style="font-size: 11px;">${ident}</text>
+                <text text-anchor="middle" x="8" y="12" style="font-size: 11.5px;">${ident}</text>
             </svg>
         `;
     },
@@ -54,7 +54,7 @@ const icons = {
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <mask id="${maskId}">
                     <rect width="16" height="16" fill="white" />
-                    <text text-anchor="middle" x="8" y="12" style="font-size: 11px;" fill="black">${ident}</text>
+                    <text text-anchor="middle" x="8" y="12" style="font-size: 11.5px;" fill="black">${ident}</text>
                 </mask>
                 <circle cx="8" cy="8" r="7.5" stroke-width="1" stroke="currentColor" mask="url(#${maskId})" />
             </svg>
@@ -64,7 +64,7 @@ const icons = {
         return `
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M2.333,1C2.882,1 3.333,1.451 3.333,2L3.333,3.333C3.333,3.882 2.882,4.333 2.333,4.333L1,4.333C0.451,4.333 0,3.882 0,3.333L0,2C-0,1.451 0.451,1 1,1L2.333,1ZM2.333,6.333C2.882,6.333 3.333,6.785 3.333,7.333L3.333,8.667C3.333,9.215 2.882,9.667 2.333,9.667L1,9.667C0.451,9.667 0,9.215 0,8.667L0,7.333C-0,6.785 0.451,6.333 1,6.333L2.333,6.333ZM2.333,11.667C2.882,11.667 3.333,12.118 3.333,12.667L3.333,14C3.333,14.549 2.882,15 2.333,15L1,15C0.451,15 0,14.549 0,14L0,12.667C-0,12.118 0.451,11.667 1,11.667L2.333,11.667Z" />
-                <text text-anchor="middle" x="11" y="12" style="font-size: 11px;">${ident}</text>
+                <text text-anchor="middle" x="11" y="12" style="font-size: 11.5px;">${ident}</text>
             </svg>
         `;
     },
@@ -72,7 +72,7 @@ const icons = {
         return `
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M1.473,11.5C0.873,11.5 0.343,11.907 0.187,12.487C0.175,12.529 0.169,12.573 0.169,12.617C0.169,12.891 0.395,13.117 0.67,13.117C0.896,13.117 1.095,12.965 1.153,12.747C1.192,12.602 1.324,12.501 1.473,12.5C1.656,12.5 1.807,12.65 1.807,12.833C1.807,13.016 1.656,13.167 1.473,13.167C1.199,13.167 0.973,13.392 0.973,13.667C0.973,13.941 1.199,14.167 1.473,14.167C1.656,14.167 1.807,14.317 1.807,14.5C1.809,14.514 1.809,14.529 1.809,14.543C1.809,14.728 1.658,14.879 1.473,14.879C1.305,14.879 1.162,14.753 1.14,14.587C1.09,14.358 0.886,14.194 0.652,14.194C0.377,14.194 0.152,14.42 0.152,14.694C0.152,14.751 0.161,14.807 0.18,14.86C0.345,15.427 0.869,15.82 1.46,15.82C2.187,15.82 2.786,15.226 2.793,14.5C2.795,14.236 2.716,13.978 2.567,13.76C2.533,13.702 2.533,13.631 2.567,13.573C2.716,13.356 2.795,13.097 2.793,12.833C2.793,12.107 2.2,11.507 1.473,11.5ZM2.833,7.167C2.833,6.435 2.231,5.833 1.5,5.833C0.769,5.833 0.167,6.435 0.167,7.167C0.17,7.44 0.394,7.663 0.667,7.667C0.94,7.663 1.163,7.44 1.167,7.167C1.167,6.984 1.317,6.833 1.5,6.833C1.683,6.833 1.833,6.984 1.833,7.167C1.834,7.322 1.779,7.473 1.68,7.593L0.273,9.333C0.156,9.483 0.133,9.687 0.213,9.86C0.297,10.034 0.474,10.145 0.667,10.147L2.333,10.147C2.608,10.147 2.833,9.921 2.833,9.647C2.833,9.372 2.608,9.147 2.333,9.147L2.053,9.147C1.991,9.146 1.934,9.109 1.907,9.053C1.87,8.999 1.87,8.928 1.907,8.873L2.447,8.207C2.686,7.912 2.822,7.546 2.833,7.167ZM2.667,3.5L2.5,3.5C2.409,3.5 2.333,3.425 2.333,3.333L2.333,1.08C2.33,0.578 1.916,0.167 1.413,0.167L1,0.167C0.726,0.167 0.5,0.392 0.5,0.667C0.5,0.941 0.726,1.167 1,1.167L1.167,1.167C1.258,1.167 1.333,1.242 1.333,1.333L1.333,3.333C1.333,3.425 1.258,3.5 1.167,3.5L1,3.5C0.726,3.5 0.5,3.726 0.5,4C0.5,4.274 0.726,4.5 1,4.5L2.667,4.5C2.941,4.5 3.167,4.274 3.167,4C3.167,3.726 2.941,3.5 2.667,3.5Z" />
-                <text text-anchor="middle" x="11" y="12" style="font-size: 11px;">${ident}</text>
+                <text text-anchor="middle" x="11" y="12" style="font-size: 11.5px;">${ident}</text>
             </svg>
         `;
     },
@@ -93,14 +93,16 @@ const icons = {
     },
 };
 
+const withIconAttr = (html) => html.replace(/<svg\b/, '<svg data-bts-icon');
+
 export const itemIcon = (item) => {
     if (!item.icon) {
         return { svg: null };
     }
     if (icons.hasOwnProperty(item.icon)) {
-        return { html: icons[item.icon](item.ident, item.ext) };
+        return { html: withIconAttr(icons[item.icon](item.ident, item.ext)) };
     } else if (item.icon.match(/<svg/)) {
-        return { html: item.icon };
+        return { html: withIconAttr(item.icon) };
     } else if (item.icon.match(/\//)) {
         return { svg: item.icon };
     } else {
@@ -131,7 +133,7 @@ export const pinIcon = (pin) => {
 
 const coreIcons = {
     styles: `
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="16" viewBox="0 0 22 16" fill="currentColor" style="width: 22px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="16" viewBox="0 0 22 16" fill="currentColor">
             <path d="M11.755,14.91C11.924,15.311 12.198,15.5 12.598,15.5C13.125,15.5 13.462,15.079 13.462,14.594C13.462,14.488 13.441,14.363 13.399,14.236L7.774,1.216C7.584,0.732 7.247,0.5 6.762,0.5C6.278,0.5 5.941,0.732 5.73,1.216L0.084,14.299C0.021,14.468 0,14.594 0,14.679C0,15.121 0.316,15.5 0.843,15.5C1.222,15.5 1.496,15.311 1.643,14.91L3.329,10.887L10.049,10.887L11.755,14.91ZM4.045,9.201L6.699,2.902L9.354,9.201L4.045,9.201ZM13.883,12.571C13.883,14.363 15.042,15.5 16.791,15.5C18.076,15.5 19.088,15.037 19.824,14.13L19.824,14.762C19.824,15.162 20.183,15.5 20.625,15.5C21.068,15.5 21.426,15.163 21.426,14.762L21.426,9.538C21.426,6.946 20.393,5.662 17.781,5.662C16.959,5.662 16.074,5.851 15.169,6.23C14.895,6.336 14.747,6.567 14.747,6.904C14.747,7.01 14.768,7.094 14.811,7.199C14.937,7.473 15.147,7.621 15.463,7.621C15.572,7.621 15.679,7.599 15.779,7.557C16.432,7.304 17.064,7.179 17.676,7.179C19.424,7.179 19.824,8.147 19.824,10.17C19.255,9.77 18.476,9.559 17.465,9.559C15.358,9.559 13.883,10.696 13.883,12.571ZM19.824,12.762C19.129,13.583 18.329,13.983 17.38,13.983C16.306,13.983 15.674,13.414 15.674,12.488C15.674,11.476 16.58,10.929 17.696,10.929C18.518,10.929 19.235,11.139 19.824,11.561L19.824,12.762Z" />
         </svg>
     `,
@@ -158,5 +160,5 @@ const coreIcons = {
 }
 
 export const coreIcon = (name) => {
-    return coreIcons[name];
+    return withIconAttr(coreIcons[name]);
 }

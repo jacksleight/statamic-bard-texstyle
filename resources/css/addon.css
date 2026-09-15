@@ -48,13 +48,26 @@
 
     }
 
+    [data-bts-icon] {
+        @apply size-3.5!;
+        font-family: inter, sans-serif;
+    }
+
+    .bts-styles-button-icon [data-bts-icon] {
+        @apply w-auto! h-3.5!;
+    }
+
     .bts-styles-button-text {
-        @apply w-24 mr-1 -ml-1 text-ellipsis opacity-80;
+        @apply w-24 -ml-1 text-ellipsis;
+    }
+
+    .bts-styles-button-text-inline {
+        @apply max-w-24 overflow-hidden whitespace-nowrap text-ellipsis;
     }
 
     .bts-styles {
         .bts-styles-items {
-            @apply flex flex-col p-1.5 overflow-y-auto;
+            @apply flex flex-col p-1.5 max-h-96 overflow-y-auto;
         }
         .bts-styles-item {
             @apply whitespace-normal py-2 px-3 text-[1rem] leading-[1] rounded-lg text-left;
