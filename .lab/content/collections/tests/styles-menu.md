@@ -52,6 +52,75 @@ text_later:
       -
         type: text
         text: 'Watch the buttons after it as the label grows and shrinks.'
+many:
+  -
+    type: heading
+    attrs:
+      level: 1
+      class: menu-display
+    content:
+      -
+        type: text
+        text: 'A menu with everything in it'
+  -
+    type: paragraph
+    attrs:
+      class: menu-standfirst
+    content:
+      -
+        type: text
+        text: 'This field lists every option that can reach the menu, so the list has to scroll. Open it and check the scrolling, the previews and that the button label still follows the cursor.'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'Inline styles reach the menu too, so '
+      -
+        type: text
+        marks:
+          -
+            type: btsSpan
+            attrs:
+              class: menu-code
+        text: 'code text'
+      -
+        type: text
+        text: ' and '
+      -
+        type: text
+        marks:
+          -
+            type: btsSpan
+            attrs:
+              class: menu-key
+        text: 'keyboard'
+      -
+        type: text
+        text: ' are listed as well. Only div styles are excluded.'
+  -
+    type: bulletList
+    attrs:
+      class: menu-ticks
+    content:
+      -
+        type: listItem
+        content:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'All six heading levels are in the menu'
+      -
+        type: listItem
+        content:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Both list types, with a custom style each'
 alternate:
   -
     type: heading

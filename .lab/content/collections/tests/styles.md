@@ -135,4 +135,43 @@ content:
           -
             type: text
             text: 'A hint div, the other div style. It has a control panel badge turned on, so it should be labelled in the editor.'
+  -
+    type: btsDiv
+    attrs:
+      class: note
+    content:
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'A note div, whose button uses the circle icon variant. The toolbar button should show the ident inside an outlined circle.'
+  -
+    type: btsDiv
+    attrs:
+      class: warning
+    content:
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'A warning div, whose button uses the circle-solid icon variant. The ident should be knocked out of a filled circle.'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'A paragraph containing '
+      -
+        type: text
+        marks:
+          -
+            type: btsSpan
+            attrs:
+              class: marker
+        text: 'marked text'
+      -
+        type: text
+        text: ', whose button uses the symbol icon variant. That one draws the ident on its own with no surrounding shape.'
 ---

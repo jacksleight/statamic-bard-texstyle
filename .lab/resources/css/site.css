@@ -34,6 +34,27 @@
 .brand-text { @apply font-bold text-pink-600; }
 .two-columns { @apply my-3 gap-4 sm:columns-2; }
 .hint { @apply my-3 rounded bg-zinc-200 p-3 text-sm; }
+.note { @apply my-3 border-l-4 border-zinc-400 pl-3; }
+.warning { @apply my-3 rounded bg-red-100 p-3 text-sm; }
+.marker { @apply bg-yellow-200 px-0.5; }
+.menu-display { @apply text-3xl font-extrabold; }
+.menu-headline { @apply text-2xl font-bold; }
+.menu-kicker { @apply text-sm uppercase tracking-wider; }
+.menu-crosshead { @apply font-semibold; }
+.menu-label { @apply text-sm text-zinc-500; }
+.menu-footnote-head { @apply text-xs tracking-wide; }
+.menu-standfirst { @apply text-lg text-zinc-600; }
+.menu-caption { @apply text-sm text-zinc-500; }
+.menu-quote { @apply text-lg italic; }
+.menu-small { @apply text-xs; }
+.menu-ticks { list-style-type: "\2713  "; }
+.menu-dashes { list-style-type: "\2013  "; }
+.menu-alpha { list-style-type: lower-alpha; }
+.menu-steps { list-style-type: decimal-leading-zero; }
+.menu-external { @apply text-teal-700 decoration-dotted; }
+.menu-quiet { @apply text-zinc-500 no-underline; }
+.menu-code { @apply bg-zinc-100 px-0.5 font-mono; }
+.menu-key { @apply rounded border border-zinc-300 px-1; }
 .pull-quote { @apply border-none text-xl text-zinc-950 not-italic; }
 
 /* Default classes from the standard and article defaults groups. */

@@ -15,8 +15,8 @@ Every template renders each Bard field twice through `_field.antlers.html`: once
 
 | Entry | Edition | What it exercises |
 | ----- | ------- | ----------------- |
-| `/tests/styles` | free | One style per supported type: wildcard heading, locked heading, paragraph, both list types, link, span, div |
-| `/tests/styles-menu` | pro | The same styles collapsed into the styles menu, one field with an icon button, one with a text button |
+| `/tests/styles` | free | One style per supported type: wildcard heading, locked heading, paragraph, both list types, link, span, div, plus the circle, circle-solid and symbol icon variants and a table button to size icons against |
+| `/tests/styles-menu` | pro | The same styles collapsed into the styles menu: icon and text buttons, each repeated with the menu button placed later in the toolbar, plus a field holding every option that can reach the menu so it has to scroll |
 | `/tests/pins` | pro | All four pin kinds inline (assets field, plain field, fieldset import, custom `view`), plus the `{{ pins }}` tag pulling footnotes from two fields and buttons from one |
 | `/tests/attributes` | pro | Standard attributes (`level`, `href`, `target`, `rel`, `language`), extra rendered attributes (`id`, `start`, `reversed`), a class mapped select (`align`), and a toggle with `values` (`pull`) |
 | `/tests/hidden` | free | A hidden block, which should be absent from both the rendered output and the source |
@@ -43,20 +43,19 @@ The demo entries are baked into the package's `.lab/` overlay and restored verba
 
 ### Taking the shots
 
-**The capture pipeline is not in this lab.** It lives in the website project (`scripts/capture-shots` plus `screenshots/`), pointed at this lab's URLs, because the finished images are a website asset and the same pipeline serves every package. The lab's job is to hold demo content worth photographing.
+**The capture pipeline is not in this lab.** It is the `code-capture` skill in the website project, pointed at this lab's URLs, because the finished images are a website asset and the same pipeline serves every package. The lab's job is to hold demo content worth photographing.
 
 ```
 cd ~/Projects/jacksleight
-./scripts/capture-shots statamic-bard-texstyle            # every shot
-./scripts/capture-shots statamic-bard-texstyle styles-editor,pins-page
-herd php artisan shots:import statamic-bard-texstyle
+.claude/skills/code-capture/scripts/capture statamic-bard-texstyle
+.claude/skills/code-capture/scripts/import  statamic-bard-texstyle
 ```
 
-`screenshots/shots/statamic-bard-texstyle.json` over there is the manifest, and it **hard-codes this lab's entry ids**. They stay valid because the demo entries are baked into the package's `.lab/` overlay as `.md` files with fixed UUIDs, so a lab rebuild restores the same ids. If an id ever changes, the manifest needs updating with it.
+The skill's `shots/statamic-bard-texstyle.json` manifest **hard-codes this lab's entry ids**. They stay valid because the demo entries are baked into the package's `.lab/` overlay as `.md` files with fixed UUIDs, so a lab rebuild restores the same ids. If an id ever changes, the manifest needs updating with it.
 
 ### Things the shots depend on
 
-- **Link and div styles never reach the styles menu.** Only heading, paragraph and list types carry `styles_menu`, so `button_link` and `tip` stay as their own toolbar buttons even when listed in `bts_styles`.
+- **Div styles never reach the styles menu, and link styles only do while a link is active.** Heading, paragraph, list and span types carry `styles_menu` unconditionally. `link` carries it too, but also `active_visible`, which `provider.js` turns into a visibility test against the cursor, so a link style is absent from both toolbar and menu until the selection sits inside a link. `div` carries no `styles_menu` at all, so `tip` stays its own toolbar button even when listed in `bts_styles`.
 - **The attributes panel and a pin's fields are stacks, not popovers.** They render into `.portal-targets` inside `#statamic` and slide in from the right, so those shots use a narrower stage aligned to the left.
 - **An attribute stored with `store: class` holds the mapped class, not the key.** A blockquote's pull quote toggle is written as `pull: pull-quote`; writing `pull: true` renders `class="1"`.
 

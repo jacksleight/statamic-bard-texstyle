@@ -136,3 +136,74 @@ fields:
         - subtitle
         - bts_paragraph
         - lead
+  -
+    handle: many
+    field:
+      type: bard
+      display: 'Content (Many Items)'
+      instructions: 'Every option that can reach the menu, so it has to scroll: all six heading levels, paragraph, both list types, link and span, each with a custom style too. Div styles never reach the menu.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - menu_standfirst
+        - menu_caption
+        - menu_quote
+        - menu_small
+        - menu_ticks
+        - menu_dashes
+        - menu_alpha
+        - menu_steps
+        - menu_external
+        - menu_quiet
+        - menu_code
+        - menu_key
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - menu_standfirst
+        - menu_caption
+        - menu_quote
+        - menu_small
+        - menu_ticks
+        - menu_dashes
+        - menu_alpha
+        - menu_steps
+        - menu_external
+        - menu_quiet
+        - menu_code
+        - menu_key
+        - anchor
+        - bold
+        - italic
