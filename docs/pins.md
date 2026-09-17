@@ -143,4 +143,4 @@ The tag will also accept multiple field names, returning a single list of pins f
 </ol>
 ```
 
-Check out [this blog post](https://jacksleight.com/blog/adding-footnotes-to-bard-with-texstyle-pins) for a full guide on implementing footnotes with pins.
+Check out [this blog post](https://jacksleight.dev/posts/adding-footnotes-to-bard-with-texstyle-pins) for a full guide on implementing footnotes with pins.
