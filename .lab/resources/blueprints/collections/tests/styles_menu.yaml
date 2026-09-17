@@ -1,0 +1,209 @@
+title: 'Styles Menu'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: 'Content (Icon Button)'
+      instructions: 'Styles collapsed into the menu, with the menu button showing an icon.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: icon
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+        - brand
+        - unorderedlist
+        - square_list
+        - orderedlist
+        - roman_list
+        - two_columns
+        - hint
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+        - brand
+        - unorderedlist
+        - square_list
+        - orderedlist
+        - roman_list
+        - two_columns
+        - hint
+        - bold
+        - italic
+  -
+    handle: alternate
+    field:
+      type: bard
+      display: 'Content (Text Button)'
+      instructions: 'The same menu, with the button showing the name of the current style.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+        - bold
+        - italic
+  -
+    handle: icon_later
+    field:
+      type: bard
+      display: 'Content (Icon Button, Later)'
+      instructions: 'The icon button with the menu placed partway along the toolbar rather than first.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: icon
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+      buttons:
+        - bold
+        - italic
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+  -
+    handle: text_later
+    field:
+      type: bard
+      display: 'Content (Text Button, Later)'
+      instructions: 'The text button with the menu placed partway along the toolbar rather than first.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - lead
+      buttons:
+        - bold
+        - italic
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - title
+        - subtitle
+        - bts_paragraph
+        - lead
+  -
+    handle: many
+    field:
+      type: bard
+      display: 'Content (Many Items)'
+      instructions: 'Every option that can reach the menu, so it has to scroll: all six heading levels, paragraph, both list types, link and span, each with a custom style too. Div styles never reach the menu.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - menu_standfirst
+        - menu_caption
+        - menu_quote
+        - menu_small
+        - menu_ticks
+        - menu_dashes
+        - menu_alpha
+        - menu_steps
+        - menu_external
+        - menu_quiet
+        - menu_code
+        - menu_key
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - menu_standfirst
+        - menu_caption
+        - menu_quote
+        - menu_small
+        - menu_ticks
+        - menu_dashes
+        - menu_alpha
+        - menu_steps
+        - menu_external
+        - menu_quiet
+        - menu_code
+        - menu_key
+        - anchor
+        - bold
+        - italic

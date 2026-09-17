@@ -1,0 +1,65 @@
+title: Styles
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Title
+              validate:
+                - required
+          -
+            handle: summary
+            field:
+              type: text
+              display: Summary
+              instructions: 'One line shown on the index page.'
+          -
+            handle: content
+            field:
+              type: bard
+              display: Content
+              instructions: 'Every style type has a button here: wildcard heading, locked heading, paragraph, both list types, link, span and div. The last three also exercise the circle, circle-solid and symbol icon variants.'
+              container: assets
+              link_collections:
+                - tests
+              remove_empty_nodes: false
+              buttons:
+                - h1
+                - h2
+                - h3
+                - title
+                - subtitle
+                - bold
+                - bts_paragraph
+                - lead
+                - unorderedlist
+                - square_list
+                - orderedlist
+                - roman_list
+                - anchor
+                - action
+                - brand
+                - two_columns
+                - hint
+                - table
+                - note
+                - warning
+                - marker
+                - italic
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'

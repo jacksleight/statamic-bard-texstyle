@@ -1,0 +1,52 @@
+title: Pins
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: Content
+      instructions: 'All four pins are available. Footnotes are also listed separately below the content by the pins tag.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      bts_pins:
+        - icon
+        - footnote
+        - button
+        - today
+      buttons:
+        - bts_pins
+        - h2
+        - bold
+        - italic
+        - anchor
+        - unorderedlist
+  -
+    handle: aside
+    field:
+      type: bard
+      display: Aside
+      instructions: 'A second field, so the pins tag can be checked across multiple fields.'
+      container: assets
+      remove_empty_nodes: false
+      bts_pins:
+        - footnote
+      buttons:
+        - bts_pins
+        - bold
+        - italic

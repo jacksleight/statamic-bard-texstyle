@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@source "../views";
+@source "../../content";
+@source "../../config/statamic/bard_texstyle.php";
+
+/* Baseline typography for rendered Bard output. */
+.content :where(h1) { @apply mt-6 mb-2 text-2xl font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(h2) { @apply mt-6 mb-2 text-xl font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(h3) { @apply mt-5 mb-2 text-lg font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(h4, h5, h6) { @apply mt-5 mb-2 font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(p) { @apply my-3 first:mt-0 last:mb-0; }
+.content :where(ul) { @apply my-3 list-disc pl-5; }
+.content :where(ol) { @apply my-3 list-decimal pl-5; }
+.content :where(li) { @apply my-1; }
+.content :where(a) { @apply text-zinc-950 underline decoration-zinc-950/25 underline-offset-3 hover:decoration-zinc-950; }
+.content :where(blockquote) { @apply my-3 border-l-2 border-zinc-950/15 pl-4 text-zinc-600; }
+.content :where(code) { @apply rounded bg-zinc-950/5 px-1 py-0.5 font-mono text-sm; }
+.content :where(pre) { @apply my-3 overflow-x-auto rounded-lg bg-zinc-950 p-4 font-mono text-sm text-zinc-100; }
+.content :where(pre code) { @apply bg-transparent p-0 text-inherit; }
+.content :where(hr) { @apply my-6 border-zinc-950/10; }
+.content :where(img) { @apply my-3 max-w-full rounded-lg; }
+.content :where(table) { @apply my-3 w-full text-left text-sm; }
+.content :where(th, td) { @apply border border-zinc-950/10 px-2 py-1; }
+
+/* Style classes from config/statamic/bard_texstyle.php. */
+.title { @apply underline decoration-zinc-300 underline-offset-2; }
+.subtitle { @apply text-pink-600; }
+.lead { @apply text-lg text-zinc-600; }
+.square-list { list-style-type: square; }
+.roman-list { list-style-type: upper-roman; }
+.roman-list ol { list-style-type: lower-roman; }
+.action { @apply rounded bg-zinc-500 px-1.5 py-0.5 text-white no-underline; }
+.brand-text { @apply font-bold text-pink-600; }
+.two-columns { @apply my-3 gap-4 sm:columns-2; }
+.hint { @apply my-3 rounded bg-zinc-200 p-3 text-sm; }
+.note { @apply my-3 border-l-4 border-zinc-400 pl-3; }
+.warning { @apply my-3 rounded bg-red-100 p-3 text-sm; }
+.marker { @apply bg-yellow-200 px-0.5; }
+.menu-display { @apply text-3xl font-extrabold; }
+.menu-headline { @apply text-2xl font-bold; }
+.menu-kicker { @apply text-sm uppercase tracking-wider; }
+.menu-crosshead { @apply font-semibold; }
+.menu-label { @apply text-sm text-zinc-500; }
+.menu-footnote-head { @apply text-xs tracking-wide; }
+.menu-standfirst { @apply text-lg text-zinc-600; }
+.menu-caption { @apply text-sm text-zinc-500; }
+.menu-quote { @apply text-lg italic; }
+.menu-small { @apply text-xs; }
+.menu-ticks { list-style-type: "\2713  "; }
+.menu-dashes { list-style-type: "\2013  "; }
+.menu-alpha { list-style-type: lower-alpha; }
+.menu-steps { list-style-type: decimal-leading-zero; }
+.menu-external { @apply text-teal-700 decoration-dotted; }
+.menu-quiet { @apply text-zinc-500 no-underline; }
+.menu-code { @apply bg-zinc-100 px-0.5 font-mono; }
+.menu-key { @apply rounded border border-zinc-300 px-1; }
+.pull-quote { @apply border-none text-xl text-zinc-950 not-italic; }
+
+/* Default classes from the standard and article defaults groups. */
+.head-1, .head-2 { @apply text-zinc-950; }
+.para { @apply text-slate-700; }
+.link { @apply decoration-dotted; }
+.quote { @apply italic; }
+.article-head-1, .article-head-2, .article-para { @apply font-serif; }
+
+/* Pins. */
+.pin-footnote { @apply font-bold text-pink-600 no-underline; }
+.pin-button { @apply inline-block rounded bg-zinc-950 px-2 py-0.5 text-sm text-white no-underline; }
+
+/* ---------------------------------------------------------------------------
+   Demos
+   The demos collection is what the marketing screenshots are taken from, so
+   its front end is styled as a real editorial site rather than as the lab.
+   --------------------------------------------------------------------------- */
+
+@theme {
+    --font-demo-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-demo-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --color-demo-ink: #16181d;
+    --color-demo-muted: #5b6472;
+    --color-demo-rule: #e2e5ea;
+    --color-demo-accent: #d94f2b;
+}
+
+.demo-body {
+    background: #fbfaf8;
+    color: var(--color-demo-ink);
+    font-family: var(--font-demo-serif);
+}
+
+.demo {
+    counter-reset: demo-note;
+    margin: 0 auto;
+    max-width: 40rem;
+    padding: 4rem 2rem 5rem;
+}
+
+
+.demo-kicker {
+    color: var(--color-demo-accent);
+    font-family: var(--font-demo-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.demo-kicker + .demo-content { margin-top: 1.75rem; }
+.demo-content { font-size: 1.0625rem; line-height: 1.7; }
+.demo-content > :first-child { margin-top: 0; }
+.demo-content > .headline:first-child { margin-top: 0; }
+.demo-content > :last-child { margin-bottom: 0; }
+.demo-content :where(p) { margin: 1.15em 0; }
+.demo-content :where(h1, h2, h3, h4) { font-family: var(--font-demo-sans); font-weight: 700; }
+.demo-content :where(h1) { font-size: 2rem; letter-spacing: -0.025em; line-height: 1.15; margin: 2em 0 0.5em; }
+.demo-content :where(h2) { font-size: 1.5rem; letter-spacing: -0.02em; line-height: 1.2; margin: 1.9em 0 0.5em; }
+.demo-content :where(h3) { font-size: 1.1875rem; line-height: 1.3; margin: 1.8em 0 0.4em; }
+.demo-content :where(ul, ol) { margin: 1.15em 0; padding-left: 1.4em; }
+.demo-content :where(ul) { list-style-type: disc; }
+.demo-content :where(ol) { list-style-type: decimal; }
+.demo-content :where(li) { margin: 0.35em 0; padding-left: 0.2em; }
+.demo-content :where(a) { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-demo-accent) 60%, transparent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.demo-content :where(a:hover) { text-decoration-color: var(--color-demo-accent); }
+.demo-content :where(blockquote) { border-left: 3px solid var(--color-demo-rule); color: var(--color-demo-muted); margin: 1.5em 0; padding-left: 1.1em; }
+.demo-content :where(code) { background: #f1efec; border-radius: 3px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.875em; padding: 0.1em 0.3em; }
+.demo-content :where(pre) { background: #16181d; border-radius: 8px; color: #e8eaee; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.875rem; line-height: 1.6; margin: 1.5em 0; overflow-x: auto; padding: 1rem 1.15rem; }
+.demo-content :where(pre code) { background: none; padding: 0; }
+.demo-content :where(hr) { border: 0; border-top: 1px solid var(--color-demo-rule); margin: 2.5em 0; }
+
+/* Demo style classes. */
+.headline { font-family: var(--font-demo-sans); font-size: 2.25rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 2em 0 0.5em; }
+.standfirst { color: var(--color-demo-muted); font-size: 1.25rem; line-height: 1.5; }
+.tick-list { list-style: none; padding-left: 1.6em; }
+.tick-list > li { position: relative; }
+.tick-list > li::before { color: var(--color-demo-accent); content: "\2713"; font-weight: 700; left: -1.4em; position: absolute; }
+.steps { list-style-type: decimal-leading-zero; }
+.steps > li::marker { color: var(--color-demo-accent); font-family: var(--font-demo-sans); font-size: 0.85em; font-weight: 700; }
+.highlight { background: #fde68a; border-radius: 2px; padding: 0.05em 0.2em; }
+.button-link { background: var(--color-demo-ink); border-radius: 6px; color: #fff; display: inline-block; font-family: var(--font-demo-sans); font-size: 0.9375rem; font-weight: 600; padding: 0.5em 1em; text-decoration: none; }
+.tip { background: #f2f7f8; border-left: 3px solid #0e9aa7; border-radius: 4px; font-family: var(--font-demo-sans); font-size: 0.9375rem; line-height: 1.6; margin: 1.75em 0; padding: 1rem 1.15rem; }
+.tip > :first-child { margin-top: 0; }
+.tip > :last-child { margin-bottom: 0; }
+
+/* Demo defaults classes. */
+.demo-h1, .demo-h2, .demo-h3 { color: var(--color-demo-ink); }
+.demo-p { color: #23262d; }
+.demo-a { text-decoration-thickness: 2px; }
+.demo-ul { list-style-type: disc; }
+.demo-quote { font-style: italic; }
+
+/* Demo pins. */
+.pin-note { font-family: var(--font-demo-sans); font-size: 0.65em; font-weight: 700; line-height: 0; vertical-align: super; }
+.pin-note > a { color: var(--color-demo-accent); text-decoration: none; }
+.pin-note > a::before { counter-increment: demo-note; content: counter(demo-note); }
+.pin-rating { color: var(--color-demo-accent); letter-spacing: 0.05em; white-space: nowrap; }
+.pin-glyph { display: inline-block; height: 1em; vertical-align: -0.125em; width: 1em; }
+.pin-tide { background: #eef3f5; border-radius: 4px; font-family: var(--font-demo-sans); font-size: 0.85em; padding: 0.15em 0.45em; white-space: nowrap; }
+
+/* Demo notes list. */
+.demo-notes { border-top: 1px solid var(--color-demo-rule); margin-top: 3rem; padding-top: 1.5rem; }
+.demo-notes:not(:has(li)) { display: none; }
+.demo-notes-heading { font-family: var(--font-demo-sans); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-demo-muted); }
+.demo-notes ol { color: var(--color-demo-muted); font-size: 0.9375rem; line-height: 1.6; list-style-type: decimal; margin-top: 0.75rem; padding-left: 1.3em; }
+.demo-notes li { margin: 0.4em 0; }
+
+.demo-aside { border-top: 1px solid var(--color-demo-rule); font-size: 0.9375rem; margin-top: 3rem; padding-top: 1.5rem; }
+.demo-aside > :first-child { margin-top: 0; }

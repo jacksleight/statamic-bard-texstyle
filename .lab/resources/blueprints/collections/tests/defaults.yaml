@@ -1,0 +1,53 @@
+title: Defaults
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: 'Content (Standard Defaults)'
+      instructions: 'No style set on anything, so the standard defaults group supplies the classes.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - bts_paragraph
+        - anchor
+        - quote
+        - bold
+        - italic
+  -
+    handle: alternate
+    field:
+      type: bard
+      display: 'Content (Article Defaults)'
+      instructions: 'The same content through the article defaults group.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      bts_defaults: article
+      buttons:
+        - h1
+        - h2
+        - bts_paragraph
+        - anchor
+        - quote
+        - bold
+        - italic

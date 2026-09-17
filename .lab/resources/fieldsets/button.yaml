@@ -1,0 +1,14 @@
+title: Button
+fields:
+  -
+    handle: label
+    field:
+      type: text
+      display: Label
+  -
+    handle: url
+    field:
+      type: link
+      display: URL
+      collections:
+        - tests

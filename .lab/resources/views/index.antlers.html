@@ -1,0 +1,16 @@
+<header>
+    <p class="font-mono text-xs tracking-wide text-zinc-500 uppercase">jacksleight/statamic-bard-texstyle</p>
+    <h1 class="mt-1 text-2xl font-semibold tracking-tight text-zinc-950">{{ title }}</h1>
+    <p class="mt-2 max-w-[60ch] text-pretty text-zinc-600">One entry per feature. Each has its own blueprint, so the Bard field is configured for that feature alone, and its own template, so the rendered output and the HTML source can be checked side by side.</p>
+</header>
+
+<ul class="mt-6 grid gap-px overflow-hidden rounded-xl bg-zinc-950/5 ring-1 ring-zinc-950/5">
+    {{ collection:tests }}
+        <li class="group relative bg-white p-5">
+            <h2 class="text-sm font-medium tracking-tight text-zinc-950">
+                <a href="{{ url }}" class="before:absolute before:inset-0">{{ title }}</a>
+            </h2>
+            <p class="mt-1 text-sm text-pretty text-zinc-600">{{ summary }}</p>
+        </li>
+    {{ /collection:tests }}
+</ul>

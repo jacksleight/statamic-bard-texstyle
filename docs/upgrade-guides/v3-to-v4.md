@@ -1,6 +1,6 @@
 ---
 title: Upgrade v3 to v4
-order: 110
+order: 20
 ---
 
 # Upgrade from v3 to v4
