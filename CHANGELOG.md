@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.3 (2026-09-18)
+
+- [fix] Styles not being detected when converting HTML to Bard content
+
 ## 4.2.2 (2026-09-15)
 
 - [fix] Styles menu button using the outlined button style when it isn't the first button in the toolbar
