@@ -47,7 +47,7 @@ class Core extends Extension
                                         $value = null;
                                     }
                                     if ($store === 'key') {
-                                        $style = Arr::first($styles, fn ($style) => $style['type'] === $ext && $style['class'] === $value);
+                                        $style = Arr::first($styles, fn ($style) => $style['ext'] === $ext && $style['class'] === $value);
                                         $value = $style ? $style['key'] : null;
                                     }
                                 } else {
