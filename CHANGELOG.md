@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.4 (2026-10-07)
+
+- [fix] Null array offset deprecations on PHP 8.5
+
 ## 4.2.3 (2026-09-18)
 
 - [fix] Styles not being detected when converting HTML to Bard content
