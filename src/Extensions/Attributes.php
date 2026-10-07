@@ -36,7 +36,7 @@ class Attributes extends Extension
                     'renderHTML' => function ($attributes) use ($name, $attr) {
                         $value = $attributes->{$name} ?? null;
                         if (isset($attr['classes'])) {
-                            $value = $attr['classes'][$value] ?? null;
+                            $value = $attr['classes'][$value ?? ''] ?? null;
                         }
 
                         return isset($value) ? ['class' => $value] : null;

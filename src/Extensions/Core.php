@@ -32,7 +32,7 @@ class Core extends Extension
         $stylesExts = $this->options['stylesExts'];
         $classExts = $this->options['classExts'];
 
-        $insDefaults = $defaults[$defaultsKey] ?? null;
+        $insDefaults = $defaults[$defaultsKey ?? ''] ?? null;
 
         return collect($classExts)
             ->map(function ($ext) use ($types, $store, $attr, $styles, $stylesExts, $insDefaults) {
@@ -60,7 +60,7 @@ class Core extends Extension
                                 if (in_array($ext, $stylesExts)) {
                                     $class = $attributes->{$attr} ?? null;
                                     if ($store === 'key') {
-                                        $class = $styles[$class]['class'] ?? null;
+                                        $class = $styles[$class ?? '']['class'] ?? null;
                                     }
                                 } else {
                                     $class = null;
@@ -69,7 +69,7 @@ class Core extends Extension
                                     $class = $insDefaults['dflts'][$types->getByItem([
                                         'type' => $ext,
                                         'attrs' => $attributes,
-                                    ])['name'] ?? null]['class'] ?? null;
+                                    ])['name'] ?? '']['class'] ?? null;
                                 }
 
                                 return $class ? ['class' => $class] : [];

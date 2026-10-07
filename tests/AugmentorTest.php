@@ -1,5 +1,6 @@
 <?php
 
+use JackSleight\StatamicBardTexstyle\Extensions\Attributes;
 use JackSleight\StatamicBardTexstyle\Extensions\Core;
 use JackSleight\StatamicBardTexstyle\Marks\Span;
 use JackSleight\StatamicBardTexstyle\Nodes\Div;
@@ -20,6 +21,17 @@ function htmlToProsemirror(array $config, string $html): array
 
     return (new Augmentor((new Bard)->setField(new Field('content', ['type' => 'bard']))))
         ->renderHtmlToProsemirror($html);
+}
+
+function prosemirrorToHtml(array $config, array $content, ?string $defaultsKey): string
+{
+    $options = (new OptionManager($config, true))->resolve();
+
+    Augmentor::addExtension('btsCore', new Core($options + ['defaultsKey' => $defaultsKey]));
+    Augmentor::addExtension('btsAttributes', new Attributes($options));
+
+    return (new Augmentor((new Bard)->setField(new Field('content', ['type' => 'bard']))))
+        ->renderProsemirrorToHtml(['type' => 'doc', 'content' => $content]);
 }
 
 it('parses a heading style back into a key', function () {
@@ -51,3 +63,36 @@ it('parses a list style back into a key', function () {
 
     expect($doc['content'][0]['attrs']['bts_key'])->toBe('ticks');
 });
+
+it('renders unstyled content without null array offsets', function ($defaultsKey) {
+    $this->withoutDeprecationHandling();
+
+    $html = prosemirrorToHtml([
+        'store' => 'key',
+        'styles' => [
+            'lead' => [
+                'type' => 'paragraph',
+                'name' => 'Lead',
+                'class' => 'lead',
+            ],
+        ],
+        'attributes' => [
+            'paragraph' => [
+                'size' => [
+                    'type' => 'select',
+                    'rendered' => 'class',
+                    'classes' => ['large' => 'text-lg'],
+                ],
+            ],
+        ],
+        'defaults' => [
+            'paragraph' => ['class' => 'prose-p'],
+            'heading_1' => ['class' => 'prose-h1'],
+        ],
+    ], [
+        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Hi']]],
+        ['type' => 'heading', 'attrs' => ['level' => 7], 'content' => [['type' => 'text', 'text' => 'Hi']]],
+    ], $defaultsKey);
+
+    expect($html)->toContain('<p')->toContain('>Hi</');
+})->with(['standard', null]);
