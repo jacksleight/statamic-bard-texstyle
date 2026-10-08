@@ -74,7 +74,7 @@ The rest of the capture mechanics, and the traps in them, are documented in the 
 
 ## Rebuilding
 
-This lab is disposable, and everything in it that is worth keeping is baked into `.lab/` in the package repo. That directory is a flat mirror of these paths, copied over a fresh `statamic new` shell. To rebuild the lab from scratch, run the `setup-lab` skill; it creates the shell, strips the boilerplate, copies the overlay over and runs the generated steps (`composer`, `npm`, `php artisan skip:users`).
+This lab is disposable, and everything in it that is worth keeping is baked into `.lab/` in the package repo. That directory is a flat mirror of these paths, copied over a fresh `statamic new` shell. To rebuild the lab from scratch, run the `setup-lab` skill; it creates the shell, strips the boilerplate, copies the overlay over and runs the generated steps (`composer`, `npm`).
 
 To add something that should survive a rebuild, re-run `setup-lab` with that instruction. It makes the change here, verifies it, and bakes the changed files into `.lab/` in the same pass. Do not edit `.lab/` by hand, and never sync the whole lab into it — the mess is the reason the lab is disposable.
 
@@ -95,9 +95,4 @@ Some things in here look odd but are load-bearing, so do not tidy them:
 
 ## Skip (local login)
 
-Local-only login bypass: `GET /!/skip/{handle}` logs in as `{handle}@example.test` and redirects home. Example: `/!/skip/admin`.
-
-Available users:
-- admin — admin@example.test — super user
-
-The route lives in `routes/local.php`, loaded from `AppServiceProvider` only when the app environment is local, and gated again on a local request host. Statamic keeps users in flat files under `users/`, so there is no db reset to recover from, but if the file is deleted re-create it with `php artisan skip:users`.
+Local-only login bypass from the machine's skip package (`~/Packages/skip`), configured in `.claude/skip.json`: `GET /!/skip/{handle}` logs in as `{handle}@example.test` and lands on `?redirect=` (a path on this site) or the handle's own `redirect`. Example: `/!/skip/admin`. A listed handle with no user yet is created on its first login, with the password `password`.
