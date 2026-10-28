@@ -1,6 +1,6 @@
 <template>
     
-    <popover ref="popover" align="start" @closed="closePanel" inset class="!w-max">
+    <popover align="start" v-model:open="panelActive" inset class="!w-max">
         <template #trigger>
             <Button
                 class="px-2!"
@@ -9,7 +9,6 @@
                 size="sm"
                 :aria-label="button.text"
                 v-tooltip="button.text"
-                @click="togglePanel"
             >
                 <div class="flex items-center" v-html="button.html"></div>
             </Button>
@@ -63,15 +62,10 @@ export default {
     },
 
     methods: {
-        togglePanel() {
-            this.panelActive = !this.panelActive;
-            if (!this.panelActive) {
-                this.editor.commands.focus();
-            }
-        },
         closePanel() {
             if (this.panelActive) {
-                this.togglePanel();
+                this.panelActive = false;
+                this.editor.commands.focus();
             }
         },
     }

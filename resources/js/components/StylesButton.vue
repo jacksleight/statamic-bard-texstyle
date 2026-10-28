@@ -1,6 +1,6 @@
 <template>
 
-    <popover ref="popover" align="start" @closed="closePanel" inset class="!w-max">
+    <popover align="start" v-model:open="panelActive" inset class="!w-max">
         <template #trigger>
             <Button
                 :class="{
@@ -14,8 +14,7 @@
                 :variant="buttonVariant"
                 size="sm"
                 v-tooltip="type === 'icon' ? button.text : undefined"
-                :aria-label="button.text"
-                @click="togglePanel">
+                :aria-label="button.text">
                 <div class="flex items-center" v-html="button.html" v-if="type === 'icon'"></div>
                 <span class="opacity-60" v-if="type === 'text'">{{ activeItem ? activeItem.text : button.text }}</span>
             </Button>
@@ -95,15 +94,10 @@ export default {
     },
 
     methods: {
-        togglePanel() {
-            this.panelActive = ! this.panelActive;
-            if (! this.panelActive) {
-                this.editor.commands.focus();
-            }
-        },
         closePanel() {
             if (this.panelActive) {
-                this.togglePanel();
+                this.panelActive = false;
+                this.editor.commands.focus();
             }
         },
         updateActiveItem() {
