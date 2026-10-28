@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.5 (2026-10-28)
+
+- [fix] Styles and pins menus closing straight after opening
+
 ## 4.2.4 (2026-10-07)
 
 - [fix] Null array offset deprecations on PHP 8.5
