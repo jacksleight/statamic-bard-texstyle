@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.6 (2026-11-02)
+- [fix] Stray space between a pin and the text that follows it
+- [fix] Ordered list `start` attribute not treated as a standard attribute
+- [fix] Dark mode colours, including unreadable pins menu text
+
 ## 4.2.5 (2026-10-28)
 
 - [fix] Styles and pins menus closing straight after opening
@@ -32,7 +37,7 @@
 
 - [fix] Styles button colour on floating toolbar
 
-## 4.1.0 (2026-02-13)
+## 4.1.0 (2026-03-25)
 
 - [new] Attribute option-to-class mappings
 
@@ -40,7 +45,7 @@
 
 - [fix] Duplicate sections in attribute panel
 - [fix] Error dragging pins with certain fieldtypes
-- [fix] Pin text color in styled elements
+- [fix] Pin text colour in styled elements
 
 ## 4.0.1 (2026-02-12)
 
