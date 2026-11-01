@@ -16,10 +16,10 @@
                         <div v-html="item.icon.html" v-if="item.icon.html"></div>
                     </div>
                     <div class="flex-1">
-                        <div class="w-52 line-clamp-2 text-sm text-gray-800 dark:text-dark-175">
+                        <div class="w-52 line-clamp-2 text-sm text-gray-800 dark:text-gray-400">
                             {{ __(item.display || item.handle) }}
                         </div>
-                        <div v-if="item.instructions" class="w-52 truncate text-2xs leading-tight text-gray-500 dark:text-dark-175">
+                        <div v-if="item.instructions" class="w-52 truncate text-2xs leading-tight text-gray-500 dark:text-gray-400">
                             {{ __(item.instructions) }}
                         </div>
                     </div>

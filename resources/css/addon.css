@@ -8,7 +8,7 @@
         div[data-bts-style] {
             @apply border-gray-200 border-y !rounded-none py-[0.85em] my-[1.7em];
             .dark & {
-                @apply border-dark-600;
+                @apply border-gray-800;
             }
             &::before {
                 @apply !rounded-b-none;
@@ -21,7 +21,7 @@
                 @apply bg-gray-200 text-gray-700 font-sans font-normal rounded text-2xs leading-none px-1.5 py-1 block max-w-max relative;
             }
             .dark &::before {
-                @apply bg-dark-600 text-dark-100;
+                @apply bg-gray-800 text-gray-200;
             }
         }
         
@@ -74,13 +74,13 @@
             &:hover {
                 @apply bg-gray-100;
                 .dark & {
-                    @apply bg-dark-700;
+                    @apply bg-gray-850;
                 }
             }
             &.active {
                 @apply bg-gray-100/75;
                 .dark & {
-                    @apply bg-dark-800;
+                    @apply bg-gray-850;
                 }
             }
         }
@@ -137,13 +137,13 @@
             @apply hidden;
         }
         .dark & {
-            @apply bg-dark-975 border-dark-700;
+            @apply bg-gray-925 border-gray-850;
         }
 
         .bts-pin-button {
             @apply cursor-pointer h-6 border-l border-gray-300 flex items-center gap-1 pl-1 pr-[7px] text-xs font-normal;
             .dark & {
-                @apply border-dark-700;
+                @apply border-gray-850;
             }
             > svg {
                 @apply size-4 block;

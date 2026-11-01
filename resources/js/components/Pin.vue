@@ -23,8 +23,8 @@
         >
             <template #trigger>
                 <div class="bts-pin-button" v-tooltip="display">
-                    <ui-icon :name="icon.svg" v-if="icon.svg" class="text-gray-80"></ui-icon>
-                    <div v-html="icon.html" v-if="icon.html" class="text-gray-80"></div>
+                    <ui-icon :name="icon.svg" v-if="icon.svg" class="text-gray-800 dark:text-gray-300"></ui-icon>
+                    <div v-html="icon.html" v-if="icon.html" class="text-gray-800 dark:text-gray-300"></div>
                     <div class="bts-pin-preview" v-if="previewText" v-html="previewText"></div>
                 </div>
             </template>
