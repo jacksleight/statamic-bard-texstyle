@@ -1,5 +1,6 @@
 {
     "name": "jacksleight/statamic-bard-texstyle",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "JackSleight\\StatamicBardTexstyle\\": "src"
