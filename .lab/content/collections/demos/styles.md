@@ -1,7 +1,7 @@
 ---
 id: c24007c9-da5b-4596-a183-5852d56b06c9
 blueprint: styles
-title: 'How to do a Brighton beach day properly'
+title: 'A day on Brighton seafront'
 content:
   -
     type: heading
@@ -11,7 +11,7 @@ content:
     content:
       -
         type: text
-        text: 'How to do a Brighton beach day properly'
+        text: 'A day on Brighton seafront'
   -
     type: paragraph
     attrs:
@@ -19,13 +19,24 @@ content:
     content:
       -
         type: text
-        text: "Nine years living down here and I've finally got it worked out. The guidebooks will send you to the pier. Don't go to the pier."
+        text: 'Two piers, eight miles of promenade and not a single grain of sand.'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'First thing to know: the beach is pebbles, not sand. Everyone finds this out about four seconds after taking their shoes off. Bring something to sit on, because the stones hold heat like a radiator and will happily cook the backs of your legs.'
+        text: 'The beach is pebbles from end to end, so '
+      -
+        type: text
+        text: 'bring something to sit on'
+        marks:
+          -
+            type: btsSpan
+            attrs:
+              class: highlight
+      -
+        type: text
+        text: '. The stones soak up the sun and stay warm well into the evening.'
   -
     type: heading
     attrs:
@@ -33,7 +44,7 @@ content:
     content:
       -
         type: text
-        text: 'What to bring'
+        text: 'What to pack'
   -
     type: bulletList
     attrs:
@@ -47,7 +58,7 @@ content:
             content:
               -
                 type: text
-                text: "A towel you don't mind writing off"
+                text: 'A towel or a deckchair'
       -
         type: listItem
         content:
@@ -56,7 +67,7 @@ content:
             content:
               -
                 type: text
-                text: 'Shoes you can walk into the sea in'
+                text: 'Shoes for the water'
       -
         type: listItem
         content:
@@ -65,73 +76,7 @@ content:
             content:
               -
                 type: text
-                text: 'More water than you think you need'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Suncream, even in May'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'The thing everyone forgets is '
-      -
-        type: text
-        text: 'a windbreak'
-        marks:
-          -
-            type: btsSpan
-            attrs:
-              class: highlight
-      -
-        type: text
-        text: ". There's a breeze off the water even on a still day, and pebble-free doesn't mean grit-free."
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Getting down there'
-  -
-    type: orderedList
-    attrs:
-      class: steps
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: "Don't drive. Park and ride, or the train."
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Head down West Street to the seafront.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Turn left, away from the pier, and keep walking.'
+                text: 'A jumper, even in July'
   -
     type: btsDiv
     attrs:
@@ -142,7 +87,7 @@ content:
         content:
           -
             type: text
-            text: "Ten minutes east of the Volks Railway buys you about half the crowd. It's the single best trade in the city."
+            text: 'The beach faces south, so it keeps the sun right up until it sets.'
   -
     type: paragraph
     content:

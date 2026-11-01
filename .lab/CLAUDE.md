@@ -30,12 +30,14 @@ Alongside `tests` there is a second collection, `demos`, routed at `/demos/{slug
 
 | Entry | Blueprint | What it shows |
 | ----- | --------- | ------------- |
-| `/demos/styles` | `styles` | Headline, Standfirst, Tick List, Steps, Highlight, Tip and Button styles in one article |
-| `/demos/styles-menu` | `styles_menu` | The same styles behind the styles menu, one field with a text button and one with an icon button |
+| `/demos/styles` | `styles` | Headline, Standfirst, Highlight, Tick List, Tip and Button styles in one short article |
+| `/demos/styles-menu` | `styles_menu` | The styles menu, including Steps, on one field with a text button and a sidebar field with an icon button |
 | `/demos/pins` | `pins` | Icon, Footnote, Rating and Tide pins inline, with the footnotes collected below the article |
-| `/demos/attributes` | `attributes` | A heading ID, a code block language and a class-mapped blockquote toggle |
+| `/demos/attributes` | `attributes` | Heading IDs and a class-mapped pull quote toggle on a blockquote |
 | `/demos/hidden` | `hidden` | A hidden block, present in the editor and absent from the page |
 | `/demos/defaults` | `defaults` | Unstyled elements picking up the `demo` defaults group |
+
+**Demo copy is short, light and written from nobody's point of view**: plain guide-style text about Brighton, no narrator and no first person. Each entry is a heading, a few short paragraphs and only the elements its feature needs, because a long article is illegible once it is shrunk onto a marketplace slide. The demo CP styles are deliberately subtle, a small tweak plus a badge, because the selling point is that Bard can take custom styles at all, not that they look dramatic in the editor.
 
 The demos have their own styles, pins and defaults group in `config/statamic/bard_texstyle.php`, kept in clearly marked sections below the test ones so the two sets never interfere. **Every demo Bard field sets `bts_defaults: demo`**, because the `standard` group would otherwise apply and put the tests' classes on the demo output. The demo front end is `resources/views/demo.antlers.html` plus `resources/views/demos/show.antlers.html`, styled by the Demos section of `resources/css/site.css`.
 
@@ -56,10 +58,18 @@ The skill's `shots/statamic-bard-texstyle.json` manifest **hard-codes this lab's
 ### Things the shots depend on
 
 - **Div styles never reach the styles menu, and link styles only do while a link is active.** Heading, paragraph, list and span types carry `styles_menu` unconditionally. `link` carries it too, but also `active_visible`, which `provider.js` turns into a visibility test against the cursor, so a link style is absent from both toolbar and menu until the selection sits inside a link. `div` carries no `styles_menu` at all, so `tip` stays its own toolbar button even when listed in `bts_styles`.
+- **Steps stays out of the styles menu demo's `bts_styles`.** Its `decimal-leading-zero` marker hangs outside the menu's preview item and touches the menu's border, so the menu shows the plain ordered list while the editor keeps a Steps list with its badge. `list-style-position: inside` was tried and put each marker on its own line in the editor.
 - **The attributes panel and a pin's fields are stacks, not popovers.** They render into `.portal-targets` inside `#statamic` and slide in from the right, so those shots use a narrower stage aligned to the left.
 - **An attribute stored with `store: class` holds the mapped class, not the key.** A blockquote's pull quote toggle is written as `pull: pull-quote`; writing `pull: true` renders `class="1"`.
 
 The rest of the capture mechanics, and the traps in them, are documented in the website project's CLAUDE.md under Package Screenshots.
+
+## Findings
+
+From the website's pre-launch QA on 2026-10-30, recorded, not fixed (the fixes are a separate pass):
+
+- **`start` on `ordered_list` is documented but switched off.** `docs/attributes.md` lists it as a standard attribute, but `TypeManager.php` has it commented out (`'attributes' => [/* 'start' */]`).
+- **Punctuation after a pin gets a stray space.** `Pin` returns the view's render untrimmed, so the newline a view file ends with lands between the pin and whatever follows it: the website's footnotes render `</sup>\n` and every full stop or comma after one has a space before it. Trimming the render in `src/Nodes/Pin.php` fixes it for every pin view.
 
 ## Things to know
 

@@ -1,17 +1,17 @@
 ---
 id: 6c6cfde4-5531-48cb-a9d9-bcdc697739ec
 blueprint: attributes
-title: 'Building a tide clock for the kitchen wall'
+title: "What's left of the West Pier"
 content:
   -
     type: heading
     attrs:
       level: 1
-      id: tide-clock
+      id: west-pier
     content:
       -
         type: text
-        text: 'Building a tide clock for the kitchen wall'
+        text: "What's left of the West Pier"
   -
     type: paragraph
     attrs:
@@ -19,34 +19,28 @@ content:
     content:
       -
         type: text
-        text: 'Living by the sea you end up caring about the tide, whether you meant to or not. So I built a little thing to tell me about it.'
+        text: 'Opened in 1866, closed in 1975 and lost to fire in 2003. Its iron frame still stands in the sea off Regency Square.'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'The Admiralty publish tide predictions as an API, which is the hard part solved for free. Everything after that is formatting.'
+        text: 'Through the winter starlings roost underneath it, and on a still evening they gather above it in their tens of thousands before settling for the night.'
   -
     type: heading
     attrs:
       level: 2
-      id: fetching-the-data
+      id: murmuration
     content:
       -
         type: text
-        text: 'Fetching the data'
+        text: 'Seeing the murmuration'
   -
-    type: codeBlock
-    attrs:
-      language: php
+    type: paragraph
     content:
       -
         type: text
-        text: |-
-          $tides = Http::withHeaders(['Ocp-Apim-Subscription-Key' => $key])
-              ->get("https://admiraltyapi.azure-api.net/uktidalapi/api/V1/Stations/{$station}/TidalEvents")
-              ->collect()
-              ->where('EventType', 'HighWater');
+        text: 'Arrive half an hour before sunset and watch from the beach just west of the i360. November to February is best.'
   -
     type: blockquote
     attrs:
@@ -57,13 +51,5 @@ content:
         content:
           -
             type: text
-            text: 'It turns out the tide is the one deadline that genuinely will not move.'
-  -
-    type: paragraph
-    attrs:
-      align: center
-    content:
-      -
-        type: text
-        text: 'Total build time: one evening, plus three weeks of not getting round to the case.'
+            text: 'On a still evening they gather above it in their tens of thousands.'
 ---

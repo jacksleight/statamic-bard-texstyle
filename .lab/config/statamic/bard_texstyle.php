@@ -350,8 +350,8 @@ return [
             'ident' => 'Hd',
             'icon' => null,
             'class' => 'headline',
-            'cp_css' => 'font-size: 1.75em; line-height: 1.15; letter-spacing: -0.025em',
-            'cp_badge' => false,
+            'cp_css' => 'font-size: 1.35em; letter-spacing: -0.02em',
+            'cp_badge' => true,
         ],
 
         'standfirst' => [
@@ -360,7 +360,7 @@ return [
             'ident' => 'Sf',
             'icon' => null,
             'class' => 'standfirst',
-            'cp_css' => 'font-size: 1.2em; line-height: 1.55; color: #4b5563',
+            'cp_css' => 'font-size: 1.1em; color: #4b5563',
             'cp_badge' => true,
         ],
 
@@ -371,7 +371,7 @@ return [
             'icon' => 'checkmark',
             'class' => 'tick-list',
             'cp_css' => 'list-style-type: "\\2713  "',
-            'cp_badge' => false,
+            'cp_badge' => true,
         ],
 
         'steps' => [
@@ -381,7 +381,7 @@ return [
             'icon' => 'list-ol',
             'class' => 'steps',
             'cp_css' => 'list-style-type: decimal-leading-zero',
-            'cp_badge' => false,
+            'cp_badge' => true,
         ],
 
         'highlight' => [
@@ -390,7 +390,7 @@ return [
             'ident' => 'Hl',
             'icon' => null,
             'class' => 'highlight',
-            'cp_css' => 'background: #fde68a; padding: 0.05em 0.2em; border-radius: 2px',
+            'cp_css' => 'background: #fef3c7; padding: 0.05em 0.2em; border-radius: 3px',
             'cp_badge' => false,
         ],
 
@@ -400,7 +400,7 @@ return [
             'ident' => null,
             'icon' => 'cursor-click',
             'class' => 'button-link',
-            'cp_css' => 'background: #111827; color: #fff; padding: 0.25em 0.7em; border-radius: 6px; text-decoration: none',
+            'cp_css' => 'font-weight: 600; text-decoration: none; border: 1px solid currentColor; padding: 0.05em 0.45em; border-radius: 4px',
             'cp_badge' => false,
         ],
 
@@ -411,7 +411,7 @@ return [
             'icon' => 'lightbulb-idea',
             'class' => 'tip',
             'cp_css' => [
-                '&' => 'background: #ecfeff; border-left: 3px solid #06b6d4; padding: 0.85em 1em; border-radius: 4px',
+                '&' => 'background: #f3f4f6; padding: 0.75em 1em; border-radius: 6px',
                 '& p' => 'margin-bottom: 0 !important',
             ],
             'cp_badge' => true,
@@ -549,13 +549,18 @@ return [
         'tide' => [
             'display' => 'Tide',
             'icon' => 'time-now',
-            'instructions' => 'Today\'s high tide, worked out when the page renders.',
+            'instructions' => 'A high or low tide time.',
             'view' => 'pins/tide',
             'fields' => [
                 'label' => [
                     'display' => 'Label',
                     'type' => 'text',
-                    'default' => 'High tide',
+                    'default' => 'Low tide',
+                    'preview' => true,
+                ],
+                'time' => [
+                    'display' => 'Time',
+                    'type' => 'time',
                     'preview' => true,
                 ],
             ],

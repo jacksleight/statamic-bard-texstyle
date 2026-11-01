@@ -1,7 +1,7 @@
 ---
 id: ee287daf-0eae-4746-ae15-f388414995ac
 blueprint: styles_menu
-title: 'Where to eat and drink on the seafront'
+title: 'Getting lost in the Lanes'
 alternate:
   -
     type: heading
@@ -16,7 +16,7 @@ alternate:
     content:
       -
         type: text
-        text: "The Lanes are five minutes up from the seafront and mostly under cover. You'll spend money you hadn't planned to."
+        text: 'Most of the Lanes are only a few minutes from the seafront, and plenty of the cafés have seats inside.'
 content:
   -
     type: heading
@@ -26,7 +26,7 @@ content:
     content:
       -
         type: text
-        text: 'Where to eat and drink on the seafront'
+        text: 'Getting lost in the Lanes'
   -
     type: paragraph
     attrs:
@@ -34,13 +34,13 @@ content:
     content:
       -
         type: text
-        text: "Chips, obviously. But there's more to it than that, and some of it is genuinely very good."
+        text: 'A tangle of narrow alleys between North Street and the seafront, older than most of the city around them.'
   -
     type: paragraph
     content:
       -
         type: text
-        text: "The stretch between the two piers is mostly what you'd expect: fried food, arcade noise and a lot of people eating ice cream in the wind. Keep walking east and it gets better almost immediately."
+        text: 'The twittens are barely wide enough for two people to pass, and most of the shops along them are jewellers, record shops and cafés.'
   -
     type: heading
     attrs:
@@ -48,25 +48,12 @@ content:
     content:
       -
         type: text
-        text: Chips
+        text: 'Finding your way in'
   -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: "The place under the arches by the fishing museum does them properly. Thick cut, fried twice, salt and vinegar without being asked. There's usually a queue and it's usually worth it."
-  -
-    type: heading
+    type: orderedList
     attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'A pint with a view'
-  -
-    type: bulletList
-    attrs:
-      class: tick-list
+      start: 1
+      class: steps
     content:
       -
         type: listItem
@@ -76,7 +63,7 @@ content:
             content:
               -
                 type: text
-                text: 'Anything on the beach side of the road, for the view'
+                text: 'Start at the Clock Tower'
       -
         type: listItem
         content:
@@ -85,16 +72,14 @@ content:
             content:
               -
                 type: text
-                text: 'Anything on the other side, for the price'
-  -
-    type: btsDiv
-    attrs:
-      class: tip
-    content:
+                text: 'Walk south down Ship Street'
       -
-        type: paragraph
+        type: listItem
         content:
           -
-            type: text
-            text: "Take it down to the pebbles. Most places will let you, and it's a better spot than any of their terraces."
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Turn into any alley that looks too narrow'
 ---

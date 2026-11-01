@@ -1,7 +1,7 @@
 ---
 id: 2442fc8c-d167-4f68-a8ef-11c48f06a850
 blueprint: pins
-title: 'The best chips on the seafront, ranked'
+title: 'Fish and chips on the seafront'
 content:
   -
     type: heading
@@ -10,7 +10,7 @@ content:
     content:
       -
         type: text
-        text: 'The best chips on the seafront, ranked'
+        text: 'Fish and chips on the seafront'
   -
     type: paragraph
     attrs:
@@ -18,30 +18,30 @@ content:
     content:
       -
         type: text
-        text: "I have eaten a genuinely unreasonable number of chips in the name of research. You're welcome."
+        text: 'Every arch along the lower promenade seems to sell them. A few are worth the queue.'
   -
     type: paragraph
     content:
       -
         type: text
-        text: "Top of the list, and it isn't close, is the little place under the arches by the fishing museum "
+        text: 'The kiosk by the Fishing Museum '
       -
         type: btsPin
         attrs:
-          id: 5383d310-cfdf-447d-ab51-b23aa0528ccc
+          id: e59c361e-a7fb-4b15-a0d9-4e4f87e48bf5
           values:
             type: rating
             score: '5'
       -
         type: text
-        text: '. Thick cut, fried twice, and they salt them properly'
+        text: ' fries everything to order and salts the chips before they are wrapped'
       -
         type: btsPin
         attrs:
-          id: 43e64e02-4cc0-435b-ab5c-f25c5eecd159
+          id: 646711df-4922-4599-8dff-3c296e000d36
           values:
             type: note
-            text: 'Properly means before they hit the paper, not after.'
+            text: 'Salting before wrapping stops the chips going soft in the paper.'
       -
         type: text
         text: .
@@ -50,24 +50,24 @@ content:
     content:
       -
         type: text
-        text: 'Second is the kiosk at the bottom of the Steine '
+        text: 'Further east, the stall by the Palace Pier '
       -
         type: btsPin
         attrs:
-          id: 20d0aa9a-01ca-4c0c-a51a-26d64786ad5f
+          id: 5fe1ba5d-0a63-4f56-9dbe-29a1340915fb
           values:
             type: rating
             score: '4'
       -
         type: text
-        text: '. Thinner cut and a bit greasy, but the portions are enormous and it stays open long after everything else has shut'
+        text: ' does bigger portions and stays open late'
       -
         type: btsPin
         attrs:
-          id: d5702623-2445-4be1-a403-dd422325a672
+          id: 826fa5be-da39-4359-beda-3e62de622502
           values:
             type: note
-            text: 'Half two on a Saturday, which I know from experience.'
+            text: 'Until eleven on Fridays and Saturdays through the summer.'
       -
         type: text
         text: .
@@ -76,21 +76,22 @@ content:
     content:
       -
         type: text
-        text: 'Go down around '
+        text: 'Come down around '
       -
         type: btsPin
         attrs:
-          id: 93ca6215-df43-43fd-aa8c-dbb1d60efd91
+          id: 46bb6bf9-9c7c-4d94-810d-bf118eb614fc
           values:
             type: tide
-            label: 'high tide'
+            label: 'Low tide'
+            time: '16:40'
       -
         type: text
-        text: " and you'll have the arches more or less to yourself, because everyone else has drifted down to the water. Best eaten sitting on the pebbles with the sun going down "
+        text: ' and the beach is at its widest, with the sun setting over the West Pier '
       -
         type: btsPin
         attrs:
-          id: c5b61f71-5df4-4f58-aa8d-a230e74fd2ae
+          id: f6335b9a-b39e-434c-a33b-fefe9a56343b
           values:
             type: glyph
             src: demo-sun.svg

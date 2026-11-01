@@ -28,7 +28,6 @@ fields:
         - unorderedlist
         - tick_list
         - orderedlist
-        - steps
         - tip
       buttons:
         - bts_styles

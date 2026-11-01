@@ -1,7 +1,7 @@
 ---
 id: 68309951-5723-4e3e-a1e3-11f88c568e9d
 blueprint: defaults
-title: 'A short guide to the Brighton seagull'
+title: 'The gulls of the seafront'
 content:
   -
     type: heading
@@ -10,13 +10,24 @@ content:
     content:
       -
         type: text
-        text: 'A short guide to the Brighton seagull'
+        text: 'The gulls of the seafront'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'They are herring gulls, they are enormous, and they have entirely worked you out. A few things I have learned the hard way.'
+        text: 'Herring gulls, mostly. They are large, loud and have worked out '
+      -
+        type: text
+        text: 'exactly where the chips are'
+        marks:
+          -
+            type: link
+            attrs:
+              href: 'https://www.rspb.org.uk/birds-and-wildlife/herring-gull'
+      -
+        type: text
+        text: .
   -
     type: heading
     attrs:
@@ -24,24 +35,7 @@ content:
     content:
       -
         type: text
-        text: 'They know what a chip looks like'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'They also know what a paper bag sounds like, which is worse. If you are eating on the seafront, eat with your back to a wall. The '
-      -
-        type: text
-        text: 'council say much the same thing'
-        marks:
-          -
-            type: link
-            attrs:
-              href: 'https://www.brighton-hove.gov.uk'
-      -
-        type: text
-        text: ', in more words.'
+        text: 'Keeping your lunch'
   -
     type: bulletList
     content:
@@ -53,7 +47,7 @@ content:
             content:
               -
                 type: text
-                text: 'Never eat walking, always eat sitting'
+                text: 'Eat sitting down, not walking'
       -
         type: listItem
         content:
@@ -62,7 +56,7 @@ content:
             content:
               -
                 type: text
-                text: 'Never hold food above shoulder height'
+                text: 'Keep food below shoulder height'
       -
         type: listItem
         content:
@@ -71,7 +65,7 @@ content:
             content:
               -
                 type: text
-                text: 'Never, under any circumstances, feed one'
+                text: 'Never feed one, however polite it looks'
   -
     type: blockquote
     content:
@@ -80,7 +74,7 @@ content:
         content:
           -
             type: text
-            text: 'Feeding one gull is feeding forty gulls. There is no such thing as feeding one gull.'
+            text: 'Feed one gull and you have fed forty.'
   -
     type: heading
     attrs:
@@ -88,11 +82,11 @@ content:
     content:
       -
         type: text
-        text: 'On the noise'
+        text: 'Nesting season'
   -
     type: paragraph
     content:
       -
         type: text
-        text: "You do stop hearing them, eventually. It took me about two summers, and I'm told that's quick."
+        text: 'From May to August they nest on the rooftops and are at their noisiest.'
 ---
