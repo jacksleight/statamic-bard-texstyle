@@ -69,7 +69,7 @@ The rest of the capture mechanics, and the traps in them, are documented in the 
 From the website's pre-launch QA on 2026-10-30, recorded, not fixed (the fixes are a separate pass):
 
 - **`start` on `ordered_list` is documented but switched off.** `docs/attributes.md` lists it as a standard attribute, but `TypeManager.php` has it commented out (`'attributes' => [/* 'start' */]`).
-- **Punctuation after a pin gets a stray space.** `Pin` returns the view's render untrimmed, so the newline a view file ends with lands between the pin and whatever follows it: the website's footnotes render `</sup>\n` and every full stop or comma after one has a space before it. Trimming the render in `src/Nodes/Pin.php` fixes it for every pin view.
+- **Punctuation after a pin gets a stray space.** Fixed in 4.2.6: `Pin` now trims the view's render, so the newline a view file ends with no longer lands between the pin and whatever follows it.
 
 ## Things to know
 
@@ -96,6 +96,7 @@ Some things in here look odd but are load-bearing, so do not tidy them:
 
 - Every demo Bard field sets `bts_defaults: demo`. Without it the `standard` group applies and puts the tests' classes on demo output, which shows up in the shots.
 - The `tick_list` style's `cp_css` is `list-style-type: "\2713  "`. The escape is deliberate; it renders the tick in the control panel.
+- `partials/pins/_footnote.antlers.html` ends with a newline on purpose, so `/tests/pins` shows pin renders being trimmed: a full stop straight after a footnote marker, not a space.
 - `styles_menu.yaml` has a second `alternate` field with thin content on purpose, so there is an icon-button variant of the styles menu to photograph.
 
 ## Commands

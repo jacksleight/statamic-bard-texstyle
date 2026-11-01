@@ -101,7 +101,7 @@ class Pin extends Node
             $data,
         ))->render();
 
-        return ['content' => $content];
+        return ['content' => trim($content)];
     }
 
     protected function viewName($type)
