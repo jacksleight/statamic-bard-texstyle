@@ -34,30 +34,30 @@ To get started open `config/statamic/bard_texstyle.php` and add the attributes y
 
 Attributes are grouped by element type and the array keys are the attribute names. Attributes can have the following options:
 
-* **type (string)**
+* **type (string)**  
   The field type. Options are:
     * `text`
     * `toggle` (checkbox)
     * `select`
-* **display (string)**
+* **display (string)**  
   The display name of the attribute.
-* **default (string)**
+* **default (string)**  
   The default value for the attribute.
-* **rendered (boolean|string)**
+* **rendered (boolean|string)**  
   Whether to include this attribute in the HTML tag. Options are:
     * `true` - Render this as its own attribute
     * `class` - Render this as part of the class attribute
     * `style` - Render this as part of the style attribute
     * `false` - Do not render this attribute, can be used with [Bard Mutator](https://statamic.com/addons/jacksleight/bard-mutator)
-* **values (array)**
+* **values (array)**  
   The values to use for toggle attributes. The default values for rendered attributes are `true` / `null`. For non-rendered attributes they're `true` / `false`.
-* **options (array)**
+* **options (array)**  
   The options to use for select attributes.
-* **classes (array)**
+* **classes (array)**  
   Class map for attributes with `rendered` set to `class`. When set the stored value will be mapped to the specified class at render time, instead of being used as a literal class name. Works with `select` and `toggle` attributes.
-* **clearable (boolean)**
+* **clearable (boolean)**  
   Whether select attributes can be cleared.
-* **styles (array)**
+* **styles (array)**  
   The styles this attribute should be visible for.
 * **cp_css (array)**  
   The CSS properties that will be added to the control panel for each of this attribute's possible values. Should be an array where keys are the attribute values and the values are either a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the style's root selector. Only applied when **rendered** is set to `class` or `style`. 

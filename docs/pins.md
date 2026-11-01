@@ -42,7 +42,7 @@ The array keys are used as the handles. Pins can have the following options:
 
 * **display (string)**  
   The display name of the pin.
-* **icon (string)**
+* **icon (string)**  
   Icon name or custom SVG icon. Options are:
     * `[name]` One of [Texstyle's dynamic icons](dynamic-icons)
     * `[name]` One of [Statamic's built-in icons](https://github.com/statamic/cms/tree/master/resources/svg/icons)
@@ -102,10 +102,10 @@ To enable the pins menu toggle the button in the Bard field's button selector. T
 
 ## Rendering Pins
 
-Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated partial at `resources/views/pins/_[handle].antlers.html`, this is the partial that will be used to render the pin. If no partial exists nothing will be rendered. You can also specify a custom view in the pin configuration.
+Pins are rendered automatically during Bard's augmentation process. For each pin you should create an associated partial at `resources/views/partials/pins/_[handle].antlers.html`, this is the partial that will be used to render the pin. If no partial exists nothing will be rendered. You can also specify a custom view in the pin configuration.
 
 ```html
-<!-- resources/views/pins/_icon.antlers.html -->
+<!-- resources/views/partials/pins/_icon.antlers.html -->
 {{ svg :src="src" class="w-6 h-6 inline-block" }}
 ```
 
@@ -115,7 +115,7 @@ Pins are rendered automatically during Bard's augmentation process. For each pin
 
 Sometimes you may want to output pin data separately from your main block of content. For example if you had a footnote pin you may want to output a list of footnotes below the content.
 
-Texstyle provides a `pins` tag that can be used for this this purpose, it accepts the name of the Bard field and an optional type parameter:
+Texstyle provides a `pins` tag that can be used for this purpose, it accepts the name of the Bard field and an optional type parameter:
 
 ```html
 <ol>

@@ -34,7 +34,7 @@ Open `config/statamic/bard_texstyle.php` to add your defaults:
 
 ### Multiple Defaults Groups
 
-It's possible configure multiple groups of defaults to use with different Bard fields. To do this you must define a `standard` group that will be used by default, plus your additional groups.
+It's possible to configure multiple groups of defaults to use with different Bard fields. To do this you must define a `standard` group that will be used by default, plus your additional groups.
 
 ```php
 'defaults' => [
@@ -72,7 +72,7 @@ Defaults can have the following options:
 * **cp_css (string, array)**  
   The default CSS properties that will be added to the control panel for this type. Can either be a string, or an array where the keys are selectors and the values are properties. An `&` in the selector will be replaced with the type's root selector.
 * **cp_badge (boolean)**  
-  Whether to display a bage next to default elements of this type.
+  Whether to display a badge next to default elements of this type.
 
 ---
 

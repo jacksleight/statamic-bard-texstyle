@@ -26,13 +26,13 @@ This Statamic addon allows you to add custom styles, inline elements and attribu
 
 ## Documentation
 
-[Statamic Bard Texstyle Documentation](https://jacksleight.dev/docs/bard-texstyle)
+[Statamic Bard Texstyle Documentation](https://jacksleight.com/code/statamic-bard-texstyle)
 
 <!-- statamic:hide -->
 
 ## Licencing
 
-Bard Texstyle Pro is not free software. You will need to purchase a license via the [Statamic Marketplace](https://statamic.com/addons/jacksleight/bard-texstyle) to use it in production.
+Bard Texstyle Pro is not free software. You will need to purchase a licence via the [Statamic Marketplace](https://statamic.com/addons/jacksleight/bard-texstyle) to use it in production.
 
 ## Contributing
 

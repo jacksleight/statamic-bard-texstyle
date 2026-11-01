@@ -11,6 +11,8 @@ order: 20
 
 Bard Texstyle 4 requires Statamic 6 and contains a couple of breaking changes.
 
+---
+
 ## Breaking Changes
 
 ### New Statamic icon set (High Impact)

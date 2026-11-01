@@ -49,7 +49,7 @@ The array keys are used as the button names. Styles can have the following optio
   The class name that will be applied for this style. Must be unique within the type.
 * **name (string)**  
   The name of the style. This will appear in the tooltip.
-* **icon (string, optional)**
+* **icon (string, optional)**  
   Icon name or custom SVG icon. Options are:
     * `[name]` One of [Texstyle's dynamic icons](dynamic-icons)
     * `[name]` One of [Statamic's built-in icons](https://github.com/statamic/cms/tree/master/resources/svg/icons)
@@ -77,13 +77,13 @@ When using heading, unordered list or ordered list styles the associated `h*`, `
 
 ### Link Style Buttons
 
-When using link styles the `link` button must also be enabled in the Bard field. Link style buttons will only be visible when a link is selected, they should still be created through the standard link button.
+When using link styles the `anchor` button must also be enabled in the Bard field. Link style buttons will only be visible when a link is selected, they should still be created through the standard link button.
 
 ---
 
 ## Styles Menu (Pro)
 
-The styles menu allows you to collapse all of the custom styles—and some of the standard ones—into a dropdown menu, cleaning up the toolbar and providing a preview of each style at the same time.
+The styles menu allows you to collapse all of the custom styles (and some of the standard ones) into a dropdown menu, cleaning up the toolbar and providing a preview of each style at the same time.
 
 To enable the styles menu toggle the button in the Bard field's button selector. You can then choose which options are moved into the menu by selecting them in the Styles Menu Options field. Styles *must* be enabled in the standard button selector to appear in the menu. The button selector is also where you should define the order the styles appear in.
 
