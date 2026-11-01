@@ -218,7 +218,7 @@
 - [new] Support for multiple sets of default classes
 - [new] Support for Bard's `save_html` option
 - [new] Brand new [documentation](https://jacksleight.dev/docs/bard-texstyle) 
-- The Bard Paragraph Style config format is [deprecated](https://github.com/jacksleight/statamic-bard-texstyle/blob/main/MIGRATION.md)
+- The Bard Paragraph Style config format is [deprecated](https://github.com/jacksleight/statamic-bard-texstyle/blob/4.2.5/MIGRATION.md)
 - Bard Mutator is no longer a dependency
 - Dropped support for Statamic 3.3 and lower
 
