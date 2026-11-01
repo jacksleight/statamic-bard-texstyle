@@ -144,3 +144,9 @@ it('returns null for styles menu option on unsupported types', function () {
     expect($types->validateStylesMenuOption(['type' => 'paragraph', 'name' => 'Test']))
         ->toBeArray();
 });
+
+it('treats start as a standard ordered list attribute', function () {
+    $types = new TypeManager(true);
+    expect($types->validateAttribute(['type' => 'ordered_list', 'handle' => 'start']))
+        ->toMatchArray(['extra' => false]);
+});

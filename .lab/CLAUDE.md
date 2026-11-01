@@ -18,7 +18,7 @@ Every template renders each Bard field twice through `_field.antlers.html`: once
 | `/tests/styles` | free | One style per supported type: wildcard heading, locked heading, paragraph, both list types, link, span, div, plus the circle, circle-solid and symbol icon variants and a table button to size icons against |
 | `/tests/styles-menu` | pro | The same styles collapsed into the styles menu: icon and text buttons, each repeated with the menu button placed later in the toolbar, plus a field holding every option that can reach the menu so it has to scroll |
 | `/tests/pins` | pro | All four pin kinds inline (assets field, plain field, fieldset import, custom `view`), plus the `{{ pins }}` tag pulling footnotes from two fields and buttons from one |
-| `/tests/attributes` | pro | Standard attributes (`level`, `href`, `target`, `rel`, `language`), extra rendered attributes (`id`, `start`, `reversed`), a class mapped select (`align`), and a toggle with `values` (`pull`) |
+| `/tests/attributes` | pro | Standard attributes (`level`, `href`, `target`, `rel`, `language`, `start`), extra rendered attributes (`id`, `reversed`), a class mapped select (`align`), and a toggle with `values` (`pull`) |
 | `/tests/hidden` | free | A hidden block, which should be absent from both the rendered output and the source |
 | `/tests/defaults` | free | Unstyled elements picking up the `standard` defaults group, and a second field on the `article` group via `bts_defaults` |
 
@@ -68,7 +68,7 @@ The rest of the capture mechanics, and the traps in them, are documented in the 
 
 From the website's pre-launch QA on 2026-10-30, recorded, not fixed (the fixes are a separate pass):
 
-- **`start` on `ordered_list` is documented but switched off.** `docs/attributes.md` lists it as a standard attribute, but `TypeManager.php` has it commented out (`'attributes' => [/* 'start' */]`).
+- **`start` on `ordered_list` is documented but switched off.** Fixed in 4.2.6: `start` is now a standard attribute, as the docs say, so its `default` and `rendered` options are ignored.
 - **Punctuation after a pin gets a stray space.** Fixed in 4.2.6: `Pin` now trims the view's render, so the newline a view file ends with no longer lands between the pin and whatever follows it.
 
 ## Things to know

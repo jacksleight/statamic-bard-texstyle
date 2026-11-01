@@ -233,7 +233,7 @@ class TypeManager implements JsonSerializable
             'button' => 'orderedlist',
             'extension' => 'orderedList',
             'command' => 'btsToggleOrderedList',
-            'attributes' => [/* 'start' */],
+            'attributes' => ['start'],
             'styles_class' => true,
             'styles_cp_css' => true,
             'styles_cp_badge' => true,
