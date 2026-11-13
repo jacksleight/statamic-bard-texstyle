@@ -2,9 +2,8 @@
 
 ## 4.3.0 (2026-11-13)
 
-- [new] Styles menu and pins menu groups
-- [new] Styles menu scrolls to the active style when opened
-- [new] Style `display` option, `name` still works
+- [new] Styles menu groups
+- [new] Pin groups
 - [fix] Asset and other HTML pin previews showing as JSON
 
 ## 4.2.6 (2026-11-02)
