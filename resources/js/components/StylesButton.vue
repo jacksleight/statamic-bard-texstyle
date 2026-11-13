@@ -1,6 +1,6 @@
 <template>
 
-    <popover align="start" v-model:open="panelActive" inset class="!w-max">
+    <popover align="start" v-model:open="panelActive" inset class="!w-max overflow-hidden">
         <template #trigger>
             <Button
                 :class="{
@@ -26,7 +26,7 @@
                 :bard="bard"
                 :editor="editor"
                 :btsOptions="button.btsOptions"
-                :items="items"
+                :groups="groups"
                 @close="closePanel"
                 @picked="closePanel"
             />
@@ -77,7 +77,13 @@ export default {
                 .filter(option => Object.keys(this.button.btsOptions.stylesMenuOptions).includes(option));
             return buttons.filter(button => {
                 return typeof button === 'object' && menu.includes(button.name);
-            });    
+            });
+        },
+        groups() {
+            return this.button.btsOptions.stylesGroups.map(group => ({
+                ...group,
+                items: this.items.filter(item => group.items.includes(item.name)),
+            }));
         },
         type() {
             return this.config.bts_styles_button ?? 'icon';

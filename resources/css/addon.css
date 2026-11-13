@@ -67,9 +67,35 @@
 
     .bts-styles {
         .bts-styles-items {
-            @apply flex flex-col p-1.5 max-h-96 overflow-y-auto;
+            @apply relative flex flex-col p-1.5 max-h-96 overflow-y-auto;
+            --bts-group-height: calc(var(--spacing) * 9.5);
+        }
+        .bts-styles-items-grouped {
+            @apply py-0;
+            > :last-child {
+                @apply mb-1.5;
+            }
+        }
+        .bts-styles-items-grouped .bts-styles-item {
+            scroll-margin-top: calc(var(--bts-group-height) + var(--spacing) * 1.5);
+        }
+        .bts-styles-items-stacked .bts-styles-item {
+            scroll-margin-bottom: calc(var(--bts-group-height) * var(--bts-group-after) + var(--spacing) * 1.5);
+        }
+        .bts-styles-items-stacked .bts-styles-group {
+            bottom: calc(var(--bts-group-height) * var(--bts-group-after) - 1px);
+        }
+        .bts-styles-group {
+            @apply sticky z-1 top-0 -mx-1.5 my-1.5 first:mt-0 shrink-0 flex items-center px-4.5 text-xs text-gray-700 bg-gray-50 border-b border-gray-200 cursor-pointer;
+            height: var(--bts-group-height);
+            box-shadow: 0 -1px 0 var(--theme-color-gray-200);
+            .dark & {
+                @apply text-gray-300 bg-gray-900 border-gray-600;
+                box-shadow: 0 -1px 0 var(--theme-color-gray-600);
+            }
         }
         .bts-styles-item {
+            scroll-margin-bottom: calc(var(--spacing) * 1.5);
             @apply whitespace-normal py-2 px-3 text-[1rem] leading-[1] rounded-lg text-left;
             &:hover {
                 @apply bg-gray-100;
@@ -126,7 +152,7 @@
 
     .bts-pins {
         .bts-pins-items {
-            @apply flex flex-col p-1.5;
+            @apply flex flex-col p-1.5 max-h-96 overflow-y-auto;
         }
     }
 

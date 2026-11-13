@@ -1,6 +1,6 @@
 <template>
     
-    <popover align="start" v-model:open="panelActive" inset class="!w-max">
+    <popover align="start" v-model:open="panelActive" inset class="!w-max overflow-hidden">
         <template #trigger>
             <Button
                 class="px-2!"
@@ -20,7 +20,7 @@
                 :bard="bard"
                 :editor="editor"
                 :btsOptions="button.btsOptions"
-                :items="items"
+                :groups="groups"
                 @close="closePanel"
                 @picked="closePanel"
             />
@@ -51,13 +51,17 @@ export default {
     },
 
     computed: {
-        items() {
-            const pins = Object.values(this.button.btsOptions.pins);
-            const menu = (this.config.bts_pins || [])
-                .filter(option => Object.keys(this.button.btsOptions.pinsMenuOptions).includes(option));
-            return pins.filter(pin => {
-                return menu.includes(pin.handle);
-            });
+        groups() {
+            const pins = this.button.btsOptions.pins;
+            const menu = this.config.bts_pins || [];
+            return this.button.btsOptions.pinsGroups
+                .map(group => ({
+                    ...group,
+                    items: group.items
+                        .filter(handle => menu.includes(handle))
+                        .map(handle => pins[handle]),
+                }))
+                .filter(group => group.items.length);
         },
     },
 

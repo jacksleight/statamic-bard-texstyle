@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Illuminate\Support\Collection;
 use JsonSerializable;
 use Statamic\Support\Arr;
 
@@ -407,7 +408,7 @@ class TypeManager implements JsonSerializable
             ]);
     }
 
-    public function all(): \Illuminate\Support\Collection
+    public function all(): Collection
     {
         return $this->types;
     }
@@ -455,7 +456,7 @@ class TypeManager implements JsonSerializable
         $style = $style + [
             'type' => null,
             'class' => null,
-            'name' => null,
+            'display' => null,
             'ident' => null,
             'icon' => null,
             'cp_css' => null,
@@ -481,7 +482,7 @@ class TypeManager implements JsonSerializable
     {
         $style = $style + [
             'type' => null,
-            'name' => null,
+            'display' => null,
         ];
 
         if (! $this->supports($style['type'], 'styles_menu')) {

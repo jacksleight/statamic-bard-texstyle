@@ -206,7 +206,7 @@ export default {
                 .map(([handle, value]) => value)
                 .filter((value) => (['null', '[]', '{}', ''].includes(JSON.stringify(value)) ? null : value))
                 .map((value) => {
-                    if (typeof value === 'object' && value.constructor.name === 'PreviewHtml') {
+                    if (value instanceof replicatorPreviewHtml('').constructor) {
                       return value.html;
                     }
                     if (typeof value === 'string') {

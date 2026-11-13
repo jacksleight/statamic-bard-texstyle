@@ -14,130 +14,158 @@ return [
 
     'styles' => [
 
-        'title' => [
-            'type' => 'heading',
-            'name' => 'Title',
-            'ident' => 'T',
-            'icon' => null,
-            'class' => 'title',
-            'cp_css' => 'text-decoration: underline; text-underline-offset: 0.1em; text-decoration-color: #c5ccd4',
-            'cp_badge' => false,
-        ],
+        'headings' => [
+            'display' => 'Headings',
+            'styles' => [
 
-        'subtitle' => [
-            'type' => 'heading_2',
-            'name' => 'Subtitle',
-            'ident' => 'S',
-            'icon' => null,
-            'class' => 'subtitle',
-            'cp_css' => 'color: hotpink',
-            'cp_badge' => true,
-        ],
+                'title' => [
+                    'type' => 'heading',
+                    'name' => 'Title',
+                    'ident' => 'T',
+                    'icon' => null,
+                    'class' => 'title',
+                    'cp_css' => 'text-decoration: underline; text-underline-offset: 0.1em; text-decoration-color: #c5ccd4',
+                    'cp_badge' => false,
+                ],
 
-        'lead' => [
-            'type' => 'paragraph',
-            'name' => 'Lead',
-            'ident' => 'L',
-            'icon' => null,
-            'class' => 'lead',
-            'cp_css' => 'font-size: 1.25em',
-            'cp_badge' => false,
-        ],
+                'subtitle' => [
+                    'type' => 'heading_2',
+                    'name' => 'Subtitle',
+                    'ident' => 'S',
+                    'icon' => null,
+                    'class' => 'subtitle',
+                    'cp_css' => 'color: hotpink',
+                    'cp_badge' => true,
+                ],
 
-        'square_list' => [
-            'type' => 'unordered_list',
-            'name' => 'Square List',
-            'ident' => '■',
-            'icon' => null,
-            'class' => 'square-list',
-            'cp_css' => 'list-style-type: square',
-            'cp_badge' => false,
-        ],
-
-        'roman_list' => [
-            'type' => 'ordered_list',
-            'name' => 'Roman List',
-            'ident' => 'IV',
-            'icon' => null,
-            'class' => 'roman-list',
-            'cp_css' => [
-                '&' => 'list-style-type: upper-roman',
-                '& ol' => 'list-style-type: lower-roman',
             ],
-            'cp_badge' => false,
         ],
 
-        'action' => [
-            'type' => 'link',
-            'name' => 'Action',
-            'ident' => 'A',
-            'icon' => null,
-            'class' => 'action',
-            'cp_css' => 'background: #737f8d; color: white; padding: 0.2em 0.5em; border-radius: 4px',
-            'cp_badge' => false,
-        ],
+        'text' => [
+            'display' => 'Text',
+            'styles' => [
 
-        'brand' => [
-            'type' => 'span',
-            'name' => 'Brand Text',
-            'ident' => 'B',
-            'icon' => null,
-            'class' => 'brand-text',
-            'cp_css' => 'color: #ff269e; font-weight: 700',
-            'cp_badge' => false,
-        ],
+                'lead' => [
+                    'type' => 'paragraph',
+                    'name' => 'Lead',
+                    'ident' => 'L',
+                    'icon' => null,
+                    'class' => 'lead',
+                    'cp_css' => 'font-size: 1.25em',
+                    'cp_badge' => false,
+                ],
 
-        'two_columns' => [
-            'type' => 'div',
-            'name' => 'Two Columns',
-            'ident' => '❙ ❙',
-            'icon' => null,
-            'class' => 'two-columns',
-            'cp_css' => 'column-count: 2; column-gap: 16px',
-            'cp_badge' => true,
-        ],
+                'brand' => [
+                    'type' => 'span',
+                    'name' => 'Brand Text',
+                    'ident' => 'B',
+                    'icon' => null,
+                    'class' => 'brand-text',
+                    'cp_css' => 'color: #ff269e; font-weight: 700',
+                    'cp_badge' => false,
+                ],
 
-        'hint' => [
-            'type' => 'div',
-            'name' => 'Hint',
-            'ident' => '✱',
-            'icon' => 'square-solid',
-            'class' => 'hint',
-            'cp_css' => [
-                '&' => 'background: #e4ebf1; padding: 0.85em; border-radius: 2px',
-                '& p' => 'margin-bottom: 0 !important; font-size: 0.8em !important',
+                'marker' => [
+                    'type' => 'span',
+                    'name' => 'Marker',
+                    'ident' => '✦',
+                    'icon' => 'symbol',
+                    'class' => 'marker',
+                    'cp_css' => 'background: #fff2a8; padding: 0.1em 0.2em',
+                    'cp_badge' => false,
+                ],
+
+                'action' => [
+                    'type' => 'link',
+                    'name' => 'Action',
+                    'ident' => 'A',
+                    'icon' => null,
+                    'class' => 'action',
+                    'cp_css' => 'background: #737f8d; color: white; padding: 0.2em 0.5em; border-radius: 4px',
+                    'cp_badge' => false,
+                ],
+
             ],
-            'cp_badge' => true,
         ],
 
-        'note' => [
-            'type' => 'div',
-            'name' => 'Note',
-            'ident' => 'i',
-            'icon' => 'circle',
-            'class' => 'note',
-            'cp_css' => 'border-left: 4px solid #9aa7b4; padding-left: 0.85em',
-            'cp_badge' => true,
+        'lists' => [
+            'display' => 'Lists',
+            'styles' => [
+
+                'square_list' => [
+                    'type' => 'unordered_list',
+                    'name' => 'Square List',
+                    'ident' => '■',
+                    'icon' => null,
+                    'class' => 'square-list',
+                    'cp_css' => 'list-style-type: square',
+                    'cp_badge' => false,
+                ],
+
+                'roman_list' => [
+                    'type' => 'ordered_list',
+                    'name' => 'Roman List',
+                    'ident' => 'IV',
+                    'icon' => null,
+                    'class' => 'roman-list',
+                    'cp_css' => [
+                        '&' => 'list-style-type: upper-roman',
+                        '& ol' => 'list-style-type: lower-roman',
+                    ],
+                    'cp_badge' => false,
+                ],
+
+            ],
         ],
 
-        'warning' => [
-            'type' => 'div',
-            'name' => 'Warning',
-            'ident' => '!',
-            'icon' => 'circle-solid',
-            'class' => 'warning',
-            'cp_css' => 'background: #fde9e9; padding: 0.85em; border-radius: 2px',
-            'cp_badge' => true,
-        ],
+        'blocks' => [
+            'display' => 'Blocks',
+            'styles' => [
 
-        'marker' => [
-            'type' => 'span',
-            'name' => 'Marker',
-            'ident' => '✦',
-            'icon' => 'symbol',
-            'class' => 'marker',
-            'cp_css' => 'background: #fff2a8; padding: 0.1em 0.2em',
-            'cp_badge' => false,
+                'two_columns' => [
+                    'type' => 'div',
+                    'name' => 'Two Columns',
+                    'ident' => '❙ ❙',
+                    'icon' => null,
+                    'class' => 'two-columns',
+                    'cp_css' => 'column-count: 2; column-gap: 16px',
+                    'cp_badge' => true,
+                ],
+
+                'hint' => [
+                    'type' => 'div',
+                    'name' => 'Hint',
+                    'ident' => '✱',
+                    'icon' => 'square-solid',
+                    'class' => 'hint',
+                    'cp_css' => [
+                        '&' => 'background: #e4ebf1; padding: 0.85em; border-radius: 2px',
+                        '& p' => 'margin-bottom: 0 !important; font-size: 0.8em !important',
+                    ],
+                    'cp_badge' => true,
+                ],
+
+                'note' => [
+                    'type' => 'div',
+                    'name' => 'Note',
+                    'ident' => 'i',
+                    'icon' => 'circle',
+                    'class' => 'note',
+                    'cp_css' => 'border-left: 4px solid #9aa7b4; padding-left: 0.85em',
+                    'cp_badge' => true,
+                ],
+
+                'warning' => [
+                    'type' => 'div',
+                    'name' => 'Warning',
+                    'ident' => '!',
+                    'icon' => 'circle-solid',
+                    'class' => 'warning',
+                    'cp_css' => 'background: #fde9e9; padding: 0.85em; border-radius: 2px',
+                    'cp_badge' => true,
+                ],
+
+            ],
         ],
 
         /*
@@ -145,192 +173,212 @@ return [
         | Styles menu volume
         |----------------------------------------------------------------------
         |
-        | A deliberately long set, used only by the styles menu test's "many
-        | items" field, so the menu can be checked when it has to scroll.
-        | Every type that reaches the menu is represented: all six heading
-        | levels, paragraph, both list types, link and span. Div types never
-        | reach the menu, so none are here.
+        | A deliberately long set, used by the styles menu test's "many items"
+        | field and the groups test, so the menu can be checked when it has to
+        | scroll. Every type that reaches the menu is represented: all six
+        | heading levels, paragraph, both list types, link and span. Div types
+        | never reach the menu, so none are here. The h4 to h6 placeholders
+        | move those standard buttons out of the implicit Standard group, and
+        | the set is split in two so the groups test can have six groups.
         |
         */
 
-        'menu_display' => [
-            'type' => 'heading_1',
-            'name' => 'Display',
-            'ident' => 'D',
-            'icon' => null,
-            'class' => 'menu-display',
-            'cp_css' => 'font-size: 2em; font-weight: 800',
-            'cp_badge' => false,
+        'more_headings' => [
+            'display' => 'More Headings',
+            'styles' => [
+
+                'h4' => true,
+                'h5' => true,
+                'h6' => true,
+
+                'menu_display' => [
+                    'type' => 'heading_1',
+                    'name' => 'Display',
+                    'ident' => 'D',
+                    'icon' => null,
+                    'class' => 'menu-display',
+                    'cp_css' => 'font-size: 2em; font-weight: 800',
+                    'cp_badge' => false,
+                ],
+
+                'menu_headline' => [
+                    'type' => 'heading_2',
+                    'name' => 'Headline',
+                    'ident' => 'H',
+                    'icon' => null,
+                    'class' => 'menu-headline',
+                    'cp_css' => 'font-size: 1.6em; font-weight: 700',
+                    'cp_badge' => false,
+                ],
+
+                'menu_kicker' => [
+                    'type' => 'heading_3',
+                    'name' => 'Kicker',
+                    'ident' => 'K',
+                    'icon' => null,
+                    'class' => 'menu-kicker',
+                    'cp_css' => 'text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.9em',
+                    'cp_badge' => false,
+                ],
+
+                'menu_crosshead' => [
+                    'type' => 'heading_4',
+                    'name' => 'Crosshead',
+                    'ident' => 'C',
+                    'icon' => null,
+                    'class' => 'menu-crosshead',
+                    'cp_css' => 'font-weight: 600',
+                    'cp_badge' => false,
+                ],
+
+                'menu_label' => [
+                    'type' => 'heading_5',
+                    'name' => 'Label',
+                    'ident' => 'L',
+                    'icon' => null,
+                    'class' => 'menu-label',
+                    'cp_css' => 'font-size: 0.85em; color: #737f8d',
+                    'cp_badge' => false,
+                ],
+
+                'menu_footnote' => [
+                    'type' => 'heading_6',
+                    'name' => 'Footnote Head',
+                    'ident' => 'F',
+                    'icon' => null,
+                    'class' => 'menu-footnote',
+                    'cp_css' => 'font-size: 0.75em; letter-spacing: 0.05em',
+                    'cp_badge' => false,
+                ],
+
+            ],
         ],
 
-        'menu_headline' => [
-            'type' => 'heading_2',
-            'name' => 'Headline',
-            'ident' => 'H',
-            'icon' => null,
-            'class' => 'menu-headline',
-            'cp_css' => 'font-size: 1.6em; font-weight: 700',
-            'cp_badge' => false,
-        ],
+        'more_text' => [
+            'display' => 'More Text',
+            'styles' => [
 
-        'menu_kicker' => [
-            'type' => 'heading_3',
-            'name' => 'Kicker',
-            'ident' => 'K',
-            'icon' => null,
-            'class' => 'menu-kicker',
-            'cp_css' => 'text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.9em',
-            'cp_badge' => false,
-        ],
+                'menu_standfirst' => [
+                    'type' => 'paragraph',
+                    'name' => 'Standfirst',
+                    'ident' => 'S',
+                    'icon' => null,
+                    'class' => 'menu-standfirst',
+                    'cp_css' => 'font-size: 1.2em; color: #4a5560',
+                    'cp_badge' => false,
+                ],
 
-        'menu_crosshead' => [
-            'type' => 'heading_4',
-            'name' => 'Crosshead',
-            'ident' => 'C',
-            'icon' => null,
-            'class' => 'menu-crosshead',
-            'cp_css' => 'font-weight: 600',
-            'cp_badge' => false,
-        ],
+                'menu_caption' => [
+                    'type' => 'paragraph',
+                    'name' => 'Caption',
+                    'ident' => 'c',
+                    'icon' => null,
+                    'class' => 'menu-caption',
+                    'cp_css' => 'font-size: 0.85em; color: #737f8d',
+                    'cp_badge' => false,
+                ],
 
-        'menu_label' => [
-            'type' => 'heading_5',
-            'name' => 'Label',
-            'ident' => 'L',
-            'icon' => null,
-            'class' => 'menu-label',
-            'cp_css' => 'font-size: 0.85em; color: #737f8d',
-            'cp_badge' => false,
-        ],
+                'menu_quote' => [
+                    'type' => 'paragraph',
+                    'name' => 'Pull Quote',
+                    'ident' => 'q',
+                    'icon' => null,
+                    'class' => 'menu-quote',
+                    'cp_css' => 'font-style: italic; font-size: 1.15em',
+                    'cp_badge' => false,
+                ],
 
-        'menu_footnote' => [
-            'type' => 'heading_6',
-            'name' => 'Footnote Head',
-            'ident' => 'F',
-            'icon' => null,
-            'class' => 'menu-footnote',
-            'cp_css' => 'font-size: 0.75em; letter-spacing: 0.05em',
-            'cp_badge' => false,
-        ],
+                'menu_small' => [
+                    'type' => 'paragraph',
+                    'name' => 'Small Print',
+                    'ident' => 's',
+                    'icon' => null,
+                    'class' => 'menu-small',
+                    'cp_css' => 'font-size: 0.75em',
+                    'cp_badge' => false,
+                ],
 
-        'menu_standfirst' => [
-            'type' => 'paragraph',
-            'name' => 'Standfirst',
-            'ident' => 'S',
-            'icon' => null,
-            'class' => 'menu-standfirst',
-            'cp_css' => 'font-size: 1.2em; color: #4a5560',
-            'cp_badge' => false,
-        ],
+                'menu_ticks' => [
+                    'type' => 'unordered_list',
+                    'name' => 'Tick List',
+                    'ident' => '✓',
+                    'icon' => null,
+                    'class' => 'menu-ticks',
+                    'cp_css' => 'list-style-type: "\\2713  "',
+                    'cp_badge' => false,
+                ],
 
-        'menu_caption' => [
-            'type' => 'paragraph',
-            'name' => 'Caption',
-            'ident' => 'c',
-            'icon' => null,
-            'class' => 'menu-caption',
-            'cp_css' => 'font-size: 0.85em; color: #737f8d',
-            'cp_badge' => false,
-        ],
+                'menu_dashes' => [
+                    'type' => 'unordered_list',
+                    'name' => 'Dash List',
+                    'ident' => '–',
+                    'icon' => null,
+                    'class' => 'menu-dashes',
+                    'cp_css' => 'list-style-type: "\\2013  "',
+                    'cp_badge' => false,
+                ],
 
-        'menu_quote' => [
-            'type' => 'paragraph',
-            'name' => 'Pull Quote',
-            'ident' => 'q',
-            'icon' => null,
-            'class' => 'menu-quote',
-            'cp_css' => 'font-style: italic; font-size: 1.15em',
-            'cp_badge' => false,
-        ],
+                'menu_alpha' => [
+                    'type' => 'ordered_list',
+                    'name' => 'Alpha List',
+                    'ident' => 'a',
+                    'icon' => null,
+                    'class' => 'menu-alpha',
+                    'cp_css' => 'list-style-type: lower-alpha',
+                    'cp_badge' => false,
+                ],
 
-        'menu_small' => [
-            'type' => 'paragraph',
-            'name' => 'Small Print',
-            'ident' => 's',
-            'icon' => null,
-            'class' => 'menu-small',
-            'cp_css' => 'font-size: 0.75em',
-            'cp_badge' => false,
-        ],
+                'menu_steps' => [
+                    'type' => 'ordered_list',
+                    'name' => 'Step List',
+                    'ident' => '1',
+                    'icon' => null,
+                    'class' => 'menu-steps',
+                    'cp_css' => 'list-style-type: decimal-leading-zero',
+                    'cp_badge' => false,
+                ],
 
-        'menu_ticks' => [
-            'type' => 'unordered_list',
-            'name' => 'Tick List',
-            'ident' => '✓',
-            'icon' => null,
-            'class' => 'menu-ticks',
-            'cp_css' => 'list-style-type: "\\2713  "',
-            'cp_badge' => false,
-        ],
+                'menu_external' => [
+                    'type' => 'link',
+                    'name' => 'External Link',
+                    'ident' => '↗',
+                    'icon' => null,
+                    'class' => 'menu-external',
+                    'cp_css' => 'color: #0b7285; text-decoration-style: dotted',
+                    'cp_badge' => false,
+                ],
 
-        'menu_dashes' => [
-            'type' => 'unordered_list',
-            'name' => 'Dash List',
-            'ident' => '–',
-            'icon' => null,
-            'class' => 'menu-dashes',
-            'cp_css' => 'list-style-type: "\\2013  "',
-            'cp_badge' => false,
-        ],
+                'menu_quiet' => [
+                    'type' => 'link',
+                    'name' => 'Quiet Link',
+                    'ident' => '·',
+                    'icon' => null,
+                    'class' => 'menu-quiet',
+                    'cp_css' => 'color: #737f8d; text-decoration: none',
+                    'cp_badge' => false,
+                ],
 
-        'menu_alpha' => [
-            'type' => 'ordered_list',
-            'name' => 'Alpha List',
-            'ident' => 'a',
-            'icon' => null,
-            'class' => 'menu-alpha',
-            'cp_css' => 'list-style-type: lower-alpha',
-            'cp_badge' => false,
-        ],
+                'menu_code' => [
+                    'type' => 'span',
+                    'name' => 'Code Text',
+                    'ident' => '<',
+                    'icon' => null,
+                    'class' => 'menu-code',
+                    'cp_css' => 'font-family: monospace; background: #eef1f4; padding: 0 0.2em',
+                    'cp_badge' => false,
+                ],
 
-        'menu_steps' => [
-            'type' => 'ordered_list',
-            'name' => 'Step List',
-            'ident' => '1',
-            'icon' => null,
-            'class' => 'menu-steps',
-            'cp_css' => 'list-style-type: decimal-leading-zero',
-            'cp_badge' => false,
-        ],
+                'menu_key' => [
+                    'type' => 'span',
+                    'name' => 'Keyboard',
+                    'ident' => '⌘',
+                    'icon' => null,
+                    'class' => 'menu-key',
+                    'cp_css' => 'border: 1px solid #c5ccd4; border-radius: 3px; padding: 0 0.3em',
+                    'cp_badge' => false,
+                ],
 
-        'menu_external' => [
-            'type' => 'link',
-            'name' => 'External Link',
-            'ident' => '↗',
-            'icon' => null,
-            'class' => 'menu-external',
-            'cp_css' => 'color: #0b7285; text-decoration-style: dotted',
-            'cp_badge' => false,
-        ],
-
-        'menu_quiet' => [
-            'type' => 'link',
-            'name' => 'Quiet Link',
-            'ident' => '·',
-            'icon' => null,
-            'class' => 'menu-quiet',
-            'cp_css' => 'color: #737f8d; text-decoration: none',
-            'cp_badge' => false,
-        ],
-
-        'menu_code' => [
-            'type' => 'span',
-            'name' => 'Code Text',
-            'ident' => '<',
-            'icon' => null,
-            'class' => 'menu-code',
-            'cp_css' => 'font-family: monospace; background: #eef1f4; padding: 0 0.2em',
-            'cp_badge' => false,
-        ],
-
-        'menu_key' => [
-            'type' => 'span',
-            'name' => 'Keyboard',
-            'ident' => '⌘',
-            'icon' => null,
-            'class' => 'menu-key',
-            'cp_css' => 'border: 1px solid #c5ccd4; border-radius: 3px; padding: 0 0.3em',
-            'cp_badge' => false,
+            ],
         ],
 
         /*
@@ -344,77 +392,84 @@ return [
         |
         */
 
-        'headline' => [
-            'type' => 'heading',
-            'name' => 'Headline',
-            'ident' => 'Hd',
-            'icon' => null,
-            'class' => 'headline',
-            'cp_css' => 'font-size: 1.35em; letter-spacing: -0.02em',
-            'cp_badge' => true,
-        ],
+        'demos' => [
+            'display' => 'Demos',
+            'styles' => [
 
-        'standfirst' => [
-            'type' => 'paragraph',
-            'name' => 'Standfirst',
-            'ident' => 'Sf',
-            'icon' => null,
-            'class' => 'standfirst',
-            'cp_css' => 'font-size: 1.1em; color: #4b5563',
-            'cp_badge' => true,
-        ],
+                'headline' => [
+                    'type' => 'heading',
+                    'name' => 'Title',
+                    'ident' => 'T',
+                    'icon' => null,
+                    'class' => 'headline',
+                    'cp_css' => 'font-size: 1.35em; letter-spacing: -0.02em',
+                    'cp_badge' => true,
+                ],
 
-        'tick_list' => [
-            'type' => 'unordered_list',
-            'name' => 'Tick List',
-            'ident' => null,
-            'icon' => 'checkmark',
-            'class' => 'tick-list',
-            'cp_css' => 'list-style-type: "\\2713  "',
-            'cp_badge' => true,
-        ],
+                'standfirst' => [
+                    'type' => 'paragraph',
+                    'name' => 'Standfirst',
+                    'ident' => 'S',
+                    'icon' => null,
+                    'class' => 'standfirst',
+                    'cp_css' => 'font-size: 1.1em; color: #4b5563',
+                    'cp_badge' => true,
+                ],
 
-        'steps' => [
-            'type' => 'ordered_list',
-            'name' => 'Steps',
-            'ident' => null,
-            'icon' => 'list-ol',
-            'class' => 'steps',
-            'cp_css' => 'list-style-type: decimal-leading-zero',
-            'cp_badge' => true,
-        ],
+                'tick_list' => [
+                    'type' => 'unordered_list',
+                    'name' => 'Tick List',
+                    'ident' => null,
+                    'icon' => 'checkmark',
+                    'class' => 'tick-list',
+                    'cp_css' => 'list-style-type: "\\2713  "',
+                    'cp_badge' => true,
+                ],
 
-        'highlight' => [
-            'type' => 'span',
-            'name' => 'Highlight',
-            'ident' => 'Hl',
-            'icon' => null,
-            'class' => 'highlight',
-            'cp_css' => 'background: #fef3c7; padding: 0.05em 0.2em; border-radius: 3px',
-            'cp_badge' => false,
-        ],
+                'steps' => [
+                    'type' => 'ordered_list',
+                    'name' => 'Steps',
+                    'ident' => null,
+                    'icon' => 'list-ol',
+                    'class' => 'steps',
+                    'cp_css' => 'list-style-type: decimal-leading-zero',
+                    'cp_badge' => true,
+                ],
 
-        'button_link' => [
-            'type' => 'link',
-            'name' => 'Button',
-            'ident' => null,
-            'icon' => 'cursor-click',
-            'class' => 'button-link',
-            'cp_css' => 'font-weight: 600; text-decoration: none; border: 1px solid currentColor; padding: 0.05em 0.45em; border-radius: 4px',
-            'cp_badge' => false,
-        ],
+                'highlight' => [
+                    'type' => 'span',
+                    'name' => 'Highlight',
+                    'ident' => 'H',
+                    'icon' => null,
+                    'class' => 'highlight',
+                    'cp_css' => 'background: #fef3c7; padding: 0.05em 0.2em; border-radius: 3px',
+                    'cp_badge' => false,
+                ],
 
-        'tip' => [
-            'type' => 'div',
-            'name' => 'Tip',
-            'ident' => null,
-            'icon' => 'lightbulb-idea',
-            'class' => 'tip',
-            'cp_css' => [
-                '&' => 'background: #f3f4f6; padding: 0.75em 1em; border-radius: 6px',
-                '& p' => 'margin-bottom: 0 !important',
+                'button_link' => [
+                    'type' => 'link',
+                    'name' => 'Button',
+                    'ident' => null,
+                    'icon' => 'cursor-click',
+                    'class' => 'button-link',
+                    'cp_css' => 'font-weight: 600; text-decoration: none; border: 1px solid currentColor; padding: 0.05em 0.45em; border-radius: 4px',
+                    'cp_badge' => false,
+                ],
+
+                'tip' => [
+                    'type' => 'div',
+                    'name' => 'Tip',
+                    'ident' => null,
+                    'icon' => 'lightbulb-idea',
+                    'class' => 'tip',
+                    'cp_css' => [
+                        '&' => 'background: #f3f4f6; padding: 0.75em 1em; border-radius: 6px',
+                        '& p' => 'margin-bottom: 0 !important',
+                    ],
+                    'cp_badge' => true,
+                ],
+
             ],
-            'cp_badge' => true,
         ],
 
     ],
@@ -432,60 +487,248 @@ return [
 
     'pins' => [
 
-        'icon' => [
-            'display' => 'Icon',
-            'icon' => 'fire-flame-burn-hot',
-            'instructions' => 'An icon graphic.',
-            'fields' => [
-                'src' => [
+        'content' => [
+            'display' => 'Content',
+            'instructions' => 'Graphics and links.',
+            'pins' => [
+
+                'icon' => [
                     'display' => 'Icon',
-                    'type' => 'assets',
-                    'max_files' => 1,
-                    'mode' => 'list',
-                    'preview' => true,
+                    'icon' => 'fire-flame-burn-hot',
+                    'instructions' => 'An icon graphic.',
+                    'fields' => [
+                        'src' => [
+                            'display' => 'Icon',
+                            'type' => 'assets',
+                            'max_files' => 1,
+                            'mode' => 'list',
+                            'preview' => true,
+                        ],
+                    ],
                 ],
-            ],
-        ],
 
-        'footnote' => [
-            'display' => 'Footnote',
-            'icon' => 'symbol',
-            'ident' => '✱',
-            'instructions' => 'A numbered footnote, listed below the content.',
-            'fields' => [
-                'text' => [
-                    'display' => 'Text',
-                    'type' => 'textarea',
-                    'preview' => true,
+                'button' => [
+                    'display' => 'Button',
+                    'icon' => 'circle',
+                    'ident' => '→',
+                    'instructions' => 'A link button, with fields imported from a fieldset.',
+                    'fields' => [
+                        ['import' => 'button'],
+                    ],
                 ],
+
             ],
         ],
 
-        'button' => [
-            'display' => 'Button',
-            'icon' => 'circle',
-            'ident' => '→',
-            'instructions' => 'A link button, with fields imported from a fieldset.',
-            'fields' => [
-                ['import' => 'button'],
-            ],
-        ],
-
-        'today' => [
-            'display' => 'Today',
+        'references' => [
+            'display' => 'References',
             'icon' => 'calendar',
-            'instructions' => 'A dynamic value with a custom view.',
-            'view' => 'pins/today',
-            'fields' => [
-                'format' => [
-                    'display' => 'Format',
-                    'type' => 'text',
-                    'default' => 'jS F Y',
-                    'preview' => true,
+            'pins' => [
+
+                'footnote' => [
+                    'display' => 'Footnote',
+                    'icon' => 'symbol',
+                    'ident' => '✱',
+                    'instructions' => 'A numbered footnote, listed below the content.',
+                    'fields' => [
+                        'text' => [
+                            'display' => 'Text',
+                            'type' => 'textarea',
+                            'preview' => true,
+                        ],
+                    ],
                 ],
+
+                'today' => [
+                    'display' => 'Today',
+                    'icon' => 'calendar',
+                    'instructions' => 'A dynamic value with a custom view.',
+                    'view' => 'pins/today',
+                    'fields' => [
+                        'format' => [
+                            'display' => 'Format',
+                            'type' => 'text',
+                            'default' => 'jS F Y',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
             ],
         ],
 
+        /*
+        |----------------------------------------------------------------------
+        | Pins menu volume
+        |----------------------------------------------------------------------
+        |
+        | Extra pins with no views, used only by the groups test so the pins
+        | menu has enough groups to check its group list and drill-in.
+        |
+        */
+
+        'commerce' => [
+            'display' => 'Commerce',
+            'instructions' => 'Product details.',
+            'pins' => [
+
+                'price' => [
+                    'display' => 'Price',
+                    'icon' => 'circle',
+                    'ident' => '£',
+                    'instructions' => 'A product price.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'sku' => [
+                    'display' => 'SKU',
+                    'icon' => 'circle',
+                    'ident' => '#',
+                    'instructions' => 'A stock keeping unit.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'stock' => [
+                    'display' => 'Stock',
+                    'icon' => 'circle',
+                    'ident' => 'S',
+                    'instructions' => 'A stock level.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+            ],
+        ],
+
+        'social' => [
+            'display' => 'Social',
+            'pins' => [
+
+                'mention' => [
+                    'display' => 'Mention',
+                    'icon' => 'circle',
+                    'ident' => '@',
+                    'instructions' => 'A mentioned account.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'hashtag' => [
+                    'display' => 'Hashtag',
+                    'icon' => 'circle',
+                    'ident' => '#',
+                    'instructions' => 'A tag.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'emoji' => [
+                    'display' => 'Emoji',
+                    'icon' => 'circle',
+                    'ident' => 'E',
+                    'instructions' => 'A single emoji.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+            ],
+        ],
+
+        'misc' => [
+            'display' => 'Miscellaneous',
+            'instructions' => 'Everything else.',
+            'pins' => [
+
+                'kbd' => [
+                    'display' => 'Keyboard Key',
+                    'icon' => 'circle',
+                    'ident' => 'K',
+                    'instructions' => 'A key to press.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'abbr' => [
+                    'display' => 'Abbreviation',
+                    'icon' => 'circle',
+                    'ident' => 'A',
+                    'instructions' => 'An abbreviation with its expansion.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'badge' => [
+                    'display' => 'Badge',
+                    'icon' => 'circle',
+                    'ident' => 'B',
+                    'instructions' => 'A short status label.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+                'counter' => [
+                    'display' => 'Counter',
+                    'icon' => 'circle',
+                    'ident' => '1',
+                    'instructions' => 'A running count.',
+                    'fields' => [
+                        'value' => [
+                            'display' => 'Value',
+                            'type' => 'text',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
+            ],
+        ],
 
         /*
         |----------------------------------------------------------------------
@@ -496,73 +739,80 @@ return [
         |
         */
 
-        'glyph' => [
-            'display' => 'Icon',
-            'icon' => 'sun',
-            'instructions' => 'A small graphic, dropped inline.',
-            'fields' => [
-                'src' => [
+        'demos' => [
+            'display' => 'Demos',
+            'pins' => [
+
+                'glyph' => [
                     'display' => 'Icon',
-                    'type' => 'assets',
-                    'max_files' => 1,
-                    'mode' => 'list',
-                    'preview' => false,
-                ],
-            ],
-        ],
-
-        'note' => [
-            'display' => 'Footnote',
-            'icon' => 'edit-pin',
-            'ident' => '✱',
-            'instructions' => 'A numbered note, collected at the end.',
-            'fields' => [
-                'text' => [
-                    'display' => 'Note',
-                    'type' => 'textarea',
-                    'preview' => true,
-                ],
-            ],
-        ],
-
-        'rating' => [
-            'display' => 'Rating',
-            'icon' => 'favorite-star',
-            'instructions' => 'A score out of five.',
-            'fields' => [
-                'score' => [
-                    'display' => 'Score',
-                    'type' => 'select',
-                    'default' => '4',
-                    'preview' => true,
-                    'options' => [
-                        '1' => '1',
-                        '2' => '2',
-                        '3' => '3',
-                        '4' => '4',
-                        '5' => '5',
+                    'icon' => 'sun',
+                    'instructions' => 'A small graphic, dropped inline.',
+                    'fields' => [
+                        'src' => [
+                            'display' => 'Icon',
+                            'type' => 'assets',
+                            'max_files' => 1,
+                            'mode' => 'list',
+                            'preview' => false,
+                        ],
                     ],
                 ],
-            ],
-        ],
 
-        'tide' => [
-            'display' => 'Tide',
-            'icon' => 'time-now',
-            'instructions' => 'A high or low tide time.',
-            'view' => 'pins/tide',
-            'fields' => [
-                'label' => [
-                    'display' => 'Label',
-                    'type' => 'text',
-                    'default' => 'Low tide',
-                    'preview' => true,
+                'note' => [
+                    'display' => 'Footnote',
+                    'icon' => 'edit-pin',
+                    'ident' => '✱',
+                    'instructions' => 'A numbered note, collected at the end.',
+                    'fields' => [
+                        'text' => [
+                            'display' => 'Note',
+                            'type' => 'textarea',
+                            'preview' => true,
+                        ],
+                    ],
                 ],
-                'time' => [
-                    'display' => 'Time',
-                    'type' => 'time',
-                    'preview' => true,
+
+                'rating' => [
+                    'display' => 'Rating',
+                    'icon' => 'favorite-star',
+                    'instructions' => 'A score out of five.',
+                    'fields' => [
+                        'score' => [
+                            'display' => 'Score',
+                            'type' => 'select',
+                            'default' => '4',
+                            'preview' => true,
+                            'options' => [
+                                '1' => '1',
+                                '2' => '2',
+                                '3' => '3',
+                                '4' => '4',
+                                '5' => '5',
+                            ],
+                        ],
+                    ],
                 ],
+
+                'tide' => [
+                    'display' => 'Tide',
+                    'icon' => 'time-now',
+                    'instructions' => 'A high or low tide time.',
+                    'view' => 'pins/tide',
+                    'fields' => [
+                        'label' => [
+                            'display' => 'Label',
+                            'type' => 'text',
+                            'default' => 'Low tide',
+                            'preview' => true,
+                        ],
+                        'time' => [
+                            'display' => 'Time',
+                            'type' => 'time',
+                            'preview' => true,
+                        ],
+                    ],
+                ],
+
             ],
         ],
 

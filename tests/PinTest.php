@@ -4,8 +4,9 @@ use JackSleight\StatamicBardTexstyle\Nodes\Pin;
 use Statamic\Fields\Field;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class);
+uses(TestCase::class);
 
 it('renders a pin without the trailing newline of its view', function () {
     view()->addLocation(__DIR__.'/__fixtures__/views');

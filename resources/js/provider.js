@@ -17,6 +17,7 @@ class Provider {
     constructor(options) {
         options.types = this.bootTypeManager(options.types);
         options.pins = this.bootPinsIcons(options.pins);
+        options.pinsGroups = this.bootPinsGroupsIcons(options.pinsGroups);
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
@@ -46,6 +47,10 @@ class Provider {
         return Object.fromEntries(Object.entries(pins).map(([handle, pin]) => ([handle, { ...pin, icon: pinIcon(pin) }])));
     }
 
+    bootPinsGroupsIcons(groups) {
+        return groups.map(group => ({ ...group, icon: pinIcon(group) }));
+    }
+
     bootExtensions(options) {
         Statamic.$bard.addExtension(({ tiptap, bard }) => Core(tiptap).configure({ ...options, bard }));
         Statamic.$bard.addExtension(({ tiptap, bard }) => Defaults(tiptap).configure({ ...options, bard }));
@@ -66,7 +71,7 @@ class Provider {
                 const type = options.types[style.type];
                 const data = {
                     name: key,
-                    text: style.name,
+                    text: style.display,
                     args: { [options.attr]: style[options.store], ...type.parameters },
                     active: (editor, args) => editor.isActive(type.extension, args),
                     visible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
@@ -204,7 +209,7 @@ class Provider {
             if (style.cp_badge) {
                 css.push(...this.parseCss([
                     `${base} ${selector}[data-bts-style="${style[options.store]}"]::before`,
-                ], {'&': {content: `"${style.name}"`}}));
+                ], {'&': {content: `"${style.display}"`}}));
             }
         });
         return css;

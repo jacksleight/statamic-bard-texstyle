@@ -92,6 +92,27 @@ You can import fields from fieldsets or import entire fieldsets:
 * **Entire fieldsets**  
   Add a keyless item with `import` set to the fieldset handle, and optionally a `prefix` that will be prepended to the handles of the imported fields.
 
+### Groups
+
+If you have a lot of pins you can split them into groups. The pins menu will then show a list of groups that you can click into, just like Statamic's set picker:
+
+```php
+'pins' => [
+
+    'media' => [
+        'display' => 'Media',
+        'instructions' => 'Images and icons.',
+        'icon' => 'folder',
+        'pins' => [
+            'icon' => [...],
+        ],
+    ],
+
+],
+```
+
+Groups can have a `display` name, `instructions` and an `icon`, which accepts the same values as a pin's icon. Groups without any of the field's pins are hidden, and if only one group is left the menu goes straight to its pins. Pin handles must be unique across all groups.
+
 ---
 
 ## Enabling the Menu and Pins

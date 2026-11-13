@@ -1,28 +1,40 @@
 <template>
 
     <div class="bts-pins">
-        <div v-if="items.length" class="bts-pins-items">
+        <div v-if="groups.length > 1" class="flex items-center p-1.5 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+            <ui-button @click="selectGroup(null)" size="xs" variant="ghost">
+                {{ __('Pins') }}
+            </ui-button>
+            <template v-if="selectedGroup">
+                <ui-icon name="chevron-right" class="size-3! mt-px" />
+                <span class="text-gray-700 dark:text-gray-300 text-xs px-2">
+                    {{ __(selectedGroup.display || selectedGroup.handle) }}
+                </span>
+            </template>
+        </div>
+        <div v-if="rows.length" class="bts-pins-items">
             <div
-                v-for="(item, i) in items"
-                :key="item.handle"
+                v-for="(row, i) in rows"
+                :key="row.handle"
                 class="cursor-pointer rounded-md"
                 :class="{ 'bg-gray-100 dark:bg-gray-900': selectionIndex === i }"
                 @mouseover="selectionIndex = i"
-                :title="__(item.instructions)"
+                :title="__(row.instructions)"
             >
-                <div @click="addPin(item.handle)" class="group flex rounded-md p-2 gap-3">
+                <div @click="pick(row.handle)" class="group flex items-center rounded-md p-2 gap-3">
                     <div class="flex items-center justify-center">
-                        <ui-icon :name="item.icon.svg" v-if="item.icon.svg"></ui-icon>
-                        <div v-html="item.icon.html" v-if="item.icon.html"></div>
+                        <ui-icon :name="row.icon.svg" v-if="row.icon.svg"></ui-icon>
+                        <div v-html="row.icon.html" v-if="row.icon.html"></div>
                     </div>
                     <div class="flex-1">
                         <div class="w-52 line-clamp-2 text-sm text-gray-800 dark:text-gray-400">
-                            {{ __(item.display || item.handle) }}
+                            {{ __(row.display || row.handle) }}
                         </div>
-                        <div v-if="item.instructions" class="w-52 truncate text-2xs leading-tight text-gray-500 dark:text-gray-400">
-                            {{ __(item.instructions) }}
+                        <div v-if="row.instructions" class="w-52 truncate text-2xs leading-tight text-gray-500 dark:text-gray-400">
+                            {{ __(row.instructions) }}
                         </div>
                     </div>
+                    <ui-icon v-if="!selectedGroup" name="chevron-right" class="me-1 size-2" />
                 </div>
             </div>
         </div>
@@ -54,13 +66,23 @@ export default {
         bard: {},
         editor: {},
         btsOptions: {},
-        items: [],
+        groups: [],
     },
 
     data() {
         return {
             selectionIndex: 0,
+            selectedGroupHandle: this.groups.length === 1 ? this.groups[0].handle : null,
         };
+    },
+
+    computed: {
+        selectedGroup() {
+            return this.groups.find(group => group.handle === this.selectedGroupHandle);
+        },
+        rows() {
+            return this.selectedGroup ? this.selectedGroup.items : this.groups;
+        },
     },
 
     created() {
@@ -83,6 +105,17 @@ export default {
         },
         close() {
             this.$emit('close');
+        },
+        pick(handle) {
+            if (this.selectedGroup) {
+                this.addPin(handle);
+            } else {
+                this.selectGroup(handle);
+            }
+        },
+        selectGroup(handle) {
+            this.selectedGroupHandle = handle;
+            this.selectionIndex = 0;
         },
     },
 

@@ -20,7 +20,7 @@ Open `config/statamic/bard_texstyle.php` to add your styles:
 
     'intro' => [
         'type'     => 'paragraph',
-        'name'     => 'Introduction',
+        'display'  => 'Introduction',
         'ident'    => 'I',
         'icon'     => null,
         'class'    => 'introduction',
@@ -47,8 +47,8 @@ The array keys are used as the button names. Styles can have the following optio
     * `div`
 * **class (string)**  
   The class name that will be applied for this style. Must be unique within the type.
-* **name (string)**  
-  The name of the style. This will appear in the tooltip.
+* **display (string)**  
+  The display name of the style. This will appear in the tooltip.
 * **icon (string, optional)**  
   Icon name or custom SVG icon. Options are:
     * `[name]` One of [Texstyle's dynamic icons](dynamic-icons)
@@ -88,6 +88,47 @@ The styles menu allows you to collapse all of the custom styles (and some of the
 To enable the styles menu toggle the button in the Bard field's button selector. You can then choose which options are moved into the menu by selecting them in the Styles Menu Options field. Styles *must* be enabled in the standard button selector to appear in the menu. The button selector is also where you should define the order the styles appear in.
 
 You can also choose to display the name of the currently selected style in the button instead of an icon.
+
+### Groups
+
+If you have a lot of styles you can split the menu into groups. Instead of listing your styles directly, add groups that each have their own list of styles:
+
+```php
+'styles' => [
+
+    'headings' => [
+        'display' => 'Headings',
+        'styles' => [
+            'title' => [...],
+            'subtitle' => [...],
+        ],
+    ],
+
+    'text' => [
+        'display' => 'Text',
+        'styles' => [
+            'intro' => [...],
+        ],
+    ],
+
+],
+```
+
+Each group's display name appears as a heading in the menu. Groups without any of the field's menu options are hidden, and if only one group is left the menu won't show any headings. Within a group the styles appear in the same order as the button selector.
+
+The standard heading, paragraph and list buttons go in an extra **Standard** group at the top. To move one into your own group add its button name with a value of `true`:
+
+```php
+'headings' => [
+    'display' => 'Headings',
+    'styles' => [
+        'h1' => true,
+        'title' => [...],
+    ],
+],
+```
+
+Style keys must be unique across all groups.
 
 ---
 

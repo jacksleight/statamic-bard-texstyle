@@ -3,7 +3,6 @@
     <button
         class="bts-styles-item"
         :class="{ active }"
-        v-if="visible"
         @click="click"
     >
         <!-- @todo remove this weirdness -->
@@ -38,12 +37,6 @@ export default {
             const nameProperty = this.item.hasOwnProperty('activeName') ? 'activeName' : 'name';
             const name = this.item[nameProperty];
             return this.editor.isActive(name, this.item.args);
-        },
-        visible() {
-            if (this.item.hasOwnProperty('btsMenuVisible')) {
-                return this.item.btsMenuVisible(this.editor, this.item.args);
-            }
-            return true;
         },
         previewType() {
             return this.item.btsStyle?.type || Object.values(this.btsOptions.types).find(type => type.button === this.item.name).name;
