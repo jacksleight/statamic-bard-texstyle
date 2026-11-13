@@ -89,6 +89,47 @@ To enable the styles menu toggle the button in the Bard field's button selector.
 
 You can also choose to display the name of the currently selected style in the button instead of an icon.
 
+### Groups
+
+If you have a lot of styles you can split the menu into groups. Instead of listing your styles directly, add groups that each have their own list of styles:
+
+```php
+'styles' => [
+
+    'headings' => [
+        'display' => 'Headings',
+        'styles' => [
+            'title' => [...],
+            'subtitle' => [...],
+        ],
+    ],
+
+    'text' => [
+        'display' => 'Text',
+        'styles' => [
+            'intro' => [...],
+        ],
+    ],
+
+],
+```
+
+Each group's display name appears as a heading in the menu. Groups without any of the field's menu options are hidden, and if only one group is left the menu won't show any headings. Within a group the styles appear in the same order as the button selector.
+
+The standard heading, paragraph and list buttons go in an extra **Standard** group at the top. To move one into your own group add its button name with a value of `true`:
+
+```php
+'headings' => [
+    'display' => 'Headings',
+    'styles' => [
+        'h1' => true,
+        'title' => [...],
+    ],
+],
+```
+
+Style keys must be unique across all groups.
+
 ---
 
 ## Feature Support

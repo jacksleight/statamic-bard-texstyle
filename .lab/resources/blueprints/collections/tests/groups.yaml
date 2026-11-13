@@ -1,0 +1,205 @@
+title: Groups
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+      instructions: 'One line shown on the index page.'
+  -
+    handle: content
+    field:
+      type: bard
+      display: 'Content (Many Groups)'
+      instructions: 'Every style and pin from every test group. Six style groups is more than the menu stacks along the bottom, so its headings only stick to the top.'
+      container: assets
+      link_collections:
+        - tests
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - title
+        - subtitle
+        - lead
+        - brand
+        - marker
+        - action
+        - square_list
+        - roman_list
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - menu_standfirst
+        - menu_caption
+        - menu_quote
+        - menu_small
+        - menu_ticks
+        - menu_dashes
+        - menu_alpha
+        - menu_steps
+        - menu_external
+        - menu_quiet
+        - menu_code
+        - menu_key
+      bts_pins:
+        - icon
+        - footnote
+        - button
+        - today
+        - price
+        - sku
+        - stock
+        - mention
+        - hashtag
+        - emoji
+        - kbd
+        - abbr
+        - badge
+        - counter
+      buttons:
+        - bts_styles
+        - bts_pins
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - title
+        - subtitle
+        - lead
+        - brand
+        - marker
+        - action
+        - square_list
+        - roman_list
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - menu_standfirst
+        - menu_caption
+        - menu_quote
+        - menu_small
+        - menu_ticks
+        - menu_dashes
+        - menu_alpha
+        - menu_steps
+        - menu_external
+        - menu_quiet
+        - menu_code
+        - menu_key
+        - bold
+        - italic
+        - anchor
+  -
+    handle: five
+    field:
+      type: bard
+      display: 'Content (Five Groups)'
+      instructions: 'Styles from five groups, the most the menu stacks along the bottom.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: text
+      bts_styles:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - title
+        - subtitle
+        - lead
+        - brand
+        - marker
+        - action
+        - square_list
+        - roman_list
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+      buttons:
+        - bts_styles
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - bts_paragraph
+        - unorderedlist
+        - orderedlist
+        - title
+        - subtitle
+        - lead
+        - brand
+        - marker
+        - action
+        - square_list
+        - roman_list
+        - menu_display
+        - menu_headline
+        - menu_kicker
+        - menu_crosshead
+        - menu_label
+        - menu_footnote
+        - bold
+        - italic
+        - anchor
+  -
+    handle: single
+    field:
+      type: bard
+      display: 'Content (Single Group)'
+      instructions: 'Styles and pins from one group each, so both menus show no groups.'
+      container: assets
+      remove_empty_nodes: false
+      bts_styles_button: icon
+      bts_styles:
+        - lead
+        - brand
+        - marker
+      bts_pins:
+        - price
+        - sku
+        - stock
+      buttons:
+        - bts_styles
+        - bts_pins
+        - lead
+        - brand
+        - marker
+        - bold
+        - italic

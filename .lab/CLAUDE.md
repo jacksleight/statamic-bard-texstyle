@@ -21,6 +21,7 @@ Every template renders each Bard field twice through `_field.antlers.html`: once
 | `/tests/attributes` | pro | Standard attributes (`level`, `href`, `target`, `rel`, `language`, `start`), extra rendered attributes (`id`, `reversed`), a class mapped select (`align`), and a toggle with `values` (`pull`) |
 | `/tests/hidden` | free | A hidden block, which should be absent from both the rendered output and the source |
 | `/tests/defaults` | free | Unstyled elements picking up the `standard` defaults group, and a second field on the `article` group via `bts_defaults` |
+| `/tests/groups` | pro | Grouped styles and pins: one field drawing from every test group (six style groups, so headings only stick to the top), one from five style groups (the most that stack along the bottom), and one from a single group so neither menu shows groups |
 
 The home page at `/` lists them all, driven by each entry's `summary` field.
 
@@ -57,6 +58,7 @@ The skill's `shots/statamic-bard-texstyle.json` manifest **hard-codes this lab's
 
 ### Things the shots depend on
 
+- **The demo styles menus show Standard and Demos headings.** The config's styles are grouped, demo styles sit in one Demos group, and the standard buttons a demo field uses fall into the implicit Standard group, so the menu has two groups and labels them.
 - **Div styles never reach the styles menu, and link styles only do while a link is active.** Heading, paragraph, list and span types carry `styles_menu` unconditionally. `link` carries it too, but also `active_visible`, which `provider.js` turns into a visibility test against the cursor, so a link style is absent from both toolbar and menu until the selection sits inside a link. `div` carries no `styles_menu` at all, so `tip` stays its own toolbar button even when listed in `bts_styles`.
 - **Steps stays out of the styles menu demo's `bts_styles`.** Its `decimal-leading-zero` marker hangs outside the menu's preview item and touches the menu's border, so the menu shows the plain ordered list while the editor keeps a Steps list with its badge. `list-style-position: inside` was tried and put each marker on its own line in the editor.
 - **The attributes panel and a pin's fields are stacks, not popovers.** They render into `.portal-targets` inside `#statamic` and slide in from the right, so those shots use a narrower stage aligned to the left.

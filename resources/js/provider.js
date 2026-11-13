@@ -17,6 +17,7 @@ class Provider {
     constructor(options) {
         options.types = this.bootTypeManager(options.types);
         options.pins = this.bootPinsIcons(options.pins);
+        options.pinsGroups = this.bootPinsGroupsIcons(options.pinsGroups);
         this
             .bootExtensions(options)
             .bootStyleButtons(options)
@@ -44,6 +45,10 @@ class Provider {
 
     bootPinsIcons(pins) {
         return Object.fromEntries(Object.entries(pins).map(([handle, pin]) => ([handle, { ...pin, icon: pinIcon(pin) }])));
+    }
+
+    bootPinsGroupsIcons(groups) {
+        return groups.map(group => ({ ...group, icon: pinIcon(group) }));
     }
 
     bootExtensions(options) {
