@@ -2,8 +2,9 @@
 
 use JackSleight\StatamicBardTexstyle\OptionManager;
 use Statamic\Facades\Fieldset;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class);
+uses(TestCase::class);
 
 it('resolves full options', function () {
     $options = (new OptionManager([

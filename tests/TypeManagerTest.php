@@ -1,8 +1,9 @@
 <?php
 
 use JackSleight\StatamicBardTexstyle\TypeManager;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class);
+uses(TestCase::class);
 
 it('fetches name by alias', function () {
     $types = new TypeManager(false);

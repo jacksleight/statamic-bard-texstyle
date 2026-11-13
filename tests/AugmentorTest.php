@@ -8,8 +8,9 @@ use JackSleight\StatamicBardTexstyle\OptionManager;
 use Statamic\Fields\Field;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class);
+uses(TestCase::class);
 
 function htmlToProsemirror(array $config, string $html): array
 {

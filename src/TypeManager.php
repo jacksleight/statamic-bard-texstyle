@@ -2,6 +2,7 @@
 
 namespace JackSleight\StatamicBardTexstyle;
 
+use Illuminate\Support\Collection;
 use JsonSerializable;
 use Statamic\Support\Arr;
 
@@ -407,7 +408,7 @@ class TypeManager implements JsonSerializable
             ]);
     }
 
-    public function all(): \Illuminate\Support\Collection
+    public function all(): Collection
     {
         return $this->types;
     }
