@@ -346,8 +346,8 @@ return [
 
         'headline' => [
             'type' => 'heading',
-            'name' => 'Headline',
-            'ident' => 'Hd',
+            'name' => 'Title',
+            'ident' => 'T',
             'icon' => null,
             'class' => 'headline',
             'cp_css' => 'font-size: 1.35em; letter-spacing: -0.02em',
@@ -357,7 +357,7 @@ return [
         'standfirst' => [
             'type' => 'paragraph',
             'name' => 'Standfirst',
-            'ident' => 'Sf',
+            'ident' => 'S',
             'icon' => null,
             'class' => 'standfirst',
             'cp_css' => 'font-size: 1.1em; color: #4b5563',
@@ -387,7 +387,7 @@ return [
         'highlight' => [
             'type' => 'span',
             'name' => 'Highlight',
-            'ident' => 'Hl',
+            'ident' => 'H',
             'icon' => null,
             'class' => 'highlight',
             'cp_css' => 'background: #fef3c7; padding: 0.05em 0.2em; border-radius: 3px',

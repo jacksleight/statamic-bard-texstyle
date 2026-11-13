@@ -30,7 +30,7 @@ Alongside `tests` there is a second collection, `demos`, routed at `/demos/{slug
 
 | Entry | Blueprint | What it shows |
 | ----- | --------- | ------------- |
-| `/demos/styles` | `styles` | Headline, Standfirst, Highlight, Tick List, Tip and Button styles in one short article |
+| `/demos/styles` | `styles` | Title, Standfirst, Highlight, Tick List, Tip and Button styles in one short article |
 | `/demos/styles-menu` | `styles_menu` | The styles menu, including Steps, on one field with a text button and a sidebar field with an icon button |
 | `/demos/pins` | `pins` | Icon, Footnote, Rating and Tide pins inline, with the footnotes collected below the article |
 | `/demos/attributes` | `attributes` | Heading IDs and a class-mapped pull quote toggle on a blockquote |
