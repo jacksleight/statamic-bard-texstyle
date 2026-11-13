@@ -64,7 +64,7 @@ it('resolves full options', function () {
     expect($options['styles'])->toEqual([
         'title' => [
             'ext' => 'heading',
-            'name' => 'Title',
+            'display' => 'Title',
             'ident' => 'T',
             'icon' => null,
             'class' => 'title',
@@ -72,10 +72,11 @@ it('resolves full options', function () {
             'cp_badge' => false,
             'type' => 'heading_1',
             'key' => 'title',
+            'group' => 'main',
         ],
         'twocolumns' => [
             'ext' => 'btsDiv',
-            'name' => 'Two Columns',
+            'display' => 'Two Columns',
             'ident' => '❙ ❙',
             'icon' => null,
             'class' => 'two-columns',
@@ -83,6 +84,7 @@ it('resolves full options', function () {
             'cp_badge' => true,
             'type' => 'div',
             'key' => 'twocolumns',
+            'group' => 'main',
         ],
     ]);
     expect($options['attributes'])->toEqual([
@@ -543,4 +545,245 @@ it('resolves imported pin fields', function () {
     expect($publishFields->pluck('handle')->all())
         ->toEqual(['style', 'label', 'url', 'secondary_label', 'secondary_url']);
     expect($publishFields->firstWhere('handle', 'url')['preview'])->toBeTrue();
+});
+
+it('puts flat styles and the standard buttons in a single group', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'lead' => [
+                'type' => 'paragraph',
+                'display' => 'Lead',
+                'class' => 'lead',
+            ],
+            'h2' => true,
+            'brand' => [
+                'type' => 'span',
+                'display' => 'Brand',
+                'class' => 'brand',
+            ],
+        ],
+    ], true))->resolve();
+
+    expect(array_keys($options['styles']))->toEqual(['lead', 'brand']);
+    expect($options['styles']['lead']['group'])->toEqual('main');
+    expect($options['stylesGroups'])->toEqual([
+        [
+            'handle' => 'main',
+            'display' => null,
+            'items' => ['h1', 'h3', 'h4', 'h5', 'h6', 'orderedlist', 'bts_paragraph', 'unorderedlist', 'h2', 'lead', 'brand'],
+        ],
+    ]);
+});
+
+it('resolves grouped styles with an implicit standard group', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'headings' => [
+                'display' => 'Headings',
+                'styles' => [
+                    'h1' => true,
+                    'title' => [
+                        'type' => 'heading_1',
+                        'display' => 'Title',
+                        'class' => 'title',
+                    ],
+                    'unknown' => true,
+                ],
+            ],
+            'text' => [
+                'display' => 'Text',
+                'styles' => [
+                    'lead' => [
+                        'type' => 'paragraph',
+                        'display' => 'Lead',
+                        'class' => 'lead',
+                    ],
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect(array_keys($options['styles']))->toEqual(['title', 'lead']);
+    expect($options['styles']['title']['group'])->toEqual('headings');
+    expect($options['styles']['lead']['group'])->toEqual('text');
+    expect($options['stylesGroups'])->toEqual([
+        [
+            'handle' => 'standard',
+            'display' => 'Standard',
+            'items' => ['h2', 'h3', 'h4', 'h5', 'h6', 'orderedlist', 'bts_paragraph', 'unorderedlist'],
+        ],
+        [
+            'handle' => 'headings',
+            'display' => 'Headings',
+            'items' => ['h1', 'title'],
+        ],
+        [
+            'handle' => 'text',
+            'display' => 'Text',
+            'items' => ['lead'],
+        ],
+    ]);
+});
+
+it('omits the standard group when every standard button is placed', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'headings' => [
+                'display' => 'Headings',
+                'styles' => [
+                    'h1' => true,
+                    'h2' => true,
+                    'h3' => true,
+                    'h4' => true,
+                    'h5' => true,
+                    'h6' => true,
+                ],
+            ],
+            'other' => [
+                'display' => 'Other',
+                'styles' => [
+                    'bts_paragraph' => true,
+                    'unorderedlist' => true,
+                    'orderedlist' => true,
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect(collect($options['stylesGroups'])->pluck('handle')->all())->toEqual(['headings', 'other']);
+});
+
+it('falls back to name for the style display', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'lead' => [
+                'type' => 'paragraph',
+                'name' => 'Lead',
+                'class' => 'lead',
+            ],
+            'intro' => [
+                'type' => 'paragraph',
+                'name' => 'Ignored',
+                'display' => 'Intro',
+                'class' => 'intro',
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['styles']['lead']['display'])->toEqual('Lead');
+    expect($options['styles']['lead'])->not->toHaveKey('name');
+    expect($options['styles']['intro']['display'])->toEqual('Intro');
+    expect($options['stylesMenuOptions'])->toMatchArray([
+        'lead' => 'Lead',
+        'intro' => 'Intro',
+    ]);
+});
+
+it('keeps array styles keyed with a standard button name', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'h1' => [
+                'type' => 'heading_1',
+                'display' => 'Big',
+                'class' => 'big',
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['styles']['h1']['class'])->toEqual('big');
+    expect($options['stylesMenuOptions']['h1'])->toEqual('Heading 1');
+    expect(collect($options['stylesGroups'][0]['items'])->filter(fn ($item) => $item === 'h1')->count())->toEqual(1);
+});
+
+it('flattens grouped styles in the free edition', function () {
+    $options = (new OptionManager([
+        'styles' => [
+            'headings' => [
+                'display' => 'Headings',
+                'styles' => [
+                    'h1' => true,
+                    'title' => [
+                        'type' => 'heading_1',
+                        'display' => 'Title',
+                        'class' => 'title',
+                    ],
+                ],
+            ],
+        ],
+    ], false))->resolve();
+
+    expect(array_keys($options['styles']))->toEqual(['title']);
+    expect($options['stylesGroups'])->toBeEmpty();
+});
+
+it('resolves grouped pins', function () {
+    $options = (new OptionManager([
+        'pins' => [
+            'media' => [
+                'display' => 'Media',
+                'instructions' => 'Images and icons.',
+                'icon' => 'folder',
+                'pins' => [
+                    'icon' => [
+                        'display' => 'Icon',
+                        'fields' => [],
+                    ],
+                ],
+            ],
+            'data' => [
+                'display' => 'Data',
+                'pins' => [
+                    'price' => [
+                        'display' => 'Price',
+                        'fields' => [],
+                    ],
+                ],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect(array_keys($options['pins']))->toEqual(['icon', 'price']);
+    expect($options['pins']['icon']['group'])->toEqual('media');
+    expect($options['pinsMenuOptions'])->toEqual([
+        'price' => 'Price',
+        'icon' => 'Icon',
+    ]);
+    expect($options['pinsGroups'])->toEqual([
+        [
+            'handle' => 'media',
+            'display' => 'Media',
+            'instructions' => 'Images and icons.',
+            'icon' => 'folder',
+            'items' => ['icon'],
+        ],
+        [
+            'handle' => 'data',
+            'display' => 'Data',
+            'instructions' => null,
+            'icon' => 'folder',
+            'items' => ['price'],
+        ],
+    ]);
+});
+
+it('puts flat pins in a single group', function () {
+    $options = (new OptionManager([
+        'pins' => [
+            'icon' => [
+                'display' => 'Icon',
+                'fields' => [],
+            ],
+        ],
+    ], true))->resolve();
+
+    expect($options['pins']['icon']['group'])->toEqual('main');
+    expect($options['pinsGroups'])->toEqual([
+        [
+            'handle' => 'main',
+            'display' => null,
+            'instructions' => null,
+            'icon' => 'folder',
+            'items' => ['icon'],
+        ],
+    ]);
 });

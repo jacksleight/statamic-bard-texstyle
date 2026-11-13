@@ -20,7 +20,7 @@ Open `config/statamic/bard_texstyle.php` to add your styles:
 
     'intro' => [
         'type'     => 'paragraph',
-        'name'     => 'Introduction',
+        'display'  => 'Introduction',
         'ident'    => 'I',
         'icon'     => null,
         'class'    => 'introduction',
@@ -47,8 +47,8 @@ The array keys are used as the button names. Styles can have the following optio
     * `div`
 * **class (string)**  
   The class name that will be applied for this style. Must be unique within the type.
-* **name (string)**  
-  The name of the style. This will appear in the tooltip.
+* **display (string)**  
+  The display name of the style. This will appear in the tooltip.
 * **icon (string, optional)**  
   Icon name or custom SVG icon. Options are:
     * `[name]` One of [Texstyle's dynamic icons](dynamic-icons)

@@ -66,7 +66,7 @@ class Provider {
                 const type = options.types[style.type];
                 const data = {
                     name: key,
-                    text: style.name,
+                    text: style.display,
                     args: { [options.attr]: style[options.store], ...type.parameters },
                     active: (editor, args) => editor.isActive(type.extension, args),
                     visible: type.active_visible ? (editor) => editor.isActive(type.extension) : () => true,
@@ -204,7 +204,7 @@ class Provider {
             if (style.cp_badge) {
                 css.push(...this.parseCss([
                     `${base} ${selector}[data-bts-style="${style[options.store]}"]::before`,
-                ], {'&': {content: `"${style.name}"`}}));
+                ], {'&': {content: `"${style.display}"`}}));
             }
         });
         return css;

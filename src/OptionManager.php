@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardTexstyle;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Statamic\Fields\Fields;
 
 class OptionManager
@@ -26,16 +27,20 @@ class OptionManager
         $store = data_get($this->config, 'store', 'class');
         $attr = $store === 'class' ? 'class' : 'bts_key'; // @deprecated: Should be btsKey one day, maybe
 
-        $styles = $this->resolveStyles();
+        $stylesConfig = $this->normalizeGroups(data_get($this->config, 'styles') ?? [], 'styles');
+        $styles = $this->resolveStyles($stylesConfig);
         $stylesExts = $this->resolveStylesExts($styles);
         $stylesMenuOptions = $this->resolveStylesMenuOptions($styles);
+        $stylesGroups = $this->resolveStylesGroups($stylesConfig, $styles);
 
         $attributes = $this->resolveAttributes();
         $attributesExts = $this->resolveAttributesExts($attributes);
 
-        $pins = $this->resolvePins();
+        $pinsConfig = $this->normalizeGroups(data_get($this->config, 'pins') ?? [], 'pins');
+        $pins = $this->resolvePins($pinsConfig);
         $pinsPath = data_get($this->config, 'pins_path', 'partials/pins');
         $pinsMenuOptions = $this->resolvePinsMenuOptions($pins);
+        $pinsGroups = $this->resolvePinsGroups($pinsConfig, $pins);
 
         $defaults = $this->resolveDefaults();
         [$defaultsClassExts, $defaultsCpExts] = $this->resolveDefaultsExts($defaults);
@@ -50,11 +55,13 @@ class OptionManager
             'styles' => $styles,
             'stylesExts' => $stylesExts,
             'stylesMenuOptions' => $stylesMenuOptions,
+            'stylesGroups' => $stylesGroups,
             'attributes' => $attributes,
             'attributesExts' => $attributesExts,
             'pins' => $pins,
             'pinsPath' => $pinsPath,
             'pinsMenuOptions' => $pinsMenuOptions,
+            'pinsGroups' => $pinsGroups,
             'defaults' => $defaults,
             'defaultsClassExts' => $defaultsClassExts,
             'defaultsCpExts' => $defaultsCpExts,
@@ -62,11 +69,39 @@ class OptionManager
         ];
     }
 
-    protected function resolveStyles(): array
+    protected function normalizeGroups(array $items, string $key): array
     {
-        $styles = data_get($this->config, 'styles', []);
+        $first = Arr::first($items);
 
-        $styles = collect($styles)
+        if (! is_array($first) || ! array_key_exists($key, $first)) {
+            $items = [
+                'main' => [
+                    $key => $items,
+                ],
+            ];
+        }
+
+        return $items;
+    }
+
+    protected function flattenGroups(array $groups, string $key): Collection
+    {
+        return collect($groups)
+            ->map(fn ($group, $handle) => collect($group[$key] ?? [])
+                ->filter(fn ($item) => is_array($item))
+                ->map(fn ($item) => [...$item, 'group' => $handle])
+                ->all())
+            ->collapse();
+    }
+
+    protected function resolveStyles(array $groups): array
+    {
+        // @todo Throw an error for array styles keyed with a standard button name (h1, unorderedlist etc.) in the next major version
+        $styles = $this->flattenGroups($groups, 'styles')
+            ->map(fn ($style) => [
+                ...Arr::except($style, 'name'),
+                'display' => $style['display'] ?? $style['name'] ?? null,
+            ])
             ->map(fn ($style, $key) => array_merge($style, [
                 'type' => $this->types->name($style['type'] ?? 'paragraph'),
             ]))
@@ -98,11 +133,58 @@ class OptionManager
         return collect($styles)
             ->map(fn ($style) => $this->types->validateStylesMenuOption($style))
             ->filter()
-            ->map(fn ($style) => $style['name'])
+            ->map(fn ($style) => $style['display'])
             ->merge($this->types->all()
                 ->where('button')
                 ->mapWithKeys(fn ($type) => [$type['button'] => $type['display']]))
             ->sort()
+            ->all();
+    }
+
+    protected function resolveStylesGroups(array $groups, array $styles): array
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        $buttons = $this->types->all()
+            ->where('button')
+            ->pluck('button');
+
+        $groups = collect($groups)
+            ->map(fn ($group, $handle) => [
+                'handle' => $handle,
+                'display' => $group['display'] ?? null,
+                'items' => collect($group['styles'] ?? [])
+                    ->reject(fn ($style) => is_array($style))
+                    ->keys()
+                    ->intersect($buttons)
+                    ->merge(collect($styles)->where('group', $handle)->keys())
+                    ->values()
+                    ->all(),
+            ])
+            ->values();
+
+        $standard = $buttons
+            ->diff($groups->pluck('items')->flatten())
+            ->values()
+            ->all();
+
+        if ($groups->count() === 1) {
+            return [
+                [
+                    ...$groups->first(),
+                    'items' => [...$standard, ...$groups->first()['items']],
+                ],
+            ];
+        }
+
+        return $groups
+            ->when($standard, fn ($groups) => $groups->prepend([
+                'handle' => 'standard',
+                'display' => 'Standard',
+                'items' => $standard,
+            ]))
             ->all();
     }
 
@@ -139,15 +221,13 @@ class OptionManager
         return $attributes;
     }
 
-    protected function resolvePins(): array
+    protected function resolvePins(array $groups): array
     {
         if (! $this->pro) {
             return [];
         }
 
-        $pins = data_get($this->config, 'pins', []);
-
-        $pins = collect($pins)
+        $pins = $this->flattenGroups($groups, 'pins')
             ->map(fn ($pin, $handle) => $this->types->validatePin(array_merge($pin, [
                 'handle' => $handle,
                 'fields' => $fields = collect($pin['fields'])
@@ -195,6 +275,27 @@ class OptionManager
             ->filter()
             ->map(fn ($style) => $style['display'])
             ->sort()
+            ->all();
+    }
+
+    protected function resolvePinsGroups(array $groups, array $pins): array
+    {
+        if (! $this->pro) {
+            return [];
+        }
+
+        return collect($groups)
+            ->map(fn ($group, $handle) => [
+                'handle' => $handle,
+                'display' => $group['display'] ?? null,
+                'instructions' => $group['instructions'] ?? null,
+                'icon' => $group['icon'] ?? 'folder',
+                'items' => collect($pins)
+                    ->where('group', $handle)
+                    ->keys()
+                    ->all(),
+            ])
+            ->values()
             ->all();
     }
 

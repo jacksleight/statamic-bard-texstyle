@@ -55,7 +55,7 @@ it('validates styles', function () {
         ->toHaveKeys([
             'type',
             'class',
-            'name',
+            'display',
             'ident',
             'icon',
             'cp_css',
@@ -138,10 +138,10 @@ it('returns null for attributes on unsupported types', function () {
 it('returns null for styles menu option on unsupported types', function () {
     $types = new TypeManager(true);
 
-    expect($types->validateStylesMenuOption(['type' => 'bold', 'name' => 'Test']))
+    expect($types->validateStylesMenuOption(['type' => 'bold', 'display' => 'Test']))
         ->toBeNull();
 
-    expect($types->validateStylesMenuOption(['type' => 'paragraph', 'name' => 'Test']))
+    expect($types->validateStylesMenuOption(['type' => 'paragraph', 'display' => 'Test']))
         ->toBeArray();
 });
 

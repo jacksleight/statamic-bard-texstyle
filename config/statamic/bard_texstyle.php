@@ -15,7 +15,7 @@ return [
 
         // 'title' => [
         //     'type' => 'heading_1',
-        //     'name' => 'Title',
+        //     'display' => 'Title',
         //     'ident' => 'T',
         //     'icon' => null,
         //     'class' => 'title',
@@ -25,7 +25,7 @@ return [
 
         // 'lead' => [
         //     'type' => 'paragraph',
-        //     'name' => 'Lead',
+        //     'display' => 'Lead',
         //     'ident' => 'L',
         //     'icon' => null,
         //     'class' => 'lead',
@@ -35,7 +35,7 @@ return [
 
         // 'brand' => [
         //     'type' => 'span',
-        //     'name' => 'Brand Text',
+        //     'display' => 'Brand Text',
         //     'ident' => 'B',
         //     'icon' => null,
         //     'class' => 'brand-text',
@@ -45,7 +45,7 @@ return [
 
         // 'action' => [
         //     'type' => 'link',
-        //     'name' => 'Action',
+        //     'display' => 'Action',
         //     'ident' => 'A',
         //     'icon' => null,
         //     'class' => 'action',
@@ -55,7 +55,7 @@ return [
 
         // 'square_list' => [
         //     'type' => 'unordered_list',
-        //     'name' => 'Square List',
+        //     'display' => 'Square List',
         //     'ident' => '■',
         //     'icon' => null,
         //     'class' => 'square-list',
@@ -65,7 +65,7 @@ return [
 
         // 'roman_list' => [
         //     'type' => 'ordered_list',
-        //     'name' => 'Roman List',
+        //     'display' => 'Roman List',
         //     'ident' => 'IV',
         //     'icon' => null,
         //     'class' => 'roman-list',
@@ -78,7 +78,7 @@ return [
 
         // 'two_columns' => [
         //     'type' => 'div',
-        //     'name' => 'Two Columns',
+        //     'display' => 'Two Columns',
         //     'ident' => '❙ ❙',
         //     'icon' => null,
         //     'class' => 'two-columns',
@@ -88,7 +88,7 @@ return [
 
         // 'three_columns' => [
         //     'type' => 'div',
-        //     'name' => 'Three Columns',
+        //     'display' => 'Three Columns',
         //     'ident' => '❙❙❙',
         //     'icon' => null,
         //     'class' => 'three-columns',
