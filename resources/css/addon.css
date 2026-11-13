@@ -79,6 +79,9 @@
         .bts-styles-items-grouped .bts-styles-item {
             scroll-margin-top: calc(var(--bts-group-height) + var(--spacing) * 1.5);
         }
+        .bts-styles-items-stacked .bts-styles-item {
+            scroll-margin-bottom: calc(var(--bts-group-height) * var(--bts-group-after) + var(--spacing) * 1.5);
+        }
         .bts-styles-items-stacked .bts-styles-group {
             bottom: calc(var(--bts-group-height) * var(--bts-group-after) - 1px);
         }
@@ -92,6 +95,7 @@
             }
         }
         .bts-styles-item {
+            scroll-margin-bottom: calc(var(--spacing) * 1.5);
             @apply whitespace-normal py-2 px-3 text-[1rem] leading-[1] rounded-lg text-left;
             &:hover {
                 @apply bg-gray-100;

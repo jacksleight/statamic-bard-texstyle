@@ -14,6 +14,7 @@
                 <StylesItem
                     v-for="item in group.items"
                     v-bind:key="item.name"
+                    :style="{ '--bts-group-after': group.after }"
                     :item="item"
                     :config="config"
                     :bard="bard"
@@ -52,6 +53,12 @@ export default {
 
     created() {
         this.bard.events.on('bts-update', this.close);
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            this.$el.querySelector('.bts-styles-item.active')?.scrollIntoView({ block: 'nearest' });
+        });
     },
 
     beforeUnmount() {
